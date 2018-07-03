@@ -4,11 +4,15 @@ nav class='navbar navbar-expand-lg navbar-light bg-light'
   . class='collapse navbar-collapse'
     ul class='navbar-nav mr-auto'
       - if current_user
-        li class='nav-item active'
-          = link_to 'Sign out', destroy_user_session_path, method: 'delete',
-                                                           class: 'nav-link'
+        = navbar_link(title: 'Sign out',
+                      path: destroy_user_session_path,
+                      additional: { method: 'delete' })
       - else
-        li class='nav-item active'
-          = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
-        li class='nav-item active'
-          = link_to 'Sign in', new_user_session_path, class: 'nav-link'
+        = navbar_link(title: 'Sign up', path: new_user_registration_path)
+        = navbar_link(title: 'Sign in', path: new_user_session_path)
+
+      - if can? :admin_panel, current_user
+        = navbar_link(title: 'Administration', path: '#')
+      
+      - if can? :manage_courses, current_user
+        = navbar_link(title: 'Manage courses', path: '#')

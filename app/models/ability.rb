@@ -1,6 +1,8 @@
 class Ability
   include CanCan::Ability
 
+  attr_reader :user
+
   def initialize(user)
     # Define abilities for the passed in user here. For example:
     #
@@ -28,5 +30,51 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+    @user = user
+
+    if user
+      if user.admin?
+        admin_abilities
+      elsif user.course_master?
+        course_master_abilities
+      else
+        user_abilities
+      end
+
+    else
+      guest_abilities
+    end
+  end
+
+  protected
+
+  def guest_abilities
+    can(:read, :all)
+  end
+
+  def user_abilities
+    guest_abilities
+  end
+
+  def course_master_abilities
+    manage_courses_abilities
+  end
+
+  def admin_abilities
+    can(:create, :all)
+    admin_panel_abilities
+    manage_courses_abilities
+  end
+
+  def admin_panel_abilities
+    can :admin_panel, :all do
+      user.admin?
+    end
+  end
+
+  def manage_courses_abilities
+    can :manage_courses, :all do
+      user.admin? || user.course_master?
+    end
   end
 end

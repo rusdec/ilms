@@ -9,4 +9,12 @@ class User < ApplicationRecord
 
   validates :name, length: { minimum: 2, maximum: 20 }
   validates :surname, length: { minimum: 2, maximum: 20 }
+
+  def admin?
+    type == 'Administrator'
+  end
+
+  def course_master?
+    admin? || type == 'CourseMaster'
+  end
 end
