@@ -1,0 +1,14 @@
+nav class='navbar navbar-expand-lg navbar-light bg-light'
+  a.navbar-brand href='/'
+    = 'iLMS'
+  . class='collapse navbar-collapse'
+    ul class='navbar-nav mr-auto'
+      - if current_user
+        li class='nav-item active'
+          = link_to 'Sign out', destroy_user_session_path, method: 'delete',
+                                                           class: 'nav-link'
+      - else
+        li class='nav-item active'
+          = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
+        li class='nav-item active'
+          = link_to 'Sign in', new_user_session_path, class: 'nav-link'

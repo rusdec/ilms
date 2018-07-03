@@ -48,10 +48,16 @@ GEM
       io-like (~> 0.3.0)
     arel (9.0.0)
     ast (2.4.0)
+    autoprefixer-rails (8.6.4)
+      execjs
     bcrypt (3.1.12)
     bindex (0.5.0)
     bootsnap (1.3.0)
       msgpack (~> 1.0)
+    bootstrap (4.1.1)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.3)
     byebug (10.0.2)
     cancancan (2.2.0)
@@ -100,6 +106,10 @@ GEM
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
+    jquery-rails (4.3.3)
+      rails-dom-testing (>= 1, < 3)
+      railties (>= 4.2.0)
+      thor (>= 0.14, < 2.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -126,6 +136,7 @@ GEM
     parser (2.5.1.0)
       ast (~> 2.4.0)
     pg (0.21.0)
+    popper_js (1.12.9)
     powerpack (0.1.2)
     public_suffix (3.0.2)
     puma (3.11.4)
@@ -208,6 +219,13 @@ GEM
       rubyzip (~> 1.2)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
+    slim (3.0.9)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.1.3)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+      slim (~> 3.0)
     spring (2.0.2)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -220,6 +238,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    temple (0.8.0)
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
@@ -249,6 +268,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bootstrap (~> 4.1.1)
   byebug
   cancancan (~> 2.0)
   capybara (>= 2.15, < 4.0)
@@ -257,6 +277,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   jbuilder (~> 2.5)
+  jquery-rails
   listen (>= 3.0.5, < 3.2)
   pg (~> 0.21)
   puma (~> 3.11)
@@ -266,8 +287,10 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver
   shoulda-matchers (~> 3.1)
+  slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
+  sprockets-rails (~> 3.0)
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
