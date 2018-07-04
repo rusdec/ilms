@@ -1,10 +1,11 @@
 class CourseMaster::CoursesController < CourseMaster::BaseController
   before_action :set_courses, only: :index
   before_action :set_course, only: %i(update edit destroy)
+  before_action :require_author_of_course, only: %i(edit destroy update)
 
   include JsonResponsed
 
-  skip_authorize_resource only: %(update edit destroy)
+  skip_authorize_resource only: %(update edit destroy new)
 
   def index; end
 
@@ -17,19 +18,25 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
     authorize! :author_of_course, @course
   end
 
+  def new
+    @course = current_user.courses.new
+  end
+
   def destroy
-    authorize! :author_of_course, @course
     @course.destroy
     json_response_by_result
   end
 
   def update
-    authorize! :author_of_course, @course
     @course.update(course_params)
     json_response_by_result(object: @course)
   end
 
   protected
+
+  def require_author_of_course
+    authorize! :author_of_course, @course
+  end
 
   def set_courses
     @courses = Course.all
