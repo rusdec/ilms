@@ -1,0 +1,9 @@
+.row
+  .col
+    = form_for [:course_master, @course], remote: true, format: :json do |f|
+      .form-group
+        = f.text_field :title, autocomplete: 'title',
+                          placeholder: 'Title',
+                          class: 'form-control small'
+      .form-group
+        = f.submit 'Update', class: 'btn btn-primary'

@@ -6,7 +6,7 @@ feature 'Course manage panel', %q{
   So that I can create and manage my courses
 } do
   describe 'Administrator' do
-    before { sign_in(create(:admin)) }
+    before { sign_in(create(:administrator)) }
 
     scenario 'can see manage link' do
       expect(page).to have_link('Manage courses')

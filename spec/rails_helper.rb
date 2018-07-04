@@ -32,6 +32,8 @@ RSpec.configure do |config|
 
   # All factory_bot methods will NOT need to be prefaced with FactoryBot.
   config.include FactoryBot::Syntax::Methods
+  config.extend GlobalMacros
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

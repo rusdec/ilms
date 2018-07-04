@@ -58,12 +58,15 @@ class Ability
 
   def course_master_abilities
     manage_courses_abilities
+    author_of_course_abilities
+    can([:create, :read], Course)
   end
 
   def admin_abilities
-    can(:create, :all)
-    admin_panel_abilities
     manage_courses_abilities
+
+    admin_panel_abilities
+    can([:create, :read, :update, :delete], :all)
   end
 
   def admin_panel_abilities
@@ -75,6 +78,12 @@ class Ability
   def manage_courses_abilities
     can :manage_courses, :all do
       user.admin? || user.course_master?
+    end
+  end
+
+  def author_of_course_abilities
+    can :author_of_course, Course do |course|
+      course.author == user || user.admin?
     end
   end
 end

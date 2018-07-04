@@ -43,6 +43,8 @@ gem 'bootstrap', '~> 4.1.1'
 gem 'sprockets-rails', '~> 3.0'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'responders'
+gem 'active_model_serializers', '~> 0.10.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -67,6 +69,9 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '~> 3.1'
+  gem 'rails-controller-testing'
+  gem 'json_matchers'
+  gem 'with_model'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

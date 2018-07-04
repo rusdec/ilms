@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:email)   { |n| "bot#{n}@email.org" }
     password 'password'
 
-    factory :admin do
+    factory :administrator do
       type 'Administrator'
     end
 
