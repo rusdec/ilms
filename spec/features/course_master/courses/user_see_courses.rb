@@ -18,6 +18,10 @@ feature 'User see courses', %q{
       scenario 'see all courses' do
         courses.each { |course| expect(page).to have_link(course.title) }
       end
+
+      scenario 'see Create your course link' do
+        expect(page).to have_link('Create your course')
+      end
     end
   end
 end

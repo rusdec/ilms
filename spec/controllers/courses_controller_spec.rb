@@ -1,6 +1,6 @@
-require 'rails_helper'
+require_relative 'controller_helper'
 
-RSpec.describe CourseController, type: :controller do
+RSpec.describe CoursesController, type: :controller do
 
   describe 'GET #index' do
     roles.each do |role|

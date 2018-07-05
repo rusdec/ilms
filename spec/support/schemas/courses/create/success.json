@@ -24,8 +24,12 @@
         "updated_at"
       ],
       "maxProperties": 7
+    },
+    "location": {
+      "type": "string",
+      "format": "uri"
     }
   },
-  "required": ["status", "message", "object"],
-  "maxProperties": 3
+  "required": ["status", "message", "object", "location"],
+  "maxProperties": 4
 }

@@ -16,18 +16,18 @@ feature 'Index courses', %q{
     end
 
     it 'can see list of courses' do
-      cources.each { |course| expect(page).to have_content(cource.title) }
+      courses.each { |course| expect(page).to have_content(course.title) }
     end
   end
 
   context 'Administrator' do
     before do
-      sign_in(create(:admin))
+      sign_in(create(:administrator))
       visit courses_path
     end
 
     it 'can see list of courses' do
-      cources.each { |course| expect(page).to have_content(cource.title) }
+      courses.each { |course| expect(page).to have_content(course.title) }
     end
   end
 
@@ -38,7 +38,7 @@ feature 'Index courses', %q{
     end
 
     it 'can see list of courses' do
-      cources.each { |course| expect(page).to have_content(cource.title) }
+      courses.each { |course| expect(page).to have_content(course.title) }
     end
   end
 end

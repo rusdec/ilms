@@ -1,9 +1,9 @@
 require_relative '../../features_helper'
 
 feature 'Show course', %q{
-  As user
+  As author of course
   I can edit own course
-  so that I can supplement description, change level or something else
+  so that I can supplement description, change level, add lessons or something else
 } do
 
   let(:user) { create(:course_master) }

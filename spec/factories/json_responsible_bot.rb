@@ -12,6 +12,10 @@ class JsonResponsibleBot
     end
   end
 
+  def persisted?
+    false
+  end
+
   protected
 
   def error

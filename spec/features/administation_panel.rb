@@ -6,7 +6,7 @@ feature 'Administration panel', %q{
   So that I can use other admin actions
 } do
   describe 'Administrator' do
-    before { sign_in(create(:admin)) }
+    before { sign_in(create(:administrator)) }
 
     scenario 'can see manage link' do
       expect(page).to have_link('Administration')

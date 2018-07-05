@@ -27,6 +27,10 @@ feature 'Show course', %q{
       expect(page).to have_link('Edit')
     end
 
+    scenario 'see delete link' do
+      expect(page).to have_link('Delete')
+    end
+
     scenario 'see link add lesson' do
       expect(page).to have_link('Add lesson')
     end
@@ -48,6 +52,10 @@ feature 'Show course', %q{
 
     scenario 'no see edit link' do
       expect(page).to_not have_link('Edit')
+    end
+
+    scenario 'no see delete link' do
+      expect(page).to_not have_link('Delete')
     end
   end
 end 

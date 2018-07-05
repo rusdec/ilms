@@ -2,8 +2,9 @@
   "type": "object",
   "properties": {
     "status": {"type": "boolean"},
-    "message": {"type":"string"}
+    "message": {"type":"string"},
+    "location": {"type": "string", "format": "uri"}
   },
-  "required": ["status", "message"],
-  "maxProperties": 2
+  "required": ["status", "message", "location"],
+  "maxProperties": 3
 }

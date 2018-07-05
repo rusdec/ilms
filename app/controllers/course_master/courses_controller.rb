@@ -11,7 +11,11 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def create
     @course = current_user.courses.create(course_params)
-    json_response_by_result(object: @course)
+    json_response_by_result(
+      object: @course,
+      with_location: :course_master_course_url,
+      with_flash: true
+    )
   end
 
   def edit
@@ -26,7 +30,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def destroy
     @course.destroy
-    json_response_by_result
+    json_response_by_result(with_location: :course_master_courses_url, with_flash: true)
   end
 
   def update
