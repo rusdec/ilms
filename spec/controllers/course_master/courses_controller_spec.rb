@@ -2,6 +2,32 @@ require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::CoursesController, type: :controller do
 
+  describe 'GET #show' do
+    let(:user) { create(:course_master) }
+    let!(:course) { create(:course, user_id: user.id) }
+    let(:params) { { id: course.id } }
+
+    non_manage_roles.each do |role|
+      context "#{role}" do
+        before { sign_in(create(role.underscore.to_sym)) }
+
+        it 'Redirect to root' do
+          get :show, params: params
+          expect(response).to redirect_to(root_path)
+        end
+      end
+    end
+
+    context 'Any manage role' do
+      before { sign_in(user) }
+
+      it 'Course assigns to @course' do
+        get :show, params: params
+        expect(assigns(:course)).to eq(course)
+      end
+    end
+  end
+
   describe 'GET #edit' do
     let(:user) { create(:course_master) }
     let!(:course) { create(:course, user_id: user.id) }

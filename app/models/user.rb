@@ -22,6 +22,10 @@ class User < ApplicationRecord
     admin? || type == 'CourseMaster'
   end
 
+  def full_name
+    "#{name} #{surname}"
+  end
+
   protected
 
   def validate_type

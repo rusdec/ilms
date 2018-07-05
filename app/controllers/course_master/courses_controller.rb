@@ -1,6 +1,6 @@
 class CourseMaster::CoursesController < CourseMaster::BaseController
   before_action :set_courses, only: :index
-  before_action :set_course, only: %i(update edit destroy)
+  before_action :set_course, only: %i(update edit destroy show)
   before_action :require_author_of_course, only: %i(edit destroy update)
 
   include JsonResponsed
@@ -17,6 +17,8 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   def edit
     authorize! :author_of_course, @course
   end
+
+  def show; end
 
   def new
     @course = current_user.courses.new

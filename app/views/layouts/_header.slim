@@ -15,4 +15,4 @@ nav class='navbar navbar-expand-lg navbar-light bg-light'
         = navbar_link(title: 'Administration', path: '#')
       
       - if can? :manage_courses, current_user
-        = navbar_link(title: 'Manage courses', path: course_master_courses_path)
+        = navbar_link(title: 'Manage courses', path: course_master_path)

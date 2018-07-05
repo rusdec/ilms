@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   resources :courses, only: [:index, :show]
+
+  # Course master
+
   namespace :course_master do
+    get '/', to: 'home#index'
     resources :courses
   end
 

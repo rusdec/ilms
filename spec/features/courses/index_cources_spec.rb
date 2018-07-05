@@ -2,7 +2,7 @@ require_relative '../features_helper'
 
 feature 'Index courses', %q{
   As user
-  I can see list of questions
+  I can see list of courses
   so that i can change interesting courses
 } do
 
