@@ -15,24 +15,28 @@ feature 'Show course', %q{
       visit edit_course_master_course_path(course)
     end
 
-    scenario 'can update course', js: true do
-      new_title = 'NewValidTitle'
-      new_description = 'NewValidDescriptionText'
-      new_level = '3'
+    context 'with valid data' do
+      scenario 'can update course', js: true do
+        within 'form' do
+          fill_in 'Title', with: 'NewValidTitle'
+          click_on 'Update'
+        end
 
-      within 'form' do
-        fill_in 'Title', with: new_title
-        fill_in 'Decoration description', with: new_description
-        fill_in 'Level', with: new_level
-        click_on 'Update'
+        expect(page).to have_content('Success')
       end
+    end
 
-      [new_title, new_description, new_level].each do |text|
-        expect(page).to have_content(text)
-      end
+    context 'with invalid data' do
+      scenario 'can\'t update course', js: true do
+        within 'form' do
+          fill_in 'Title', with: ''
+          click_on 'Update'
+        end
 
-      [course.title, course.level, course.decoration_description].each do |text|
-        expect(page).to_not have_content(text)
+        [
+          'Title can\'t be blank',
+          'Title is too short',
+        ].each { |error| expect(page).to have_content(error) }
       end
     end
   end
