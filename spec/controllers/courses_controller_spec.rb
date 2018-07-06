@@ -18,4 +18,20 @@ RSpec.describe CoursesController, type: :controller do
       end
     end
   end
+
+  describe 'GET #show' do
+    let!(:course) { create(:course, user_id: create(:course_master).id) }
+    let(:params) { { id: course.id } }
+
+    roles.each do |role|
+      context "#{role}" do
+        before { sign_in(create(role.underscore.to_sym)) }
+
+        it 'Assign Course to @course' do
+          get :show, params: params
+          expect(assigns(:course)).to eq(course)
+        end
+      end
+    end
+  end
 end

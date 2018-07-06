@@ -1,0 +1,20 @@
+.row
+  . class='col text-center'
+    h2.page-title= @course.title
+.row
+  . class='col text-left'
+    = course_info(@course)
+
+.row
+  .col
+    h4= 'Description'
+    p= description(@course.decoration_description)
+
+.row
+  .col
+    h4= 'Lessons'
+
+.row
+  . class='col text-right'
+    = link_to 'All courses', courses_path
+    
