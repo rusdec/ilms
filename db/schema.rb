@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
     t.text "ideas", default: ""
     t.text "summary", default: ""
     t.text "check_yourself", default: ""
+    t.integer "order", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_lessons_on_course_id"

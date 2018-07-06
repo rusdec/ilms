@@ -7,6 +7,7 @@ class CreateLessons < ActiveRecord::Migration[5.2]
       t.text :ideas, default: ''
       t.text :summary, default: ''
       t.text :check_yourself, default: ''
+      t.integer :order, default: 1
       t.timestamps
     end
   end

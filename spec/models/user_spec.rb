@@ -8,6 +8,7 @@ RSpec.describe User, type: :model do
   it { should validate_length_of(:surname).is_at_least(2).is_at_most(20) }
 
   it { should have_many(:courses) }
+  it { should have_many(:lessons) }
 
   it { should allow_values('User', 'Administrator', 'CourseMaster').for(:type) }
   it { should_not allow_values('Userr', 'Rdministrator', 'ourseMaster').for(:type) }
