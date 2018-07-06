@@ -18,9 +18,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
     )
   end
 
-  def edit
-    authorize! :author_of_course, @course
-  end
+  def edit; end
 
   def show; end
 
@@ -30,7 +28,10 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def destroy
     @course.destroy
-    json_response_by_result(with_location: :course_master_courses_url, with_flash: true)
+    json_response_by_result(
+      with_location: :course_master_courses_url,
+      with_flash: true
+    )
   end
 
   def update
@@ -41,7 +42,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   protected
 
   def require_author_of_course
-    authorize! :author_of_course, @course
+    authorize! :author, @course
   end
 
   def set_courses

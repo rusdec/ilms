@@ -26,6 +26,10 @@ class User < ApplicationRecord
     "#{name} #{surname}"
   end
 
+  def author_of?(any)
+    id == any.author.id
+  end
+
   protected
 
   def validate_type

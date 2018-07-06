@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
       format.json do
         render json: { status: false, errors: [exception.message] }
       end
+
+      format.html do
+        redirect_to root_path, { alert: 'Access denied' }
+      end
     end
   end
 

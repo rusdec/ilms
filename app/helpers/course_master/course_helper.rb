@@ -14,7 +14,7 @@ module CourseMaster::CourseHelper
   end
 
   def remote_links(course)
-    if can? :author_of_course, course
+    if can? :author, course
       content_tag :span, class: 'remote-links small' do
         concat(link_to 'Edit', edit_course_master_course_path(course))
         concat(link_to 'Delete', course_master_course_path(course),

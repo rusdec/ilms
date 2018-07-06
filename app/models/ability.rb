@@ -58,7 +58,7 @@ class Ability
 
   def course_master_abilities
     manage_courses_abilities
-    author_of_course_abilities
+    author_abilities
     can([:create, :read], Course)
   end
 
@@ -81,9 +81,9 @@ class Ability
     end
   end
 
-  def author_of_course_abilities
-    can :author_of_course, Course do |course|
-      course.author == user || user.admin?
+  def author_abilities
+    can :author, :all do |any|
+      user.author_of?(any) || user.admin?
     end
   end
 end

@@ -79,6 +79,10 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
       it 'New Course assigns to @course' do
         expect(assigns(:course)).to be_a_new(Course)
       end
+
+      it 'New Course related with his author' do
+        expect(user).to be_author_of(assigns(:course))
+      end
     end
   end
 
