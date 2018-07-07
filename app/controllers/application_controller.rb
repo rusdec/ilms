@@ -18,14 +18,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  rescue_from ActionController::UnknownFormat do |exception|
+    respond_to do |format|
+      format.json do
+        render json: { status: false, errors: ['Unknown format'] }
+      end
+
+      format.html do
+        redirect_to root_path, { alert: 'Unknown format' }
+      end
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name,
-                                                       :surname,
-                                                       :email,
-                                                       :password,
-                                                       :password_confirmation])
-                                                 
+    devise_parameter_sanitizer.permit(:sign_up,
+      keys: [:name, :surname, :email, :password, :password_confirmation]
+    )
   end
 end

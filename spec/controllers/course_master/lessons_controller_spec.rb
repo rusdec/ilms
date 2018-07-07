@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::LessonsController, type: :controller do
 
@@ -89,6 +89,199 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
         it 'Redirect to root' do
           get :new, params: params
           expect(response).to redirect_to(root_path)
+        end
+      end
+    end
+  end
+
+  describe 'POST #create' do
+    context 'Any user with any manager role' do
+      let(:user) { create(:course_master) }
+      let(:course) { create(:course, user_id: user.id) }
+
+      context 'when author of course' do
+        before { sign_in(user) }
+
+        context 'with invalid data' do
+          let(:params) do
+            { course_id: course.id,
+              lesson: attributes_for(:invalid_lesson),
+              format: :json }
+          end
+
+          context 'when json' do
+            it 'can\'t create lesson' do
+              expect{
+                post :create, params: params
+              }.to_not change(user.lessons, :count)
+            end
+
+            it 'return error object' do
+              post :create, params: params
+              expect(response).to match_json_schema('shared/errors')
+            end
+          end
+
+          context 'when html' do
+            before { params.delete(:format) }
+
+            it 'can\'t create lesson' do
+              expect{
+                post :create, params: params
+              }.to_not change(user.lessons, :count)
+            end
+
+            it 'redirect to root' do
+              post :create, params: params
+              expect(response).to redirect_to(root_path)
+            end
+          end
+        end
+
+        context 'with valid data' do
+          let(:params) do
+            { course_id: course.id, lesson: attributes_for(:lesson), format: :json }
+          end
+
+          context 'when html' do
+            before { params.delete(:format) }
+
+            it 'can\'t create lesson' do
+              expect{
+                post :create, params: params
+              }.to_not change(user.lessons, :count)
+            end
+
+            it 'redirect to root' do
+              post :create, params: params
+              expect(response).to redirect_to(root_path)
+            end
+          end
+
+          context 'when json' do
+            it 'can create lesson' do
+              expect{
+                post :create, params: params
+              }.to change(user.lessons, :count).by(1)
+            end
+
+            it 'created lesson related with his course' do
+              expect{
+                post :create, params: params
+              }.to change(course.lessons, :count).by(1)
+            end
+
+            it 'return success object' do
+              post :create, params: params
+              expect(response).to match_json_schema('lessons/create/success')
+            end
+          end
+        end
+      end
+
+      context 'when not author of course' do
+        let(:params) do
+          { course_id: course.id, lesson: attributes_for(:lesson), format: :json }
+        end
+        before { sign_in(create(:course_master)) }
+
+        context 'when html' do
+          before { params.delete(:format) }
+
+          it 'redirect to root' do
+            post :create, params: params
+            expect(response).to redirect_to(root_path)
+          end
+
+          it 'can\'t create lesson' do
+            expect{
+              post :create, params: params
+            }.to_not change(course.lessons, :count)
+          end
+        end
+
+        context 'when json' do
+          it 'return error object' do
+            post :create, params: params
+            expect(response).to match_json_schema('shared/errors')
+          end
+
+          it 'can\'t create lesson' do
+            expect{
+              post :create, params: params
+            }.to_not change(course.lessons, :count)
+          end
+        end
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:user) { create(:course_master) }
+    let(:course) { create(:course, user_id: user.id) }
+    let!(:lesson) { create(:lesson, course_id: course.id, user_id: user.id) }
+    let(:params) { { id: lesson.id, format: :json } }
+    
+    context 'when author of lesson' do
+      before { sign_in(user) }
+
+      context 'when html' do
+        before { params.delete(:format) }
+
+        it 'can\'t delete lesson' do
+          expect{
+            delete :destroy, params: params
+          }.to_not change(course.lessons, :count)
+        end
+
+        it 'redirect to root' do
+          delete :destroy, params: params
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context 'when json' do
+        it 'can delete lesson' do
+          expect{
+            delete :destroy, params: params
+          }.to change(course.lessons, :count).by(-1)
+        end
+
+        it 'return success object' do
+          delete :destroy, params: params
+          expect(response).to match_json_schema('lessons/destroy/success')
+        end
+      end
+    end
+
+    context 'when not author of lesson' do
+      before { sign_in(create(:course_master)) }
+
+      context 'when html' do
+        before { params.delete(:format) }
+
+        it 'can\'t delete lesson' do
+          expect{
+            delete :destroy, params: params
+          }.to_not change(course.lessons, :count)
+        end
+
+        it 'redirect to root' do
+          delete :destroy, params: params
+          expect(response).to redirect_to(root_path)
+        end
+      end
+
+      context 'when json' do
+        it 'can\'t delete lesson' do
+          expect{
+            delete :destroy, params: params
+          }.to_not change(course.lessons, :count)
+        end
+
+        it 'return error object' do
+          delete :destroy, params: params
+          expect(response).to match_json_schema('shared/errors')
         end
       end
     end
