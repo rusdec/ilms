@@ -5,11 +5,11 @@ FactoryBot.define do
     sequence(:email)   { |n| "bot#{n}@email.org" }
     password 'password'
 
-    factory :administrator do
+    factory :administrator, class: Administrator do
       type 'Administrator'
     end
 
-    factory :course_master do
+    factory :course_master, class: CourseMaster do
       type 'CourseMaster'
     end
   end

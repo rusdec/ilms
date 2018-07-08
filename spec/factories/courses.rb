@@ -1,6 +1,19 @@
 FactoryBot.define do
   factory :course do
     sequence(:title) { |n| "CourseTitle#{n}" }
+    association :author, factory: :course_master
+
+    trait :with_lesson do
+      after(:create) do |course|
+        course.lessons.create(attributes_for(:lesson, author: course.author))
+      end
+    end
+
+    trait :with_lessons do
+      after(:create) do |course|
+        create_list(:lesson, 5, author: course.author, course: course)
+      end
+    end
   end
 
   factory :invalid_course, class: Course do
