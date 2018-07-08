@@ -21,11 +21,10 @@ feature 'Show course', %q{
           click_on 'Create'
         end
 
-        [
-          course[:title],
-          course[:decoration_description],
-          course[:level],
-          course[:created_at]
+        [course[:title],
+         course[:decoration_description],
+         course[:level],
+         course[:created_at]
         ].each { |text| expect(page).to have_content(text) }
       end
     end
@@ -37,10 +36,8 @@ feature 'Show course', %q{
           click_on 'Create'
         end
 
-        [
-          'Title can\'t be blank',
-          'Title is too short',
-        ].each { |error| expect(page).to have_content(error) }
+        expect(page).to have_content('Title can\'t be blank')
+        expect(page).to have_content('Title is too short')
       end
     end
   end

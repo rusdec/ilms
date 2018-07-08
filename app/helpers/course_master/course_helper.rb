@@ -9,12 +9,8 @@ module CourseMaster::CourseHelper
     end
   end
 
-  def description(text = '')
-    text.empty? ? 'none' : text
-  end
-
   def remote_links(course)
-    if can? :author, course
+    yield_if_author(course) do
       content_tag :span, class: 'remote-links small' do
         concat(link_to 'Edit', edit_course_master_course_path(course))
         concat(link_to 'Delete', course_master_course_path(course),
@@ -22,6 +18,12 @@ module CourseMaster::CourseHelper
                                  method: :delete,
                                  remote: true)
       end
+    end
+  end
+
+  def add_lesson_link(course)
+    yield_if_author(course) do
+      link_to 'Add lesson', new_course_master_course_lesson_path(course)
     end
   end
 end

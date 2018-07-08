@@ -15,7 +15,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   def show; end
 
   def new
-    @lesson = @course.lessons.new(author: current_user)
+    @lesson = Lesson.new
   end
 
   def update
@@ -44,7 +44,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
       format.json do
         @lesson.destroy
         json_response_by_result(
-          { with_location: :course_master_course_lessons_url,
+          { with_location: :course_master_course_url,
             without_object: true,
             with_flash: true },
           @lesson.course

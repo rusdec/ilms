@@ -88,9 +88,9 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
-        it 'New Lesson releated with his author' do
+        it 'Course assigns to @course' do
           get :new, params: params
-          expect(user).to be_author_of(assigns(:lesson))
+          expect(assigns(:course)).to eq(course)
         end
       end
 

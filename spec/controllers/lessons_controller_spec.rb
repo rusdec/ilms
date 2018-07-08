@@ -25,9 +25,8 @@ RSpec.describe LessonsController, type: :controller do
 
   describe 'GET #show' do
     let(:user) { create(:course_master) }
-    let(:course) { create(:course, user_id: create(:course_master).id) }
-    let!(:lesson) { create(:lesson, user_id: user.id, course_id: course.id) }
-    let(:params) { { course_id: course.id, id: lesson.id } }
+    let(:lesson) { create(:course, :with_lesson, author: user).lessons.last }
+    let(:params) { { id: lesson } }
 
     roles.each do |role|
       context "#{role}" do

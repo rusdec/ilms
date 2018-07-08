@@ -1,0 +1,44 @@
+.row
+  . class='col text-center'
+    h2.page-title= @lesson.title
+    = remote_links(@lesson)
+.row
+  . class='col text-left'
+
+.row
+  .col
+    h4= 'Ideas'
+    p= text_or_none(@lesson.ideas)
+
+.row
+  .col
+    h4= 'Summary'
+    p= text_or_none(@lesson.summary)
+
+.row
+  .col
+    h4= 'Check yourself'
+    p= text_or_none(@lesson.check_yourself)
+
+.row
+  .col
+    h4= 'Materials'
+    ul
+      
+.row
+  .col
+    = add_material_link(@lesson)
+
+.row
+  .col
+    h4= 'Quests'
+    ul
+      
+.row
+  .col
+    = add_quest_link(@lesson)
+
+.row
+  . class='col text-right'
+    = link_to 'Back to course', course_master_course_path(@lesson.course)
+    

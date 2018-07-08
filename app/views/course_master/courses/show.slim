@@ -9,14 +9,17 @@
 .row
   .col
     h4= 'Description'
-    p= description(@course.decoration_description)
+    p= text_or_none(@course.decoration_description)
 
 .row
   .col
     h4= 'Lessons'
+    ul
+      - @course.lessons.each do |lesson|
+        = link_to lesson.title, course_master_lesson_path(lesson)
 .row
   .col
-    = link_to 'Add lesson', ''
+    = add_lesson_link(@course)
 
 .row
   . class='col text-right'

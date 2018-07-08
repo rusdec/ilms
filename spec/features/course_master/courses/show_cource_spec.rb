@@ -34,6 +34,12 @@ feature 'Show course', %q{
     scenario 'see link add lesson' do
       expect(page).to have_link('Add lesson')
     end
+
+    scenario 'see link to lessons' do
+      lessons = create_list(:lesson, 5, author: user, course: course)
+      refresh
+      lessons.each { |lesson| expect(page).to have_link(lesson.title) }
+    end
   end
 
   context 'Not author' do
@@ -56,6 +62,16 @@ feature 'Show course', %q{
 
     scenario 'no see delete link' do
       expect(page).to_not have_link('Delete')
+    end
+
+    scenario 'no see add lesson link' do
+      expect(page).to_not have_link('Add lesson')
+    end
+
+    scenario 'see link to lessons' do
+      lessons = create_list(:lesson, 5, author: user, course: course)
+      refresh
+      lessons.each { |lesson| expect(page).to have_link(lesson.title) }
     end
   end
 end 
