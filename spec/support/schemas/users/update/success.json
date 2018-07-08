@@ -1,0 +1,19 @@
+{
+  "status": {"type":"boolean"},
+  "message": {"type":"string"},
+  "object": {
+    "type": "object",
+    "properties": {
+      "name": "string",
+      "surname": "string",
+      "email": {"type":"string","format":"email"},
+      "type": {"type":"string"},
+      "created_at":{"type":"string","format":"date-time"},
+      "updated_at":{"type":"string","format":"date-time"}
+    },
+    "required": ["name","surname","email","type", "created_at", "updated_at"],
+    "maxProperties": 6
+  },
+  "required": ["status","message","object"],
+  "maxProperties": 3
+}

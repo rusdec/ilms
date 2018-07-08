@@ -4,8 +4,6 @@ class Administrator::BaseController < ApplicationController
   protected
 
   def require_admin_panel_abilities
-    unless can? :admin_panel, current_user
-      redirect_to root_path, alert: 'Access denied'
-    end
+    authorize! :admin_panel, current_user
   end
 end
