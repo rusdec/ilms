@@ -10,15 +10,18 @@ RSpec.describe AnyJsonResponsedsController, type: :controller do
     def success
       @any_json_responsed = JsonResponsibleBot.new
       if params[:params]
-        json_response_by_result(param: params[:params])
+        json_response_by_result(param: params[:params], without_object: true)
       else
-        json_response_by_result
+        json_response_by_result(without_object: true)
       end
     end
 
     def with_location_test
       @any_json_responsed = JsonResponsibleBot.new
-      json_response_by_result({param: params[:params], with_location: :with_location_url},  @any_json_responsed)
+      json_response_by_result({ param: params[:params],
+                                with_location: :with_location_url,
+                                without_object: true },
+                                @any_json_responsed)
     end
 
     def with_flash_test
@@ -115,7 +118,7 @@ RSpec.describe AnyJsonResponsedsController, type: :controller do
       get :you_can_not_do_it, format: :json
 
       expect(response.body).to eq({ status: false,
-                                    errors: ['You can not do it'] }.to_json)
+                                    errors: ['Access denied'] }.to_json)
     end
   end
 

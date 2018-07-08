@@ -4,6 +4,7 @@ require 'capybara/rspec'
 RSpec.configure do |config|
   config.include Features::Signing
   config.include Features::CourseMasterMacros::CoursesMacros
+  config.include Features::SharedMacros
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

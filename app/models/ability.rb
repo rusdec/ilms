@@ -63,8 +63,7 @@ class Ability
   end
 
   def admin_abilities
-    manage_courses_abilities
-
+    course_master_abilities
     admin_panel_abilities
     can([:create, :read, :update, :delete], :all)
   end

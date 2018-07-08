@@ -1,5 +1,5 @@
 class Lesson < ApplicationRecord
-  belongs_to :course, dependent: :destroy
+  belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
   validates :title, presence: true

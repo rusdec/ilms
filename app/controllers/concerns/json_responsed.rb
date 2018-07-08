@@ -47,6 +47,13 @@ module JsonResponsed
       params
     end
 
+    def with_serializer(params)
+      return params unless params[:with_serializer]
+      params[:object] = params[:with_serializer].new(params[:object], {})
+      params.delete(:with_serializer)
+      params
+    end
+
     def without_object(params)
       return params unless params[:without_object]
 
@@ -56,6 +63,7 @@ module JsonResponsed
 
     def params_processing(params)
       %i(
+        with_serializer
         with_location
         with_flash
         without_object

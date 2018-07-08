@@ -1,15 +1,15 @@
 require_relative '../../features_helper'
 
-feature 'Destory course', %q{
+feature 'Destroy course', %q{
   As author of course
   I can delete course
   so that I no one had any access to it
 } do
 
   let(:user) { create(:course_master) }
-  let!(:course) { create(:course, user_id: user.id) }
+  let!(:course) { create(:course, author: user) }
   
-  context 'Author' do
+  context 'when author' do
     before do
       sign_in(user)
       visit course_master_course_path(course)

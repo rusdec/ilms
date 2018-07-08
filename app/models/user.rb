@@ -35,7 +35,7 @@ class User < ApplicationRecord
 
   def validate_type
     unless Role.all.include?(type)
-      errors.add(:type, 'invalid role')
+      errors.add(:type, "invalid.")
     end
   end
 end

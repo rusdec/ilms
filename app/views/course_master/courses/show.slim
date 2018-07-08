@@ -1,7 +1,7 @@
 .row
   . class='col text-center'
     h2.page-title= @course.title
-    = remote_links(@course)
+    = course_remote_links(@course)
 .row
   . class='col text-left'
     = course_info(@course)

@@ -4,6 +4,7 @@
   "object": {
     "type": "object",
     "properties": {
+      "id": "integer",
       "name": "string",
       "surname": "string",
       "email": {"type":"string","format":"email"},
@@ -11,8 +12,9 @@
       "created_at":{"type":"string","format":"date-time"},
       "updated_at":{"type":"string","format":"date-time"}
     },
-    "required": ["name","surname","email","type", "created_at", "updated_at"],
-    "maxProperties": 6
+    "required": ["id","name","surname","email","type", "created_at", "updated_at"],
+    "minProperties": 7,
+    "maxProperties": 7
   },
   "required": ["status","message","object"],
   "maxProperties": 3

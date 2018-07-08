@@ -3,7 +3,7 @@ module CourseMaster::LessonHelper
     text.empty? ? 'none' : text
   end
 
-  def remote_links(lesson)
+  def lesson_remote_links(lesson)
     yield_if_author(lesson) do
       content_tag :span, class: 'remote-links small' do
         concat(link_to 'Edit', edit_course_master_lesson_path(lesson))

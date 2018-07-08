@@ -12,7 +12,7 @@ class Administrator::UsersController < Administrator::BaseController
     respond_to do |format|
       format.json do
         @user.update(user_params)
-        json_response_by_result
+        json_response_by_result(with_serializer: UserSerializer)
       end
     end
   end

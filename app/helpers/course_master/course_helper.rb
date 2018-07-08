@@ -9,7 +9,7 @@ module CourseMaster::CourseHelper
     end
   end
 
-  def remote_links(course)
+  def course_remote_links(course)
     yield_if_author(course) do
       content_tag :span, class: 'remote-links small' do
         concat(link_to 'Edit', edit_course_master_course_path(course))
