@@ -5,8 +5,8 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
   describe 'GET #index' do
     let(:user) { create(:course_master) }
     let(:course) { create(:course, :with_lessons, author: user) }
-    let(:params) { { course_id: course.id } }
-    before { create_list(:lesson, 5, author: user, course: course) }
+    let(:params) { { course_id: course } }
+    before { create(:course, :with_lessons, author: user) }
 
     non_manage_roles.each do |role|
       context "#{role}" do
