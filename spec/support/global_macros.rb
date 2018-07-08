@@ -1,13 +1,17 @@
 module GlobalMacros
   def roles
-    ['User', 'Administrator', 'CourseMaster']
+    Role.all
   end
 
   def manage_roles
-    ['Administrator', 'CourseMaster']
+    Role.all.reject { |role| role == 'User' }
   end
 
   def non_manage_roles
     ['User']
+  end
+
+  def non_admin_roles
+    Role.all.reject { |role| role == 'Administrator' }
   end
 end
