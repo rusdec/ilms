@@ -12,7 +12,7 @@ nav class='navbar navbar-expand-lg navbar-light bg-light'
         = navbar_link(title: 'Sign in', path: new_user_session_path)
 
       - if can? :admin_panel, current_user
-        = navbar_link(title: 'Administration', path: '#')
+        = navbar_link(title: 'Administration', path: administrator_path)
       
       - if can? :manage_courses, current_user
         = navbar_link(title: 'Manage courses', path: course_master_path)

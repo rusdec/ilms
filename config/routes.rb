@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  concern :home do
+    get '/', to: 'home#index'
+  end
+
   #
   # All users
   #
@@ -13,10 +17,18 @@ Rails.application.routes.draw do
   # Course master
   # 
   namespace :course_master do
-    get '/', to: 'home#index'
+    concerns :home
     resources :courses do
       resources :lessons, shallow: true
     end
+  end
+
+  #
+  # Administrator
+  #
+  namespace :administrator do
+    concerns :home
+    resources :users, shallow: true
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
