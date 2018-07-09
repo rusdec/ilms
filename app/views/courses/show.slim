@@ -1,0 +1,23 @@
+.row
+  . class='col text-center'
+    h2.page-title= @course.title
+.row
+  . class='col text-left'
+    = course_info(@course)
+
+.row
+  .col
+    h4= 'Description'
+    p= text_or_none(@course.decoration_description)
+
+.row
+  .col
+    h4= 'Lessons'
+    ul
+      - @course.lessons.each do |lesson|
+        li= link_to lesson.title, lesson_path(lesson)
+
+.row
+  . class='col text-right'
+    = link_to 'All courses', courses_path
+    

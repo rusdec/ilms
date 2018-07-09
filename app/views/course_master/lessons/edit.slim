@@ -1,0 +1,30 @@
+.row
+  . class='col text-center'
+    h2.page-title= 'Edit lesson'
+
+.row
+  .col
+    = form_for [:course_master, @lesson], remote: true, format: :json do |f|
+      .form-group
+        = f.text_field :title, autocomplete: 'title',
+                               placeholder: 'Title',
+                               class: 'form-control small'
+
+      .form-group
+        = f.text_area :ideas, autocomplete: 'ideas',
+                                            placeholder: 'Ideas',
+                                            class: 'form-control small'
+
+      .form-group
+        = f.text_area :summary, autocomplete: 'summary',
+                                placeholder: 'Summary',
+                                class: 'form-control small'
+                                                
+      .form-group
+        = f.text_area :check_yourself, autocomplete: 'check_yourself',
+                                       placeholder: 'Check yourself',
+                                       class: 'form-control small'
+                                                
+      .form-group
+        = f.submit 'Update lesson', class: 'btn btn-primary mr-2'
+        = link_to 'Lesson page', course_master_lesson_path(@lesson), class: 'btn btn-secondary'

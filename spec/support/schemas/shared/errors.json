@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {"type": "boolean"},
+    "errors": {
+      "type": "array",
+       "items": {"type": "string"}
+    }
+  },
+  "required": ["status", "errors"],
+  "maxProperties": 2
+}

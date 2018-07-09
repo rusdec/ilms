@@ -1,0 +1,69 @@
+class CourseMaster::CoursesController < CourseMaster::BaseController
+  before_action :set_courses, only: :index
+  before_action :set_course, only: %i(update edit destroy show)
+  before_action :require_author_of_course, only: %i(edit destroy update)
+
+  include JsonResponsed
+
+  def index; end
+
+  def create
+    respond_to do |format|
+      format.json do
+        @course = current_user.courses.create(course_params)
+        json_response_by_result(
+          with_location: :course_master_course_url,
+          with_flash: true
+        )
+      end
+    end
+  end
+
+  def edit; end
+
+  def show; end
+
+  def new
+    @course = current_user.courses.new
+  end
+
+  def destroy
+    respond_to do |format|
+      format.json do
+        @course.destroy
+        json_response_by_result(
+          with_location: :course_master_courses_url,
+          without_object: true,
+          with_flash: true
+        )
+      end
+    end
+  end
+
+  def update
+    respond_to do |format|
+      format.json do
+        @course.update(course_params)
+        json_response_by_result
+      end
+    end
+  end
+
+  protected
+
+  def require_author_of_course
+    authorize! :author, @course
+  end
+
+  def set_courses
+    @courses = Course.all
+  end
+
+  def course_params
+    params.require(:course).permit(:title, :decoration_description, :level)
+  end
+
+  def set_course
+    @course = Course.find(params[:id])
+  end
+end

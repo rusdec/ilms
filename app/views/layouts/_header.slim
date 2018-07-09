@@ -1,0 +1,20 @@
+nav class='navbar navbar-expand-lg navbar-light bg-light'
+  a.navbar-brand href='/'
+    = 'iLMS'
+  . class='collapse navbar-collapse'
+    ul class='navbar-nav mr-auto'
+      - if current_user
+        = navbar_link(title: 'Sign out',
+                      path: destroy_user_session_path,
+                      additional: { method: 'delete' })
+      - else
+        = navbar_link(title: 'Sign up', path: new_user_registration_path)
+        = navbar_link(title: 'Sign in', path: new_user_session_path)
+
+      - if can? :admin_panel, current_user
+        = navbar_link(title: 'Administration', path: administrator_path)
+      
+      - if can? :manage_courses, current_user
+        = navbar_link(title: 'Manage courses', path: course_master_path)
+      
+      = navbar_link(title: 'Courses', path: courses_path)

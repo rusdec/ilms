@@ -1,0 +1,20 @@
+.row
+  . class='col text-center'
+    h2.page-title= @lesson.title
+.row
+  . class='col text-left'
+
+.row
+  .col
+    h4= 'Ideas'
+    p= text_or_none(@lesson.ideas)
+
+.row
+  .col
+    h4= 'Materials'
+    ul
+      
+.row
+  . class='col text-right'
+    = link_to 'Back to course', course_path(@lesson.course)
+    

@@ -1,0 +1,30 @@
+. class='row justify-content-center'
+  . class='col text-center'
+    h2= 'Sign in'
+
+. class='row justify-content-center'
+  . class='col col-4'
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .form-group
+        = f.email_field :email, autocomplete: 'off',
+                                autofocus: true,
+                                placeholder: 'Email',
+                                class: 'form-control small'
+
+      .form-group
+        = f.password_field :password, autocomplete: 'off',
+                                      placeholder: 'Password',
+                                      class: 'form-control small'
+
+        - if devise_mapping.rememberable?
+          . class='form-group mt-1'
+            = f.check_box :remember_me
+            = f.label :remember_me, class: 'ml-2 small'
+
+      . class='form-group text-center'
+        = f.submit 'Log in', class: 'btn btn-primary'
+
+
+. class='row justify-content-center small'
+  . class='col col-4'
+    = render "devise/shared/links"

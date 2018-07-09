@@ -1,0 +1,20 @@
+.row
+  . class='col text-center'
+    h2.page-title= 'User info'
+
+.row
+  . class='col col-md-2'
+    = image_tag 'shared/users/avatar.png', class: 'image-big-avatar'
+  .col
+    p.small
+      span.font-weight-bold= 'Fullname: '
+      span= @user.full_name
+      br
+      span.font-weight-bold= 'Email: '
+      span= @user.email
+      br
+      span.font-weight-bold= 'Role: '
+      span= @user.type
+      br
+      span.font-weight-bold= 'Registered: '
+      span= format_date(@user.created_at)
