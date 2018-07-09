@@ -28,12 +28,10 @@ RSpec.describe Administrator::UsersController, type: :controller do
   describe 'GET #show' do
     context 'when administrator' do
       let!(:user) { create(:user) }
-      before do
-        sign_in(create(:administrator))
-        get :show, params: { id: user }
-      end
+      before { sign_in(create(:administrator)) }
 
       it 'user assigns to @user' do
+        get :show, params: { id: user }
         expect(assigns(:user)).to eq(user)
       end
     end

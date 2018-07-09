@@ -4,8 +4,8 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
   describe 'GET #show' do
     let(:user) { create(:course_master) }
-    let!(:course) { create(:course, user_id: user.id) }
-    let(:params) { { id: course.id } }
+    let!(:course) { create(:course, author: user) }
+    let(:params) { { id: course } }
 
     non_manage_roles.each do |role|
       context "#{role}" do
@@ -30,10 +30,8 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
   describe 'GET #edit' do
     let(:user) { create(:course_master) }
-    let!(:course) { create(:course, user_id: user.id) }
-    let(:params) do
-      { id: course.id }
-    end
+    let!(:course) { create(:course, author: user) }
+    let(:params) { { id: course.id } }
 
     non_manage_roles.each do |role|
       context "#{role}" do
@@ -83,14 +81,14 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
       it 'New Course related with his author' do
         expect(user).to be_author_of(assigns(:course))
       end
-    end
+    end # context 'Any manage role'
   end
 
   describe 'GET #index' do
     manage_roles.each do |role|
       context "#{role}" do
         before do
-          create_list(:course, 5, user_id: create(:administrator).id)
+          create_list(:course, 5, author: create(:administrator))
           sign_in(create(role.underscore.to_sym))
           get :index
         end
@@ -118,31 +116,45 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:course_params) { attributes_for(:course) }
 
-    non_manage_roles.each do |role|
-      context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
+    context 'when non manage role' do
+      let(:params) { { course: attributes_for(:course), format: :json } }
 
-        it 'Redirect to root' do
-          post :create, params: { course: course_params }
-          expect(response).to redirect_to(root_path)
-        end
-      end
+      non_manage_roles.each do |role|
+        context "when #{role}" do
+          before { sign_in(create(role.underscore.to_sym)) }
+          
+          context 'when html' do
+            before { params.delete(:format) }
+
+            it 'can\'t create course' do
+              expect{
+                post :create, params: params
+              }.to_not change(Course, :count)
+            end
+
+            it 'Redirect to root' do
+              post :create, params: params
+              expect(response).to redirect_to(root_path)
+            end
+          end # context 'when html'
+
+          context 'when json' do
+            it 'can\'t create course' do
+              expect{
+                post :create, params: params
+              }.to_not change(Course, :count)
+            end
+
+            it 'return error object' do
+              post :create, params: params
+              expect(response).to match_json_schema('shared/errors')
+            end
+          end
+        end # context "when #{role}"
+      end # non_manage_roles.each do |role|
     end
 
-    manage_roles.each do |role|
-      context "#{role}" do
-        let(:user) { create(role.underscore.to_sym) }
-        before { sign_in(user) }
-
-        it 'can create course with valid data' do
-          post :create, params: { course: course_params }
-          expect(Course.last.title).to eq(course_params[:title])
-        end
-      end
-    end
-    
     context 'Any manage role' do
       let(:user) { create(:course_master) }
       before { sign_in(user) }
@@ -152,135 +164,210 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           { course: attributes_for(:course), format: :json }
         end
 
-        it 'created course related with user' do
-          expect {
+        context 'when json' do
+          it 'can create course related with user' do
+            expect {
+              post :create, params: params
+            }.to change(user.courses, :count).by(1)
+          end
+
+          it 'return course object' do
             post :create, params: params
-          }.to change(user.courses, :count).by(1)
+            expect(response).to match_json_schema('courses/create/success')
+          end
         end
 
-        it 'return course object' do
-          post :create, params: params
-          expect(response).to match_json_schema('courses/create/success')
+        context 'when html' do
+          before { params.delete(:format) }
+
+          it 'can\'t create course' do
+            expect {
+              post :create, params: params
+            }.to_not change(user.courses, :count)
+          end
+
+          it 'return error object' do
+            post :create, params: params
+            expect(response).to redirect_to(root_path)
+          end
         end
-      end
+      end # context 'when valid data'
 
       context 'when invalid data' do
         let(:invalid_params) do
           { course: attributes_for(:invalid_course), format: :json }
         end
 
-        it 'can\'t create course' do
-          expect {
-            post :create, params: invalid_params
-          }.to_not change(user.courses, :count)
-        end
+        context 'when json' do
+          it 'can\'t create course' do
+            expect {
+              post :create, params: invalid_params
+            }.to_not change(user.courses, :count)
+          end
 
-        it 'return error' do
-          post :create, params: invalid_params
-          expect(response).to match_json_schema('courses/create/errors')
+          it 'return error' do
+            post :create, params: invalid_params
+            expect(response).to match_json_schema('shared/errors')
+          end
         end
-      end
-    end
+      end # context 'when invalid data'
+    end # context 'Any manage role'
   end
 
   describe 'PATCH #update' do
     let(:user) { create(:course_master) }
-    let(:course) { create(:course, user_id: user.id) }
+    let(:course) { create(:course, author: user) }
 
-    context 'Author' do
+    context 'when author' do
       before { sign_in(user) }
 
       context 'when valid data' do
-        let(:params) do
-          { course: { title: 'NewValidTitle' }, id: course.id, format: :json }
+        let!(:params) do
+          { course: { title: 'NewValidTitle' }, id: course, format: :json }
         end
 
-        it 'can update own course' do
-          patch :update, params: params
-          course.reload
-          expect(course.title).to eq(params[:course][:title])
+        context 'when json' do
+          before { patch :update, params: params }
+
+          it 'can update course' do
+            course.reload
+            expect(course.title).to eq(params[:course][:title])
+          end
+
+          it 'return course object' do
+            expect(response).to match_json_schema('courses/update/success')
+          end
         end
 
-        it 'return course object' do
-          patch :update, params: params
-          expect(response).to match_json_schema('courses/update/success')
-        end
-      end
+        context 'when html' do
+          let!(:old_title) { course.title }
+          before do
+            params.delete(:format)
+            patch :update, params: params
+          end
+
+          it 'can\'t update course' do
+            course.reload
+            expect(course.title).to eq(old_title)
+          end
+
+          it 'redirect to root' do
+            expect(response).to redirect_to(root_path)
+          end
+        end # context 'when html'
+      end # context 'when valid data'
 
       context 'when invalid data' do
         let(:invalid_params) do
           { course: { title: nil }, id: course.id, format: :json }
         end
 
-        it 'can\'t update own course' do
-          old_title = course.title
-          patch :update, params: invalid_params
+        context 'when json' do
+          let!(:old_title) { course.title }
+          before { patch :update, params: invalid_params }
+
+          it 'can\'t update own course' do
+            course.reload
+            expect(course.title).to eq(old_title)
+          end
+
+          it 'return errors' do
+            expect(response).to match_json_schema('shared/errors')
+          end
+        end # context 'when json'
+      end # context 'when invalid data'
+    end # context 'when author'
+
+    context 'when not author' do
+      before { sign_in(create(:course_master)) }
+      let(:params) do
+        { course: { title: 'NewValidTitle' }, id: course.id, format: :json }
+      end
+      let!(:old_title) { course.title }
+
+      context 'when json' do
+        before { patch :update, params: params }
+
+        it 'can\'t update course' do
           course.reload
           expect(course.title).to eq(old_title)
         end
 
-        it 'return errors' do
-          patch :update, params: invalid_params
-          expect(response).to match_json_schema('courses/update/errors')
+        it 'return error object' do
+          expect(response).to match_json_schema('shared/errors')
         end
-      end
-    end
+      end # context 'when json'
 
-    context 'Not author' do
-      let(:params) do
-        { course: { title: 'NewValidTitle' }, id: course.id, format: :json }
-      end
-      before { sign_in(create(:course_master)) }
+      context 'when html' do
+        before do
+          params.delete(:format)
+          patch :update, params: params
+        end
 
-      it 'can\'t update course' do
-        old_title = course.title
-        patch :update, params: params
-        course.reload
-        expect(course.title).to eq(old_title)
-      end
+        it 'can\'t update course' do
+          course.reload
+          expect(course.title).to eq(old_title)
+        end
 
-      it 'return errors' do
-        patch :update, params: params
-        expect(response).to match_json_schema('courses/update/errors')
-      end
-    end
+        it 'redirect to root' do
+          expect(response).to redirect_to(root_path)
+        end
+      end # context 'when html'
+    end # context 'when not author'
   end
 
   describe 'DELETE #destroy' do
     let(:user) { create(:course_master) }
-    let!(:course) { create(:course, user_id: user.id) }
-    let(:params) do
-      { id: course.id, format: :json }
-    end
+    let!(:course) { create(:course, author: user) }
+    let(:params) { { id: course.id, format: :json } }
 
-    context 'Author' do
+    context 'when author' do
       before { sign_in(user) }
 
-      it 'can destroy own course' do
-        expect{
-          delete :destroy, params: params
-        }.to change(user.courses, :count).by(-1)
-      end
+      context 'when json' do
+        it 'can destroy course' do
+          expect{
+            delete :destroy, params: params
+          }.to change(user.courses, :count).by(-1)
+        end
 
-      it 'return course object' do
-        delete :destroy, params: params
-        expect(response).to match_json_schema('courses/destroy/success')
-      end
+        it 'return course object' do
+          delete :destroy, params: params
+          expect(response).to match_json_schema('courses/destroy/success')
+        end
+      end # context 'when json'
+
+      context 'when html' do
+        before { params.delete(:format) }
+
+        it 'can\'t destroy course' do
+          expect{
+            delete :destroy, params: params
+          }.to_not change(user.courses, :count)
+        end
+
+        it 'redirect to root' do
+          delete :destroy, params: params
+          expect(response).to redirect_to(root_path)
+        end
+      end # context 'when html'
     end
 
     context 'Not author' do
       before { sign_in(create(:course_master)) }
 
-      it 'can\'t delete course' do
-        expect{
-          delete :destroy, params: params
-        }.to_not change(user.courses, :count)
-      end
+      context 'when json' do
+        it 'can\'t delete course' do
+          expect{
+            delete :destroy, params: params
+          }.to_not change(user.courses, :count)
+        end
 
-      it 'return errors' do
-        delete :destroy, params: params
-        expect(response).to match_json_schema('courses/destroy/errors')
+        it 'return errors' do
+          delete :destroy, params: params
+          expect(response).to match_json_schema('shared/errors')
+        end
       end
-    end
+    end # context 'Not author'
   end
 end

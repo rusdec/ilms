@@ -6,13 +6,12 @@ RSpec.describe CoursesController, type: :controller do
     roles.each do |role|
       context "#{role}" do
         before do
-          role = role.underscore.to_sym
-          create_list(:course, 5, user_id: create(:administrator).id)
-          sign_in(create(role))
+          create_list(:course, 5, author: create(:administrator))
+          sign_in(create(role.underscore.to_sym))
+          get :index
         end
 
         it 'Cource assign to @cources' do
-          get :index
           expect(assigns(:courses)).to eq(Course.all)
         end
       end
@@ -20,15 +19,14 @@ RSpec.describe CoursesController, type: :controller do
   end
 
   describe 'GET #show' do
-    let!(:course) { create(:course, user_id: create(:course_master).id) }
-    let(:params) { { id: course.id } }
+    let!(:course) { create(:course, author: create(:course_master)) }
 
     roles.each do |role|
       context "#{role}" do
         before { sign_in(create(role.underscore.to_sym)) }
 
         it 'Assign Course to @course' do
-          get :show, params: params
+          get :show, params: { id: course }
           expect(assigns(:course)).to eq(course)
         end
       end

@@ -6,8 +6,8 @@ feature 'Destroy course', %q{
   so that I no one had any access to it
 } do
 
-  let(:user) { create(:course_master) }
-  let!(:course) { create(:course, author: user) }
+  given(:user) { create(:course_master) }
+  given(:course) { create(:course, author: user) }
   
   context 'when author' do
     before do

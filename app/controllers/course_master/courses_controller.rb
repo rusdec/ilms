@@ -5,16 +5,18 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   include JsonResponsed
 
-  skip_authorize_resource only: %(update edit destroy new)
-
   def index; end
 
   def create
-    @course = current_user.courses.create(course_params)
-    json_response_by_result(
-      with_location: :course_master_course_url,
-      with_flash: true
-    )
+    respond_to do |format|
+      format.json do
+        @course = current_user.courses.create(course_params)
+        json_response_by_result(
+          with_location: :course_master_course_url,
+          with_flash: true
+        )
+      end
+    end
   end
 
   def edit; end
@@ -26,17 +28,25 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   def destroy
-    @course.destroy
-    json_response_by_result(
-      with_location: :course_master_courses_url,
-      without_object: true,
-      with_flash: true
-    )
+    respond_to do |format|
+      format.json do
+        @course.destroy
+        json_response_by_result(
+          with_location: :course_master_courses_url,
+          without_object: true,
+          with_flash: true
+        )
+      end
+    end
   end
 
   def update
-    @course.update(course_params)
-    json_response_by_result
+    respond_to do |format|
+      format.json do
+        @course.update(course_params)
+        json_response_by_result
+      end
+    end
   end
 
   protected

@@ -19,14 +19,11 @@ feature 'Show lesson', %q{
       [lesson[:title],
        lesson[:ideas],
        lesson[:summary]
-      ].each do |text|
-        expect(page).to have_content(text)
-      end
+      ].each { |text| expect(page).to have_content(text) }
     end
 
     scenario 'see remote links' do
-      expect(page).to have_link('Edit')
-      expect(page).to have_link('Delete')
+      %w(Edit Delete).each { |link| expect(page).to have_link(link) }
     end
 
     scenario 'see add quest link' do
@@ -49,8 +46,7 @@ feature 'Show lesson', %q{
     end
 
     scenario 'no see remote links' do
-      expect(page).to_not have_link('Edit')
-      expect(page).to_not have_link('Delete')
+      %w(Edit Delete).each { |link| expect(page).to_not have_link(link) }
     end
 
     scenario 'no see add quest link' do

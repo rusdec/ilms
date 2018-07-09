@@ -16,7 +16,8 @@
     h4= 'Lessons'
     ul
       - @course.lessons.each do |lesson|
-        = link_to lesson.title, course_master_lesson_path(lesson)
+        li
+          = link_to lesson.title, course_master_lesson_path(lesson)
 .row
   .col
     = add_lesson_link(@course)

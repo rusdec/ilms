@@ -8,5 +8,9 @@ module Features
         click_on 'Log in'
       end
     end
+
+    def sign_out
+      click_on 'Sign out'
+    end
   end
 end

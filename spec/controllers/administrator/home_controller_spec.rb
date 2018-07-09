@@ -5,12 +5,12 @@ RSpec.describe Administrator::HomeController, type: :controller do
     context 'when administrator' do
       before do
         sign_in(create(:administrator))
-        [create(:user), create(:course_master)]
+        %i(user course_master).each { |role| create(role) }
         get :index
       end
       
       it 'User count assign to @users_count' do
-        expect(assigns(:users_count)).to eq(3)
+        expect(assigns(:users_count)).to eq(User.count)
       end
     end
 

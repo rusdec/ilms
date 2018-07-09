@@ -4,19 +4,17 @@ RSpec.describe LessonsController, type: :controller do
   describe 'GET #index' do
     roles.each do |role|
       context "#{role}" do
-        let(:course_master) { create(:course_master) }
-        let(:course) { create(:course, user_id: course_master.id) }
+        let(:user) { create(:course_master) }
+        let(:course) { create(:course, author: user) }
 
         before do
-          [course, create(:course, user_id: course_master.id)].each do |course|
-            create_list(:lesson, 5, user_id: course_master.id, course: course)
-          end
-          role = role.underscore.to_sym
-          sign_in(create(role))
+          create(:course, :with_lessons, author: user)
+          create_list(:lesson, 5, author: user, course: course)
+          sign_in(create(role.underscore.to_sym))
         end
 
         it 'Lessons of the course assign to @lessons' do
-          get :index, params: { course_id: course.id }
+          get :index, params: { course_id: course }
           expect(assigns(:lessons)).to eq(course.lessons)
         end
       end

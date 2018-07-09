@@ -57,7 +57,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
         expect(response).to redirect_to(root_path)
       end
     end
-  end
+  end # context 'when author'
 
   describe 'GET #show' do
     let(:user) { create(:course_master) }
@@ -81,15 +81,16 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
 
     context 'Any manage role' do
       context 'Author of course' do
-        before { sign_in(user) }
+        before do
+          sign_in(user)
+          get :new, params: params
+        end
 
         it 'New Lesson assigns to @lesson' do
-          get :new, params: params
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
         it 'Course assigns to @course' do
-          get :new, params: params
           expect(assigns(:course)).to eq(course)
         end
       end
@@ -181,13 +182,13 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           end
 
           context 'when json' do
-            it 'can create lesson' do
+            it 'can create lesson related with author' do
               expect{
                 post :create, params: params
               }.to change(user.lessons, :count).by(1)
             end
 
-            it 'created lesson related with his course' do
+            it 'created lesson related with parent course' do
               expect{
                 post :create, params: params
               }.to change(course.lessons, :count).by(1)
@@ -220,7 +221,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
               post :create, params: params
             }.to_not change(course.lessons, :count)
           end
-        end
+        end # context 'when html'
 
         context 'when json' do
           it 'return error object' do
@@ -311,7 +312,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
   describe 'PATCH #update' do
     context 'Any user with manager role' do
       let!(:lesson) { create(:course, :with_lesson).lessons.last }
-      let!(:old_lesson_title) { lesson.title }
+      let!(:old_title) { lesson.title }
 
       context 'when author' do
         before { sign_in(lesson.author) }
@@ -329,7 +330,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
             end
 
             it 'can\'t update lesson' do
-              expect(lesson.title).to eq(old_lesson_title)
+              expect(lesson.title).to eq(old_title)
             end
 
             it 'redirect to root' do
@@ -338,12 +339,10 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           end
 
           context 'when json' do
-            before do
-              patch :update, params: params
-              lesson.reload
-            end
+            before { patch :update, params: params }
 
             it 'can update lesson' do
+              lesson.reload
               expect(lesson.title).to eq('NewLessonTitle')
             end
 
@@ -364,7 +363,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
             end
 
             it 'can\'t update lesson' do
-              expect(lesson.title).to eq(old_lesson_title)
+              expect(lesson.title).to eq(old_title)
             end
 
             it 'redirect to root' do
@@ -373,13 +372,11 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           end
 
           context 'when json' do
-            before do
-              patch :update, params: params
-              lesson.reload
-            end
+            before { patch :update, params: params }
 
             it 'can\'t update lesson' do
-              expect(lesson.title).to eq(old_lesson_title)
+              lesson.reload
+              expect(lesson.title).to eq(old_title)
             end
 
             it 'return error object' do
@@ -403,7 +400,7 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           end
 
           it 'can\'t update lesson' do
-            expect(lesson.title).to eq(old_lesson_title)
+            expect(lesson.title).to eq(old_title)
           end
 
           it 'redirect to root' do
@@ -412,13 +409,11 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
         end
 
         context 'when json' do
-          before do
-            patch :update, params: params
-            lesson.reload
-          end
+          before { patch :update, params: params }
 
           it 'can\'t update lesson' do
-            expect(lesson.title).to eq(old_lesson_title)
+            lesson.reload
+            expect(lesson.title).to eq(old_title)
           end
 
           it 'return error object' do

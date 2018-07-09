@@ -4,8 +4,6 @@ class CourseMaster::BaseController < ApplicationController
   protected
 
   def require_manage_courses_abilities
-    unless can? :manage_courses, current_user
-      redirect_to root_path, alert: 'Access denied'
-    end
+    authorize! :manage_courses, current_user
   end
 end

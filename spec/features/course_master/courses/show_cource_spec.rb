@@ -6,21 +6,13 @@ feature 'Show course', %q{
   so that I can read detail information or edit it
 } do
 
-  let(:user) { create(:course_master) }
-  let!(:course) { create(:course, user_id: user.id) }
+  given(:user) { create(:course_master) }
+  given!(:course) { create(:course, :with_lessons, author: user) }
   
-  context 'Author' do
+  context 'when author' do
     before do
       sign_in(user)
       visit course_master_course_path(course)
-    end
-
-    scenario 'can view detail page' do
-      [course.title,
-       course.author.full_name,
-       course.decoration_description,
-       date_format(course.created_at),
-      ].each { |text| expect(page).to have_content(text) }
     end
 
     scenario 'see edit link' do
@@ -34,26 +26,12 @@ feature 'Show course', %q{
     scenario 'see link add lesson' do
       expect(page).to have_link('Add lesson')
     end
-
-    scenario 'see link to lessons' do
-      lessons = create_list(:lesson, 5, author: user, course: course)
-      refresh
-      lessons.each { |lesson| expect(page).to have_link(lesson.title) }
-    end
   end
 
-  context 'Not author' do
+  context 'when not author' do
     before do
       sign_in(create(:course_master))
       visit course_master_course_path(course)
-    end
-
-    scenario 'can view detail page' do
-      [course.title,
-       course.author.full_name,
-       course.decoration_description,
-       date_format(course.created_at),
-      ].each { |text| expect(page).to have_content(text) }
     end
 
     scenario 'no see edit link' do
@@ -67,11 +45,31 @@ feature 'Show course', %q{
     scenario 'no see add lesson link' do
       expect(page).to_not have_link('Add lesson')
     end
+  end
 
+  context 'when any user manage role' do
     scenario 'see link to lessons' do
-      lessons = create_list(:lesson, 5, author: user, course: course)
-      refresh
-      lessons.each { |lesson| expect(page).to have_link(lesson.title) }
+      [user, create(:course_master)].each do |role|
+        sign_in(role)
+        visit course_master_course_path(course)
+
+        course.lessons.each { |lesson| expect(page).to have_link(lesson.title) }
+        sign_out
+      end
+    end
+
+    scenario 'see detail info' do
+      [user, create(:course_master)].each do |role|
+        sign_in(role)
+        visit course_master_course_path(course)
+
+        [course.title,
+         course.author.full_name,
+         course.decoration_description,
+         date_format(course.created_at),
+        ].each { |text| expect(page).to have_content(text) }
+        sign_out
+      end
     end
   end
 end 

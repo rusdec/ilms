@@ -28,15 +28,9 @@ feature 'New lesson', %q{
         fill_in 'Check yourself', with: lesson[:check_yourself]
         click_on 'Create lesson'
 
-        ['Add quest',
-         'Quests',
-         'Success',
-         lesson[:title],
-         lesson[:ideas],
-         lesson[:summary]
-        ].each do |text|
-          expect(page).to have_content(text)
-        end
+        ['Add quest', 'Quests', 'Success', lesson[:title],
+         lesson[:ideas], lesson[:summary]
+        ].each { |text| expect(page).to have_content(text) }
       end # scenario 'can create new lesson'
     end # context 'with valid data'
 
@@ -47,8 +41,9 @@ feature 'New lesson', %q{
         fill_in 'Title', with: ''
         click_on 'Create lesson'
 
-        expect(page).to have_content('Title can\'t be blank')
-        expect(page).to have_content('Title is too short')
+        ['Title can\'t be blank', 'Title is too short'].each do |error|
+          expect(page).to have_content(error)
+        end
       end
     end
   end

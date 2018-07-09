@@ -23,7 +23,7 @@ feature 'Edit lesson', %q{
         click_on 'Update lesson'
 
         expect(page).to have_content('Success')
-      end # scenario 'can create new lesson'
+      end
     end # context 'with valid data'
 
     context 'with invalid data' do
@@ -33,10 +33,11 @@ feature 'Edit lesson', %q{
         fill_in 'Title', with: ''
         click_on 'Update lesson'
 
-        expect(page).to have_content('Title can\'t be blank')
-        expect(page).to have_content('Title is too short')
+        ['Title can\'t be blank', 'Title is too short'].each do |error|
+          expect(page).to have_content(error)
+        end
       end
-    end
+    end # context 'with invalid data'
   end
 
   context 'when not author' do
@@ -46,6 +47,7 @@ feature 'Edit lesson', %q{
     end
 
     scenario 'redirect to root' do
+      expect(page).to have_content('Access denied')
       expect(page).to_not have_content('New lesson')
       expect(page).to_not have_content('Update lesson')
     end

@@ -6,10 +6,10 @@ feature 'Show course', %q{
   so that I can supplement description, change level, add lessons or something else
 } do
 
-  let(:user) { create(:course_master) }
-  let!(:course) { create(:course, user_id: user.id) }
+  given(:user) { create(:course_master) }
+  given(:course) { create(:course, author: user) }
   
-  context 'Author' do
+  context 'when author' do
     before do
       sign_in(user)
       visit edit_course_master_course_path(course)
@@ -38,6 +38,17 @@ feature 'Show course', %q{
           'Title is too short',
         ].each { |error| expect(page).to have_content(error) }
       end
+    end
+  end # context 'when author'
+
+  context 'when not author' do
+    before do
+      sign_in(create(:course_master))
+      visit edit_course_master_course_path(course)
+    end
+
+    scenario 'see error' do
+      expect(page).to have_content('Access denied')
     end
   end
 end 
