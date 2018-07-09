@@ -62,22 +62,6 @@ RSpec.describe Administrator::UsersController, type: :controller do
           { id: updating_user, user: { type: 'CourseMaster' }, format: :json }
         end
 
-        context 'when html' do
-          before do
-            params.delete(:format)
-            patch :update, params: params
-            updating_user.reload
-          end
-
-          it 'redirect to root' do
-            expect(response).to redirect_to(root_path)
-          end
-
-          it 'can\'t update user' do
-            expect(updating_user.type).to eq(user_type)
-          end
-        end # context 'when html'
-
         context 'when json' do
           before do
             patch :update, params: params
@@ -98,22 +82,6 @@ RSpec.describe Administrator::UsersController, type: :controller do
         let(:params) do
           { id: updating_user, user: { type: '' }, format: :json }
         end
-
-        context 'when html' do
-          before do
-            params.delete(:format)
-            patch :update, params: params
-            updating_user.reload
-          end
-
-          it 'redirect to root' do
-            expect(response).to redirect_to(root_path)
-          end
-
-          it 'can\'t update user' do
-            expect(updating_user.type).to eq(user_type)
-          end
-        end # context 'when html'
 
         context 'when json' do
           before do
@@ -138,22 +106,6 @@ RSpec.describe Administrator::UsersController, type: :controller do
           { id: updating_user, user: { type: 'CourseMaster' }, format: :json }
         end
         before { sign_in(create(role.underscore.to_sym)) }
-
-        context 'when html' do
-          before do
-            params.delete(:format)
-            patch :update, params: params
-            updating_user.reload
-          end
-
-          it 'redirect to root' do
-            expect(response).to redirect_to(root_path)
-          end
-
-          it 'can\'t update user' do
-            expect(updating_user.type).to eq(user_type)
-          end
-        end
 
         context 'when json' do
           before do

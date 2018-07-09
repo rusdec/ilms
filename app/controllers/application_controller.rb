@@ -15,18 +15,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  rescue_from ActionController::UnknownFormat do |exception|
-    respond_to do |format|
-      format.json do
-        render json: { status: false, errors: ['Unknown format'] }
-      end
-
-      format.html do
-        redirect_to root_path, { alert: 'Unknown format' }
-      end
-    end
-  end
-
   protected
 
   def configure_permitted_parameters

@@ -124,21 +124,6 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
         context "when #{role}" do
           before { sign_in(create(role.underscore.to_sym)) }
           
-          context 'when html' do
-            before { params.delete(:format) }
-
-            it 'can\'t create course' do
-              expect{
-                post :create, params: params
-              }.to_not change(Course, :count)
-            end
-
-            it 'Redirect to root' do
-              post :create, params: params
-              expect(response).to redirect_to(root_path)
-            end
-          end # context 'when html'
-
           context 'when json' do
             it 'can\'t create course' do
               expect{
@@ -174,21 +159,6 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           it 'return course object' do
             post :create, params: params
             expect(response).to match_json_schema('courses/create/success')
-          end
-        end
-
-        context 'when html' do
-          before { params.delete(:format) }
-
-          it 'can\'t create course' do
-            expect {
-              post :create, params: params
-            }.to_not change(user.courses, :count)
-          end
-
-          it 'return error object' do
-            post :create, params: params
-            expect(response).to redirect_to(root_path)
           end
         end
       end # context 'when valid data'
@@ -238,23 +208,6 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
             expect(response).to match_json_schema('courses/update/success')
           end
         end
-
-        context 'when html' do
-          let!(:old_title) { course.title }
-          before do
-            params.delete(:format)
-            patch :update, params: params
-          end
-
-          it 'can\'t update course' do
-            course.reload
-            expect(course.title).to eq(old_title)
-          end
-
-          it 'redirect to root' do
-            expect(response).to redirect_to(root_path)
-          end
-        end # context 'when html'
       end # context 'when valid data'
 
       context 'when invalid data' do
@@ -297,22 +250,6 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           expect(response).to match_json_schema('shared/errors')
         end
       end # context 'when json'
-
-      context 'when html' do
-        before do
-          params.delete(:format)
-          patch :update, params: params
-        end
-
-        it 'can\'t update course' do
-          course.reload
-          expect(course.title).to eq(old_title)
-        end
-
-        it 'redirect to root' do
-          expect(response).to redirect_to(root_path)
-        end
-      end # context 'when html'
     end # context 'when not author'
   end
 
@@ -336,22 +273,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           expect(response).to match_json_schema('courses/destroy/success')
         end
       end # context 'when json'
-
-      context 'when html' do
-        before { params.delete(:format) }
-
-        it 'can\'t destroy course' do
-          expect{
-            delete :destroy, params: params
-          }.to_not change(user.courses, :count)
-        end
-
-        it 'redirect to root' do
-          delete :destroy, params: params
-          expect(response).to redirect_to(root_path)
-        end
-      end # context 'when html'
-    end
+    end # context 'when author'
 
     context 'Not author' do
       before { sign_in(create(:course_master)) }
