@@ -12,7 +12,7 @@ function showSuccess(message = '', container) {
     span.textContent = message
     successContainer.appendChild(span)
     toggleVisibleSuccess()
-    setTimeout(()=>{toggleVisibleSuccess()}, 3000);
+    setTimeout(()=>{toggleVisibleSuccess()}, 1000);
   }
 }
 

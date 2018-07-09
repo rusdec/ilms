@@ -14,7 +14,7 @@ function showErrors(errors = [], container) {
       errorsContainer.appendChild(p)
     })
     toggleVisibleErrors()
-    setTimeout(()=>{toggleVisibleErrors()}, 5000);
+    setTimeout(()=>{toggleVisibleErrors()}, 2000);
   }
 }
 
