@@ -1,0 +1,28 @@
+= form_for model, remote: true, format: :json do |f|
+  .form-group
+    = f.text_field :title, autocomplete: 'title',
+                           placeholder: 'Title',
+                           class: 'form-control small'
+
+  .form-group
+    = f.text_area :ideas, autocomplete: 'ideas',
+                                        placeholder: 'Ideas',
+                                        class: 'form-control small'
+
+  .form-group
+    = f.text_area :summary, autocomplete: 'summary',
+                            placeholder: 'Summary',
+                            class: 'form-control small'
+                                            
+  .form-group
+    = f.text_area :check_yourself, autocomplete: 'check_yourself',
+                                   placeholder: 'Check yourself',
+                                   class: 'form-control small'
+
+  .form-group
+    = f.label 'Will opened after lesson', for: :parent_id
+    = selector_with_lessons(form: f, lesson: @lesson)
+                                            
+  .form-group
+    = f.submit class: 'btn btn-primary mr-2'
+    = link_back if link_back

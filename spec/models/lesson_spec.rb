@@ -1,4 +1,5 @@
-require 'rails_helper'
+require_relative 'models_helper'
+require 'closure_tree/test/matcher'
 
 RSpec.describe Lesson, type: :model do
   it { should validate_presence_of(:title) }
@@ -10,4 +11,7 @@ RSpec.describe Lesson, type: :model do
       .only_integer
       .is_greater_than_or_equal_to(1)
   end
+  it { should be_a_closure_tree }
+
+  it_should_behave_like 'persistable', Lesson.all
 end

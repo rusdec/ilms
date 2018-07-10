@@ -7,7 +7,7 @@ feature 'New lesson', %q{
 } do
 
   given(:user) { create(:course_master) }
-  given(:course) { create(:course, author: user) }
+  given(:course) { create(:course, :with_lesson, author: user) }
 
   context 'when author' do
     before do
@@ -17,6 +17,7 @@ feature 'New lesson', %q{
     end
 
     context 'with valid data' do
+      let(:parent_lesson) { course.lessons.last }
       let(:lesson) { attributes_for(:lesson) }
 
       scenario 'can create new lesson', js: true do
@@ -26,7 +27,8 @@ feature 'New lesson', %q{
         fill_in 'Ideas', with: lesson[:ideas]
         fill_in 'Summary', with: lesson[:summary]
         fill_in 'Check yourself', with: lesson[:check_yourself]
-        click_on 'Create lesson'
+        select parent_lesson.title, from: 'lesson[parent_id]'
+        click_on 'Create Lesson'
 
         ['Add quest', 'Quests', 'Success', lesson[:title],
          lesson[:ideas], lesson[:summary]
@@ -39,7 +41,7 @@ feature 'New lesson', %q{
         expect(page).to have_content('New lesson')
 
         fill_in 'Title', with: ''
-        click_on 'Create lesson'
+        click_on 'Create Lesson'
 
         ['Title can\'t be blank', 'Title is too short'].each do |error|
           expect(page).to have_content(error)

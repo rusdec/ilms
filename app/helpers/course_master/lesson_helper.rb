@@ -22,4 +22,13 @@ module CourseMaster::LessonHelper
   def add_material_link(lesson)
     yield_if_author(lesson) { link_to 'Add material', path: '' }
   end
+
+  def selector_with_lessons(params)
+    lessons = params[:lesson].course.lessons.persisted.collect do |lesson|
+      [lesson.title, lesson.id]
+    end
+
+    params[:form].select :parent_id, lessons, { include_blank: true },
+                                              class: 'form-control'
+  end
 end

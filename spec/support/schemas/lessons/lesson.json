@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {"type": "boolean"},
+    "message": {"type":"string"},
+    "object": {
+      "type": "object",
+      "properties": {
+        "id": {"type": "integer"},
+        "title": {"type": "string"},
+        "order": {"type": "integer"},
+        "ideas": {"type": "string"},
+        "summary": {"type": "string"},
+        "check_yourself": {"type": "string"},
+        "user_id": {"type": "integer"},
+        "course_id": {"type": "integer"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "parent_id": {"type": ["integer","null"]}
+      },
+      "required": [
+        "id",
+        "title",
+        "order",
+        "user_id",
+        "course_id",
+        "ideas",
+        "summary",
+        "check_yourself",
+        "created_at",
+        "updated_at",
+        "parent_id"
+      ],
+      "maxProperties": 11
+    }
+  }
+}

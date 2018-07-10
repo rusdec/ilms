@@ -1,4 +1,8 @@
 class Lesson < ApplicationRecord
+  has_closure_tree
+
+  include Persistable
+
   belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 

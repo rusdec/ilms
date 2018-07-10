@@ -1,21 +1,21 @@
 class CourseMaster::LessonsController < CourseMaster::BaseController
   before_action :set_course, only: %i(index new create)
   before_action :set_lesson, only: %i(show destroy update edit)
+  before_action :set_lessons, only: :index
   before_action :require_author_of_course, only: %i(new create)
   before_action :require_author_of_lesson, only: %i(destroy update edit)
 
   include JsonResponsed
 
-  def index
-    @lessons = @course.lessons
-  end
+  def index; end
 
   def edit; end
 
   def show; end
 
   def new
-    @lesson = Lesson.new
+    @lesson = @course.lessons.new
+    @lessons = @course.lessons.persisted
   end
 
   def update
@@ -72,9 +72,13 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
     @lesson = Lesson.find(params[:id])
   end
 
+  def set_lessons
+    @lessons = @course.lessons
+  end
+
   def lesson_params
     params.require(:lesson).permit(
-      :title, :order, :ideas, :summary, :check_yourself
+      :title, :order, :ideas, :summary, :check_yourself, :parent_id
     )
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_06_101614) do
+ActiveRecord::Schema.define(version: 2018_07_10_125030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "lesson_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "lessons_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "lessons_desc_idx"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.bigint "course_id"
     t.bigint "user_id"
@@ -35,6 +43,7 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
     t.integer "order", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
     t.index ["course_id"], name: "index_lessons_on_course_id"
     t.index ["user_id"], name: "index_lessons_on_user_id"
   end
