@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_125030) do
+ActiveRecord::Schema.define(version: 2018_07_10_170636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(version: 2018_07_10_125030) do
     t.index ["user_id"], name: "index_lessons_on_user_id"
   end
 
+  create_table "quests", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.string "title"
+    t.text "description"
+    t.integer "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_quests_on_lesson_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -71,4 +81,5 @@ ActiveRecord::Schema.define(version: 2018_07_10_125030) do
   add_foreign_key "courses", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
+  add_foreign_key "quests", "lessons"
 end
