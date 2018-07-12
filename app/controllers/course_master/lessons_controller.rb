@@ -9,7 +9,9 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
 
   def index; end
 
-  def edit; end
+  def edit
+    @unused_quests = current_user.quests.unused
+  end
 
   def show; end
 
@@ -21,7 +23,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   def update
     respond_to do |format|
       format.json do
-        @lesson.update(lesson_params)
+        @lesson.safe_update(lesson_params)
         json_response_by_result
       end
     end
@@ -77,12 +79,20 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   end
 
   def lesson_params
+
     params.require(:lesson).permit(
-      :title, :order, :ideas, :summary, :check_yourself, :parent_id
+      :title, :order, :ideas, :summary,
+      :check_yourself, :parent_id,
+      unused_quests: [:id, :lesson_id],
+      quests_attributes: [:id, :lesson_id]
     )
   end
 
   def create_lesson
     @lesson = @course.lessons.create(lesson_params.merge(user_id: current_user.id))
+  end
+
+  def update_quests
+    Quest.update_lesson_id(params[:unused_quests]) if params[:unused_quests]
   end
 end

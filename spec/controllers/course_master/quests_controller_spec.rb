@@ -16,6 +16,40 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
     end
   end
 
+  describe 'GET #unused' do
+    before do
+      lesson = create(:course, :with_lesson, author: author).lessons.last
+      lesson.quests << author.quests.last
+      sign_in(author)
+      get :unused, params: { format: :json }
+    end
+
+    it 'unused quests assigns to @quests' do
+      expect(assigns(:quests)).to eq(author.quests.unused)
+    end
+
+    it 'return success objects' do
+      expect(response).to match_json_schema('quests/used/success')
+    end
+  end
+
+  describe 'GET #used' do
+    before do
+      lesson = create(:course, :with_lesson, author: author).lessons.last
+      lesson.quests << author.quests.last
+      sign_in(author)
+      get :used, params: { format: :json }
+    end
+
+    it 'used quests assigns to @quests' do
+      expect(assigns(:quests)).to eq(author.quests.used)
+    end
+
+    it 'return success objects' do
+      expect(response).to match_json_schema('quests/used/success')
+    end
+  end
+
   describe 'GET #new' do
     before do
       sign_in(author)

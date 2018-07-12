@@ -19,4 +19,21 @@ RSpec.describe Quest, type: :model do
   end
 
   it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
+  it { should belong_to(:lesson) }
+
+  it '#unused' do
+    user = create(:course_master, :with_quests)
+    lesson = create(:course, :with_lesson, author: user).lessons.last
+    
+    lesson.quests << user.quests.last
+    expect(user.quests.unused.count).to eq(4)
+  end
+
+  it '#used' do
+    user = create(:course_master, :with_quests)
+    lesson = create(:course, :with_lesson, author: user).lessons.last
+    
+    lesson.quests << user.quests.last
+    expect(user.quests.used.count).to eq(1)
+  end
 end

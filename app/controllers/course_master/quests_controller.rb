@@ -5,11 +5,21 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   before_action :require_author_abilities, only: %i(edit update destroy)
 
   respond_to :html, only: %i(index new edit show)
-  respond_to :json, only: %i(destroy create update)
+  respond_to :json, only: %i(destroy create update used unused)
   before_action :verify_requested_format!
 
   def index
     @quests = current_user.quests
+  end
+
+  def unused
+    @quests = current_user.quests.unused
+    json_response_by_result({ with_serializer: QuestSerializer }, @quests)
+  end
+
+  def used
+    @quests = current_user.quests.used
+    json_response_by_result({ with_serializer: QuestSerializer }, @quests)
   end
 
   def new

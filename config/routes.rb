@@ -22,7 +22,12 @@ Rails.application.routes.draw do
       resources :lessons, shallow: true
     end
 
-    resources :quests, shallow: true
+    resources :quests, shallow: true do
+      collection do
+        get 'used'
+        get 'unused'
+      end
+    end
   end
 
   #
