@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :courses
   has_many :lessons
+  has_many :quests
 
   validates :name, presence: true
   validates :surname, presence: true

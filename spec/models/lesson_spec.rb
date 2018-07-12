@@ -11,8 +11,6 @@ RSpec.describe Lesson, type: :model do
       .is_greater_than_or_equal_to(1)
   end
 
-  it { should have_many(:quests).dependent(:destroy) }
-
   it { should belong_to(:course) }
   it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
 

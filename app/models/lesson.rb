@@ -3,8 +3,6 @@ class Lesson < ApplicationRecord
 
   include Persistable
 
-  has_many :quests, dependent: :destroy
-
   belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 

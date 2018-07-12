@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
 
   it { should have_many(:courses) }
   it { should have_many(:lessons) }
+  it { should have_many(:quests) }
 
   it { should allow_values('User', 'Administrator', 'CourseMaster').for(:type) }
   it { should_not allow_values('Userr', 'Rdministrator', 'ourseMaster').for(:type) }

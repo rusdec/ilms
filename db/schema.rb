@@ -49,13 +49,13 @@ ActiveRecord::Schema.define(version: 2018_07_10_170636) do
   end
 
   create_table "quests", force: :cascade do |t|
-    t.bigint "lesson_id"
+    t.bigint "user_id"
     t.string "title"
     t.text "description"
     t.integer "level"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_quests_on_lesson_id"
+    t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,5 +81,5 @@ ActiveRecord::Schema.define(version: 2018_07_10_170636) do
   add_foreign_key "courses", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
-  add_foreign_key "quests", "lessons"
+  add_foreign_key "quests", "users"
 end

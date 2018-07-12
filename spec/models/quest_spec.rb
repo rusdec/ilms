@@ -18,5 +18,5 @@ RSpec.describe Quest, type: :model do
       .is_less_than_or_equal_to(5)
   end
 
-  it { should belong_to(:lesson) }
+  it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
 end

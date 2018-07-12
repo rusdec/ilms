@@ -1,5 +1,5 @@
 class Quest < ApplicationRecord
-  belongs_to :lesson
+  belongs_to :author, foreign_key: 'user_id', class_name: 'User'
 
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 50 }

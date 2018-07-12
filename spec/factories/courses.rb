@@ -5,13 +5,13 @@ FactoryBot.define do
 
     trait :with_lesson do
       after(:create) do |course|
-        course.lessons.create(attributes_for(:lesson, author: course.author))
+        create(:lesson, course: course, author: course.author)
       end
     end
 
     trait :with_lessons do
       after(:create) do |course|
-        create_list(:lesson, 5, author: course.author, course: course)
+        create_list(:lesson, 5, course: course, author: course.author)
       end
     end
   end
