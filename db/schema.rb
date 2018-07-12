@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_07_10_170636) do
     t.bigint "user_id"
     t.string "title"
     t.text "description"
-    t.integer "level"
+    t.integer "level", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_quests_on_user_id"

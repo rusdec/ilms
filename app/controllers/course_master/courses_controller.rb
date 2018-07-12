@@ -56,7 +56,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   def set_courses
-    @courses = Course.all
+    @courses = current_user.courses
   end
 
   def course_params

@@ -4,6 +4,18 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
   let!(:author) { create(:course_master, :with_quest) }
   let(:quest) { author.quests.last }
 
+  describe 'GET #index' do
+    before do
+      create(:course_master, :with_quests)
+      sign_in(author)
+      get :index
+    end
+    
+    it 'Current users quests assigns to @quests' do
+      expect(assigns(:quests)).to eq(author.quests)
+    end
+  end
+
   describe 'GET #new' do
     before do
       sign_in(author)

@@ -29,7 +29,7 @@ FactoryBot.define do
 
     trait :with_quests do
       after(:create) do |user|
-        create_list(:quest, 5, course: user)
+        create_list(:quest, 5, author: user)
       end
     end
   end

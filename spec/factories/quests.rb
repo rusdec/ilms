@@ -9,4 +9,9 @@ FactoryBot.define do
     title nil
     description nil
   end
+
+  factory :updated_quest, class: Quest do
+    title 'NewQuestTitle'
+    description 'NewQuestDescription'
+  end
 end

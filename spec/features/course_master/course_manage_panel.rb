@@ -1,4 +1,4 @@
-require_relative 'features_helper'
+require_relative '../features_helper'
 
 feature 'Course manage panel', %q{
   As Administrator or Course Master
@@ -25,7 +25,7 @@ feature 'Course manage panel', %q{
         scenario 'see manage sections' do
           visit course_master_path
 
-          %w(Courses).each do |section|
+          %w(Courses Quests).each do |section|
             expect(page).to have_content(section)
           end
         end

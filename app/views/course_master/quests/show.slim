@@ -1,0 +1,23 @@
+.row
+  . class='col text-center'
+    h2.page-title= @quest.title
+    = quest_remote_links(@quest)
+
+.row
+  .col
+    h4= 'Title'
+    p= @quest.title
+
+.row
+  .col
+    h4= 'Level'
+    p= @quest.level
+
+.row
+  .col
+    h4= 'Description'
+    p= @quest.description
+
+.row
+  . class='col text-rigth'
+  = link_to 'Back to quests', course_master_quests_path

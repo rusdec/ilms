@@ -4,9 +4,13 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   before_action :set_quest, only: %i(edit show update destroy)
   before_action :require_author_abilities, only: %i(edit update destroy)
 
-  respond_to :html, only: %i(new edit show)
+  respond_to :html, only: %i(index new edit show)
   respond_to :json, only: %i(destroy create update)
   before_action :verify_requested_format!
+
+  def index
+    @quests = current_user.quests
+  end
 
   def new
     @quest = current_user.quests.new
@@ -16,7 +20,7 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def create
     @quest = current_user.quests.create(quest_params)
-    json_response_by_result(location: :course_master_quest_path,
+    json_response_by_result(with_location: :course_master_quest_url,
                             with_flash: true,
                             without_object: true)
   end
@@ -30,7 +34,9 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def destroy
     @quest.destroy
-    json_response_by_result(without_object: true)
+    json_response_by_result(with_location: :course_master_quests_url,
+                            with_flash: true,
+                            without_object: true)
   end
 
   protected
