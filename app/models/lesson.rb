@@ -7,6 +7,7 @@ class Lesson < ApplicationRecord
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
   has_many :quests
+  has_many :quest_groups
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }

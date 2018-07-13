@@ -20,4 +20,22 @@ RSpec.describe Quest, type: :model do
 
   it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
   it { should belong_to(:lesson) }
+
+  context 'Alternative quests' do
+    it { should have_many(:alternative_quests) }
+    it do
+      should have_many(:alternatives)
+        .through(:alternative_quests)
+        .source(:alternative_quest)
+    end
+
+    it '.alternatives' do
+      lesson = create(:course_master, :with_course_and_lesson_and_quest).lessons.last
+      quest = lesson.quests.last
+      quests = create_list(:quest, 3, lesson: lesson, author: lesson.author)
+      quest.alternatives << quests
+
+      expect(quest.alternatives).to eq(quests)
+    end
+  end
 end

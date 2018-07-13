@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_12_122805) do
+ActiveRecord::Schema.define(version: 2018_07_13_163232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alternative_quests", force: :cascade do |t|
+    t.bigint "quest_id"
+    t.integer "alternative_quest_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_id", "alternative_quest_id"], name: "index_alternative_quests_on_quest_id_and_alternative_quest_id", unique: true
+    t.index ["quest_id"], name: "index_alternative_quests_on_quest_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
@@ -48,13 +57,6 @@ ActiveRecord::Schema.define(version: 2018_07_12_122805) do
     t.index ["user_id"], name: "index_lessons_on_user_id"
   end
 
-  create_table "quest_groups", force: :cascade do |t|
-    t.bigint "lesson_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_quest_groups_on_lesson_id"
-  end
-
   create_table "quests", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -62,10 +64,8 @@ ActiveRecord::Schema.define(version: 2018_07_12_122805) do
     t.integer "level", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "quest_group_id"
     t.bigint "lesson_id"
     t.index ["lesson_id"], name: "index_quests_on_lesson_id"
-    t.index ["quest_group_id"], name: "index_quests_on_quest_group_id"
     t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
@@ -89,11 +89,10 @@ ActiveRecord::Schema.define(version: 2018_07_12_122805) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "alternative_quests", "quests"
   add_foreign_key "courses", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
-  add_foreign_key "quest_groups", "lessons"
   add_foreign_key "quests", "lessons"
-  add_foreign_key "quests", "quest_groups"
   add_foreign_key "quests", "users"
 end
