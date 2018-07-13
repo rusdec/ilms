@@ -2,6 +2,7 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   include JsonResponsed
 
   before_action :set_quest, only: %i(edit show update destroy)
+  before_action :set_lesson, only: %i(create new)
   before_action :require_author_abilities, only: %i(edit update destroy)
 
   respond_to :html, only: %i(index new edit show)
@@ -12,24 +13,14 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
     @quests = current_user.quests
   end
 
-  def unused
-    @quests = current_user.quests.unused
-    json_response_by_result({ with_serializer: QuestSerializer }, @quests)
-  end
-
-  def used
-    @quests = current_user.quests.used
-    json_response_by_result({ with_serializer: QuestSerializer }, @quests)
-  end
-
   def new
-    @quest = current_user.quests.new
+    @quest = current_user.quests.new(lesson: @lesson)
   end
 
   def edit; end
 
   def create
-    @quest = current_user.quests.create(quest_params)
+    @quest = current_user.quests.create(quest_params.merge(lesson: @lesson))
     json_response_by_result(with_location: :course_master_quest_url,
                             with_flash: true,
                             without_object: true)
@@ -44,9 +35,10 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def destroy
     @quest.destroy
-    json_response_by_result(with_location: :course_master_quests_url,
-                            with_flash: true,
-                            without_object: true)
+    json_response_by_result({ with_location: :course_master_lesson_url,
+                              with_flash: true,
+                              without_object: true },
+                            @quest.lesson)
   end
 
   protected
@@ -57,6 +49,10 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def set_quest
     @quest = Quest.find(params[:id])
+  end
+
+  def set_lesson
+    @lesson = Lesson.find(params[:lesson_id])
   end
 
   def quest_params

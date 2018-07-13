@@ -36,6 +36,9 @@
       - @lesson.quests.each do |quest|
         li
           = link_to quest.title, course_master_quest_path(quest)
+.row
+  .col
+    = add_quest_link(@lesson)
 
 .row
   . class='col text-right'

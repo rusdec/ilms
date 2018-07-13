@@ -14,6 +14,12 @@ FactoryBot.define do
         create_list(:lesson, 5, course: course, author: course.author)
       end
     end
+
+    trait :with_lesson_and_quest do
+      after(:create) do |course|
+        create(:lesson, :with_quest, course: course, author: course.author)
+      end
+    end
   end
 
   factory :invalid_course, class: Course do

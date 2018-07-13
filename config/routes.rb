@@ -19,13 +19,8 @@ Rails.application.routes.draw do
   namespace :course_master do
     concerns :home
     resources :courses do
-      resources :lessons, shallow: true
-    end
-
-    resources :quests, shallow: true do
-      collection do
-        get 'used'
-        get 'unused'
+      resources :lessons, shallow: true do
+        resources :quests, shallow: true
       end
     end
   end

@@ -1,17 +1,16 @@
 class CourseMaster::LessonsController < CourseMaster::BaseController
   before_action :set_course, only: %i(index new create)
   before_action :set_lesson, only: %i(show destroy update edit)
-  before_action :set_lessons, only: :index
   before_action :require_author_of_course, only: %i(new create)
   before_action :require_author_of_lesson, only: %i(destroy update edit)
 
   include JsonResponsed
 
-  def index; end
-
-  def edit
-    @unused_quests = current_user.quests.unused
+  def index
+    @lessons = @course.lessons
   end
+
+  def edit; end
 
   def show; end
 
@@ -23,7 +22,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   def update
     respond_to do |format|
       format.json do
-        @lesson.safe_update(lesson_params)
+        @lesson.update(lesson_params)
         json_response_by_result
       end
     end
@@ -74,25 +73,12 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
     @lesson = Lesson.find(params[:id])
   end
 
-  def set_lessons
-    @lessons = @course.lessons
-  end
-
   def lesson_params
-
-    params.require(:lesson).permit(
-      :title, :order, :ideas, :summary,
-      :check_yourself, :parent_id,
-      unused_quests: [:id, :lesson_id],
-      quests_attributes: [:id, :lesson_id]
-    )
+    params.require(:lesson).permit(:title, :order, :ideas, :summary,
+                                   :check_yourself, :parent_id)
   end
 
   def create_lesson
     @lesson = @course.lessons.create(lesson_params.merge(user_id: current_user.id))
-  end
-
-  def update_quests
-    Quest.update_lesson_id(params[:unused_quests]) if params[:unused_quests]
   end
 end

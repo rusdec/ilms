@@ -5,7 +5,7 @@ feature 'Edit quest', %q{
   I can update quest
   so that I can change quest detail data
 } do
-  given!(:user) { create(:course_master, :with_quest) }
+  given!(:user) { create(:course_master, :with_course_and_lesson_and_quest) }
   given(:quest) { user.quests.last }
 
   context 'when author' do

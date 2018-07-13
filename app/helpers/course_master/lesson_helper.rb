@@ -16,7 +16,9 @@ module CourseMaster::LessonHelper
   end
 
   def add_quest_link(lesson)
-    yield_if_author(lesson) { link_to 'Add quest', path: '' }
+    yield_if_author(lesson) do
+      link_to 'Add quest', new_course_master_lesson_quest_path(lesson)
+    end
   end
 
   def add_material_link(lesson)

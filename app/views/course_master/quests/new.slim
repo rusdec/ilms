@@ -2,6 +2,6 @@
 .row
   .col
     = render partial: 'form',
-             locals: { model: [:course_master, @quest],
+             locals: { model: [:course_master, @lesson, @quest],
                        link_back: secondary_button(text: 'Cancel',
-                                                   path: course_master_quests_path) }
+                                                   path: course_master_lesson_path(@lesson)) }

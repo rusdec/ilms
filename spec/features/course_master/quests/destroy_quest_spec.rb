@@ -6,7 +6,7 @@ feature 'Destory quest', %q{
   so that I no one had any access to it
 } do
 
-  given!(:user) { create(:course_master, :with_quest) }
+  given!(:user) { create(:course_master, :with_course_and_lesson_and_quest) }
   given(:quest) { user.quests.last }
 
   context 'when author' do

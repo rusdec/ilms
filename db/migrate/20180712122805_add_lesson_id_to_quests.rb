@@ -1,6 +1,7 @@
 class AddLessonIdToQuests < ActiveRecord::Migration[5.2]
   def change
-    add_column :quests, :lesson_id, :integer, null: true
-    add_index :quests, :lesson_id
+    change_table :quests do |t|
+      t.references :lesson, foreign_key: true
+    end
   end
 end

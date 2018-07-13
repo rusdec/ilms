@@ -6,21 +6,14 @@ RSpec.describe CourseMaster::HomeController, type: :controller do
 
   describe 'GET #index' do
     let!(:courses) { create_list(:course, 5, author: user) }
-    let!(:quests) { create_list(:quest, 5, author: user) }
     before do
-      %i(course quest).each do |resourse|
-        create_list(resourse, 2, author: create(:course_master))
-      end
+      create_list(:course, 2, author: create(:course_master))
       sign_in(user)
       get :index
     end
 
     it 'user Course assigns to @courses' do
       expect(assigns(:courses)).to eq(courses)
-    end
-
-    it 'user Quest assigns to @quests' do
-      expect(assigns(:quests)).to eq(quests)
     end
   end
 

@@ -5,7 +5,7 @@ feature 'Show quest', %q{
   I can view quest page
   so that I can see quests detail
 } do
-  given!(:user) { create(:course_master, :with_quest) }
+  given!(:user) { create(:course_master, :with_course_and_lesson_and_quest) }
   given(:quest) { user.quests.last }
 
   context 'when author' do
@@ -45,7 +45,7 @@ feature 'Show quest', %q{
   context 'when User' do
     before do
       sign_in(create(:user))
-      visit new_course_master_quest_path
+      visit course_master_quest_path(quest)
     end
 
     scenario 'see error' do

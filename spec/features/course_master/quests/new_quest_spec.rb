@@ -5,12 +5,13 @@ feature 'New quest', %q{
   I can create new quest
   so that I can use it in the future
 } do
-  given(:user) { create(:course_master) }
+  given(:user) { create(:course_master, :with_course_and_lesson) }
+  given(:lesson) { user.lessons.last }
 
   context 'when CourseMaster' do
     before do
       sign_in(user)
-      visit new_course_master_quest_path
+      visit new_course_master_lesson_quest_path(lesson)
     end
 
     context 'with valid data' do
@@ -49,7 +50,7 @@ feature 'New quest', %q{
   context 'when User' do
     before do
       sign_in(create(:user))
-      visit new_course_master_quest_path
+      visit new_course_master_lesson_quest_path(lesson)
     end
 
     scenario 'can\'t create quest' do

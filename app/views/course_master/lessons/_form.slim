@@ -20,26 +20,6 @@
                                    class: 'form-control small'
 
   .form-group
-    h4= 'Quests'
-
-    .form-group
-      h5= 'Used in lesson'
-      = f.fields_for :quests do |q|
-        . class='form-group small'
-          = q.check_box :lesson_id, { checked: true, class: 'mr-1' }, f.object.id, ''
-          = link_to q.object.title, course_master_quest_path(q.object), target: '_blank'
-
-    .form-group
-      h5= 'Unused'
-      - @unused_quests.each_with_index do |q, i|
-        . class='form-group small'
-          = tag.input q.title, { type: 'checkbox',
-                                 name: "lesson[unused_quests][#{i}][lesson_id]",
-                                 class: 'mr-1',
-                                 value: f.object.id }
-          = hidden_field_tag "lesson[unused_quests][#{i}][id]", q.id
-      
-  .form-group
     = f.label 'Will opened after lesson', for: :parent_id
     = selector_with_lessons(form: f, lesson: @lesson)
                                             

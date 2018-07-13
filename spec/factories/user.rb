@@ -13,6 +13,14 @@ FactoryBot.define do
       after(:create) { |user| create_list(:course, 5, author: user) }
     end
 
+    trait :with_course_and_lesson do
+      after(:create) { |user| create(:course, :with_lesson, author: user) }
+    end
+
+    trait :with_course_and_lesson_and_quest do
+      after(:create) { |user| create(:course, :with_lesson_and_quest, author: user) }
+    end
+
     factory :administrator, class: Administrator do
       type 'Administrator'
     end

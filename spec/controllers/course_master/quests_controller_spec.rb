@@ -1,59 +1,14 @@
 require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::QuestsController, type: :controller do
-  let!(:author) { create(:course_master, :with_quest) }
+  let!(:author) { create(:course_master, :with_course_and_lesson_and_quest) }
   let(:quest) { author.quests.last }
-
-  describe 'GET #index' do
-    before do
-      create(:course_master, :with_quests)
-      sign_in(author)
-      get :index
-    end
-    
-    it 'Current users quests assigns to @quests' do
-      expect(assigns(:quests)).to eq(author.quests)
-    end
-  end
-
-  describe 'GET #unused' do
-    before do
-      lesson = create(:course, :with_lesson, author: author).lessons.last
-      lesson.quests << author.quests.last
-      sign_in(author)
-      get :unused, params: { format: :json }
-    end
-
-    it 'unused quests assigns to @quests' do
-      expect(assigns(:quests)).to eq(author.quests.unused)
-    end
-
-    it 'return success objects' do
-      expect(response).to match_json_schema('quests/used/success')
-    end
-  end
-
-  describe 'GET #used' do
-    before do
-      lesson = create(:course, :with_lesson, author: author).lessons.last
-      lesson.quests << author.quests.last
-      sign_in(author)
-      get :used, params: { format: :json }
-    end
-
-    it 'used quests assigns to @quests' do
-      expect(assigns(:quests)).to eq(author.quests.used)
-    end
-
-    it 'return success objects' do
-      expect(response).to match_json_schema('quests/used/success')
-    end
-  end
+  let(:lesson) { quest.lesson }
 
   describe 'GET #new' do
     before do
       sign_in(author)
-      get :new
+      get :new, params: { lesson_id: lesson }
     end
 
     it 'New Quest assigns to @quest' do
@@ -62,6 +17,10 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
 
     it 'New Quest related with author' do
       expect(assigns(:quest).author).to eq(author)
+    end
+
+    it 'New Quest related with lesson' do
+      expect(assigns(:quest).lesson).to eq(author.lessons.last)
     end
   end
 
@@ -115,36 +74,37 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
 
   describe 'POST #create' do
     before { sign_in(author) }
+    let(:params) { { lesson_id: lesson, quest: {}, format: :json } }
 
     context 'with valid data' do
-      let(:attributes) { attributes_for(:quest) }
+      before { params[:quest] = attributes_for(:quest) }
 
       context 'when json' do
         it 'can create quest' do
           expect{
-            post :create, params: { quest: attributes, format: :json }
+            post :create, params: params
           }.to change(author.quests, :count).by(1)
         end
 
         it 'return success object' do
-          post :create, params: { quest: attributes, format: :json }
+          post :create, params: params
           expect(response).to match_json_schema('quests/create/success')
         end
       end
     end # context 'with valid data'
 
     context 'with invalid data' do
-      let(:attributes) { attributes_for(:invalid_quest) }
+      before { params[:quest] = attributes_for(:invalid_quest) }
 
       context 'when json' do
         it 'can\'t create quest' do
           expect{
-            post :create, params: { quest: attributes, format: :json }
+            post :create, params: params
           }.to_not change(author.quests, :count)
         end
 
         it 'return error object' do
-          post :create, params: { quest: attributes, format: :json }
+          post :create, params: params
           expect(response).to match_json_schema('shared/errors')
         end
       end
