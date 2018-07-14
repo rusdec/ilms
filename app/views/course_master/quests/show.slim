@@ -15,6 +15,11 @@
 
 .row
   .col
+    h4= 'Alternatives'
+    = quest_alternatives(@quest) 
+
+.row
+  .col
     h4= 'Description'
     p= @quest.description
 

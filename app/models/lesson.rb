@@ -9,8 +9,10 @@ class Lesson < ApplicationRecord
   has_many :quests
   has_many :quest_groups
 
+
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
   validates :order, numericality: { only_integer: true,
                                     greater_than_or_equal_to: 1 }
+
 end

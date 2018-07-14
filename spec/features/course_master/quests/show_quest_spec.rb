@@ -11,6 +11,10 @@ feature 'Show quest', %q{
   context 'when author' do
     before do
       sign_in(user)
+      create(:quest, lesson: quest.lesson,
+                     author: quest.author,
+                     title: 'OtherQuestTitle',
+                     quest_group: quest.quest_group)
       visit course_master_quest_path(quest)
     end
 
@@ -18,6 +22,11 @@ feature 'Show quest', %q{
       [quest.title, quest.description, quest.level].each do |text|
         expect(page).to have_content(text)
       end
+    end
+
+    scenario 'no see link to self in section of alternative quests' do
+      expect(page).to_not have_link(quest.title)
+      expect(page).to have_link('OtherQuestTitle')
     end
 
     scenario 'can see remote links' do

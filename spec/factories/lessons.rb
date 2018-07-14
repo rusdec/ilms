@@ -7,7 +7,7 @@ FactoryBot.define do
 
     trait :with_quest do
       after(:create) do |lesson|
-        create(:quest, lesson: lesson, author: lesson.author)
+        create(:quest, :with_quest_group, lesson: lesson, author: lesson.author)
       end
     end
   end

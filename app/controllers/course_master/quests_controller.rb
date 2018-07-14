@@ -17,10 +17,12 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
     @quest = current_user.quests.new(lesson: @lesson)
   end
 
-  def edit; end
+  def edit
+    @lesson = @quest.lesson
+  end
 
   def create
-    @quest = current_user.quests.create(quest_params.merge(lesson: @lesson))
+    @quest = QuestForm.new.create(params.merge(user: current_user))
     json_response_by_result(with_location: :course_master_quest_url,
                             with_flash: true,
                             without_object: true)
@@ -29,12 +31,12 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   def show; end
 
   def update
-    @quest.update(quest_params)
+    @quest = QuestForm.new(quest: @quest).update(params)
     json_response_by_result(with_serializer: QuestSerializer)
   end
 
   def destroy
-    @quest.destroy
+    @quest = QuestForm.new(quest: @quest).destroy
     json_response_by_result({ with_location: :course_master_lesson_url,
                               with_flash: true,
                               without_object: true },
@@ -42,6 +44,18 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   end
 
   protected
+
+  def update_quest
+    ActiveRecord::Base.transaction do
+      params = quest_params
+      params[:quest_group_id] ||= create_group
+      @quest.update!(params)
+    end
+  end
+
+  def create_group
+    @lesson.quest_groups.create!
+  end
 
   def require_author_abilities
     authorize! :author, @quest
@@ -56,6 +70,6 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   end
 
   def quest_params
-    params.require(:quest).permit(:title, :description, :level)
+    params.require(:quest).permit(:title, :description, :level, :quest_group_id)
   end
 end

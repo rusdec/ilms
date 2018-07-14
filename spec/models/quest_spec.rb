@@ -20,22 +20,34 @@ RSpec.describe Quest, type: :model do
 
   it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
   it { should belong_to(:lesson) }
+  it { should belong_to(:quest_group) }
 
-  context 'Alternative quests' do
-    it { should have_many(:alternative_quests) }
-    it do
-      should have_many(:alternatives)
-        .through(:alternative_quests)
-        .source(:alternative_quest)
+  context 'Using quest_group parameter' do
+    let(:user) { create(:course_master, :with_course_and_lesson) }
+    let(:lesson) { user.lessons.last }
+    let(:quest_group) { create(:quest_group, lesson: lesson) }
+    let(:params) { { lesson: lesson, quest_group: quest_group, author: user } }
+
+    context '.alternatives' do
+      it 'should have 5 alternative quests' do
+        quest = create(:quest, params)
+        quests = create_list(:quest, 5, params)
+        params[:quest_group] = create(:quest_group, lesson: lesson)
+        create_list(:quest, 3, params)
+
+        expect(quest.alternatives).to eq(quests)
+      end
     end
 
-    it '.alternatives' do
-      lesson = create(:course_master, :with_course_and_lesson_and_quest).lessons.last
-      quest = lesson.quests.last
-      quests = create_list(:quest, 3, lesson: lesson, author: lesson.author)
-      quest.alternatives << quests
+    context '.has_alternatives' do
+      it 'should have alternatives' do
+        create_list(:quest, 5, params)
+        expect(create(:quest, params)).to have_alternatives
+      end
 
-      expect(quest.alternatives).to eq(quests)
+      it 'should not have alternatives' do
+        expect(create(:quest, params)).to_not have_alternatives
+      end
     end
   end
 end

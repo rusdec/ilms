@@ -7,6 +7,12 @@ feature 'Edit quest', %q{
 } do
   given!(:user) { create(:course_master, :with_course_and_lesson_and_quest) }
   given(:quest) { user.quests.last }
+  given(:lesson) { quest.lesson }
+  given!(:other_quest) do
+    create(:quest, :with_quest_group, lesson: quest.lesson,
+                                      author: quest.author,
+                                      title: 'OtherQuestTitle')
+  end
 
   context 'when author' do
     before do
@@ -25,6 +31,17 @@ feature 'Edit quest', %q{
         click_on 'Update Quest'
 
         expect(page).to have_content('Success')
+      end
+
+      scenario 'can change alternative quest', js: true do
+        expect(find("#quest_quest_group_id_#{quest.quest_group.id}")).to be_checked
+        expect(page).to have_link(other_quest.title)
+        choose option: other_quest.id
+        click_on 'Update Quest'
+        refresh
+        expect(find("#quest_quest_group_id_#{other_quest.quest_group.id}")).to be_checked
+        expect(page).to have_link(other_quest.title)
+        expect(page).to have_content('none')
       end
     end # context  'with valid data'
 

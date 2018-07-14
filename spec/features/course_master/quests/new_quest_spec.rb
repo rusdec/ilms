@@ -5,8 +5,9 @@ feature 'New quest', %q{
   I can create new quest
   so that I can use it in the future
 } do
-  given(:user) { create(:course_master, :with_course_and_lesson) }
+  given(:user) { create(:course_master, :with_course_and_lesson_and_quest) }
   given(:lesson) { user.lessons.last }
+  given!(:default_quest) { lesson.quests.last }
 
   context 'when CourseMaster' do
     before do
@@ -16,17 +17,40 @@ feature 'New quest', %q{
 
     context 'with valid data' do
       given(:attributes) { attributes_for(:quest) }
-
-      scenario 'can create quest', js: true do
-        expect(page).to have_content('New quest')
-
+      before do
         fill_in 'Title', with: attributes[:title]
         fill_in 'Description', with: attributes[:description]
-        click_on 'Create Quest'
+      end
 
-        expect(page).to have_content('Success')
-        expect(page).to have_content(attributes[:title])
-        expect(page).to have_content(attributes[:description])
+      context 'when alternative quest changed to none' do
+        scenario 'can create quest', js: true do
+          expect(page).to have_content('New quest')
+          expect(page).to have_content('none')
+
+          choose id: 'quest_quest_group_id'
+          click_on 'Create Quest'
+
+          expect(page).to have_content('Success')
+          expect(page).to have_content(attributes[:title])
+          expect(page).to have_content(attributes[:description])
+          expect(page).to_not have_link(default_quest.title)
+          expect(page).to_not have_link(attributes[:title])
+        end
+      end
+      
+      context 'when changed alternative quest' do
+        scenario 'can create quest', js: true do
+          expect(page).to have_content('New quest')
+
+          choose option: default_quest.id
+          click_on 'Create Quest'
+
+          expect(page).to have_content('Success')
+          expect(page).to have_content(attributes[:title])
+          expect(page).to have_content(attributes[:description])
+          expect(page).to have_link(default_quest.title)
+          expect(page).to_not have_link(attributes[:title])
+        end
       end
     end
 

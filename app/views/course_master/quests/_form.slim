@@ -13,6 +13,10 @@
     = f.text_field :level, autocomplete: 'level',
                            placeholder: 'Level',
                            class: 'form-control small'
+
+  . class='form-group small'
+    = f.label :quest_group_id, 'Alternative quest for'
+    = selector_with_quest_alternatives(form: f, quest: @quest)
   
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
