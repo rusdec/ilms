@@ -1,26 +1,27 @@
 class QuestForm
-  delegate(
-    :id,
-    :title,
-    :level,
-    :author,
-    :errors,
-    :lesson_id,
-    :description,
-    :quest_group_id,
-    to: :quest
-  )
+  include ActiveModel::Serialization
+
+  delegate :id, :title, :level, :description,
+           :lesson_id, :quest_group_id, to: :quest
+
+  delegate :created_at, :updated_at, :quest_group,
+           :persisted?, :errors, :lesson, to: :quest
 
   attr_accessor :quest
 
-  def initialize(args = {})
-    self.quest = args[:quest] || Quest.new
+  def initialize(object = nil)
+    raise 'QuestForm parameter object is nil' if object.nil?
+    self.quest = object
   end
 
   def create(params = nil)
     assign(params) if params
-    save if quest.valid?
-    quest
+    if quest.valid?
+      save
+      true
+    else
+      false
+    end
   end
 
   def update(params = nil)
@@ -29,39 +30,55 @@ class QuestForm
     if quest.valid?
       save
       old_quest_group.destroy_if_empty
+      true
+    else
+      false
     end
-    quest
   end
 
   def destroy
     quest.destroy
     quest.quest_group.destroy_if_empty
-    quest
+  end
+
+  def quest_groups
+    quests = {}
+    lesson.quests.each do |quest|
+      quests[quest.quest_group_id] ||= []
+      quests[quest.quest_group_id] << quest
+    end
+    quests = quests.collect do |group_id, quests|
+      is_current_quest_group = false
+      if quests.include?(quest)
+        quests = quests.reject { |q| q == quest }
+        is_current_quest_group = true
+      end
+
+      OpenStruct.new(
+        id: group_id,
+        quests: quests,
+        current_quest_group: is_current_quest_group
+      )
+    end
+
+    # add empty "group" for form
+    if quest.has_alternatives? || quest.new_record?
+      quests << OpenStruct.new(id: nil, quests: [])
+    end
+
+    quests
   end
 
   private
 
   def save
-    set_quest_group
+    self.quest.quest_group ||= lesson.quest_groups.create
     quest.save
-  end
-
-  def set_quest_group
-    self.quest.quest_group ||= create_quest_group
-  end
-
-  def destroy_quest_group_if_empty
-    quest.quest_group.destroy_if_empty
-  end
-  def create_quest_group
-    QuestGroup.create(lesson_id: lesson_id)
+    quest.reload
   end
 
   def assign(params)
     params.permit!
-
-    self.quest.author = params[:user] if params[:user]
-    self.quest.lesson_id = params[:lesson_id] if params[:lesson_id]
     self.quest.assign_attributes(params[:quest])
   end
 end

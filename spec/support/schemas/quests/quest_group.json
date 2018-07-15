@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integet"},
+    "lesson_id": {"type": "integet"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "required": ["id", "lesson_id", "created_at", "updated_at"],
+  "maxProperties": 4
+}

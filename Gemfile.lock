@@ -144,6 +144,8 @@ GEM
     minitest (5.11.3)
     msgpack (1.2.4)
     multi_json (1.13.1)
+    mustache-js-rails (2.3.0.1)
+      railties (>= 3.1, < 6)
     nio4r (2.3.1)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
@@ -307,6 +309,7 @@ DEPENDENCIES
   jquery-rails
   json_matchers
   listen (>= 3.0.5, < 3.2)
+  mustache-js-rails
   pg (~> 0.21)
   puma (~> 3.11)
   rails (~> 5.2.0)

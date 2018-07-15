@@ -46,6 +46,7 @@ gem 'slim-rails'
 gem 'responders'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'closure_tree'
+gem 'mustache-js-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

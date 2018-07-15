@@ -32,43 +32,31 @@ module CourseMaster::QuestHelper
   end
 
   def radio_quest_group(params)
-    quests = params[:group].quests
-    quest = params[:quest]
     group = params[:group]
+    form = params[:form]
+
+    checked = group.current_quest_group ? 'checked' : ''
 
     content_tag :div, class: 'form-check' do
-      concat(params[:form].radio_button :quest_group_id, group.id,
-                                        { class: 'form-check-input',
-                                          checked: quests.include?(quest) })
-      concat(quests_to_links(quest, group.quests).join(', ').html_safe)
+      concat(form.radio_button :quest_group_id, group.id,
+                               { class: 'form-check-input', checked: checked })
+      concat(group_quests_to_links(group).join(', ').html_safe)
     end
   end
 
-  def quests_to_links(current_quest, quests)
-    quests = quests.reject { |q| q == current_quest }
-    if quests.empty?
+  def group_quests_to_links(group)
+    if group.quests.empty?
       ['none']
     else
-      quests.map do |quest|
+      group.quests.map do |quest|
         link_to quest.title, course_master_quest_path(quest), target: '_blank' 
       end
     end
   end
 
-  def selector_with_quest_alternatives(params)
-    quest = params[:quest]
-    quest_groups = quest.lesson.quest_groups
-    return if quest_groups.empty?
-    
-    quest_groups.new if quest&.has_alternatives? || !quest.persisted?
-    
-    groups = quest_groups.collect do |group|
-      radio_quest_group(list: quests_to_links(quest, group.quests),
-                        group: group,
-                        quest: quest,
-                        form: params[:form])
-    end
-    
-    groups.join('').html_safe
+  def alternative_quest_for_selector(params)
+    params[:quest_groups].collect do |group|
+      radio_quest_group(group: group, form: params[:form])
+    end.join('').html_safe
   end
 end

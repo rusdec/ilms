@@ -11,16 +11,16 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
       get :new, params: { lesson_id: lesson }
     end
 
-    it 'New Quest assigns to @quest' do
-      expect(assigns(:quest)).to be_a_new(Quest)
+    it 'New Quest assigns to @quest_form.quest' do
+      expect(assigns(:quest_form).quest).to be_a_new(Quest)
     end
 
     it 'New Quest related with author' do
-      expect(assigns(:quest).author).to eq(author)
+      expect(assigns(:quest_form).quest.author).to eq(author)
     end
 
     it 'New Quest related with lesson' do
-      expect(assigns(:quest).lesson).to eq(author.lessons.last)
+      expect(assigns(:quest_form).quest.lesson).to eq(author.lessons.last)
     end
   end
 

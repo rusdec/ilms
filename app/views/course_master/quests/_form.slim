@@ -16,7 +16,8 @@
 
   . class='form-group small'
     = f.label :quest_group_id, 'Alternative quest for'
-    = selector_with_quest_alternatives(form: f, quest: @quest)
+    .quest-groups
+      = alternative_quest_for_selector(quest_groups: @quest_form.quest_groups, form: f)
   
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
