@@ -17,6 +17,8 @@ RSpec.describe Lesson, type: :model do
   it { should have_many(:quests) }
   it { should have_many(:quest_groups) }
 
+  it { should have_many(:materials) }
+
   it { should be_a_closure_tree }
   it_should_behave_like 'persistable', Lesson.all
 end

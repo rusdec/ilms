@@ -8,6 +8,7 @@ class Lesson < ApplicationRecord
 
   has_many :quests
   has_many :quest_groups
+  has_many :materials
 
 
   validates :title, presence: true
