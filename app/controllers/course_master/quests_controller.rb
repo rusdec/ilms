@@ -36,9 +36,10 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   def destroy
     @quest_form.destroy
     json_response_by_result({ with_location: :course_master_lesson_url,
+                              location_object: @quest_form.lesson,
                               with_flash: true,
                               without_object: true },
-                            @quest_form.lesson)
+                              @quest_form.quest)
   end
 
   protected

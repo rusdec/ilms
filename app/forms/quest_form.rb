@@ -15,30 +15,16 @@ class QuestForm
   end
 
   def create(params = nil)
-    assign(params) if params
-    if quest.valid?
-      save
-      true
-    else
-      false
-    end
+    save(params)
   end
 
   def update(params = nil)
-    old_quest_group = quest.quest_group
-    assign(params) if params
-    if quest.valid?
-      save
-      old_quest_group.destroy_if_empty
-      true
-    else
-      false
-    end
+    save(params)
+    quest.reload
   end
 
   def destroy
     quest.destroy
-    quest.quest_group.destroy_if_empty
   end
 
   def quest_groups
@@ -71,10 +57,9 @@ class QuestForm
 
   private
 
-  def save
-    self.quest.quest_group ||= lesson.quest_groups.create
+  def save(params)
+    assign(params) if params
     quest.save
-    quest.reload
   end
 
   def assign(params)

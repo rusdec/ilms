@@ -167,7 +167,7 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
         before { params[:format] = :json }
 
         context 'with valid data' do
-          before { params[:material] = attributes_for(:material) }
+          before { params[:material] = attributes_for(:material_high_order) }
 
           it 'can create material' do
             expect{

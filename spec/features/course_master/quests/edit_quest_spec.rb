@@ -9,9 +9,9 @@ feature 'Edit quest', %q{
   given(:quest) { user.quests.last }
   given(:lesson) { quest.lesson }
   given!(:other_quest) do
-    create(:quest, :with_quest_group, lesson: quest.lesson,
-                                      author: quest.author,
-                                      title: 'OtherQuestTitle')
+    create(:quest, lesson: quest.lesson,
+                   author: quest.author,
+                   title: 'OtherQuestTitle')
   end
 
   context 'when author' do
