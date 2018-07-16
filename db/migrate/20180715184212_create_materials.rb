@@ -6,7 +6,7 @@ class CreateMaterials < ActiveRecord::Migration[5.2]
       t.string :title
       t.text :body
       t.text :summary
-      t.integer :order
+      t.integer :order, default: 1
 
       t.timestamps
     end

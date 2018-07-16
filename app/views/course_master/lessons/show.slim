@@ -24,6 +24,9 @@
   .col
     h4= 'Materials'
     ul
+      - @lesson.materials.each do |material|
+        li
+          = link_to material.title, course_master_material_path(material)
       
 .row
   .col

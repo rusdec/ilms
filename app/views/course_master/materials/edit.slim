@@ -1,0 +1,7 @@
+= page_title('Edit material')
+.row
+  .col
+    = render partial: 'form',
+             locals: { model: [:course_master, @material],
+                       link_back: secondary_button(text: 'Cancel',
+                                                   path: course_master_material_path(@material)) }

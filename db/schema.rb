@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2018_07_15_184212) do
     t.string "title"
     t.text "body"
     t.text "summary"
-    t.integer "order"
+    t.integer "order", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["lesson_id"], name: "index_materials_on_lesson_id"

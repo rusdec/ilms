@@ -12,7 +12,9 @@ FactoryBot.define do
     end
 
     after(:create) do |lesson|
-      create_list(:material, 5, lesson: lesson, author: lesson.author)
+      1.upto(5) do |n|
+        create(:material, lesson: lesson, author: lesson.author, order: n)
+      end
     end
   end
 

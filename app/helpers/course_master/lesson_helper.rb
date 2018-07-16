@@ -4,15 +4,7 @@ module CourseMaster::LessonHelper
   end
 
   def lesson_remote_links(lesson)
-    yield_if_author(lesson) do
-      content_tag :span, class: 'remote-links small' do
-        concat(link_to 'Edit', edit_course_master_lesson_path(lesson))
-        concat(link_to 'Delete', course_master_lesson_path(lesson),
-                                 class: "destroy_#{underscored_klass(lesson)}",
-                                 method: :delete,
-                                 remote: true)
-      end
-    end
+    remote_links([lesson])
   end
 
   def add_quest_link(lesson)
@@ -22,7 +14,9 @@ module CourseMaster::LessonHelper
   end
 
   def add_material_link(lesson)
-    yield_if_author(lesson) { link_to 'Add material', path: '' }
+    yield_if_author(lesson) do
+      link_to 'Add material', new_course_master_lesson_material_path(lesson)
+    end
   end
 
   def selector_with_lessons(params)

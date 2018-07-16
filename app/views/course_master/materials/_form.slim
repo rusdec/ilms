@@ -1,0 +1,24 @@
+= form_for model, remote: true, format: :json do |f|
+  .form-group
+    = f.text_field :title, autocomplete: 'title',
+                           placeholder: 'Title',
+                           class: 'form-control small'
+
+  .form-group
+    = f.text_area :body, autocomplete: 'body',
+                         placeholder: 'Body',
+                         class: 'form-control small'
+
+  .form-group
+    = f.text_area :summary, autocomplete: 'summary',
+                         placeholder: 'Summary',
+                         class: 'form-control small'
+
+  .form-group
+    = f.text_field :order, autocomplete: 'order',
+                           placeholder: 'Order',
+                           class: 'form-control small'
+
+  .form-group
+    = f.submit class: 'btn btn-primary mr-2'
+    = link_back if link_back
