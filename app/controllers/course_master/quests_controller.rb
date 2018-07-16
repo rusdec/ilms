@@ -6,10 +6,6 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   before_action :set_new_quest_form, only: %i(new create)
   before_action :require_author_abilities, only: %i(edit update destroy)
 
-  respond_to :html, only: %i(index new edit show)
-  respond_to :json, only: %i(destroy create update used unused)
-  before_action :verify_requested_format!
-
   def index
     @quests = current_user.quests
   end

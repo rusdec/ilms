@@ -8,10 +8,6 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   before_action :set_material, only: %i(edit update destroy show)
   before_action :require_material_author_abilities, only: %i(edit update destroy)
 
-  respond_to :html, only: %i(new edit show)
-  respond_to :json, only: %i(create update destroy)
-  before_action :verify_requested_format!
-
   def show; end
 
   def new; end

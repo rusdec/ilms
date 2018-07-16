@@ -20,38 +20,21 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   end
 
   def update
-    respond_to do |format|
-      format.json do
-        @lesson.update(lesson_params)
-        json_response_by_result
-      end
-    end
+    @lesson.update(lesson_params)
+    json_response_by_result
   end
 
   def create
-    respond_to do |format|
-      format.json do
-        create_lesson
-        json_response_by_result(
-          with_location: :course_master_lesson_url,
-          with_flash: true
-        )
-      end
-    end
+    create_lesson
+    json_response_by_result(with_location: :course_master_lesson_url,
+                            with_flash: true)
   end
 
   def destroy
-    respond_to do |format|
-      format.json do
-        @lesson.destroy
-        json_response_by_result(
-          { with_location: :course_master_course_url,
-            without_object: true,
-            with_flash: true },
-          @lesson.course
-        )
-      end
-    end
+    @lesson.destroy
+    json_response_by_result({ with_location: :course_master_course_url,
+                              location_object: @lesson.course,
+                              without_object: true, with_flash: true })
   end
 
   protected
