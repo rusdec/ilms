@@ -37,6 +37,10 @@ module JsonResponsed
       return params unless params[:with_location]
 
       resource = @json_resource&.persisted? ? @json_resource : nil
+      if params[:location_object]
+        resource = params[:location_object]
+        params.delete(:location_object)
+      end
       params[:location] = send(params[:with_location], resource)
       params.delete(:with_location)
       params

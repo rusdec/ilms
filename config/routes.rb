@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     resources :courses do
       resources :lessons, shallow: true do
         resources :quests, shallow: true
+        resources :materials, shallow: true
       end
     end
   end

@@ -6,9 +6,9 @@ class Lesson < ApplicationRecord
   belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
-  has_many :quests
+  has_many :quests, dependent: :destroy
   has_many :quest_groups
-  has_many :materials
+  has_many :materials, dependent: :destroy
 
 
   validates :title, presence: true

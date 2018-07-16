@@ -14,10 +14,10 @@ RSpec.describe Lesson, type: :model do
   it { should belong_to(:course) }
   it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
 
-  it { should have_many(:quests) }
+  it { should have_many(:quests).dependent(:destroy) }
   it { should have_many(:quest_groups) }
 
-  it { should have_many(:materials) }
+  it { should have_many(:materials).dependent(:destroy) }
 
   it { should be_a_closure_tree }
   it_should_behave_like 'persistable', Lesson.all

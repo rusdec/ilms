@@ -10,6 +10,10 @@ FactoryBot.define do
         create(:quest, :with_quest_group, lesson: lesson, author: lesson.author)
       end
     end
+
+    after(:create) do |lesson|
+      create_list(:material, 5, lesson: lesson, author: lesson.author)
+    end
   end
 
   factory :invalid_lesson, class: Lesson do
