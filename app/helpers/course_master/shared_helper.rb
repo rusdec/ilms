@@ -30,4 +30,16 @@ module CourseMaster::SharedHelper
       end
     end
   end
+
+  def editor_text_area(params)
+    name = params[:name]
+    form = params[:form]
+
+    content_tag :div, class: "editor-container", id: "editor_#{name}"  do
+      concat(form.label name)
+      concat(tag.div class: 'toolbar')
+      concat(tag.div class: 'editor')
+      concat(form.hidden_field name, class: 'textarea')
+    end
+  end
 end

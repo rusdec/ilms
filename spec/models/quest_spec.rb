@@ -1,15 +1,22 @@
-require 'rails_helper'
+require_relative 'models_helper'
 
 RSpec.describe Quest, type: :model do
   it { should validate_presence_of(:title) }
   it do
-    should validate_length_of(:title).is_at_least(3).is_at_most(50)
+    should validate_length_of(:title)
+             .is_at_least(3)
+             .is_at_most(50)
   end
 
-  it { should validate_presence_of(:description) }
-  it do
-    should validate_length_of(:description).is_at_least(10).is_at_most(1000)
+  let(:html_validable) do
+    { field: :description,
+      object: create(:course_master, :with_course_and_lesson_and_quest).quests.last,
+      minimum: 10 }
   end
+  it_behaves_like 'html_length_minimum_validable'
+  it_behaves_like 'html_presence_validable'
+
+  it_behaves_like 'html_attributable', %w(description)
 
   it do
     should validate_numericality_of(:level)

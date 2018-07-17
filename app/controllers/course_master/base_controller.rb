@@ -1,5 +1,7 @@
 class CourseMaster::BaseController < ApplicationController
   before_action :require_manage_courses_abilities
+  
+  layout 'course_master'
 
   respond_to :html, only: %i(index new edit show)
   respond_to :json, only: %i(destroy create update used unused)

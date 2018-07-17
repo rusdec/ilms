@@ -2,6 +2,7 @@ class Lesson < ApplicationRecord
   has_closure_tree
 
   include Persistable
+  include HtmlAttributable
 
   belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
@@ -16,4 +17,5 @@ class Lesson < ApplicationRecord
   validates :order, numericality: { only_integer: true,
                                     greater_than_or_equal_to: 1 }
 
+  html_attributes :ideas, :summary, :check_yourself
 end

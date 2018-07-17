@@ -19,7 +19,7 @@ feature 'New quest', %q{
       given(:attributes) { attributes_for(:quest) }
       before do
         fill_in 'Title', with: attributes[:title]
-        fill_in 'Description', with: attributes[:description]
+        fill_editor 'Description', with: attributes[:description]
       end
 
       context 'when alternative quest changed to none' do
@@ -57,7 +57,7 @@ feature 'New quest', %q{
     context 'with invalid data' do
       scenario 'can\'t create quest', js: true do
         fill_in 'Title', with: nil
-        fill_in 'Description', with: nil
+        fill_editor 'Description', with: nil
         click_on 'Create Quest'
 
         expect(page).to_not have_content('Success')

@@ -24,9 +24,9 @@ feature 'New lesson', %q{
         expect(page).to have_content('New lesson')
 
         fill_in 'Title', with: lesson[:title]
-        fill_in 'Ideas', with: lesson[:ideas]
-        fill_in 'Summary', with: lesson[:summary]
-        fill_in 'Check yourself', with: lesson[:check_yourself]
+        fill_editor :ideas, with: lesson[:ideas]
+        fill_editor :summary, with: lesson[:summary]
+        fill_editor :check_yourself, with: lesson[:check_yourself]
         select parent_lesson.title, from: 'lesson[parent_id]'
         click_on 'Create Lesson'
 

@@ -21,7 +21,7 @@ feature 'Lessons author update material', %q{
 
       scenario 'can update material', js: true do
         fill_in 'Title', with: attributes[:title]
-        fill_in 'Body', with: attributes[:body]
+        fill_editor 'Body', with: attributes[:body]
         click_on 'Update Material'
 
         expect(page).to have_content('Success')
@@ -31,7 +31,7 @@ feature 'Lessons author update material', %q{
     context 'with invalid data' do
       scenario 'can\'t create material', js: true do
         fill_in 'Title', with: nil
-        fill_in 'Body', with: nil
+        fill_editor 'Body', with: nil
         fill_in 'Order', with: nil
         click_on 'Update Material'
 

@@ -27,7 +27,7 @@ feature 'Edit quest', %q{
         expect(page).to have_content('Edit quest')
 
         fill_in 'Title', with: attributes[:title]
-        fill_in 'Description', with: attributes[:description]
+        fill_editor 'Description', with: attributes[:description]
         click_on 'Update Quest'
 
         expect(page).to have_content('Success')
@@ -48,7 +48,7 @@ feature 'Edit quest', %q{
     context 'with invalid data' do
       scenario 'can\'t update quest', js: true do
         fill_in 'Title', with: nil
-        fill_in 'Description', with: nil
+        fill_editor 'Description', with: nil
         click_on 'Update Quest'
 
         expect(page).to_not have_content('Success')

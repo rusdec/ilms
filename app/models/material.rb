@@ -1,4 +1,6 @@
 class Material < ApplicationRecord
+  include HtmlAttributable
+
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
   belongs_to :lesson
 
@@ -7,9 +9,11 @@ class Material < ApplicationRecord
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 150 }
 
-  validates :body, presence: true
-  validates :body, length: { minimum: 10 }
+  validates :body, html: { presence: true,
+                           length: { minimum: 10 } }
 
   validates_numericality_of :order, { only_integer: true,
                                       greater_than_or_equal_to: 1 }
+
+  html_attributes :body, :summary
 end

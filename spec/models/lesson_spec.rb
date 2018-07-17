@@ -21,4 +21,6 @@ RSpec.describe Lesson, type: :model do
 
   it { should be_a_closure_tree }
   it_should_behave_like 'persistable', Lesson.all
+
+  it_behaves_like 'html_attributable', %w(ideas summary check_yourself)
 end

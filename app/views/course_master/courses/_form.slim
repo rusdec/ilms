@@ -5,16 +5,13 @@
                            class: 'form-control small'
 
   .form-group
-    = editor_text_area(form: f, name: :body)
+    = editor_text_area(form: f, name: :decoration_description)
 
   .form-group
-    = editor_text_area(form: f, name: :summary)
-
-  .form-group
-    = f.text_field :order, autocomplete: 'order',
-                           placeholder: 'Order',
+    = f.text_field :level, autocomplete: 'level',
+                           placeholder: 'Level',
                            class: 'form-control small'
-
+                                            
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_back if link_back
+    = link_to link_back if link_back

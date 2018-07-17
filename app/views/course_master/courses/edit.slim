@@ -4,22 +4,7 @@
 
 .row
   .col
-    = form_for [:course_master, @course], remote: true, format: :json do |f|
-      .form-group
-        = f.text_field :title, autocomplete: 'title',
-                               placeholder: 'Title',
-                               class: 'form-control small'
-
-      .form-group
-        = f.text_area :decoration_description, autocomplete: 'decoration_description',
-                                               placeholder: 'Decoration description',
-                                               class: 'form-control small'
-
-      .form-group
-        = f.text_field :level, autocomplete: 'level',
-                               placeholder: 'Level',
-                               class: 'form-control small'
-                                                
-      .form-group
-        = f.submit 'Update', class: 'btn btn-primary mr-2'
-        = link_to 'Course page', course_master_course_path(@course), class: 'btn btn-secondary'
+    = render partial: 'form',
+             locals: { model: [:course_master, @course],
+                       link_back: secondary_button(text: 'Courses page',
+                                                   path: course_master_course_path(@course)) }
