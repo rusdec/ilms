@@ -10,6 +10,6 @@ class Material < ApplicationRecord
   validates :body, presence: true
   validates :body, length: { minimum: 10 }
 
-  validates_numericality_of :order, { only_integer: true,
-                                      greater_than_or_equal_to: 1 }
+  validates :order, numericality: { only_integer: true,
+                                    greater_than_or_equal_to: 1 }
 end
