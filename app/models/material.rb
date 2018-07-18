@@ -12,8 +12,9 @@ class Material < ApplicationRecord
   validates :body, html: { presence: true,
                            length: { minimum: 10 } }
 
-  validates_numericality_of :order, { only_integer: true,
-                                      greater_than_or_equal_to: 1 }
 
   html_attributes :body, :summary
+
+  validates :order, numericality: { only_integer: true,
+                                    greater_than_or_equal_to: 1 }
 end
