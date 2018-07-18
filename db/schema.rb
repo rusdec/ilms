@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_16_135855) do
+ActiveRecord::Schema.define(version: 2018_07_18_140853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "course_passages", force: :cascade do |t|
+    t.bigint "course_id"
+    t.string "educable_type"
+    t.bigint "educable_id"
+    t.boolean "passed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_passages_on_course_id"
+    t.index ["educable_type", "educable_id"], name: "index_course_passages_on_educable_type_and_educable_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
@@ -31,6 +42,20 @@ ActiveRecord::Schema.define(version: 2018_07_16_135855) do
     t.integer "generations", null: false
     t.index ["ancestor_id", "descendant_id", "generations"], name: "lessons_anc_desc_idx", unique: true
     t.index ["descendant_id"], name: "lessons_desc_idx"
+  end
+
+  create_table "lesson_passages", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.string "educable_type"
+    t.bigint "educable_id"
+    t.boolean "passed", default: false
+    t.bigint "course_passage_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "available", default: false
+    t.index ["course_passage_id"], name: "index_lesson_passages_on_course_passage_id"
+    t.index ["educable_type", "educable_id"], name: "index_lesson_passages_on_educable_type_and_educable_id"
+    t.index ["lesson_id"], name: "index_lesson_passages_on_lesson_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -104,7 +129,10 @@ ActiveRecord::Schema.define(version: 2018_07_16_135855) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "course_passages", "courses"
   add_foreign_key "courses", "users"
+  add_foreign_key "lesson_passages", "course_passages"
+  add_foreign_key "lesson_passages", "lessons"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
   add_foreign_key "materials", "lessons"

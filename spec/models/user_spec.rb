@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'models_helper'
 
 RSpec.describe User, type: :model do
   it { should validate_presence_of(:name) }
@@ -11,6 +11,9 @@ RSpec.describe User, type: :model do
   it { should have_many(:lessons) }
   it { should have_many(:quests) }
   it { should have_many(:materials) }
+
+  it { should have_many(:lesson_passages) }
+  it_behaves_like 'educable'
 
   it { should allow_values('User', 'Administrator', 'CourseMaster').for(:type) }
   it { should_not allow_values('Userr', 'Rdministrator', 'ourseMaster').for(:type) }

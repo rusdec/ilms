@@ -11,7 +11,6 @@ class Lesson < ApplicationRecord
   has_many :quest_groups
   has_many :materials, dependent: :destroy
 
-
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
   validates :order, numericality: { only_integer: true,
