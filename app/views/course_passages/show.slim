@@ -1,0 +1,14 @@
+.row
+  . class='col text-center'
+    h2.page-title= @course_passage.course.title
+.row
+  .col
+    ul.list-group
+      - @lesson_passages.each do |lesson_passage|
+        li class='list-group-item d-flex justify-content-between align-items-center'
+          - if lesson_passage.is_available?
+            = link_to lesson_passage.lesson.title, '#'
+          - else
+            = lesson_passage.lesson.title
+          - if lesson_passage.lesson.children.empty?
+            span.text-secondary= "(additional)"

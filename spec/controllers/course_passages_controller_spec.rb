@@ -60,7 +60,7 @@ RSpec.describe CoursePassagesController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:course) { user.courses.last }
+    let(:course) { create(:course, author: user) }
 
     context 'when authenticated user' do
       before { sign_in(user) }

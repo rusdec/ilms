@@ -19,6 +19,10 @@ class User < ApplicationRecord
 
   validate :validate_type
 
+  def learning?(course)
+    course_passages.learning?(course)
+  end
+
   def admin?
     type == 'Administrator'
   end

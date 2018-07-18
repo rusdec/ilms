@@ -1,6 +1,11 @@
 .row
   . class='col text-center'
     h2.page-title= @course.title
+
+.row
+  . class='col text-center'
+    = learn_now(@course, @course_passage)
+ 
 .row
   . class='col text-left'
     = course_info(@course)
@@ -8,14 +13,14 @@
 .row
   .col
     h4= 'Description'
-    p= text_or_none(@course.decoration_description)
+    p= text_or_none(@course.decoration_description_html)
 
 .row
   .col
     h4= 'Lessons'
     ul
       - @course.lessons.each do |lesson|
-        li= link_to lesson.title, lesson_path(lesson)
+        li= lesson.title
 
 .row
   . class='col text-right'

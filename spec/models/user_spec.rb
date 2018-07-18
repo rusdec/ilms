@@ -46,4 +46,13 @@ RSpec.describe User, type: :model do
     user = create(:user)
     expect(user.full_name).to eq("#{user.name} #{user.surname}")
   end
+
+  it '.learning?' do
+    user = create(:course_master, :with_courses)
+    course = user.courses.last
+    course_passage = create(:course_passage, educable: user, course: course)
+
+    expect(user.course_passages).to receive(:learning?).with(course)
+    user.learning?(course)
+  end
 end

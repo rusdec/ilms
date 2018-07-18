@@ -13,7 +13,8 @@ Rails.application.routes.draw do
     resources :lessons, only: [:index, :show], shallow: true
   end
 
-  resources :course_passages, only: %i(index show update create)
+  resources :course_passages, only: %i(show update create)
+  get 'my_courses', to: 'course_passages#index'
 
   #
   # Course master
