@@ -17,6 +17,10 @@ FactoryBot.define do
       after(:create) { |user| create(:course, :with_lesson, author: user) }
     end
 
+    trait :with_course_and_lessons do
+      after(:create) { |user| create(:course, :with_lessons, author: user) }
+    end
+
     trait :with_course_and_lesson_and_quest do
       after(:create) { |user| create(:course, :with_lesson_and_quest, author: user) }
     end

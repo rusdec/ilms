@@ -12,6 +12,16 @@ function addResponseAlertListener(params) {
     return
   }
 
+  /**
+   * Devise
+   */
+  selector.addEventListener('ajax:complete', (ev) => {
+    let response = JSON.parse(parseAjaxResponse(ev).data.response)
+    if (response.error) {
+      showErrors([response.error])
+    }
+  })
+
   selector.addEventListener('ajax:success', (ev) => {
     let response = parseAjaxResponse(ev)
     if (response.data.errors) {

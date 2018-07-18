@@ -11,7 +11,14 @@ FactoryBot.define do
 
     trait :with_lessons do
       after(:create) do |course|
-        create_list(:lesson, 5, course: course, author: course.author)
+        previous_lesson = nil
+        1.upto(5) do
+          previous_lesson = create(:lesson,
+            course: course,
+            author: course.author,
+            parent: previous_lesson            
+          )
+        end
       end
     end
 
