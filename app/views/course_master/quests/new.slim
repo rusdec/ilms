@@ -1,0 +1,7 @@
+= page_title('New quest')
+.row
+  .col
+    = render partial: 'form',
+             locals: { model: [:course_master, @quest_form.lesson, @quest_form.quest],
+                       link_back: secondary_button(text: 'Cancel',
+                                                   path: course_master_lesson_path(@quest_form.lesson)) }

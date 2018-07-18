@@ -24,6 +24,9 @@
   .col
     h4= 'Materials'
     ul
+      - @lesson.materials.each do |material|
+        li
+          = link_to material.title, course_master_material_path(material)
       
 .row
   .col
@@ -33,7 +36,12 @@
   .col
     h4= 'Quests'
     ul
-      
+      - @lesson.quests.each do |quest|
+        li
+          = link_to quest.title, course_master_quest_path(quest)
+          span class='text-secondary small'
+            - if quest.has_alternatives?
+              = " (alternatives: #{quest.alternatives.pluck(:title).join(', ')})"
 .row
   .col
     = add_quest_link(@lesson)

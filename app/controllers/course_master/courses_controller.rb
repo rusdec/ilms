@@ -8,15 +8,9 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   def index; end
 
   def create
-    respond_to do |format|
-      format.json do
-        @course = current_user.courses.create(course_params)
-        json_response_by_result(
-          with_location: :course_master_course_url,
-          with_flash: true
-        )
-      end
-    end
+    @course = current_user.courses.create(course_params)
+    json_response_by_result(with_location: :course_master_course_url,
+                            with_flash: true)
   end
 
   def edit; end
@@ -28,25 +22,15 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   def destroy
-    respond_to do |format|
-      format.json do
-        @course.destroy
-        json_response_by_result(
-          with_location: :course_master_courses_url,
-          without_object: true,
-          with_flash: true
-        )
-      end
-    end
+    @course.destroy
+    json_response_by_result(with_location: :course_master_courses_url,
+                            without_object: true,
+                            with_flash: true)
   end
 
   def update
-    respond_to do |format|
-      format.json do
-        @course.update(course_params)
-        json_response_by_result
-      end
-    end
+    @course.update(course_params)
+    json_response_by_result
   end
 
   protected
@@ -56,7 +40,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   def set_courses
-    @courses = Course.all
+    @courses = current_user.courses
   end
 
   def course_params

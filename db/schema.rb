@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_06_101614) do
+ActiveRecord::Schema.define(version: 2018_07_16_135855) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "lesson_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "lessons_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "lessons_desc_idx"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.bigint "course_id"
     t.bigint "user_id"
@@ -35,8 +43,45 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
     t.integer "order", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "parent_id"
     t.index ["course_id"], name: "index_lessons_on_course_id"
     t.index ["user_id"], name: "index_lessons_on_user_id"
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.bigint "user_id"
+    t.string "title"
+    t.text "body"
+    t.text "summary"
+    t.integer "order", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_materials_on_lesson_id"
+    t.index ["user_id"], name: "index_materials_on_user_id"
+  end
+
+  create_table "quest_groups", force: :cascade do |t|
+    t.bigint "lesson_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lesson_id"], name: "index_quest_groups_on_lesson_id"
+  end
+
+  create_table "quests", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.text "description"
+    t.integer "level", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lesson_id"
+    t.bigint "quest_group_id"
+    t.integer "old_quest_group_id"
+    t.index ["lesson_id"], name: "index_quests_on_lesson_id"
+    t.index ["old_quest_group_id"], name: "index_quests_on_old_quest_group_id"
+    t.index ["quest_group_id"], name: "index_quests_on_quest_group_id"
+    t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -62,4 +107,10 @@ ActiveRecord::Schema.define(version: 2018_07_06_101614) do
   add_foreign_key "courses", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
+  add_foreign_key "materials", "lessons"
+  add_foreign_key "materials", "users"
+  add_foreign_key "quest_groups", "lessons"
+  add_foreign_key "quests", "lessons"
+  add_foreign_key "quests", "quest_groups"
+  add_foreign_key "quests", "users"
 end

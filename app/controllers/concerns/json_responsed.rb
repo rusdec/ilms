@@ -9,13 +9,16 @@ module JsonResponsed
     def json_response_by_result(params = {}, resource = nil)
       @json_resource = resource || polymorphic_resource
 
-      if @json_resource.errors.any?
-        json_response_error(@json_resource.errors.full_messages)
+      if @json_resource.is_a?(ActiveRecord::Relation)
+        params[:objects] = @json_resource
+      elsif @json_resource.errors.any?
+        return json_response_error(@json_resource.errors.full_messages)
       else
         params[:object] = @json_resource
-        params = params_processing(params)
-        json_response_success(success_message, params)
       end
+
+      params = params_processing(params)
+      json_response_success(success_message, params)
     end
 
     def json_response_success(message = '', params = {})
@@ -34,6 +37,10 @@ module JsonResponsed
       return params unless params[:with_location]
 
       resource = @json_resource&.persisted? ? @json_resource : nil
+      if params[:location_object]
+        resource = params[:location_object]
+        params.delete(:location_object)
+      end
       params[:location] = send(params[:with_location], resource)
       params.delete(:with_location)
       params
@@ -49,7 +56,17 @@ module JsonResponsed
 
     def with_serializer(params)
       return params unless params[:with_serializer]
-      params[:object] = params[:with_serializer].new(params[:object], {})
+
+      if params[:object]
+        params[:object] = params[:with_serializer].new(params[:object], {})
+      end
+
+      if params[:objects]
+        params[:objects] = params[:objects].collect do |object|
+          params[:with_serializer].new(object, {})
+        end
+      end
+
       params.delete(:with_serializer)
       params
     end

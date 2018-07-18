@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {"type": "boolean"},
+    "message": {"type": "string"},
+    "location": {"type": "string", "format": "url"}
+  },
+  "required": ["status", "message", "location"],
+  "maxProperties": 3
+}

@@ -20,7 +20,7 @@ feature 'Edit lesson', %q{
         expect(page).to have_content('Edit lesson')
 
         fill_in 'Title', with: 'NewLessonTitle'
-        click_on 'Update lesson'
+        click_on 'Update Lesson'
 
         expect(page).to have_content('Success')
       end
@@ -31,7 +31,7 @@ feature 'Edit lesson', %q{
         expect(page).to have_content('Edit lesson')
 
         fill_in 'Title', with: ''
-        click_on 'Update lesson'
+        click_on 'Update Lesson'
 
         ['Title can\'t be blank', 'Title is too short'].each do |error|
           expect(page).to have_content(error)
@@ -48,8 +48,8 @@ feature 'Edit lesson', %q{
 
     scenario 'redirect to root' do
       expect(page).to have_content('Access denied')
-      expect(page).to_not have_content('New lesson')
-      expect(page).to_not have_content('Update lesson')
+      expect(page).to_not have_content('Edit lesson')
+      expect(page).to_not have_content('Update Lesson')
     end
   end
 end

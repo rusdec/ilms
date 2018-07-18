@@ -1,0 +1,28 @@
+.row
+  . class='col text-center'
+    h2.page-title= @material.title
+    = material_remote_links(@material)
+
+.row
+  .col
+    h4= 'Title'
+    p= @material.title
+
+.row
+  .col
+    h4= 'Order'
+    p= @material.order
+
+.row
+  .col
+    h4= 'Body'
+    p= @material.body
+
+.row
+  .col
+    h4= 'Summary'
+    p= @material.summary
+
+.row
+  . class='col text-rigth'
+  = link_to 'Back to lesson', course_master_lesson_path(@material.lesson)

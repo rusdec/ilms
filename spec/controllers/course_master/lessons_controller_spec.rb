@@ -90,6 +90,14 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
+        it '@lesson related with course' do
+          expect(assigns(:lesson).course).to eq(course)
+        end
+
+        it 'Lesson assigns to @lessons' do
+          expect(assigns(:lessons)).to eq(course.lessons)
+        end
+
         it 'Course assigns to @course' do
           expect(assigns(:course)).to eq(course)
         end
@@ -236,7 +244,9 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'Any user with manager role' do
-      let!(:lesson) { create(:course, :with_lesson).lessons.last }
+      let!(:course) { create(:course, :with_lessons) }
+      let(:lesson) { course.lessons.last }
+      let(:parent_lesson) { course.lessons.first }
       let!(:old_title) { lesson.title }
 
       context 'when author' do
@@ -244,7 +254,9 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
 
         context 'with valid data' do
           let(:params) do
-            { id: lesson, lesson: { title: 'NewLessonTitle' }, format: :json }
+            { id: lesson, lesson: { title: 'NewLessonTitle',
+                                    parent_id: parent_lesson},
+                                    format: :json }
           end
 
           context 'when json' do

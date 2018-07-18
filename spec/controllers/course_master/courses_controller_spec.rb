@@ -85,23 +85,25 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
   end
 
   describe 'GET #index' do
-    manage_roles.each do |role|
-      context "#{role}" do
-        before do
-          create_list(:course, 5, author: create(:administrator))
-          sign_in(create(role.underscore.to_sym))
-          get :index
-        end
+    context 'when CourseMaster' do
+      let!(:user) { create(:course_master) }
 
-        it 'Cource assign to @cources' do
-          expect(assigns(:courses)).to eq(Course.all)
+      before do
+        [user, create(:course_master)].each do |user|
+          create_list(:course, 5, author: user)
         end
-
-        it 'render index' do
-          expect(response).to render_template(:index)
-        end
+        sign_in(user)
+        get :index
       end
-    end
+      
+      it 'all user Cource assign to @cources' do
+        expect(assigns(:courses)).to eq(user.courses)
+      end
+
+      it 'render index' do
+        expect(response).to render_template(:index)
+      end
+    end # context 'when CourseMaster'
 
     non_manage_roles.each do |role|
       context "#{role}" do
@@ -112,7 +114,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           expect(response).to redirect_to(root_path)
         end
       end
-    end
+    end # non_manage_roles.each do |role|
   end
 
   describe 'POST #create' do
@@ -138,7 +140,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           end
         end # context "when #{role}"
       end # non_manage_roles.each do |role|
-    end
+    end # context 'when non manage role'
 
     context 'Any manage role' do
       let(:user) { create(:course_master) }
@@ -252,20 +254,20 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
       end # context 'when json'
     end # context 'when not author'
   end
+  
 
   describe 'DELETE #destroy' do
-    let(:user) { create(:course_master) }
-    let!(:course) { create(:course, author: user) }
+    let(:course) { create(:course_master, :with_course).courses.last }
     let(:params) { { id: course.id, format: :json } }
 
     context 'when author' do
-      before { sign_in(user) }
+      before { sign_in(course.author) }
 
       context 'when json' do
         it 'can destroy course' do
           expect{
             delete :destroy, params: params
-          }.to change(user.courses, :count).by(-1)
+          }.to change(course.author.courses, :count).by(-1)
         end
 
         it 'return course object' do
@@ -282,7 +284,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
         it 'can\'t delete course' do
           expect{
             delete :destroy, params: params
-          }.to_not change(user.courses, :count)
+          }.to_not change(course.author.courses, :count)
         end
 
         it 'return errors' do

@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integet"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "level": {"type": "integer"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "quest_group": {"$ref": "./quest_group.json"},
+    "quest_groups": {
+      "type":"array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integet"},
+          "current_quest_group": {"type": "boolean"},
+          "quests": {
+            "type":"array",
+            "items": {"$ref": "./quest.json"}
+          }
+        },
+        "required": ["id", "current_quest_group", "quests"]
+      }
+    }
+  },
+  "required": ["id", "title", "description", "level", "created_at", "updated_at", "quest_group", "quest_groups"],
+  "maxProperties": 8
+}

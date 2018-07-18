@@ -31,3 +31,4 @@
 /config/database.yml
 .rubocop.yml
 *.swp
+*.swo

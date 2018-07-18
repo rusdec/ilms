@@ -19,7 +19,10 @@ Rails.application.routes.draw do
   namespace :course_master do
     concerns :home
     resources :courses do
-      resources :lessons, shallow: true
+      resources :lessons, shallow: true do
+        resources :quests, shallow: true
+        resources :materials, shallow: true
+      end
     end
   end
 
