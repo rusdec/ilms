@@ -1,14 +1,17 @@
 = page_header(@lesson.title)
 .row
+
   = render partial: 'materials_list',
            locals: { lesson: @lesson,
                      back_path: course_passage_path(@lesson_passage.course_passage) }
 
   .col-lg-9
+
     - unless @lesson.ideas_html_empty?
       = simple_card(title: 'Ideas', body: @lesson.ideas_html, anchor: 'ideas')
 
-    = render partial: 'materials', locals: { materials: @lesson.materials }
+    - @lesson.materials.each do |material|
+      = material_card(material)
 
     - unless @lesson.summary_html_empty?
       = simple_card(title: 'Lesson summary',

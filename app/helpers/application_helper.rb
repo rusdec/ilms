@@ -19,25 +19,29 @@ module ApplicationHelper
     end
   end
 
-  def simple_card(params)
-    title = if params[:title].empty?
-              ''
-            else
-              tag.h2 params[:title], class: 'mt-0 mb4'
-            end
+  def material_card(material)
+    return if material.body_html_empty?
 
-    body = params[:body]
-
-    wraper = content_tag :div, class: 'text-wrap p-lg-6' do
-      concat(title)
-      concat(body)
+    unless material.summary_html_empty?
+      material.body += "#{tag.h4 'Summary'}#{material.summary}"
     end
 
-    wraper = content_tag :div, class: 'card-body' do
+    simple_card(title: material.title,
+                body: material.body_html,
+                anchor: "material-#{material.id}")
+  end
+
+  def simple_card(params)
+    wraper = content_tag :div, class: 'text-wrap p-lg-6' do
+      concat(params[:title].empty? ? '' : tag.h3(params[:title], class: 'mt-0 mb4'))
+      concat(params[:body])
+    end
+
+    wraper = content_tag :div, class: "card-body" do
       concat(wraper)
     end
 
-    content_tag :div, class: 'card' do
+    content_tag :div, class: 'card', id: "#{params[:anchor]}" do
       concat(wraper)
     end
   end
