@@ -1,6 +1,6 @@
 document.addEventListener('turbolinks:load', () => {
   document.querySelectorAll('.editor').forEach((editor) => {
-    const a = new Quill(editor, {
+    new Quill(editor, {
       theme: 'snow',
     })
   })

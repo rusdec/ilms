@@ -7,6 +7,15 @@ module HtmlAttributable
         define_method "#{attribute}_html" do
           self[attribute] ? self[attribute].html_safe : ''
         end
+        define_method "#{attribute}_html_empty?" do
+          return true unless self[attribute]
+
+          self[attribute].blank? || Nokogiri::HTML(self[attribute]).
+                                      search('//text()').
+                                      map(&:text).
+                                      join.
+                                      blank?
+        end
       end
     end
   end

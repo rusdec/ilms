@@ -14,8 +14,12 @@
  * require_self
  */
 
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "tabler/variables";
 @import 'bootstrap';
+@import "tabler";
+
 @import 'global';
-@import 'page_structure';
-@import 'users';
 @import 'alerts';

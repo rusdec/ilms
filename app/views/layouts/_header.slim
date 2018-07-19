@@ -1,24 +1,21 @@
-nav class='navbar navbar-expand-lg navbar-light bg-light'
-  a.navbar-brand href='/'
-    = 'iLMS'
-  . class='collapse navbar-collapse'
-    ul class='navbar-nav mr-auto'
-      - if can? :admin_panel, current_user
-        = navbar_link(title: 'Administration', path: administrator_path)
-      
-      - if can? :manage_courses, current_user
-        = navbar_link(title: 'Manage courses', path: course_master_path)
-      
-      = navbar_link(title: 'Courses', path: courses_path)
-      
-      - if current_user
-        = navbar_link(title: 'My courses', path: my_courses_path)
-
-      - if current_user
-        = navbar_link(title: 'Sign out',
-                      path: destroy_user_session_path,
-                      additional: { method: 'delete' })
-      - else
-        = navbar_link(title: 'Sign up', path: new_user_registration_path)
-        = navbar_link(title: 'Sign in', path: new_user_session_path)
-
+. class='header collapse d-lg-flex p-0' id='headerMenuCollapse'
+  .container
+    . class='row align-items-center'
+      . class='col-lg-3 ml-auto'
+        ul class='nav nav-tabs border-0 flex-column flex-lg-row'
+          = authentication_links(current_user)
+        
+      . class='col-lg order-lg-first'
+        ul class='nav nav-tabs border-0 flex-column flex-lg-row'
+          li.nav-item
+            = link_to 'iLMS', '/', class: 'header-brand'
+          - if can? :admin_panel, current_user
+            = navbar_link(title: 'Administration', path: administrator_path)
+          
+          - if can? :manage_courses, current_user
+            = navbar_link(title: 'Manage courses', path: course_master_path)
+          
+          = navbar_link(title: 'Courses', path: courses_path)
+          
+          - if current_user
+            = navbar_link(title: 'My courses', path: course_passages_path)

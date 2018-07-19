@@ -3,6 +3,19 @@ FactoryBot.define do
     sequence(:title) { |n| "CourseTitle#{n}" }
     association :author, factory: :course_master
 
+    trait :full do
+      after(:create) do |course|
+        previous_lesson = nil
+        1.upto(5) do
+          previous_lesson = create(:lesson, :full,
+            course: course,
+            author: course.author,
+            parent: previous_lesson            
+          )
+        end
+      end
+    end
+
     trait :with_lesson do
       after(:create) do |course|
         create(:lesson, course: course, author: course.author)
@@ -19,6 +32,12 @@ FactoryBot.define do
             parent: previous_lesson            
           )
         end
+      end
+    end
+
+    trait :with_lessons_and_materials do
+      after(:create) do |course|
+        create_list(:lesson, :with_materials, course: course, author: course.author)
       end
     end
 

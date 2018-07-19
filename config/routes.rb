@@ -9,12 +9,13 @@ Rails.application.routes.draw do
   # All users
   #
   root to: 'home#index'
-  resources :courses, only: [:index, :show] do
-    resources :lessons, only: [:index, :show], shallow: true
+  resources :courses, only: %i(index show) do
+    resources :lessons, only: %i(index show), shallow: true
   end
 
-  resources :course_passages, only: %i(show update create)
-  get 'my_courses', to: 'course_passages#index'
+  resources :course_passages, path: :my_courses do
+    resources :lesson_passages, path: :lesson, only: :show, as: :lesson
+  end
 
   #
   # Course master

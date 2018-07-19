@@ -15,6 +15,7 @@
 //= require mustache
 //= require popper
 //= require bootstrap
+//= require tabler
 //= require activestorage
 //= require turbolinks
 //= require_tree .
