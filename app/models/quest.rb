@@ -11,7 +11,10 @@ class Quest < ApplicationRecord
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 50 }
 
-  validates :description, html: { presence: true, length: { minimum: 10 } }
+  validates :description, presence: true
+  validates :description, length: { minimum: 10, maximum: 500 }
+
+  validates :body, html: { presence: true, length: { minimum: 10 } }
   
   validates :level, numericality: { only_integer: true,
                                     greater_than_or_equal_to: 1,
@@ -24,7 +27,7 @@ class Quest < ApplicationRecord
 
   after_destroy :after_destroy_delete_quest_group_if_empty
 
-  html_attributes :description
+  html_attributes :body
 
   def alternatives
     self.class.where('quest_group_id = ? AND id != ?', quest_group_id, id)

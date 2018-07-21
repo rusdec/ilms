@@ -12,7 +12,6 @@ RSpec.describe User, type: :model do
   it { should have_many(:quests) }
   it { should have_many(:materials) }
 
-  it { should have_many(:lesson_passages) }
   it_behaves_like 'educable'
 
   it { should allow_values('User', 'Administrator', 'CourseMaster').for(:type) }

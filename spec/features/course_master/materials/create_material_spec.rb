@@ -36,7 +36,6 @@ feature 'Lessons author create material', %q{
         fill_in 'Title', with: nil
         fill_editor 'Body', with: nil
         fill_in 'Order', with: ' '
-        sleep 20
         click_on 'Create Material'
 
         [ 'Title can\'t be blank',

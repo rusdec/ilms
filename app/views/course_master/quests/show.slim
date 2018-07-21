@@ -21,7 +21,12 @@
 .row
   .col
     h4= 'Description'
-    p= @quest.description_html
+    p= @quest.description
+
+.row
+  .col
+    h4= 'Body'
+    p= @quest.body_html
 
 .row
   . class='col text-rigth'

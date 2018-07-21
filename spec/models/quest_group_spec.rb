@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestGroup, type: :model do
   it { should belong_to(:lesson) }
   it { should have_many(:quests) }
+  it { should have_many(:quest_passages) }
 
   context '.empty?' do
     let!(:lesson) { create(:course_master, :with_course_and_lesson).lessons.last }

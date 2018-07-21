@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   end
 
   resources :course_passages, path: :my_courses do
-    resources :lesson_passages, path: :lesson, only: :show, as: :lesson
+    resources :lesson_passages, path: :lessons, only: :show, as: :lesson
+    get '/quests/:quest_passage_id/:quest_id', to: 'quest_passages#show', as: :quest
   end
 
   #

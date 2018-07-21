@@ -6,8 +6,9 @@ class LessonPassagesController < ApplicationController
   respond_to :html, only: :show
 
   def show
-    @lesson = @lesson_passage.lesson
     authorize! :owner_education, @lesson_passage.course_passage
+    @lesson = @lesson_passage.lesson
+    @quest_passages = @lesson_passage.quest_passages
   end
 
   private

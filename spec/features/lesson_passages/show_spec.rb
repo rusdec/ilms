@@ -27,6 +27,16 @@ feature 'Show lesson_passage page', %q{
         end
       end
 
+      scenario 'see quests' do
+        lesson_passage.quest_passages.each do |quest_passage|
+          quest_passage.quest_group.quests.each do |quest|
+            expect(page).to have_content(quest.title)
+            expect(page).to have_content(quest.description.truncate(150))
+            expect(page).to have_content("Level: #{quest.level}")
+          end
+        end
+      end
+
       context 'see anchor links' do
         scenario 'to lessons details' do
           ['Ideas', 'Lesson summary', 'Check yourself'].each do |link|

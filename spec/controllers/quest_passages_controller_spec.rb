@@ -1,12 +1,17 @@
-require_relative 'controller_helper'
+require 'rails_helper'
 
-RSpec.describe LessonPassagesController, type: :controller do
+RSpec.describe QuestPassagesController, type: :controller do
   describe 'GET #show' do
-    let!(:user) { create(:course_master, :with_full_course) }
+    let(:user) { create(:course_master, :with_full_course) }
     let(:course_passage) { user.course_passages.last }
     let(:lesson_passage) { course_passage.lesson_passages.first }
+    let(:quest_passage) { lesson_passage.quest_passages.last }
+    let!(:quest) { quest_passage.quest_group.quests.last }
+
     let(:params) do
-      { course_passage_id: course_passage, id: lesson_passage }
+      { course_passage_id: course_passage,
+        quest_passage_id: quest_passage,
+        quest_id: quest }
     end
 
     context 'when authenticated user' do
@@ -16,12 +21,12 @@ RSpec.describe LessonPassagesController, type: :controller do
           get :show, params: params
         end
 
-        it 'Lesson assigns to @lesson' do
-          expect(assigns(:lesson)).to eq(lesson_passage.lesson)
+        it 'QuestPassage assigns to @quest_passage' do
+          expect(assigns(:quest_passage)).to eq(quest_passage)
         end
 
-        it 'QuestPassage assigns to @quest_passages' do
-          expect(assigns(:quest_passages)).to eq(lesson_passage.quest_passages)
+        it 'Quest assigns to @quest' do
+          expect(assigns(:quest)).to eq(quest)
         end
       end
 

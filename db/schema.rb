@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_18_140853) do
+ActiveRecord::Schema.define(version: 2018_07_21_150736) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,19 @@ ActiveRecord::Schema.define(version: 2018_07_18_140853) do
     t.index ["lesson_id"], name: "index_quest_groups_on_lesson_id"
   end
 
+  create_table "quest_passages", force: :cascade do |t|
+    t.bigint "quest_group_id"
+    t.string "educable_type"
+    t.bigint "educable_id"
+    t.bigint "lesson_passage_id"
+    t.boolean "passed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["educable_type", "educable_id"], name: "index_quest_passages_on_educable_type_and_educable_id"
+    t.index ["lesson_passage_id"], name: "index_quest_passages_on_lesson_passage_id"
+    t.index ["quest_group_id"], name: "index_quest_passages_on_quest_group_id"
+  end
+
   create_table "quests", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -103,6 +116,7 @@ ActiveRecord::Schema.define(version: 2018_07_18_140853) do
     t.bigint "lesson_id"
     t.bigint "quest_group_id"
     t.integer "old_quest_group_id"
+    t.text "body"
     t.index ["lesson_id"], name: "index_quests_on_lesson_id"
     t.index ["old_quest_group_id"], name: "index_quests_on_old_quest_group_id"
     t.index ["quest_group_id"], name: "index_quests_on_quest_group_id"
@@ -138,6 +152,8 @@ ActiveRecord::Schema.define(version: 2018_07_18_140853) do
   add_foreign_key "materials", "lessons"
   add_foreign_key "materials", "users"
   add_foreign_key "quest_groups", "lessons"
+  add_foreign_key "quest_passages", "lesson_passages"
+  add_foreign_key "quest_passages", "quest_groups"
   add_foreign_key "quests", "lessons"
   add_foreign_key "quests", "quest_groups"
   add_foreign_key "quests", "users"

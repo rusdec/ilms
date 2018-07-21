@@ -19,6 +19,10 @@ module ApplicationHelper
     end
   end
 
+  def page_header_3(text = '')
+    tag.h5 text, class: 'text-gray'
+  end
+
   def material_card(material)
     return if material.body_html_empty?
 

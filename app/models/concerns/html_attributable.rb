@@ -16,6 +16,9 @@ module HtmlAttributable
                                       join.
                                       blank?
         end
+        define_method "#{attribute}_html_text" do
+          Nokogiri::HTML(self[attribute]).search('//text()').map(&:text)
+        end
       end
     end
   end

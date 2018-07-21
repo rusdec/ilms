@@ -19,7 +19,8 @@ feature 'New quest', %q{
       given(:attributes) { attributes_for(:quest) }
       before do
         fill_in 'Title', with: attributes[:title]
-        fill_editor 'Description', with: attributes[:description]
+        fill_in 'Description', with: attributes[:description]
+        fill_editor 'Body', with: attributes[:body]
       end
 
       context 'when alternative quest changed to none' do
@@ -32,6 +33,7 @@ feature 'New quest', %q{
 
           expect(page).to have_content('Success')
           expect(page).to have_content(attributes[:title])
+          expect(page).to have_content(attributes[:body])
           expect(page).to have_content(attributes[:description])
           expect(page).to_not have_link(default_quest.title)
           expect(page).to_not have_link(attributes[:title])
@@ -47,6 +49,7 @@ feature 'New quest', %q{
 
           expect(page).to have_content('Success')
           expect(page).to have_content(attributes[:title])
+          expect(page).to have_content(attributes[:body])
           expect(page).to have_content(attributes[:description])
           expect(page).to have_link(default_quest.title)
           expect(page).to_not have_link(attributes[:title])
@@ -57,14 +60,17 @@ feature 'New quest', %q{
     context 'with invalid data' do
       scenario 'can\'t create quest', js: true do
         fill_in 'Title', with: nil
-        fill_editor 'Description', with: nil
+        fill_in 'Description', with: nil
+        fill_editor 'Body', with: nil
         click_on 'Create Quest'
 
         expect(page).to_not have_content('Success')
         ['Title can\'t be blank',
          'Title is too short',
          'Description can\'t be blank',
-         'Description is too short'].each do |error|
+         'Description is too short',
+         'Body can\'t be blank',
+         'Body is too short'].each do |error|
           expect(page).to have_content(error)
          end
       end

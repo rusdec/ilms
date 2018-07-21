@@ -23,6 +23,21 @@ RSpec.describe HtmlAttributable, type: :model do
     expect(object).to respond_to(:body_html_empty?)
   end
 
+  context 'body_html_text' do
+    context 'when empty' do
+      it 'return empty array' do
+        expect(object.body_html_text).to eq([])
+      end
+    end
+
+    context 'when not empty' do
+      it 'return array of strings' do
+        object.body = '<p>any</p><span>bar<span>'
+        expect(object.body_html_text).to eq(['any','bar'])
+      end 
+    end
+  end
+
   context '.body_html' do
     context 'when body is nil' do
       it 'body_html return empty' do
@@ -38,7 +53,7 @@ RSpec.describe HtmlAttributable, type: :model do
     end
   end
 
-  context '.body_html_empty' do
+  context '.body_html_empty?' do
     context 'when body is nil' do
       it 'should return true' do
         object.body = nil

@@ -4,12 +4,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  include Educable
-
   has_many :courses
   has_many :lessons
   has_many :quests
   has_many :materials
+
+  include Educable
 
   validates :name, presence: true
   validates :surname, presence: true
