@@ -1,0 +1,10 @@
+.card
+  . class="card-status #{quest_passage_color_status(quest_passage)}"
+    .card-header
+      h3.card-title= "Your answer"
+    = form_for '', remote: true, format: :json, html: { form_editor: true } do |f|
+      .form-group
+        = editor_text_area(form: f, name: :body)
+
+      . class='form-group text-center'
+        = f.submit class: 'btn btn-primary btn-small'

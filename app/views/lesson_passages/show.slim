@@ -1,44 +1,10 @@
 = page_header(@lesson.title)
+
 .row
-  = render partial: 'materials_list',
+  = render partial: 'materials', locals: { lesson: @lesson }
+
+  = render partial: 'rightside_menu',
            locals: { lesson: @lesson,
                      back_path: course_passage_path(@lesson_passage.course_passage) }
 
-  .col-lg-9
-
-    - unless @lesson.ideas_html_empty?
-      = simple_card(title: 'Ideas', body: @lesson.ideas_html, anchor: 'ideas')
-
-    - @lesson.materials.each do |material|
-      = material_card(material)
-
-    - unless @lesson.summary_html_empty?
-      = simple_card(title: 'Lesson summary',
-                    body: @lesson.summary_html,
-                    anchor: 'summary')
-
-    - unless @lesson.check_yourself_html_empty?
-      = simple_card(title: 'Check yourself',
-                    body: @lesson.check_yourself_html,
-                    anchor: 'check-yourself')
-
-= page_header('Quests')
-- @quest_passages.each do |quest_passage|
-  = page_header_3(quest_passage.quest_group.quests.count > 1 ? 'Required one' : 'Required')
-  . class='row row-cards row-deck'
-    - quest_passage.quest_group.quests.each_with_index do |quest, index|
-      . class='col-md-3'
-        .card
-          . class='card-status bg-purple'
-          .card-header
-            h3.card-title= quest.title
-          .card-body
-            = quest.description.truncate(150)
-          . class='card-footer text-muted small'
-            . class='d-flex align-items-center mt-auto'
-              ="Level: #{quest.level}"
-              .ml-auto
-                = link_to 'Go!', "#{course_passage_quest_path(@lesson_passage.course_passage, quest_passage, quest)}", class: 'm-1 text-purple'
-              
-      - if (index+1)%3 == 0
-        .w-100
+= render partial: 'quests', locals: { lesson_passage: @lesson_passage }

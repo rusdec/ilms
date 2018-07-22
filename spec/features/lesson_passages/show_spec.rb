@@ -29,11 +29,9 @@ feature 'Show lesson_passage page', %q{
 
       scenario 'see quests' do
         lesson_passage.quest_passages.each do |quest_passage|
-          quest_passage.quest_group.quests.each do |quest|
-            expect(page).to have_content(quest.title)
-            expect(page).to have_content(quest.description.truncate(150))
-            expect(page).to have_content("Level: #{quest.level}")
-          end
+          expect(page).to have_content(quest_passage.quest.title)
+          expect(page).to have_content(quest_passage.quest.description.truncate(150))
+          expect(page).to have_content("Level: #{quest_passage.quest.level}")
         end
       end
 

@@ -8,21 +8,18 @@ feature 'Show lesson_passage page', %q{
 
   given(:user) { create(:course_master, :with_full_course) }
   given(:course_passage) { user.course_passages.last }
-  given(:lesson_passage) { course_passage.lesson_passages.first }
-  given!(:quest_passage) { lesson_passage.quest_passages.last }
-  given(:quest) { quest_passage.quest_group.quests.last }
-  given(:lesson) { lesson_passage.lesson }
+  given!(:quest_passage) { course_passage.lesson_passages.first.quest_passages.last }
+  given(:quest) { quest_passage.quest }
+  given(:lesson) { course_passage.lesson_passages.first.lesson }
   given(:params) do
-    { course_passage_id: course_passage,
-      quest_passage_id: quest_passage,
-      quest_id: quest }
+    { course_passage_id: course_passage, id: quest_passage }
   end
 
   context 'when authenticated user' do
     context 'when owner of course_passage' do
       before do
         sign_in(user)
-        visit course_passage_quest_path(course_passage, quest_passage, quest)
+        visit course_passage_quest_path(course_passage, quest_passage)
       end
 
       scenario 'see quest details' do
@@ -35,15 +32,15 @@ feature 'Show lesson_passage page', %q{
 
       scenario 'can back to lesson_passage page' do
         click_on 'Back'
-        expect(page).to have_content(lesson_passage.lesson.title)
-        expect(page).to have_content(lesson_passage.lesson.ideas)
+        expect(page).to have_content(lesson.title)
+        expect(page).to have_content(lesson.ideas)
       end
     end
 
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit course_passage_quest_path(course_passage, quest_passage, quest)
+        visit course_passage_quest_path(course_passage, quest_passage)
       end
 
       scenario 'see error' do
@@ -60,7 +57,7 @@ feature 'Show lesson_passage page', %q{
 
   context 'when not authenticated user' do
     before  do
-      visit course_passage_quest_path(course_passage, quest_passage, quest)
+      visit course_passage_quest_path(course_passage, quest_passage)
     end
 
     scenario 'see sign in page' do

@@ -6,13 +6,18 @@ class LessonPassage < ApplicationRecord
 
   after_create :create_quest_passages
 
+  def quest_passages_by_quest_group
+    lesson.quest_groups.collect do |quest_group|
+      quest_passages.where(quest: quest_group.quests)
+    end
+  end
+
   private
 
   def create_quest_passages
     transaction do
-      lesson.quest_groups.each do |quest_group|
-        quest_passages.create!(quest_group: quest_group)
-      end
+      quests = Quest.where(quest_group_id: lesson.quest_groups.pluck(:id))
+      quests.each { |quest| quest_passages.create!(quest: quest) }
     end
   end
 end

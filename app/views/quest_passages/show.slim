@@ -3,17 +3,7 @@
   . class='col-lg-9'
     = simple_card(title: '', body: @quest.description)
     = simple_card(title: '', body: @quest.body_html)
+    = render partial: 'form', locals: { quest_passage: @quest_passage }
 
-    .card
-      . class='card-status bg-purple'
-        .card-header
-          h3.card-title= "Your answer"
-        = form_for '', remote: true do |f|
-          .form-group
-            = f.text_area :body, class: 'form-control small'
-          . class='form-group text-center'
-            = f.submit class: 'btn btn-primary btn-small'
-
-  . class='col-lg-3 order-lg-1 mb-4'
-    . class='list-group list-group-transparent mb-0 small'
-      = link_to "Back", course_passage_lesson_path(@quest_passage.lesson_passage.course_passage, @quest_passage.lesson_passage), class: 'list-group-item list-group-item-action text-muted'
+  = render partial: 'rightside_menu',
+           locals: { course_passage: @course_passage, quest_passage: @quest_passage }

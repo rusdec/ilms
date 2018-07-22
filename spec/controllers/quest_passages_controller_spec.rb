@@ -4,14 +4,10 @@ RSpec.describe QuestPassagesController, type: :controller do
   describe 'GET #show' do
     let(:user) { create(:course_master, :with_full_course) }
     let(:course_passage) { user.course_passages.last }
-    let(:lesson_passage) { course_passage.lesson_passages.first }
-    let(:quest_passage) { lesson_passage.quest_passages.last }
-    let!(:quest) { quest_passage.quest_group.quests.last }
-
+    let(:quest_passage) { course_passage.lesson_passages.first.quest_passages.last }
+    let!(:quest) { quest_passage.quest }
     let(:params) do
-      { course_passage_id: course_passage,
-        quest_passage_id: quest_passage,
-        quest_id: quest }
+      { course_passage_id: course_passage, id: quest_passage }
     end
 
     context 'when authenticated user' do

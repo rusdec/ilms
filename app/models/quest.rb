@@ -8,6 +8,8 @@ class Quest < ApplicationRecord
                                class_name: 'QuestGroup',
                                optional: true
 
+  has_many :quest_passages
+
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 50 }
 

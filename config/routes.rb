@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :course_passages, path: :my_courses do
     resources :lesson_passages, path: :lessons, only: :show, as: :lesson
-    get '/quests/:quest_passage_id/:quest_id', to: 'quest_passages#show', as: :quest
+    resources :quest_passages, path: :quests, only: :show, as: :quest
   end
 
   #

@@ -40,6 +40,7 @@ RSpec.describe Quest, type: :model do
       .with_foreign_key('old_quest_group_id')
       .class_name('QuestGroup')
   end
+  it { should have_many(:quest_passages) }
 
   context 'Using quest_group parameter' do
     let(:user) { create(:course_master, :with_course_and_lesson) }
