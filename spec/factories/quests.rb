@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :quest do
+    association :author, factory: :course_master
+    association :lesson
     sequence(:title) { |n| "QuestsTitle#{n}" }
     sequence(:description) { |n| "QuestsDescription#{n}" }
     sequence(:body) { |n| "ValidQuestBody#{n}" }

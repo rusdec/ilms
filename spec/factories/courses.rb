@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :course do
-    sequence(:title) { |n| "CourseTitle#{n}" }
     association :author, factory: :course_master
+    sequence(:title) { |n| "CourseTitle#{n}" }
 
     trait :full do
       after(:create) do |course|

@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :material do
+    association :lesson
+    association :author, factory: :course_master
     sequence(:title) { |n| "MaterialTitle#{n}" }
     sequence(:body) { |n| "MaterialBody#{n}" }
     sequence(:summary) { |n| "MaterialSequence#{n}" }

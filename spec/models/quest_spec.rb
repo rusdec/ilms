@@ -15,11 +15,7 @@ RSpec.describe Quest, type: :model do
              .is_at_most(500)
   end
 
-  let(:html_validable) do
-    { field: :body,
-      object: create(:course_master, :with_course_and_lesson_and_quest).quests.last,
-      minimum: 10 }
-  end
+  let(:html_validable) { { field: :body, object: create(:quest), minimum: 10 } }
   it_behaves_like 'html_length_minimum_validable'
   it_behaves_like 'html_presence_validable'
 
@@ -43,14 +39,12 @@ RSpec.describe Quest, type: :model do
   it { should have_many(:quest_passages) }
 
   context 'Using quest_group parameter' do
-    let(:user) { create(:course_master, :with_course_and_lesson) }
-    let(:lesson) { user.lessons.last }
-    let!(:quest) { create(:quest, lesson: lesson, author: lesson.author) }
+    let!(:quest) { create(:quest) }
 
     context '.alternatives' do
       it 'should have 5 alternative quests' do
-        alternatives = create_list(:quest, 5, lesson: lesson,
-                                              author: lesson.author,
+        alternatives = create_list(:quest, 5, lesson: quest.lesson,
+                                              author: quest.author,
                                               quest_group: quest.quest_group)
 
         expect(quest.alternatives).to eq(alternatives)
@@ -59,8 +53,8 @@ RSpec.describe Quest, type: :model do
 
     context '.has_alternatives' do
       it 'should have alternatives' do
-        create_list(:quest, 5, lesson: lesson,
-                               author: lesson.author,
+        create_list(:quest, 5, lesson: quest.lesson,
+                               author: quest.author,
                                quest_group: quest.quest_group)
 
         expect(quest).to have_alternatives

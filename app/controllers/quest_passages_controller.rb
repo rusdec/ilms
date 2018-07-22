@@ -7,6 +7,7 @@ class QuestPassagesController < ApplicationController
     authorize! :owner_education, @course_passage
     @quest_passage = QuestPassage.find(params[:id])
     @quest = @quest_passage.quest
+    @quest_solution = @quest_passage.quest_solutions.new
   end
 
   private

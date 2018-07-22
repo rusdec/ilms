@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_21_150736) do
+ActiveRecord::Schema.define(version: 2018_07_22_112701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,15 @@ ActiveRecord::Schema.define(version: 2018_07_21_150736) do
     t.index ["quest_id"], name: "index_quest_passages_on_quest_id"
   end
 
+  create_table "quest_solutions", force: :cascade do |t|
+    t.bigint "quest_passage_id"
+    t.text "body"
+    t.boolean "passed", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quest_passage_id"], name: "index_quest_solutions_on_quest_passage_id"
+  end
+
   create_table "quests", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -151,6 +160,7 @@ ActiveRecord::Schema.define(version: 2018_07_21_150736) do
   add_foreign_key "quest_groups", "lessons"
   add_foreign_key "quest_passages", "lesson_passages"
   add_foreign_key "quest_passages", "quests"
+  add_foreign_key "quest_solutions", "quest_passages"
   add_foreign_key "quests", "lessons"
   add_foreign_key "quests", "quest_groups"
   add_foreign_key "quests", "users"

@@ -13,17 +13,15 @@ RSpec.describe Course, type: :model do
   let(:administrator) { create(:administrator) }
 
   it 'should be default level value' do
-    course = create(:course, user_id: administrator.id)
-    expect(course.level).to eq(1)
+    expect(create(:course).level).to eq(1)
   end
 
   it 'should be default decoration_description value' do
-    course = create(:course, user_id: administrator.id)
-    expect(course.decoration_description).to be_empty
+    expect(create(:course).decoration_description).to be_empty
   end
 
   context 'when author have User role' do
-    let!(:course) { build(:course, user_id: create(:user).id) }
+    let!(:course) { build(:course, author: create(:user)) }
 
     it 'should not be ivalid' do
       expect(course).to_not be_valid
@@ -37,8 +35,7 @@ RSpec.describe Course, type: :model do
 
   %w(Administrator CourseMaster).each do |role|
     it "should be valid if author have #{role} role" do
-      course = build(:course, user_id: create(role.underscore.to_sym).id)
-      expect(course).to be_valid
+      expect(build(:course, author: create(role.underscore.to_sym))).to be_valid
     end
   end
 end

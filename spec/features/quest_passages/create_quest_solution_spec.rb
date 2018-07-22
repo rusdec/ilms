@@ -1,14 +1,13 @@
 require_relative '../features_helper'
 
-feature 'Show quest_passage page', %q{
+feature 'Create quest_solution', %q{
   As student
-  I can view quest_passage page
-  so that I can passage it
+  I can create quest solution
+  so that I can complete lesson
 } do
 
-  given(:quest_passage) { create(:quest_passage) }
+  given!(:quest_passage) { create(:quest_passage) }
   given(:course_passage) { quest_passage.lesson_passage.course_passage }
-  given(:lesson) { quest_passage.lesson_passage.lesson }
   given(:owner) { course_passage.educable }
   given(:params) do
     { course_passage_id: course_passage, id: quest_passage }
@@ -21,20 +20,22 @@ feature 'Show quest_passage page', %q{
         visit course_passage_quest_passage_path(course_passage, quest_passage)
       end
 
-      scenario 'see quest details' do
-        %i(title description).each do |field|
-          expect(page).to have_content(quest_passage.quest.send field)
-        end
+      context 'when vailid data' do
+        scenario 'can create quest_solution', js: true do
+          fill_editor 'Body', with: attributes_for(:quest_solution)[:body]
+          click_on 'Create Quest solution'
 
-        quest_passage.quest.body_html_text.each do |text|
-          expect(page).to have_content(text)
+          expect(page).to have_content('Success')
         end
       end
 
-      scenario 'can back to lesson_passage page' do
-        click_on 'Back'
-        expect(page).to have_content(lesson.title)
-        expect(page).to have_content(lesson.ideas)
+      context 'when invalid data' do
+        scenario 'see error', js: true do
+          fill_editor 'Body', with: nil
+          click_on 'Create Quest solution'
+
+          expect(page).to have_content('Body can\'t be blank')
+        end
       end
     end
 
@@ -48,27 +49,19 @@ feature 'Show quest_passage page', %q{
         expect(page).to have_content('Access denied')
       end
 
-      scenario 'no see quest details' do
-        %i(title description body).each do |field|
-          expect(page).to_not have_content(quest_passage.quest.send field)
-        end
+      scenario 'no see Create Quest solution link' do
+        expect(page).to_not have_link('Create Quest solution')
       end
     end
   end
 
   context 'when not authenticated user' do
-    before  do
+    before do
       visit course_passage_quest_passage_path(course_passage, quest_passage)
     end
 
     scenario 'see sign in page' do
       expect(page).to have_button('Log in')
-    end
-
-    scenario 'no see quest details' do
-      %i(title description body).each do |field|
-        expect(page).to_not have_content(quest_passage.quest.send field)
-      end
     end
   end
 end

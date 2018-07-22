@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :lesson do
+    association :author, factory: :course_master
+    association :course
     sequence(:title) { |n| "LessonTitleText#{n}" }
     ideas 'LessonIdeas'
     summary 'LessonSummary'

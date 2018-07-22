@@ -2,12 +2,11 @@ require 'rails_helper'
 
 RSpec.describe QuestPassagesController, type: :controller do
   describe 'GET #show' do
-    let(:user) { create(:course_master, :with_full_course) }
-    let(:course_passage) { user.course_passages.last }
-    let(:quest_passage) { course_passage.lesson_passages.first.quest_passages.last }
-    let!(:quest) { quest_passage.quest }
+    let!(:quest_passage) { create(:quest_passage) }
+    let(:user) { quest_passage.lesson_passage.course_passage.educable }
     let(:params) do
-      { course_passage_id: course_passage, id: quest_passage }
+      { course_passage_id: quest_passage.lesson_passage.course_passage,
+        id: quest_passage }
     end
 
     context 'when authenticated user' do
@@ -22,7 +21,11 @@ RSpec.describe QuestPassagesController, type: :controller do
         end
 
         it 'Quest assigns to @quest' do
-          expect(assigns(:quest)).to eq(quest)
+          expect(assigns(:quest)).to eq(quest_passage.quest)
+        end
+
+        it 'New QuestSolution assign to @quest_solution' do
+          expect(assigns(:quest_solution)).to be_a_new(QuestSolution)
         end
       end
 
