@@ -4,6 +4,7 @@ class CreateQuestSolutions < ActiveRecord::Migration[5.2]
       t.references :quest_passage, foreign_key: true
       t.text :body
       t.boolean :passed, default: false
+      t.boolean :verified, default: false
 
       t.timestamps
     end

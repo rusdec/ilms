@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type":"integer"},
+    "quest_passage_id": {"type":"integer"},
+    "body": {"type":"string"},
+    "verified":{"type":"boolean"},
+    "passed": {"type":"boolean"},
+    "created_at": {"type":"string", "format":"date-time"},
+    "updated_at": {"type":"string", "format":"date-time"}
+  },
+  "required": ["id","quest_passage_id","body","passed","created_at","updated_at"],
+  "maxProperties": 7
+}

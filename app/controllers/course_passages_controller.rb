@@ -3,8 +3,6 @@ class CoursePassagesController < ApplicationController
 
   before_action :authenticate_user!
 
-  protect_from_forgery except: :create
-
   respond_to :json, only: :create
   respond_to :html, only: %i(show index)
   before_action :verify_requested_format!

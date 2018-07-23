@@ -4,4 +4,10 @@ FactoryBot.define do
     association :quest
     passed false
   end
+
+  trait :with_solutions do
+    after(:create) do |quest_passage|
+      create_list(:quest_solution, 3, quest_passage: quest_passage)
+    end
+  end
 end

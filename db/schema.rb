@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2018_07_22_112701) do
     t.bigint "quest_passage_id"
     t.text "body"
     t.boolean "passed", default: false
+    t.boolean "verified", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["quest_passage_id"], name: "index_quest_solutions_on_quest_passage_id"
