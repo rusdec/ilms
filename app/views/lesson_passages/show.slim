@@ -1,0 +1,10 @@
+= page_header(@lesson.title)
+
+.row
+  = render partial: 'materials', locals: { lesson: @lesson }
+
+  = render partial: 'rightside_menu',
+           locals: { lesson: @lesson,
+                     back_path: course_passage_path(@lesson_passage.course_passage) }
+
+= render partial: 'quests', locals: { lesson_passage: @lesson_passage }

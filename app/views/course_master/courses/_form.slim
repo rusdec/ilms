@@ -1,0 +1,17 @@
+= form_for model, remote: true, format: :json, html: { form_editor: true } do |f|
+  .form-group
+    = f.text_field :title, autocomplete: 'title',
+                           placeholder: 'Title',
+                           class: 'form-control small'
+
+  .form-group
+    = editor_text_area(form: f, name: :decoration_description)
+
+  .form-group
+    = f.text_field :level, autocomplete: 'level',
+                           placeholder: 'Level',
+                           class: 'form-control small'
+                                            
+  .form-group
+    = f.submit class: 'btn btn-primary mr-2'
+    = link_to link_back if link_back

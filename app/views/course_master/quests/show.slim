@@ -24,5 +24,10 @@
     p= @quest.description
 
 .row
+  .col
+    h4= 'Body'
+    p= @quest.body_html
+
+.row
   . class='col text-rigth'
   = link_to 'Back to lesson', course_master_lesson_path(@quest.lesson)

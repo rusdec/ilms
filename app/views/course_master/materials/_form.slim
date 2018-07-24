@@ -1,18 +1,14 @@
-= form_for model, remote: true, format: :json do |f|
+= form_for model, remote: true, format: :json, html: { form_editor: true } do |f|
   .form-group
     = f.text_field :title, autocomplete: 'title',
                            placeholder: 'Title',
                            class: 'form-control small'
 
   .form-group
-    = f.text_area :body, autocomplete: 'body',
-                         placeholder: 'Body',
-                         class: 'form-control small'
+    = editor_text_area(form: f, name: :body)
 
   .form-group
-    = f.text_area :summary, autocomplete: 'summary',
-                         placeholder: 'Summary',
-                         class: 'form-control small'
+    = editor_text_area(form: f, name: :summary)
 
   .form-group
     = f.text_field :order, autocomplete: 'order',

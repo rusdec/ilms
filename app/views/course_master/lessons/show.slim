@@ -8,17 +8,17 @@
 .row
   .col
     h4= 'Ideas'
-    p= text_or_none(@lesson.ideas)
+    p= text_or_none(@lesson.ideas_html)
 
 .row
   .col
     h4= 'Summary'
-    p= text_or_none(@lesson.summary)
+    p= text_or_none(@lesson.summary_html)
 
 .row
   .col
     h4= 'Check yourself'
-    p= text_or_none(@lesson.check_yourself)
+    p= text_or_none(@lesson.check_yourself_html)
 
 .row
   .col

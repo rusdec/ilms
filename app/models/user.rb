@@ -9,6 +9,8 @@ class User < ApplicationRecord
   has_many :quests
   has_many :materials
 
+  include Educable
+
   validates :name, presence: true
   validates :surname, presence: true
 
@@ -16,6 +18,10 @@ class User < ApplicationRecord
   validates :surname, length: { minimum: 2, maximum: 20 }
 
   validate :validate_type
+
+  def learning?(course)
+    course_passages.learning?(course)
+  end
 
   def admin?
     type == 'Administrator'

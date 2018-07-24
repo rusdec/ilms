@@ -1,15 +1,25 @@
-require 'rails_helper'
+require_relative 'models_helper'
 
 RSpec.describe Quest, type: :model do
   it { should validate_presence_of(:title) }
   it do
-    should validate_length_of(:title).is_at_least(3).is_at_most(50)
+    should validate_length_of(:title)
+             .is_at_least(3)
+             .is_at_most(50)
   end
 
   it { should validate_presence_of(:description) }
   it do
-    should validate_length_of(:description).is_at_least(10).is_at_most(1000)
+    should validate_length_of(:description)
+             .is_at_least(10)
+             .is_at_most(500)
   end
+
+  let(:html_validable) { { field: :body, object: create(:quest), minimum: 10 } }
+  it_behaves_like 'html_length_minimum_validable'
+  it_behaves_like 'html_presence_validable'
+
+  it_behaves_like 'html_attributable', %w(body)
 
   it do
     should validate_numericality_of(:level)
@@ -26,16 +36,15 @@ RSpec.describe Quest, type: :model do
       .with_foreign_key('old_quest_group_id')
       .class_name('QuestGroup')
   end
+  it { should have_many(:quest_passages) }
 
   context 'Using quest_group parameter' do
-    let(:user) { create(:course_master, :with_course_and_lesson) }
-    let(:lesson) { user.lessons.last }
-    let!(:quest) { create(:quest, lesson: lesson, author: lesson.author) }
+    let!(:quest) { create(:quest) }
 
     context '.alternatives' do
       it 'should have 5 alternative quests' do
-        alternatives = create_list(:quest, 5, lesson: lesson,
-                                              author: lesson.author,
+        alternatives = create_list(:quest, 5, lesson: quest.lesson,
+                                              author: quest.author,
                                               quest_group: quest.quest_group)
 
         expect(quest.alternatives).to eq(alternatives)
@@ -44,8 +53,8 @@ RSpec.describe Quest, type: :model do
 
     context '.has_alternatives' do
       it 'should have alternatives' do
-        create_list(:quest, 5, lesson: lesson,
-                               author: lesson.author,
+        create_list(:quest, 5, lesson: quest.lesson,
+                               author: quest.author,
                                quest_group: quest.quest_group)
 
         expect(quest).to have_alternatives

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'models_helper'
 
 RSpec.describe Material, type: :model do
   it { should belong_to(:author).with_foreign_key(:user_id).class_name('User') }
@@ -11,8 +11,31 @@ RSpec.describe Material, type: :model do
       .is_at_most(150)
   end
 
-  it { should validate_presence_of(:body) }
-  it { should validate_length_of(:body).is_at_least(10) }
+  it_behaves_like 'html_attributable', %w(body summary)
+
+  context 'html validations' do
+    let(:lesson) { create(:course_master, :with_course_and_lesson).lessons.last }
+    let(:material) { build(:material, lesson: lesson, author: lesson.author) }
+
+    context 'validate length' do
+      it 'body with 9 symbols should be invalid' do
+        material.body = '<span>012345678</span>'
+        expect(material).to_not be_valid
+      end
+
+      it 'body with 10 symbols should be valid' do
+        material.body = '<span>0123456789</span>'
+        expect(material).to be_valid
+      end
+    end
+
+    context 'validate presence' do
+      it 'body with spaces only should be invalid' do
+        material.body = '<span>          </span>'
+        expect(material).to_not be_valid
+      end
+    end
+  end 
 
   it do
     should validate_numericality_of(:order)

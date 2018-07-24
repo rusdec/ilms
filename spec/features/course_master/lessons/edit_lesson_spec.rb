@@ -20,6 +20,7 @@ feature 'Edit lesson', %q{
         expect(page).to have_content('Edit lesson')
 
         fill_in 'Title', with: 'NewLessonTitle'
+        fill_editor :summary, with: "NewLessonSummary"
         click_on 'Update Lesson'
 
         expect(page).to have_content('Success')

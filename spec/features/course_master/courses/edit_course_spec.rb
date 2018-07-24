@@ -19,6 +19,7 @@ feature 'Show course', %q{
       scenario 'can update course', js: true do
         within 'form' do
           fill_in 'Title', with: 'NewValidTitle'
+          fill_editor 'Decoration description', with: 'NewValidDecorationDescriptio'
           click_on 'Update'
         end
 

@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "status": {"type": "boolean"},
+    "status": {"type":"boolean"},
     "message": {"type":"string"},
     "object": {"$ref":"../lesson.json"}
   },

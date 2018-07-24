@@ -9,7 +9,11 @@ html
                                          'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
+    = render 'libs/quill', version: '1.3.6'
+
   body
-    = render 'layouts/header'
-    = render 'layouts/body'
-    = render 'layouts/footer'
+    .page
+      .page-main
+        = render 'layouts/header'
+        = render 'layouts/body'
+      = render 'layouts/footer'

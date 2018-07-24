@@ -27,6 +27,7 @@ feature 'Edit quest', %q{
         expect(page).to have_content('Edit quest')
 
         fill_in 'Title', with: attributes[:title]
+        fill_editor 'Body', with: attributes[:body]
         fill_in 'Description', with: attributes[:description]
         click_on 'Update Quest'
 
@@ -48,6 +49,7 @@ feature 'Edit quest', %q{
     context 'with invalid data' do
       scenario 'can\'t update quest', js: true do
         fill_in 'Title', with: nil
+        fill_editor 'Body', with: nil
         fill_in 'Description', with: nil
         click_on 'Update Quest'
 
@@ -55,7 +57,9 @@ feature 'Edit quest', %q{
         ['Title can\'t be blank',
          'Title is too short',
          'Description can\'t be blank',
-         'Description is too short'].each do |error|
+         'Description is too short',
+         'Body can\'t be blank',
+         'Body is too short'].each do |error|
           expect(page).to have_content(error)
          end
       end

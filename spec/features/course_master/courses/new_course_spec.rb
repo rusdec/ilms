@@ -16,7 +16,7 @@ feature 'Create course', %q{
       course = attributes_for(:course)
       within 'form' do
         fill_in 'Title', with: course[:title]
-        fill_in 'Decoration description', with: course[:decoration_description]
+        fill_editor 'Decoration description', with: course[:decoration_description]
         click_on 'Create'
       end
 

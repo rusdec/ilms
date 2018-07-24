@@ -54,9 +54,11 @@ class Ability
 
   def user_abilities
     guest_abilities
+    owner_education_abilities
   end
 
   def course_master_abilities
+    user_abilities
     manage_courses_abilities
     author_abilities
     can([:create, :read], Course)
@@ -83,6 +85,12 @@ class Ability
   def author_abilities
     can :author, :all do |any|
       user.author_of?(any) || user.admin?
+    end
+  end
+
+  def owner_education_abilities
+    can :owner_education, [CoursePassage, LessonPassage] do |education|
+      education.educable == user
     end
   end
 end
