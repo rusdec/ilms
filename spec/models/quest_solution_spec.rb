@@ -132,4 +132,15 @@ RSpec.describe QuestSolution, type: :model do
       QuestSolution.unverified_for_auditor(auditor)
     ).to_not include(quest_solution)
   end
+
+  context '.declined' do
+    let!(:declined_quest_solutions) do
+      create_list(:quest_solution, 5, verified: true)
+    end
+    before { create_list(:quest_solution, 5) }
+
+    it 'return declined quest solutions' do
+      expect(QuestSolution.declined).to eq(declined_quest_solutions)
+    end
+  end
 end

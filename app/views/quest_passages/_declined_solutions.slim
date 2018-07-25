@@ -1,0 +1,4 @@
+- if quest_passage.quest_solutions.declined.any?
+  = page_header('Declined solutions')
+  - quest_passage.quest_solutions.declined.each do |quest_solution|
+    = simple_card(title: '', body: quest_solution.body_html)

@@ -36,6 +36,22 @@ feature 'Show quest_passage page', %q{
         expect(page).to have_content(lesson.title)
         expect(page).to have_content(lesson.ideas)
       end
+
+      scenario 'see own declined quest solutions' do
+        create_list(:quest_solution, 3, quest_passage: quest_passage, verified: true)
+        refresh
+
+        quest_passage.quest_solutions.declined.each do |quest_solution|
+          expect(page).to have_content('Declined solutions')
+          expect(page).to have_content(quest_solution.body_html)
+        end
+      end
+
+      context 'when have not decline quest solutions' do
+        scenario 'no see title Declined solutions' do
+          expect(page).to_not have_content('Declined solutions')
+        end
+      end
     end
 
     context 'when not owner of course_passage' do

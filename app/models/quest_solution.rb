@@ -17,6 +17,8 @@ class QuestSolution < ApplicationRecord
 
   scope :unverified, ->() { where(verified: false) }
 
+  scope :declined, ->() { where(verified: true).where(passed: false) }
+
   validate :validate_unverification_solutions, on: :create
 
   def accept!
