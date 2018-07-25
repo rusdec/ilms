@@ -2,9 +2,8 @@ require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
   describe 'GET #index' do
-    let!(:quest_solutions) do
-      create(:quest_passage, :with_solutions).quest_solutions
-    end
+    let!(:quest_solution) { create(:quest_solution) }
+    let(:quest_solutions) { quest_solution.quest_passage.quest_solutions }
     let(:author) { quest_solutions.last.quest_passage.quest.author }
 
     context 'when authenticated user' do 
@@ -49,9 +48,9 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let!(:quest_passage) { create(:quest_passage, :with_solutions) }
-    let!(:quest_solution) { quest_passage.quest_solutions.last }
-    let(:author) { quest_solution.quest_passage.quest.author }
+    let(:quest_solution) { create(:quest_solution) }
+    let!(:quest_passage) { quest_solution.quest_passage }
+    let(:author) { quest_passage.quest.author }
     let(:params) { { id: quest_solution } }
 
     context 'when authenticated user' do
@@ -104,9 +103,9 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
   end
 
   describe 'PATCH #accept' do
-    let!(:quest_passage) { create(:quest_passage, :with_solutions) }
-    let!(:quest_solution) { quest_passage.quest_solutions.last }
-    let(:author) { quest_solution.quest_passage.quest.author }
+    let(:quest_solution) { create(:quest_solution) }
+    let!(:quest_passage) { quest_solution.quest_passage }
+    let(:author) { quest_passage.quest.author }
     let(:params) { { id: quest_solution, format: :json } }
 
     context 'when authenticated user' do
@@ -185,8 +184,8 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
   end
 
   describe 'PATCH #decline' do
-    let!(:quest_passage) { create(:quest_passage, :with_solutions) }
-    let!(:quest_solution) { quest_passage.quest_solutions.last }
+    let(:quest_solution) { create(:quest_solution) }
+    let!(:quest_passage) { quest_solution.quest_passage }
     let(:author) { quest_solution.quest_passage.quest.author }
     let(:params) { { id: quest_solution, format: :json } }
 

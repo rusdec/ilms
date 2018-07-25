@@ -15,29 +15,54 @@ feature 'Create quest_solution', %q{
 
   context 'when authenticated user' do
     context 'when owner of course_passage' do
-      before do
-        sign_in(owner)
-        visit course_passage_quest_passage_path(course_passage, quest_passage)
-      end
+      before { sign_in(owner) }
 
-      context 'when vailid data' do
-        scenario 'can create quest_solution', js: true do
-          fill_editor 'Body', with: attributes_for(:quest_solution)[:body]
-          click_on 'Create Quest solution'
+      context 'when have not unverified solution' do
+        before do
+          visit course_passage_quest_passage_path(course_passage, quest_passage)
+        end
 
-          expect(page).to have_content('Success')
+        context 'when valid data' do
+          scenario 'can create quest solution', js: true do
+            fill_editor 'Body', with: attributes_for(:quest_solution)[:body]
+            click_on 'Create Quest solution'
+
+            expect(page).to have_content('Success')
+          end
+
+          scenario 'can\'t create more then one quest solution', js: true do
+            fill_editor 'Body', with: attributes_for(:quest_solution)[:body]
+            click_on 'Create Quest solution'
+
+            expect(page).to_not have_button('Create Quest solution')
+            expect(page).to have_content(
+              'Waiting for verification of your solution...'
+            )
+          end
+        end
+
+        context 'when invalid data' do
+          scenario 'see error', js: true do
+            fill_editor 'Body', with: nil
+            click_on 'Create Quest solution'
+
+            expect(page).to have_content('Body can\'t be blank')
+          end
+        end
+      end # context 'when have not unverified solution'
+
+      context 'when have unverified solution' do
+        before do
+          create(:quest_solution, quest_passage: quest_passage)
+          visit course_passage_quest_passage_path(course_passage, quest_passage)
+        end
+
+        scenario 'can\'t create quest_solution' do
+          expect(page).to_not have_button('Create Quest solution')
+          expect(page).to have_content('Waiting for verification of your solution...')
         end
       end
-
-      context 'when invalid data' do
-        scenario 'see error', js: true do
-          fill_editor 'Body', with: nil
-          click_on 'Create Quest solution'
-
-          expect(page).to have_content('Body can\'t be blank')
-        end
-      end
-    end
+    end # context 'when owner of course_passage'
 
     context 'when not owner of course_passage' do
       before do

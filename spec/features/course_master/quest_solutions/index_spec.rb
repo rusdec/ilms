@@ -8,9 +8,6 @@ feature 'View quest solutions', %q{
 
 
   given(:quest_passage) { create(:quest_passage, :with_solutions) }
-  before do
-    3.times { create_list(:quest_solution, 5, quest_passage: quest_passage) }
-  end
   given(:quest_solutions) { quest_passage.quest_solutions }
   given(:auditor) { quest_solutions.last.quest_passage.quest.author }
 

@@ -20,7 +20,11 @@ document.addEventListener('turbolinks:load', () => {
     {selector: '.accept_quest_solution',  verify: 'accepted'},
     {selector: '.decline_quest_solution', verify: 'declined'}
   ].forEach((e) => {
-    document.querySelector(e.selector).addEventListener('ajax:success', (ev) => {
+    let form = document.querySelector(e.selector)
+    if (!form) { 
+      return;
+    }
+    form.addEventListener('ajax:success', (ev) => {
       let cardTitle = document.querySelector('#quest_solution h3')
       if (cardTitle) {
         cardTitle.textContent = `Solution (${e.verify})`

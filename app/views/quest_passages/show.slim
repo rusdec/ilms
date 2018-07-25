@@ -3,10 +3,13 @@
   .col-lg-9
     = simple_card(title: '', body: @quest.description)
     = simple_card(title: '', body: @quest.body_html)
-    = render partial: 'quest_solutions/form',
-             locals: { quest_solution: @quest_solution,
-                       quest_passage: @quest_passage,
-                       course_passage: @course_passage }
+    - if @quest_passage.has_unverified_solutions?
+      = simple_card(title: '', body: 'Waiting for verification of your solution...')
+    -else
+      = render partial: 'quest_solutions/form',
+               locals: { quest_solution: @quest_solution,
+                         quest_passage: @quest_passage,
+                         course_passage: @course_passage }
 
   . class='col-lg-3 order-lg-1 mb-4'
     = render partial: 'rightside_menu',

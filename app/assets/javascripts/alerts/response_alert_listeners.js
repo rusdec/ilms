@@ -27,11 +27,15 @@ function addResponseAlertListener(params) {
 
     if (response.data.location) {
       window.location = response.data.location
+      return
     }
 
     if (response.data.errors) {
       showErrors(response.data.errors, params.error_container)
-    } else if (response.data.message) {
+      return
+    }
+    
+    if (response.data.message) {
       showSuccess(response.data.message)
     }
 

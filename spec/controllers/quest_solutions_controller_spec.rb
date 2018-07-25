@@ -18,15 +18,26 @@ RSpec.describe QuestSolutionsController, type: :controller do
           before { params[:format] = :json }
 
           context 'when valid data' do
-            it 'create quest_solution for quest_passage' do
-              expect{
-                post :create, params: params
-              }.to change(quest_passage.quest_solutions, :count).by(1)
+            context 'and quest passage have not quest solution' do
+              it_behaves_like 'quest_solution_creatable'
             end
 
-            it 'return success object' do
-              post :create, params: params
-              expect(response).to match_json_schema('quest_solutions/create/success')
+            context 'and quest passage already have quest solution' do
+              let!(:existed_quest_solution) do
+                create(:quest_solution, quest_passage: quest_passage)
+              end
+
+              context 'and it quest solution is accepted' do
+              end
+
+              context 'and it quest solution is declined' do
+                before { existed_quest_solution.decline! }
+                it_behaves_like 'quest_solution_creatable'
+              end
+
+              context 'and it quest solution is unverified' do
+                it_behaves_like 'quest_solution_non_creatable'
+              end
             end
           end
 
@@ -54,17 +65,7 @@ RSpec.describe QuestSolutionsController, type: :controller do
 
         context 'when json' do
           before { params[:format] = :json }
-
-          it 'can\'t create quest_solution for quest_passage' do
-            expect{
-              post :create, params: params
-            }.to_not change(quest_passage.quest_solutions, :count)
-          end
-
-          it 'return error object' do
-            post :create, params: params
-            expect(response).to match_json_schema('shared/errors')
-          end
+          it_behaves_like 'quest_solution_non_creatable'
         end
       end
     end

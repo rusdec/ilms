@@ -7,7 +7,9 @@ FactoryBot.define do
 
   trait :with_solutions do
     after(:create) do |quest_passage|
-      create_list(:quest_solution, 3, quest_passage: quest_passage)
+      create(:quest_solution, quest_passage: quest_passage).decline!
+      create(:quest_solution, quest_passage: quest_passage).accept!
+      create(:quest_solution, quest_passage: quest_passage)
     end
   end
 end
