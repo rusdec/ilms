@@ -21,6 +21,10 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
             QuestSolution.where(id: ids).order(verified: :asc, updated_at: :desc).to_a
           )
         end
+
+        it 'assigns QuestSolution should be decorated' do
+          expect(assigns(:quest_solutions)).to be_decorated
+        end
       end # context 'when course master'
 
       context 'when user' do
@@ -60,6 +64,12 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
 
           it 'assigns QuestSolution to @quest_solution' do
             expect(assigns(:quest_solution)).to eq(quest_solution)
+          end
+
+          it 'assigns QuestSolution should be decorated' do
+            expect(
+              assigns(:quest_solution)
+            ).to be_decorated_with QuestSolutionDecorator
           end
         end
 
@@ -102,22 +112,33 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
     context 'when authenticated user' do
       context 'when course master' do
         context 'when author' do
-          before do
-            sign_in(author)
-            patch :accept, params: params
-            quest_solution.reload
+          before { sign_in(author) }
+
+          context 'when not verified' do
+            before do
+              patch :accept, params: params
+              quest_solution.reload
+            end
+
+            it 'update quest_solution verified to true' do
+              expect(quest_solution).to be_verified
+            end
+
+            it 'update quest_solution passed to true' do
+              expect(quest_solution).to be_passed
+            end
+
+            it 'return success' do
+              expect(response).to match_json_schema('quest_solutions/accept/success')
+            end
           end
 
-          it 'update quest_solution verified to true' do
-            expect(quest_solution).to be_verified
-          end
-
-          it 'update quest_solution passed to true' do
-            expect(quest_solution).to be_passed
-          end
-
-          it 'return success' do
-            expect(response).to match_json_schema('quest_solutions/accept/success')
+          context 'when verified' do
+            it 'return error' do
+              quest_solution.accept!
+              patch :accept, params: params
+              expect(response).to match_json_schema('shared/errors')
+            end
           end
         end
 
@@ -172,22 +193,33 @@ RSpec.describe CourseMaster::QuestSolutionsController, type: :controller do
     context 'when authenticated user' do
       context 'when course master' do
         context 'when author' do
-          before do
-            sign_in(author)
-            patch :decline, params: params
-            quest_solution.reload
+          before { sign_in(author) }
+
+          context 'when not verified' do
+            before do
+              patch :decline, params: params
+              quest_solution.reload
+            end
+
+            it 'update quest_solution verified to true' do
+              expect(quest_solution).to be_verified
+            end
+
+            it 'update quest_solution passed to false' do
+              expect(quest_solution).to_not be_passed
+            end
+
+            it 'return success' do
+              expect(response).to match_json_schema('quest_solutions/accept/success')
+            end
           end
 
-          it 'update quest_solution verified to true' do
-            expect(quest_solution).to be_verified
-          end
-
-          it 'update quest_solution passed to false' do
-            expect(quest_solution).to_not be_passed
-          end
-
-          it 'return success' do
-            expect(response).to match_json_schema('quest_solutions/accept/success')
+          context 'when verified' do
+            it 'return error' do
+              quest_solution.accept!
+              patch :accept, params: params
+              expect(response).to match_json_schema('shared/errors')
+            end
           end
         end
 

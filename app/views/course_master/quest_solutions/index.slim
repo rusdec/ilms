@@ -14,7 +14,7 @@
         tbody
           - @quest_solutions.each do |quest_solution|
             tr
-              td= quest_solution_table_status(quest_solution)
+              td= quest_solution.badge
               td= quest_solution.quest_passage.lesson_passage.educable.full_name
               td= quest_solution.quest_passage.quest.title.truncate(30)
               td= quest_solution.quest_passage.lesson_passage.lesson.title.truncate(30)

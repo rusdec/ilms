@@ -24,14 +24,19 @@ function addResponseAlertListener(params) {
 
   selector.addEventListener('ajax:success', (ev) => {
     let response = parseAjaxResponse(ev)
+
+    if (response.data.location) {
+      window.location = response.data.location
+    }
+
     if (response.data.errors) {
       showErrors(response.data.errors, params.error_container)
-    } else if (response.data.status) {
-      if (response.data.location) {
-        window.location = response.data.location
-      } else {
-        showSuccess(response.data.message)
-      }
+    } else if (response.data.message) {
+      showSuccess(response.data.message)
+    }
+
+    if (params.callback) {
+      params.callback()
     }
   })
 }

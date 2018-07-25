@@ -28,11 +28,15 @@ class CourseMaster::QuestSolutionsController < CourseMaster::BaseController
   end
 
   def set_quest_solution
-    @quest_solution = QuestSolution.find(params[:id])
+    @quest_solution = QuestSolutionDecorator.decorate(
+      QuestSolution.find(params[:id])
+    )
   end
 
   def set_quest_solutions
-    @quest_solutions = QuestSolution.for_auditor(current_user)
-                         .order(verified: :asc, updated_at: :desc)
+    @quest_solutions = QuestSolutionDecorator.decorate_collection(
+      QuestSolution.for_auditor(current_user)
+        .order(verified: :asc, updated_at: :desc)
+    )
   end
 end

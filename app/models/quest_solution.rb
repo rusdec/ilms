@@ -16,22 +16,21 @@ class QuestSolution < ApplicationRecord
   end
 
   def accept!
-    transaction do
-      self.update!(passed: true)
-      verify!
-    end
+    verify!(true)
   end
 
   def decline!
-    transaction do
-      self.update!(passed: false)
-      verify!
-    end
+    verify!(false)
   end
 
   private
 
-  def verify!
-    self.update!(verified: true)
+  def verify!(passed)
+    verified? ? already_verified! : self.update!(passed: passed, verified: true)
+  end
+
+  def already_verified!
+    errors.add(:quest_solution, 'already verified')
+    ActiveRecord::RecordInvalid.new(self)
   end
 end
