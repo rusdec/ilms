@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_25_082202) do
+ActiveRecord::Schema.define(version: 2018_08_01_121013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,27 @@ ActiveRecord::Schema.define(version: 2018_07_25_082202) do
     t.index ["user_id"], name: "index_materials_on_user_id"
   end
 
+  create_table "passage_hierarchies", id: false, force: :cascade do |t|
+    t.integer "ancestor_id", null: false
+    t.integer "descendant_id", null: false
+    t.integer "generations", null: false
+    t.index ["ancestor_id", "descendant_id", "generations"], name: "passage_anc_desc_idx", unique: true
+    t.index ["descendant_id"], name: "passage_desc_idx"
+  end
+
+  create_table "passages", force: :cascade do |t|
+    t.string "passable_type"
+    t.bigint "passable_id"
+    t.bigint "user_id"
+    t.integer "parent_id"
+    t.bigint "status_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["passable_type", "passable_id"], name: "index_passages_on_passable_type_and_passable_id"
+    t.index ["status_id"], name: "index_passages_on_status_id"
+    t.index ["user_id"], name: "index_passages_on_user_id"
+  end
+
   create_table "quest_groups", force: :cascade do |t|
     t.bigint "lesson_id"
     t.datetime "created_at", null: false
@@ -129,6 +150,12 @@ ActiveRecord::Schema.define(version: 2018_07_25_082202) do
     t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
+  create_table "statuses", id: :string, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id"], name: "index_statuses_on_id", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -157,6 +184,7 @@ ActiveRecord::Schema.define(version: 2018_07_25_082202) do
   add_foreign_key "lessons", "users"
   add_foreign_key "materials", "lessons"
   add_foreign_key "materials", "users"
+  add_foreign_key "passages", "users"
   add_foreign_key "quest_groups", "lessons"
   add_foreign_key "quest_passages", "lesson_passages"
   add_foreign_key "quest_passages", "quests"
