@@ -4,7 +4,7 @@
 
 .row
   . class='col text-center'
-    = learn_now(@course, @course_passage)
+    = @course.learn_now(current_user)
  
 .row
   . class='col text-left'

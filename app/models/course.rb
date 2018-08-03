@@ -5,6 +5,8 @@ class Course < ApplicationRecord
   has_many :lessons, dependent: :destroy
   has_many :course_passages
 
+  include Passable
+
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
 

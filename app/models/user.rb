@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :materials
 
   include Educable
+  has_many :passages, dependent: :destroy
 
   validates :name, presence: true
   validates :surname, presence: true

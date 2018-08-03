@@ -11,6 +11,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:lessons) }
   it { should have_many(:quests) }
   it { should have_many(:materials) }
+  it { should have_many(:passages) }
 
   it_behaves_like 'educable'
 

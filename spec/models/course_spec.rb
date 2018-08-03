@@ -8,6 +8,8 @@ RSpec.describe Course, type: :model do
   it { should have_many(:lessons).dependent(:destroy) }
   it { should have_many(:course_passages) }
 
+  it { should have_many(:passages) }
+
   it_behaves_like 'html_attributable', %w(decoration_description)
 
   let(:administrator) { create(:administrator) }

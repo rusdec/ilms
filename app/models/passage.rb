@@ -7,6 +7,10 @@ class Passage < ApplicationRecord
 
   validate :validate_passage_in_progress
 
+  def self.in_progress?(passable)
+    where(passable: passable, status: Status.find(:in_progress)).any?
+  end
+
   protected
 
   def validate_passage_in_progress

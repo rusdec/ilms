@@ -23,11 +23,17 @@ RSpec.describe CoursesController, type: :controller do
 
     roles.each do |role|
       context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
-
-        it 'Assign Course to @course' do
+        before do
+          sign_in(create(role.underscore.to_sym))
           get :show, params: { id: course }
+        end
+
+        it 'assign Course to @course' do
           expect(assigns(:course)).to eq(course)
+        end
+
+        it '@course should be decorated' do
+          expect(assigns(:course)).to be_decorated_with CourseDecorator
         end
       end
     end

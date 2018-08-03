@@ -1,5 +1,4 @@
 require_relative 'models_helper'
-require 'closure_tree/test/matcher'
 
 RSpec.describe Lesson, type: :model do
   it { should validate_presence_of(:title) }

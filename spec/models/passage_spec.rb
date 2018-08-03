@@ -13,6 +13,26 @@ RSpec.describe Passage, type: :model do
 
   it_behaves_like 'statusable'
 
+  context '#in_progress?' do
+    let(:user) { create(:user) }
+    let!(:status) { create(:status, :in_progress) }
+    let!(:passable) { AnyPassable.create }
+
+    context 'when passage in progress' do
+      before { create(:passage, user: user, passable: passable, status: status) }
+
+      it 'should return true' do
+        expect(Passage).to be_in_progress(passable)
+      end
+    end
+
+    context 'when passage not in progress' do
+      it 'should return false' do
+        expect(Passage).to_not be_in_progress(passable)
+      end
+    end
+  end
+
   context '.validate_passage_in_progress' do
     let(:user) { create(:user) }
     let!(:status) { create(:status, :in_progress) }

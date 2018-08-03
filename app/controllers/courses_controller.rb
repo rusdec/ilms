@@ -1,4 +1,6 @@
 class CoursesController < ApplicationController
+  include Passaged
+
   before_action :set_courses, only: :index
   before_action :set_course, only: :show
 
@@ -15,6 +17,6 @@ class CoursesController < ApplicationController
   end
 
   def set_course
-    @course = Course.find(params[:id])
+    @course = CourseDecorator.decorate(Course.find(params[:id]))
   end
 end

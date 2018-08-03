@@ -33,6 +33,7 @@ class Ability
     @user = user
 
     if user
+
       if user.admin?
         admin_abilities
       elsif user.course_master?
@@ -55,6 +56,7 @@ class Ability
   def user_abilities
     guest_abilities
     owner_education_abilities
+    passing_abilities
   end
 
   def course_master_abilities
@@ -85,6 +87,12 @@ class Ability
   def author_abilities
     can :author, :all do |any|
       user.author_of?(any) || user.admin?
+    end
+  end
+
+  def passing_abilities
+    can :passing, Passage do |passable|
+      passable.user == user
     end
   end
 
