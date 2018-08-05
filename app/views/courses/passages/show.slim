@@ -1,0 +1,5 @@
+= page_header(@passage.passable.title)
+.row
+  = render partial: 'courses/passages/lesson_passages_list',
+           locals: { passage: @passage }
+  .col-lg-9

@@ -12,7 +12,11 @@ class PassagesController < ApplicationController
   end
 
   def show
-    authorize! :passing, @passage
+    puts @passage.inspect
+    puts current_user.inspect
+    puts @passage.user == current_user
+
+    #authorize! :passing, @passage
     render "#{passable_type}/passages/show"
   end
 
@@ -20,10 +24,19 @@ class PassagesController < ApplicationController
 
   def set_passage
     @passage = Passage.find(params[:id])
+    @passage = decorator_class.decorate(@passage)
+  end
+
+  def decorator_class
+    "#{passable_class}PassageDecorator".constantize
   end
 
   def passable_type
-    @passage.passable.class.to_s.pluralize.underscore
+    passable_class.to_s.pluralize.underscore
+  end
+
+  def passable_class
+    @passage.passable.class
   end
 
   def set_passages

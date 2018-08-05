@@ -91,8 +91,8 @@ class Ability
   end
 
   def passing_abilities
-    can :passing, Passage do |passable|
-      passable.user == user
+    can :passing, Passage do |passage|
+      passage.user == user
     end
   end
 

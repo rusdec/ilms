@@ -26,7 +26,7 @@ RSpec.describe Statusable, type: :model do
       expect(statusable.status).to eq(statusable.send :default_status)
     end
 
-    it 'receive set_status before_validation' do
+    it 'receive set_status before validation' do
       statusable = AnyStatusable.new
       expect(statusable).to receive(:set_status)
       statusable.valid?

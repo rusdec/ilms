@@ -24,4 +24,9 @@ RSpec.describe Lesson, type: :model do
   it_should_behave_like 'persistable', Lesson.all
 
   it_behaves_like 'html_attributable', %w(ideas summary check_yourself)
+
+  it '.passable_children' do
+    lesson = create(:lesson, :with_quests)
+    expect(lesson.passable_children).to eq(lesson.quests)
+  end
 end

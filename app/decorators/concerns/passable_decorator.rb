@@ -3,11 +3,11 @@ module PassableDecorator
     return unless current_user
 
     if current_user.passages.in_progress?(self)
-      return button_tag 'You learning it',  class: 'btn btn-outline-primary',
+      return h.button_tag 'You learning it',  class: 'btn btn-outline-primary',
                                             disabled: true
     end
 
-    h.form_for self, url: h.polymorphic_path([:passage, self]), remote: true, format: :json do |f|
+    h.form_for [:learn, self], { remote: true, format: :json, method: :post } do |f|
       h.concat(f.hidden_field :id, value: self.id)
       h.concat(f.submit 'Learn now!', class: 'btn btn-primary')
     end

@@ -3,16 +3,14 @@ class Lesson < ApplicationRecord
 
   include Persistable
   include HtmlAttributable
+  include Passable
 
   belongs_to :course
   belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
-
   has_many :quests, dependent: :destroy
   has_many :quest_groups
   has_many :materials, dependent: :destroy
-
-  has_many :lesson_passages
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
@@ -20,4 +18,7 @@ class Lesson < ApplicationRecord
                                     greater_than_or_equal_to: 1 }
 
   html_attributes :ideas, :summary, :check_yourself
+
+  # Passable Template method
+  alias_attribute :passable_children, :quests
 end

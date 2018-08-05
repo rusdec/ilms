@@ -14,6 +14,12 @@ RSpec.describe Course, type: :model do
 
   let(:administrator) { create(:administrator) }
 
+
+  it '.passable_children' do
+    course = create(:course, :with_lessons)
+    expect(course.passable_children).to eq(course.lessons)
+  end
+
   it 'should be default level value' do
     expect(create(:course).level).to eq(1)
   end

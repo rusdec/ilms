@@ -1,5 +1,6 @@
 class Quest < ApplicationRecord
   include HtmlAttributable
+  include Passable
 
   belongs_to :author, foreign_key: 'user_id', class_name: 'User'
   belongs_to :lesson
@@ -7,8 +8,6 @@ class Quest < ApplicationRecord
   belongs_to :old_quest_group, foreign_key: 'old_quest_group_id',
                                class_name: 'QuestGroup',
                                optional: true
-
-  has_many :quest_passages
 
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 50 }

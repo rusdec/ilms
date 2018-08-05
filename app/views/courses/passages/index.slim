@@ -1,0 +1,7 @@
+= page_header('My courses')
+.row
+  .col
+    ul.list-group
+      - @course_passages.each do |course_passage|
+        li class='list-group-item d-flex justify-content-between align-items-center'
+          = link_to course_passage.course.title, course_passage_path(course_passage)
