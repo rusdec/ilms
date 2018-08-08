@@ -11,7 +11,9 @@ default_statuses = [
   { id: 'passed' },
   { id: 'failed' },
   { id: 'accepted' },
-  { id: 'declined' }
+  { id: 'declined' },
+  { id: 'unverified' },
+  { id: 'unavailable' }
 ]
 ActiveRecord::Base.transaction do
   Status.all.each(&:destroy!)

@@ -1,5 +1,5 @@
 class Status < ApplicationRecord
   def self.method_missing(method, *args, &block)
-    find(method)
+    find_by(id: method)
   end
 end
