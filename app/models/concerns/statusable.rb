@@ -7,15 +7,19 @@ module Statusable
     belongs_to :status, optional: true
 
     Status.all.each do |s|
-      define_method "#{s.id}!" do
+      define_method "#{s.name}?" do
+        self.status == s
+      end
+
+      define_method "#{s.name}!" do
         change_status_to(s)
       end
+
+      scope "all_#{s.name}", ->() { where(status: Status.send(s.name)) }
     end
 
-    Status.all.each do |s|
-      define_method "#{s.id}?" do
-        status == s
-      end
+    def statuses
+      Status
     end
 
     protected
@@ -39,7 +43,7 @@ module Statusable
     end
 
     def before_create_set_status
-      self.status = default_status unless status
+      self.status = default_status unless self.status
     end
   end
 end

@@ -19,6 +19,7 @@ RSpec.describe Quest, type: :model do
   it_behaves_like 'html_length_minimum_validable'
   it_behaves_like 'html_presence_validable'
 
+  it_behaves_like 'passable'
   it_behaves_like 'html_attributable', %w(body)
 
   it do
@@ -36,7 +37,6 @@ RSpec.describe Quest, type: :model do
       .with_foreign_key('old_quest_group_id')
       .class_name('QuestGroup')
   end
-  it { should have_many(:quest_passages) }
 
   context 'Using quest_group parameter' do
     let!(:quest) { create(:quest) }

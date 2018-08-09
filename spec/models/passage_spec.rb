@@ -22,8 +22,25 @@ RSpec.describe Passage, type: :model do
   it { should belong_to(:passable) }
 
   it_behaves_like 'statusable'
+  it_behaves_like 'solutionable'
 
-  let!(:status) { create(:status, :in_progress) }
+  context '#by_type' do
+    it 'return objects with given type' do
+      [AnyPassable, OtherPassable].each do |passable|
+        Passage.create(passable: passable.create, user: create(:user))
+      end
+      expect(
+        Passage.by_type('AnyPassable')
+      ).to eq(Passage.where(passable_type: 'AnyPassable'))
+    end
+  end
+
+  ['courses', 'lessons', 'quests'].each do |scope|
+    it "#for_#{scope}" do
+      expect(Passage).to receive(:by_type).with(scope.singularize.capitalize)
+      Passage.send "for_#{scope}"
+    end
+  end
 
   context '.passage_after_create_hook' do
     let!(:other_passable) { OtherPassable.create }
@@ -46,51 +63,32 @@ RSpec.describe Passage, type: :model do
     end
   end
 
-  context '#in_progress?' do
-    let(:user) { create(:user) }
-    let!(:passable) { AnyPassable.create }
-
-    context 'when passage in progress' do
-      before { create(:passage, user: user, passable: passable, status: status) }
-
-      it 'should return true' do
-        expect(Passage).to be_in_progress(passable)
-      end
-    end
-
-    context 'when passage not in progress' do
-      it 'should return false' do
-        expect(Passage).to_not be_in_progress(passable)
-      end
-    end
-  end
-
   context '.validate_passage_in_progress' do
-    let(:user) { create(:user) }
-    let!(:status) { create(:status, :in_progress) }
-    let!(:passable) { AnyPassable.create }
+    context 'when passable already have passage' do
+      let(:params) { { user: create(:user), passable: AnyPassable.create } }
+      let!(:existed_passage) { create(:passage, params) }
+      let(:new_passage) { build(:passage, params) }
 
-    context 'when passage in progress' do
-      before { create(:passage, user: user, passable: passable, status: status) }
-      let!(:passage) do
-        build(:passage, user: user, passable: passable, status: status)
-      end
+      context 'and existed passage in progress' do
+        it 'new passage should be invalid' do
+          expect(new_passage).to_not be_valid
+        end
 
-      it 'passage should be invalid' do
-        expect(passage).to_not be_valid
-      end
+        it 'new should contains error' do
+          new_passage.valid?
+          expect(new_passage.errors.full_messages).to eq(['Any passable in progress'])
+        end
+      end # context 'and existed passage in progress'
 
-      it 'should contains error' do
-        passage.valid?
-        expect(passage.errors.full_messages).to eq(['Any passable in progress'])
-      end
-    end
+      context 'and existed passage not in progress' do
+        before do
+          existed_passage.accepted!
+        end
 
-    context 'when passage not in progress' do
-      it 'passage should be valid' do
-        passage = build(:passage, user: user, passable: passable, status: status)
-        expect(passage).to be_valid
+        it 'new passage should be valid' do
+          expect(new_passage).to be_valid
+        end
       end
-    end
+    end # context 'when passable already have passage'
   end
 end

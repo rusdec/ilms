@@ -9,7 +9,6 @@ class User < ApplicationRecord
   has_many :quests
   has_many :materials
 
-  include Educable
   has_many :passages, dependent: :destroy
 
   validates :name, presence: true
@@ -20,8 +19,8 @@ class User < ApplicationRecord
 
   validate :validate_type
 
-  def learning?(course)
-    course_passages.learning?(course)
+  def learning?(passable)
+    passages.all_in_progress.where(passable: passable).any?
   end
 
   def admin?

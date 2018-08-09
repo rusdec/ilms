@@ -55,7 +55,6 @@ class Ability
 
   def user_abilities
     guest_abilities
-    owner_education_abilities
     passing_abilities
   end
 
@@ -93,12 +92,6 @@ class Ability
   def passing_abilities
     can :passing, Passage do |passage|
       passage.user == user
-    end
-  end
-
-  def owner_education_abilities
-    can :owner_education, [CoursePassage, LessonPassage] do |education|
-      education.educable == user
     end
   end
 end

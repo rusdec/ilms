@@ -4,9 +4,9 @@ class Lesson < ApplicationRecord
   include Persistable
   include HtmlAttributable
   include Passable
+  include Authorable
 
   belongs_to :course
-  belongs_to :author, foreign_key: :user_id, class_name: 'User'
 
   has_many :quests, dependent: :destroy
   has_many :quest_groups

@@ -2,7 +2,10 @@ module Educable
   extend ActiveSupport::Concern
 
   included do
-    has_many :course_passages, as: :educable, dependent: :destroy
-    has_many :lesson_passages, as: :educable
+    has_many :passages, dependent: :destroy
+
+    def learning?(passable)
+      passages.all_in_progress.where(passable: passable).any?
+    end
   end
 end
