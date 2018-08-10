@@ -1,10 +1,10 @@
 class CreateStatuses < ActiveRecord::Migration[5.2]
   def change
-    create_table :statuses, id: false do |t|
-      t.string :id, primary_key: true
+    create_table :statuses do |t|
+      t.string :name, null: false
       t.timestamps
     end
 
-    add_index :statuses, :id, unique: true
+    add_index :statuses, :name, unique: true
   end
 end

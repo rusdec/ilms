@@ -15,17 +15,6 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "course_passages", force: :cascade do |t|
-    t.bigint "course_id"
-    t.string "educable_type"
-    t.bigint "educable_id"
-    t.boolean "passed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_course_passages_on_course_id"
-    t.index ["educable_type", "educable_id"], name: "index_course_passages_on_educable_type_and_educable_id"
-  end
-
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
     t.bigint "user_id"
@@ -42,19 +31,6 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.integer "generations", null: false
     t.index ["ancestor_id", "descendant_id", "generations"], name: "lessons_anc_desc_idx", unique: true
     t.index ["descendant_id"], name: "lessons_desc_idx"
-  end
-
-  create_table "lesson_passages", force: :cascade do |t|
-    t.bigint "lesson_id"
-    t.string "educable_type"
-    t.bigint "educable_id"
-    t.boolean "passed", default: false
-    t.bigint "course_passage_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["course_passage_id"], name: "index_lesson_passages_on_course_passage_id"
-    t.index ["educable_type", "educable_id"], name: "index_lesson_passages_on_educable_type_and_educable_id"
-    t.index ["lesson_id"], name: "index_lesson_passages_on_lesson_id"
   end
 
   create_table "lessons", force: :cascade do |t|
@@ -93,6 +69,16 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.index ["descendant_id"], name: "passage_desc_idx"
   end
 
+  create_table "passage_solutions", force: :cascade do |t|
+    t.bigint "passage_id"
+    t.text "body"
+    t.bigint "status_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["passage_id"], name: "index_passage_solutions_on_passage_id"
+    t.index ["status_id"], name: "index_passage_solutions_on_status_id"
+  end
+
   create_table "passages", force: :cascade do |t|
     t.string "passable_type"
     t.bigint "passable_id"
@@ -113,26 +99,6 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.index ["lesson_id"], name: "index_quest_groups_on_lesson_id"
   end
 
-  create_table "quest_passages", force: :cascade do |t|
-    t.bigint "quest_id"
-    t.bigint "lesson_passage_id"
-    t.boolean "passed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["lesson_passage_id"], name: "index_quest_passages_on_lesson_passage_id"
-    t.index ["quest_id"], name: "index_quest_passages_on_quest_id"
-  end
-
-  create_table "quest_solutions", force: :cascade do |t|
-    t.bigint "quest_passage_id"
-    t.text "body"
-    t.boolean "passed", default: false
-    t.boolean "verified", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["quest_passage_id"], name: "index_quest_solutions_on_quest_passage_id"
-  end
-
   create_table "quests", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -150,10 +116,11 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.index ["user_id"], name: "index_quests_on_user_id"
   end
 
-  create_table "statuses", id: :string, force: :cascade do |t|
+  create_table "statuses", force: :cascade do |t|
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["id"], name: "index_statuses_on_id", unique: true
+    t.index ["name"], name: "index_statuses_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -176,19 +143,14 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "course_passages", "courses"
   add_foreign_key "courses", "users"
-  add_foreign_key "lesson_passages", "course_passages"
-  add_foreign_key "lesson_passages", "lessons"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
   add_foreign_key "materials", "lessons"
   add_foreign_key "materials", "users"
+  add_foreign_key "passage_solutions", "passages"
   add_foreign_key "passages", "users"
   add_foreign_key "quest_groups", "lessons"
-  add_foreign_key "quest_passages", "lesson_passages"
-  add_foreign_key "quest_passages", "quests"
-  add_foreign_key "quest_solutions", "quest_passages"
   add_foreign_key "quests", "lessons"
   add_foreign_key "quests", "quest_groups"
   add_foreign_key "quests", "users"

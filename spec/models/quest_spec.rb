@@ -20,6 +20,7 @@ RSpec.describe Quest, type: :model do
   it_behaves_like 'html_presence_validable'
 
   it_behaves_like 'passable'
+  it_behaves_like 'authorable'
   it_behaves_like 'html_attributable', %w(body)
 
   it do
@@ -29,7 +30,6 @@ RSpec.describe Quest, type: :model do
       .is_less_than_or_equal_to(5)
   end
 
-  it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
   it { should belong_to(:lesson) }
   it { should belong_to(:quest_group) }
   it do

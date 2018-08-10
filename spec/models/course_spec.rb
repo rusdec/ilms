@@ -2,12 +2,12 @@ require_relative 'models_helper'
 
 RSpec.describe Course, type: :model do
   it { should validate_presence_of(:title) }
-  it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
 
   it { should validate_length_of(:title).is_at_least(5).is_at_most(50) }
   it { should have_many(:lessons).dependent(:destroy) }
 
   it_behaves_like 'passable'
+  it_behaves_like 'authorable'
   it_behaves_like 'html_attributable', %w(decoration_description)
 
   let(:administrator) { create(:administrator) }

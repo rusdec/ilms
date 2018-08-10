@@ -15,9 +15,9 @@ class Passage < ApplicationRecord
   scope :for_lessons, ->() { by_type('Lesson') }
   scope :for_quests,  ->() { by_type('Quest') }
 
-  #def self.in_progress?(passable)
-  #  where(passable: passable, status: Status.in_progress).any?
-  #end
+  def self.in_progress?(passable)
+    where(passable: passable, status: Status.in_progress).any?
+  end
 
   protected
 

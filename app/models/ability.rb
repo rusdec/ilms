@@ -84,7 +84,7 @@ class Ability
   end
 
   def author_abilities
-    can :author, :all do |any|
+    can :author, Authorable do |any|
       user.author_of?(any) || user.admin?
     end
   end

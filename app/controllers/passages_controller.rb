@@ -12,11 +12,8 @@ class PassagesController < ApplicationController
   end
 
   def show
-    puts @passage.inspect
-    puts current_user.inspect
-    puts @passage.user == current_user
-
-    #authorize! :passing, @passage
+    authorize! :passing, @passage
+    @passage = decorator_class.decorate(@passage)
     render "#{passable_type}/passages/show"
   end
 
@@ -24,7 +21,6 @@ class PassagesController < ApplicationController
 
   def set_passage
     @passage = Passage.find(params[:id])
-    @passage = decorator_class.decorate(@passage)
   end
 
   def decorator_class

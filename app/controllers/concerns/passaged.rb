@@ -19,7 +19,7 @@ module Passaged
     end
 
     def passages
-      @passages = current_user.passages.where(passable_type: polymorphic_resource_class.to_s)
+      @passages = current_user.passages.send "for_#{polymorphic_resource_name.pluralize}"
       render "#{polymorphic_resource_name.pluralize}/passages/index"
     end
   end

@@ -99,10 +99,10 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
           before do
             params[:material] = attributes
             patch :update, params: params
+            material.reload
           end
 
           it 'can update material' do
-            material.reload
             attributes.each_key do |field|
               expect(material.send field).to eq(attributes[field])
             end
@@ -236,7 +236,7 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
       context 'when json' do
         let(:params) { { id: material, format: :json } }
 
-        it 'can delete lesson' do
+        it 'can delete material' do
           expect{
             delete :destroy, params: params
           }.to change(lesson.materials, :count).by(-1)
@@ -255,7 +255,7 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
       context 'when json' do
         let(:params) { { id: material, format: :json } }
 
-        it 'can\'t delete lesson' do
+        it 'can\'t delete material' do
           expect{
             delete :destroy, params: params
           }.to_not change(lesson.materials, :count)

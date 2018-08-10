@@ -1,8 +1,8 @@
-shared_examples_for 'quest_solution_non_creatable' do
-  it 'can\'t create quest_solution for quest_passage' do
+shared_examples_for 'passage_solution_non_creatable' do
+  it 'can\'t create passage_solution for passage' do
     expect{
       post :create, params: params
-    }.to_not change(quest_passage.quest_solutions, :count)
+    }.to_not change(passage.solutions, :count)
   end
 
   it 'return error object' do

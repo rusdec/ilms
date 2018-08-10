@@ -1,16 +1,16 @@
 FactoryBot.define do
   factory :status do
     trait :in_progress do
-      id :in_progress
+      name :in_progress
     end
     trait :unverified do
-      id :unverified
+      name :unverified
     end
     trait :accepted do
-      id :accepted
+      name :accepted
     end
     trait :declined do
-      id :declined
+      name :declined
     end
   end
 end

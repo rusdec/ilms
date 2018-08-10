@@ -7,7 +7,7 @@ class CoursesController < ApplicationController
   def index; end
 
   def show
-    @course_passage = @course.course_passages.new
+    @passage = @course.passages.new
   end
 
   protected

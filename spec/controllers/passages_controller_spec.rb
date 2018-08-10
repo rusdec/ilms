@@ -1,5 +1,9 @@
 require_relative 'controller_helper'
 
+class AnyPassablePassageDecorator < Draper::Decorator;
+  delegate_all
+end
+
 RSpec.describe PassagesController, type: :controller do
   with_model :any_passable do
     table do |t|
@@ -19,7 +23,6 @@ RSpec.describe PassagesController, type: :controller do
     end
   end
 
-  before { create(:status, :in_progress) }
   let!(:user) { create(:user) }
 
   describe 'GET #show' do

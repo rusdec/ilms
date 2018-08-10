@@ -8,11 +8,12 @@ module Statusable
 
     Status.all.each do |s|
       define_method "#{s.name}?" do
-        self.status == s
+        return false unless self.status
+        self.status.name == s.name
       end
 
       define_method "#{s.name}!" do
-        change_status_to(s)
+        change_status_to(s.name)
       end
 
       scope "all_#{s.name}", ->() { where(status: Status.send(s.name)) }
@@ -24,10 +25,10 @@ module Statusable
 
     protected
 
-    def change_status_to(new_status)
+    def change_status_to(status_name)
       transaction do
         before_update_status
-        self.update!(status: new_status)
+        self.update!(status: Status.send(status_name))
         after_update_status
       end
     end
@@ -44,6 +45,12 @@ module Statusable
 
     def before_create_set_status
       self.status = default_status unless self.status
+    end
+
+    def already_verified!
+      return unless unverified?
+      errors.add(:status, 'already verified')
+      ActiveRecord::RecordInvalid.new(self)
     end
   end
 end

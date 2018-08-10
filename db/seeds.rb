@@ -7,13 +7,13 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 default_statuses = [
-  { id: 'in_progress' },
-  { id: 'passed' },
-  { id: 'failed' },
-  { id: 'accepted' },
-  { id: 'declined' },
-  { id: 'unverified' },
-  { id: 'unavailable' }
+  { name: 'in_progress' },
+  { name: 'passed' },
+  { name: 'failed' },
+  { name: 'accepted' },
+  { name: 'declined' },
+  { name: 'unverified' },
+  { name: 'unavailable' }
 ]
 ActiveRecord::Base.transaction do
   Status.all.each(&:destroy!)

@@ -16,10 +16,6 @@ Rails.application.routes.draw do
     end
   end
 
-  [:course_passages, :lesson_passages, :quest_passages].each do |controller|
-    resources controller, only: %i(index show)
-  end
-
   #
   # All users
   #
@@ -31,17 +27,12 @@ Rails.application.routes.draw do
     end
   end
 
-  #resources :course_passages, path: :my_courses do
-  #  resources :lesson_passages, path: :lessons, only: :show, as: :lesson
-  #  resources :quest_passages, only: :show do
-  #    resource :quest_solutions, path: :solutions, only: :create
-  #  end
-  #end
-
   #
   # Passages
   #
-  resources :passages, only: %i(show)
+  resources :passages, only: %i(show), shallow: true do
+    resources :solutions, controller: 'passage_solutions', only: :create
+  end
 
   #
   # Course master
@@ -53,11 +44,8 @@ Rails.application.routes.draw do
         resources :quests
         resources :materials
       end
-      resources :course_passages, only: %i(index show) do
-        resources :quest_passages, only: :show
-      end
     end
-    resources :quest_solutions, only: %i(index show) do
+    resources :solutions, controller: 'passage_solutions', only: %i(index show) do
       member do
         patch :accept
         patch :decline

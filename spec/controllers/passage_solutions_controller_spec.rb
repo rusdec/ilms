@@ -1,13 +1,16 @@
 require_relative 'controller_helper'
 
-RSpec.describe QuestSolutionsController, type: :controller do
+RSpec.describe PassageSolutionsController, type: :controller do
+  with_model :any_passable do
+    model { include Passable }
+  end
+
   describe 'POST #create' do
-    let!(:quest_passage) { create(:quest_passage) }
-    let(:owner) { quest_passage.lesson_passage.course_passage.educable }
+    let!(:passage) { create(:passage, passable: AnyPassable.create) }
+    let(:owner) { passage.user }
     let(:params) do
-      { course_passage_id: quest_passage.lesson_passage.course_passage,
-        quest_passage_id: quest_passage,
-        quest_solution: attributes_for(:quest_solution) }
+      { passage_id: passage,
+        passage_solution: attributes_for(:passage_solution) }
     end
 
     context 'when authenticated user' do
@@ -19,37 +22,39 @@ RSpec.describe QuestSolutionsController, type: :controller do
 
           context 'when valid data' do
             context 'and quest passage have not quest solution' do
-              it_behaves_like 'quest_solution_creatable'
+              it_behaves_like 'passage_solution_creatable'
             end
 
             context 'and quest passage already have quest solution' do
-              let!(:existed_quest_solution) do
-                create(:quest_solution, quest_passage: quest_passage)
+              let!(:existed_passage_solution) do
+                create(:passage_solution, passage: passage)
               end
 
               context 'and it quest solution is accepted' do
+                before { existed_passage_solution.accepted! }
+                it_behaves_like 'passage_solution_creatable'
               end
 
               context 'and it quest solution is declined' do
-                before { existed_quest_solution.decline! }
-                it_behaves_like 'quest_solution_creatable'
+                before { existed_passage_solution.declined! }
+                it_behaves_like 'passage_solution_creatable'
               end
 
               context 'and it quest solution is unverified' do
-                it_behaves_like 'quest_solution_non_creatable'
+                it_behaves_like 'passage_solution_non_creatable'
               end
             end
           end
 
           context 'when invalid data' do
             before do
-              params[:quest_solution] = attributes_for(:invalid_quest_solution)
+              params[:passage_solution] = attributes_for(:invalid_passage_solution)
             end
 
-            it 'can\'t create quest_solution' do
+            it 'can\'t create passage_solution' do
               expect{
                 post :create, params: params
-              }.to_not change(QuestSolution, :count)
+              }.to_not change(PassageSolution, :count)
             end
 
             it 'return error object' do
@@ -65,7 +70,7 @@ RSpec.describe QuestSolutionsController, type: :controller do
 
         context 'when json' do
           before { params[:format] = :json }
-          it_behaves_like 'quest_solution_non_creatable'
+          it_behaves_like 'passage_solution_non_creatable'
         end
       end
     end
@@ -74,10 +79,10 @@ RSpec.describe QuestSolutionsController, type: :controller do
       context 'when json' do
         before { params[:format] = :json }
 
-        it 'can\'t create quest_solution' do
+        it 'can\'t create passage_solution' do
           expect{
             post :create, params: params
-          }.to_not change(QuestSolution, :count)
+          }.to_not change(PassageSolution, :count)
         end
 
         it 'return error object' do

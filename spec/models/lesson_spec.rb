@@ -11,7 +11,6 @@ RSpec.describe Lesson, type: :model do
   end
 
   it { should belong_to(:course) }
-  it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
 
   it { should have_many(:quests).dependent(:destroy) }
   it { should have_many(:quest_groups) }
@@ -23,6 +22,7 @@ RSpec.describe Lesson, type: :model do
 
   it_behaves_like 'html_attributable', %w(ideas summary check_yourself)
   it_behaves_like 'passable'
+  it_behaves_like 'authorable'
 
   it '.passable_children' do
     lesson = create(:lesson, :with_quests)
