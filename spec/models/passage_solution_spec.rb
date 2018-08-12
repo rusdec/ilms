@@ -22,6 +22,10 @@ RSpec.describe PassageSolution, type: :model do
   it_behaves_like 'html_attributable', %i(body)
   it_behaves_like 'statusable'
 
+  it '.parent' do
+    expect(passage_solution.parent).to eq(passage_solution.passage)
+  end
+
   context '.validate_unverification_solutions' do
     let!(:new_passage_solution) do
       build(:passage_solution, passage: passage)

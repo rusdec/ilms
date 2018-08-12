@@ -66,7 +66,7 @@ RSpec.describe Statusable, type: :model do
   end
 
   context 'when update status' do
-    %i(before_update_status after_update_status).each do |method|
+    %i(before_update_status_hook after_update_status_hook).each do |method|
       it "receive #{method}" do
         expect(statusable).to receive(method)
         statusable.declined!

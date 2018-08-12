@@ -27,17 +27,17 @@ module Statusable
 
     def change_status_to(status_name)
       transaction do
-        before_update_status
+        before_update_status_hook
         self.update!(status: Status.send(status_name))
-        after_update_status
+        after_update_status_hook
       end
     end
 
     # Template method
-    def before_update_status; end
+    def before_update_status_hook; end
 
     # Template method
-    def after_update_status; end
+    def after_update_status_hook; end
 
     def default_status
       Status.in_progress

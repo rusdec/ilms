@@ -4,6 +4,8 @@ class PassageSolution < ApplicationRecord
 
   belongs_to :passage
 
+  alias_attribute :parent, :passage
+
   html_attributes :body
 
   validates :body, html: { presence: true }
@@ -24,6 +26,11 @@ class PassageSolution < ApplicationRecord
   validate :validate_unverification_solutions, on: :create
 
   protected
+
+  # Statusable Template method
+  def after_update_status_hook
+    parent.try_pass! if accepted?
+  end
 
   # Statusable Template method
   def default_status

@@ -3,6 +3,7 @@ class Passage < ApplicationRecord
   include Solutionable
 
   after_create :after_create_hook_create_children
+  before_create :before_create_hook_set_type
 
   has_closure_tree dependent: :destroy
   belongs_to :passable, polymorphic: true
@@ -19,7 +20,27 @@ class Passage < ApplicationRecord
     where(passable: passable, status: Status.in_progress).any?
   end
 
+  def try_pass!
+    return if passed?
+    return unless ready_to_pass?
+
+    transaction do
+      passed!
+      after_pass_hook
+    end
+  end
+
   protected
+
+  # Template method
+  def ready_to_pass?; end
+
+  # Template method
+  def after_pass_hook; end
+
+  def before_create_hook_set_type
+    self.type = "#{passable.class}Passage"
+  end
 
   def after_create_hook_create_children
     transaction do

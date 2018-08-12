@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_01_121013) do
+ActiveRecord::Schema.define(version: 2018_08_12_120721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2018_08_01_121013) do
     t.bigint "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "type"
     t.index ["passable_type", "passable_id"], name: "index_passages_on_passable_type_and_passable_id"
     t.index ["status_id"], name: "index_passages_on_status_id"
     t.index ["user_id"], name: "index_passages_on_user_id"

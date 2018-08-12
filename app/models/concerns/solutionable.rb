@@ -2,7 +2,7 @@ module Solutionable
   extend ActiveSupport::Concern
 
   included do
-    has_many :solutions, class_name: 'PassageSolution'
+    has_many :solutions, class_name: 'PassageSolution', dependent: :destroy
 
     def has_unverified_solutions?
       solutions.all_unverified.any?

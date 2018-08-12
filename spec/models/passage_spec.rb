@@ -17,6 +17,9 @@ RSpec.describe Passage, type: :model do
     end
   end
 
+  class AnyPassablePassage < Passage; end
+  class OtherPassablePassage < Passage; end
+
   it { should be_a_closure_tree }
   it { should belong_to(:user) }
   it { should belong_to(:passable) }
@@ -40,6 +43,11 @@ RSpec.describe Passage, type: :model do
       expect(Passage).to receive(:by_type).with(scope.singularize.capitalize)
       Passage.send "for_#{scope}"
     end
+  end
+
+  it 'created passage has type related with passables class' do
+    passage = Passage.create(passable: AnyPassable.create, user: create(:user))
+    expect(passage.type).to eq('AnyPassablePassage')
   end
 
   context '.passage_after_create_hook' do

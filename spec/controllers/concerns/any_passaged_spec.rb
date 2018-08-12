@@ -17,6 +17,7 @@ RSpec.describe AnyPassablesController, type: :controller do
     end
   end
 
+  class AnyPassablePassage < Passage; end
 
   before do
     routes.draw do
@@ -94,6 +95,11 @@ RSpec.describe AnyPassablesController, type: :controller do
           expect{
             post :learn!, params: params
           }.to change(user.passages, :count).by(1)
+        end
+
+        it 'created passage has type' do
+          post :learn!, params: params
+          expect(Passage.last).to be_a(AnyPassablePassage)
         end
 
         it 'created passage related with passable' do
