@@ -1,0 +1,22 @@
+= page_header('Quests')
+
+- lesson_passage.quest_passages_by_quest_group.each do |quest_group|
+  = page_header_3(quest_group.length > 1 ? 'Required one' : 'Required')
+  . class='row row-cards row-deck'
+    - quest_group.each_with_index do |quest_passage, index|
+      . class='col-md-3'
+        .card
+          . class="card-status #{}"
+          .card-header
+            h3.card-title= quest_passage.passable.title
+          .card-body
+            = quest_passage.passable.description.truncate(150)
+            . class='quest_solution_status text-center'
+          . class='card-footer text-muted small'
+            . class='d-flex align-items-center mt-auto'
+              ="Level: #{quest_passage.passable.level}"
+              .ml-auto
+                = link_to 'Go!', "#{passage_path(quest_passage)}", class: 'm-1 text-purple'
+
+      - if (index+1)%3 == 0
+        .w-100

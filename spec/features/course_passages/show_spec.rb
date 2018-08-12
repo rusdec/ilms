@@ -6,15 +6,16 @@ feature 'Course passage page', %q{
   so that I can take lesson to learn
 } do
 
-  let(:course) { create(:course_master, :with_course_and_lessons).courses.last }
-  let(:user) { create(:user) }
-  let!(:course_passage) { create(:course_passage, course: course, educable: user) }
+  given!(:user) { create(:user) }
+  given(:author) { create(:course_master) }
+  given!(:course) { create(:course, :full, author: author) }
+  given!(:course_passage) { create(:passage, passable: course, user: user) }
   
   context 'when authenticated user' do
     context 'when owner of course_passage' do
       before do
         sign_in(user)
-        visit course_passage_path(course_passage)
+        visit passage_path(course_passage)
       end
 
       scenario 'see lessons of course' do
@@ -31,7 +32,7 @@ feature 'Course passage page', %q{
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit course_passage_path(course_passage)
+        visit passage_path(course_passage)
       end
 
       scenario 'no see lessons and see error' do
@@ -44,7 +45,7 @@ feature 'Course passage page', %q{
   end
 
   context 'when not authenticated user' do
-    before { visit course_passage_path(course_passage) }
+    before { visit passage_path(course_passage) }
 
     scenario 'see sign in page' do
       expect(page).to have_content('You need to sign in or sign up before continuing')

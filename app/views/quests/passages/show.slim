@@ -1,0 +1,14 @@
+= page_header(@passage.passable.title)
+.row
+  .col-lg-9
+    = simple_card(title: '', body: @passage.passable.description)
+    = simple_card(title: '', body: @passage.passable.body_html)
+    - if @passage.has_unverified_solutions?
+      = simple_card(title: '', body: 'Waiting for verification of your solution...')
+    - else
+      = render partial: 'passage_solutions/form', locals: { passage: @passage }
+
+    = render partial: 'quests/passages/declined_solutions', locals: { passage: @passage }
+
+  . class='col-lg-3 order-lg-1 mb-4'
+    = render partial: 'quests/passages/rightside_menu', locals: { passage: @passage.parent }

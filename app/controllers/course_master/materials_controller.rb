@@ -21,9 +21,7 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   end
 
   def update
-    puts @material.inspect
     @material.update(material_params)
-    puts @material.inspect
     json_response_by_result
   end
 

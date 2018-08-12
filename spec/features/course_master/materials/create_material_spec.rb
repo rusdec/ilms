@@ -31,19 +31,21 @@ feature 'Lessons author create material', %q{
 
     context 'with invalid data' do
       scenario 'can\'t create material', js: true do
-        click_on 'Add material'
+        Capybara.using_wait_time(5) do
+          click_on 'Add material'
 
-        fill_in 'Title', with: nil
-        fill_editor 'Body', with: nil
-        fill_in 'Order', with: ' '
-        click_on 'Create Material'
+          fill_in 'Title', with: nil
+          fill_editor 'Body', with: nil
+          fill_in 'Order', with: ' '
+          click_on 'Create Material'
 
-        [ 'Title can\'t be blank',
-          'Title is too short',
-          'Body can\'t be blank',
-          'Body is too short',
-          'Order is not a number'
-        ].each { |error| expect(page).to have_content(error) }
+          [ 'Title can\'t be blank',
+            'Title is too short',
+            'Body can\'t be blank',
+            'Body is too short',
+            'Order is not a number'
+          ].each { |error| expect(page).to have_content(error) }
+        end
       end
     end # context 'with valid data'
   end # context 'when author of lesson'

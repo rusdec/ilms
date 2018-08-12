@@ -47,6 +47,9 @@ module Statusable
       self.status = default_status unless self.status
     end
 
+    # It is only necessary for
+    # passage_solutions with type a Quest.
+    # todo: Where I can check it? 
     def already_verified!
       return unless unverified?
       errors.add(:status, 'already verified')

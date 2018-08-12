@@ -7,18 +7,15 @@ feature 'Show lesson_passage page', %q{
 } do
 
   given(:user) { create(:course_master, :with_full_course) }
-  given(:course_passage) { user.course_passages.last }
-  given(:lesson_passage) { course_passage.lesson_passages.first }
-  given(:lesson) { lesson_passage.lesson }
-  given(:params) do
-    { course_passage_id: course_passage, id: lesson_passage }
-  end
+  given(:lesson_passage) { user.passages.for_lessons.first }
+  given(:lesson) { lesson_passage.passable }
+  given(:params) { { id: lesson_passage } }
 
   context 'when authenticated user' do
     context 'when owner of course_passage' do
       before do
         sign_in(user)
-        visit course_passage_lesson_path(course_passage, lesson_passage)
+        visit passage_path(lesson_passage)
       end
 
       scenario 'see lesson details' do
@@ -28,10 +25,10 @@ feature 'Show lesson_passage page', %q{
       end
 
       scenario 'see quests' do
-        lesson_passage.quest_passages.each do |quest_passage|
-          expect(page).to have_content(quest_passage.quest.title)
-          expect(page).to have_content(quest_passage.quest.description.truncate(150))
-          expect(page).to have_content("Level: #{quest_passage.quest.level}")
+        lesson_passage.children.each do |quest_passage|
+          expect(page).to have_content(quest_passage.passable.title)
+          expect(page).to have_content(quest_passage.passable.description.truncate(150))
+          expect(page).to have_content("Level: #{quest_passage.passable.level}")
         end
       end
 
@@ -59,8 +56,8 @@ feature 'Show lesson_passage page', %q{
 
       scenario 'can back to course_passage' do
         click_on 'Back'
-        course_passage.lesson_passages.each do |lesson_passage|
-          expect(page).to have_content(lesson_passage.lesson.title)
+        user.passages.for_lessons.each do |lesson_passage|
+          expect(page).to have_content(lesson_passage.passable.title)
         end
         lesson.materials.each do |material|
           %i(title body summary).each do |field|
@@ -73,7 +70,7 @@ feature 'Show lesson_passage page', %q{
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit course_passage_lesson_path(course_passage, lesson_passage)
+        visit passage_path(lesson_passage)
       end
 
       it 'see error' do
@@ -95,7 +92,7 @@ feature 'Show lesson_passage page', %q{
   end
 
   context 'when not authenticated user' do
-    before { visit course_passage_lesson_path(course_passage, lesson_passage) }
+    before { visit passage_path(lesson_passage) }
 
     it 'see sign in page' do
       expect(page).to have_button('Log in')

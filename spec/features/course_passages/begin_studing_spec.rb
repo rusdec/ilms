@@ -6,9 +6,10 @@ feature 'Start learning', %q{
   so that I can learn something new
 } do
 
-  let(:course) { create(:course_master, :with_course_and_lessons).courses.last }
-  let(:user) { create(:user) }
-  
+  given!(:user) { create(:user) }
+  given(:author) { create(:course_master) }
+  given!(:course) { create(:course, :full, author: author) }
+
   context 'when authenticated user' do
     before { sign_in(user) }
     
@@ -20,19 +21,20 @@ feature 'Start learning', %q{
       end
 
       scenario 'can start learning course', js: true do
-        click_on('Learn now!')
+        Capybara.using_wait_time(5) do
+          click_on('Learn now!')
+          expect(page).to have_content('Success')
 
-        expect(page).to have_content('Success')
-
-        course.lessons.each do |lesson|
-          expect(page).to have_content(lesson.title)
+          course.lessons.each do |lesson|
+            expect(page).to have_content(lesson.title)
+          end
         end
       end
     end # context 'when not in the process of studying the course'
 
     context 'when in the process of studying the course' do
       before do
-        create(:course_passage, educable: user, course: course)
+        create(:passage, user: user, passable: course)
         visit course_path(course)
       end
 

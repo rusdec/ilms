@@ -17,6 +17,7 @@ RSpec.describe AnyPassablesController, type: :controller do
     end
   end
 
+
   before do
     routes.draw do
       concern :passable do |options|
@@ -36,8 +37,6 @@ RSpec.describe AnyPassablesController, type: :controller do
       resources :passages
     end
   end
-
-  before { create(:status, :in_progress) }
 
   describe 'GET passages' do
     let(:view_path) { Rails.root.join('app/views/any_passables') }

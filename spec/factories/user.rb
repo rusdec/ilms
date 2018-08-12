@@ -8,7 +8,7 @@ FactoryBot.define do
     trait :with_full_course do
       after(:create) do |user|
         course = create(:course, :full, author: user)
-        create(:course_passage, educable: user, course: course)
+        create(:passage, user: user, passable: course)
       end
     end
 

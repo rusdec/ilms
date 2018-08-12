@@ -1,0 +1,23 @@
+= page_header('Quest solutions')
+.row
+  .col
+    .card
+      table class='table card-table table-striped table-vcenter small'
+        thead
+          tr
+            th= 'Status'
+            th= 'User'
+            th= 'Quest'
+            th= 'Lesson'
+            th= 'Course'
+            th= 'Date'
+        tbody
+          - @passage_solutions.each do |solution|
+            tr
+              td= solution.badge
+              td= solution.passage.user.full_name
+              td= solution.passage.passable.title.truncate(30)
+              td= solution.passage.parent.passable.title.truncate(30)
+              td= solution.passage.parent.passable.course.title.truncate(30)
+              td= format_date(solution.created_at)
+              td= link_to 'verify', course_master_solution_path(solution)

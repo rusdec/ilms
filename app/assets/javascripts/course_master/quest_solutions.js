@@ -1,5 +1,5 @@
 document.addEventListener('turbolinks:load', () => {
-  let forms = ['.accept_quest_solution', '.decline_quest_solution']
+  let forms = ['.accept_passage_solution', '.decline_passage_solution']
 
   let hideForms = () => {
     forms.forEach((form) => {
@@ -17,18 +17,16 @@ document.addEventListener('turbolinks:load', () => {
 
 document.addEventListener('turbolinks:load', () => {
   [
-    {selector: '.accept_quest_solution',  verify: 'accepted'},
-    {selector: '.decline_quest_solution', verify: 'declined'}
+    {selector: '.accept_passage_solution',  verify: 'accepted'},
+    {selector: '.decline_passage_solution', verify: 'declined'}
   ].forEach((e) => {
     let form = document.querySelector(e.selector)
-    if (!form) { 
-      return;
+    let cardTitle = document.querySelector('#passage_solution h3')
+    if (!form || !cardTitle) {
+      return
     }
-    form.addEventListener('ajax:success', (ev) => {
-      let cardTitle = document.querySelector('#quest_solution h3')
-      if (cardTitle) {
-        cardTitle.textContent = `Solution (${e.verify})`
-      }
+    form.addEventListener('ajax:success', () => {
+      cardTitle.textContent = `Solution (${e.verify})`
     })
   })
 })

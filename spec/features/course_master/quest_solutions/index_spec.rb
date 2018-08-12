@@ -7,34 +7,40 @@ feature 'View quest solutions', %q{
 } do
 
 
-  given(:quest_passage) { create(:quest_passage, :with_solutions) }
-  given(:quest_solutions) { quest_passage.quest_solutions }
-  given(:auditor) { quest_solutions.last.quest_passage.quest.author }
+  given!(:auditor) { create(:course_master) }
+  given!(:course) { create(:course, :full, author: auditor) }
+  before do
+    create(:passage, passable: course)
+    create(:passage_solution, passage: Passage.for_quests.last)
+    create(:passage_solution, passage: Passage.for_quests.first)
+  end
+  given(:passage_solutions) { PassageSolution.all }
 
   context 'when authenticated user' do
     context 'when author of course' do
       before do
         sign_in(auditor)
-        visit course_master_quest_solutions_path
+        visit course_master_solutions_path
       end
 
       scenario 'see quest solutons list' do
-        expect(page).to have_link('verify', count: quest_solutions.count)
+        expect(page).to have_link('verify', count: passage_solutions.count)
 
-        quest_solutions.each do |quest_solution|
+        passage_solutions.each do |passage_solution|
+          passable = passage_solution.passage.passable
           [
-            quest_solution.quest_passage.lesson_passage.educable.full_name,
-            quest_solution.quest_passage.lesson_passage.lesson.title.truncate(30),
-            quest_solution.quest_passage.lesson_passage.lesson.course.title.truncate(30),
-            quest_solution.quest_passage.quest.title.truncate(30),
-            format_date(quest_solution.created_at)
+            passage_solution.passage.user.full_name,
+            passable.title.truncate(30),
+            passable.lesson.title.truncate(30),
+            passable.lesson.course.title.truncate(30),
+            format_date(passage_solution.created_at)
           ].each { |field| expect(page).to have_content(field) }
         end
       end
     end
 
     context 'when not author of course' do
-      before { visit course_master_quest_solutions_path }
+      before { visit course_master_solutions_path }
 
       scenario 'see error' do
         expect(page).to have_content('Access denied')

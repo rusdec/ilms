@@ -12,12 +12,21 @@ function showSuccess(message = '', container) {
     span.textContent = message
     successContainer.appendChild(span)
     toggleVisibleSuccess()
-    setTimeout(()=>{toggleVisibleSuccess()}, 1000);
+    setTimeout(()=>{toggleVisibleSuccess()}, 3000);
   }
 }
 
 function toggleVisibleSuccess() {
-  document.querySelector('.form-success-container').classList.toggle('hidden')
+  let container = document.querySelector('.form-success-container')
+  if (!container) { 
+    return
+  }
+
+  if (container.classList.contains('hidden')) {
+    container.classList.remove('hidden')
+  } else {
+    container.classList.add('hidden')
+  }
 }
 
 document.addEventListener('turbolinks:load', () => {
