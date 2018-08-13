@@ -4,23 +4,24 @@ class PassageSolution < ApplicationRecord
 
   belongs_to :passage
 
-  alias_attribute :parent, :passage
-
   html_attributes :body
 
   validates :body, html: { presence: true }
 
-  # Scopes `for_auditor` and `unverified_for_auditor`
-  # are only for quests becouse courses and lessons
-  # don\'t need manual verification
-  scope :for_auditor, ->(user) do
+  # @param [CourseMaster|Administrator] :user any user with course_master abilities
+  # @param [Symbol] :type pluralized type of any Solutionable
+  #
+  # ==== Examples
+  #
+  #   PassageSolution.for_auditor(CourseMaster.last, :quests)
+  scope :for_auditor, ->(user, type) do
     joins(:passage)
-      .joins('JOIN quests ON passages.passable_id = quests.id')
-      .where(quests: { user_id: user.id })
+      .joins("JOIN #{type} ON passages.passable_id = #{type}.id")
+      .where(type => { user_id: user.id })
   end
 
-  scope :unverified_for_auditor, ->(user) do
-    for_auditor(user).where(status: Status.unverified)
+  scope :unverified_for_auditor, ->(user, type) do
+    for_auditor(user, type).where(status: Status.unverified)
   end
 
   validate :validate_unverification_solutions, on: :create
@@ -29,7 +30,7 @@ class PassageSolution < ApplicationRecord
 
   # Statusable Template method
   def after_update_status_hook
-    parent.try_pass! if accepted?
+    passage.try_chain_pass! if accepted?
   end
 
   # Statusable Template method

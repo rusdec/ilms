@@ -11,6 +11,6 @@ class LessonPassage < Passage
 
   # Passage Template method
   def after_pass_hook
-    passable.children.each(&:in_progress!)
+    #passable.children.each(&:in_progress!)
   end
 end

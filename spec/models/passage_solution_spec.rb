@@ -14,7 +14,7 @@ RSpec.describe PassageSolution, type: :model do
   it { should belong_to(:passage) }
 
   let(:passable) { AnyPassable.create(author: create(:course_master)) }
-  let(:passage) { create(:passage, passable: passable, user: create(:user)) }
+  let(:passage) { create(:passage, passable: passable) }
   let!(:passage_solution) { create(:passage_solution, passage: passage) }
 
   let(:html_validable) { { field: :body, object: passage_solution } }
@@ -22,8 +22,23 @@ RSpec.describe PassageSolution, type: :model do
   it_behaves_like 'html_attributable', %i(body)
   it_behaves_like 'statusable'
 
-  it '.parent' do
-    expect(passage_solution.parent).to eq(passage_solution.passage)
+  it '#for_auditor' do
+    quest = create(:quest)
+    passage = create(:passage, passable: quest)
+    create(:passage_solution, passage: passage)
+
+    expect(PassageSolution.for_auditor(quest.author, :quests)).to eq(passage.solutions)
+  end
+
+  it '#unverified_for_auditor' do
+    quest = create(:quest)
+    passage = create(:passage, passable: quest)
+    create(:passage_solution, passage: passage).declined!
+    create(:passage_solution, passage: passage)
+
+    expect(
+      PassageSolution.unverified_for_auditor(quest.author, :quests)
+    ).to eq(passage.solutions.all_unverified)
   end
 
   context '.validate_unverification_solutions' do
@@ -58,22 +73,25 @@ RSpec.describe PassageSolution, type: :model do
     end # context 'when passage have passage_solution'
   end # context 'validate_unverification_solutions'
 
-  it '#for_auditor' do
-    quest = create(:quest)
-    passage = create(:passage, passable: quest, user: create(:user))
-    create(:passage_solution, passage: passage)
+  context '.after_update_status_hook' do
+    let!(:course) { create(:course, :full) }
+    let!(:passage_solution) do
+      create(:passage, passable: course)
+      create(:passage_solution, passage: Passage.for_quests.last)
+    end
 
-    expect(PassageSolution.for_auditor(quest.author)).to eq(passage.solutions)
-  end
+    context 'when status updated to accepted' do
+      it 'parent should receive try_pass!' do
+        expect(passage_solution.passage).to receive(:try_chain_pass!)
+        passage_solution.accepted!
+      end
+    end
 
-  it '#unverified_for_auditor' do
-    quest = create(:quest)
-    passage = create(:passage, passable: quest, user: create(:user))
-    create(:passage_solution, passage: passage).declined!
-    create(:passage_solution, passage: passage)
-
-    expect(
-      PassageSolution.unverified_for_auditor(quest.author)
-    ).to eq(passage.solutions.all_unverified)
+    context 'when status updated to declined' do
+      it 'parent should not receive try_pass!' do
+        expect(passage_solution.passage).to_not receive(:try_chain_pass!)
+        passage_solution.declined!
+      end
+    end
   end
 end

@@ -19,7 +19,7 @@ RSpec.describe CourseMaster::PassageSolutionsController, type: :controller do
         it 'assings PassageSolution of passables author to @passage_solutions' do
           expect(
             assigns(:passage_solutions).object.to_a
-          ).to eq(PassageSolution.for_auditor(author).order(updated_at: :desc).to_a)
+          ).to eq(PassageSolution.for_auditor(author, :quests).order(updated_at: :desc).to_a)
         end
 
         it 'assigns PassageSolution should be decorated' do

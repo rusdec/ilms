@@ -20,13 +20,14 @@ class Passage < ApplicationRecord
     where(passable: passable, status: Status.in_progress).any?
   end
 
-  def try_pass!
+  def try_chain_pass!
     return if passed?
     return unless ready_to_pass?
 
     transaction do
       passed!
       after_pass_hook
+      parent&.try_chain_pass! 
     end
   end
 

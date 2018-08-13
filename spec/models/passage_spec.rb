@@ -71,6 +71,57 @@ RSpec.describe Passage, type: :model do
     end
   end
 
+  context '.try_chain_pass!' do
+    let!(:course) { create(:course, :full) }
+    let!(:passage) do
+      create(:passage, passable: course, user: create(:user))
+      Passage.last
+    end
+
+    context 'when passage is passed' do
+      before { passage.passed! }
+      it_behaves_like 'not_pass_chainable'
+    end
+
+    context 'when passage is not ready to pass' do
+      it_behaves_like 'not_pass_chainable'
+    end
+
+    context 'when passage is not passed and ready to pass' do
+      before do
+        class << passage
+          def ready_to_pass?
+            true
+          end
+        end
+      end
+
+      it 'passage should receive passed!' do
+        expect(passage).to receive(:passed!)
+        passage.try_chain_pass!
+      end
+
+      it 'passage should receive after_pass_hook' do
+        expect(passage).to receive(:after_pass_hook)
+        passage.try_chain_pass!
+      end
+
+      it 'parent should receive try_chain_pass!' do
+        expect(passage.parent).to receive(:try_chain_pass!)
+        passage.try_chain_pass!
+      end
+
+      context 'when parent is nil' do
+        before { passage.parent = nil }
+
+        it 'parent should not receive try_chain_pass!' do
+          expect(passage.parent).to_not receive(:try_chain_pass!)
+          passage.try_chain_pass!
+        end
+      end
+    end
+  end
+
   context '.validate_passage_in_progress' do
     context 'when passable already have passage' do
       let(:params) { { user: create(:user), passable: AnyPassable.create } }

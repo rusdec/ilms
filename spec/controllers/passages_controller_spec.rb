@@ -1,6 +1,6 @@
 require_relative 'controller_helper'
 
-class AnyPassablePassageDecorator < Draper::Decorator;
+class AnyPassablePassageDecorator < Draper::Decorator
   delegate_all
 end
 
@@ -14,6 +14,8 @@ RSpec.describe PassagesController, type: :controller do
       include Passable
     end
   end
+
+  class AnyPassablePassage < Passage; end
 
   before do
     routes.draw do
@@ -43,7 +45,11 @@ RSpec.describe PassagesController, type: :controller do
         after { FileUtils.rm_r(view_path) }
         
         it 'assign Passage to @passage' do
-          expect(assigns(:passage)).to eq(passage)    
+          expect(assigns(:passage)).to eq(AnyPassablePassage.find(passage.id))
+        end
+
+        it 'should be decorated' do
+          expect(assigns(:passage)).to be_decorated_with AnyPassablePassageDecorator
         end
 
         it 'render any_passables/passages/show' do
