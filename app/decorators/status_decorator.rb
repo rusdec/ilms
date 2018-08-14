@@ -2,22 +2,20 @@ class StatusDecorator < Draper::Decorator
   delegate_all
 
   STATUSES = {
-    passed:     { title: 'accepted',    css: { badge: 'badge-success' } },
-    not_passed: { title: 'declined',     css: { badge: 'badge-danger'  } },
-    unverified: { title: 'unverified',  css: { badge: 'badge-default' } }
+    passed:       { title: 'accepted',    css: { badge: 'badge-success' } },
+    declined:     { title: 'declined',    css: { badge: 'badge-danger'  } },
+    unverified:   { title: 'unverified',  css: { badge: 'badge-default' } },
+    unavailable:  { title: 'unavailable', css: { badge: 'badge-danger'  } },
+    in_progress:  { title: 'in_progress', css: { badge: 'badge-default' } },
   }.freeze
 
-  def status
-    current_status[:title]
-  end
-
   def badge
-    h.tag.span status, class: "badge #{current_status[:css][:badge]}"
+    h.tag.span current_status[:title], class: "badge #{current_status[:css][:badge]}"
   end
 
   protected
 
   def current_status
-    STATUSES[id]
+    STATUSES[name.to_sym]
   end
 end

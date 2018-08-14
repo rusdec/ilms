@@ -14,10 +14,10 @@
         tbody
           - @passage_solutions.each do |solution|
             tr
-              td= solution.badge
+              td= solution.status.badge
               td= solution.passage.user.full_name
-              td= solution.passage.passable.title.truncate(30)
-              td= solution.passage.parent.passable.title.truncate(30)
-              td= solution.passage.parent.passable.course.title.truncate(30)
-              td= format_date(solution.created_at)
+              td= solution.passage.passable.title_preview
+              td= solution.passage.parent.passable.title_preview
+              td= solution.passage.parent.passable.course.title_preview
+              td= solution.created_at
               td= link_to 'verify', course_master_solution_path(solution)

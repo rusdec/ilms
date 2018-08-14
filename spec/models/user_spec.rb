@@ -42,9 +42,4 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  it '.full_name' do
-    user = create(:user)
-    expect(user.full_name).to eq("#{user.name} #{user.surname}")
-  end
 end

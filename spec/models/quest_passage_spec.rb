@@ -4,9 +4,16 @@ RSpec.describe QuestPassage, type: :model do
   let!(:course) { create(:course, :full) }
   let!(:passage) { create(:passage, passable: course) }
   let(:quest_passage) { QuestPassage.first }
-  let!(:passage_solution) { create(:passage_solution, passage: quest_passage) }
+
+  context '.default_status' do
+    it 'should be in_progress' do
+      expect(quest_passage.status). to eq(Status.in_progress)
+    end
+  end
 
   context '.ready_to_pass?' do
+    let!(:passage_solution) { create(:passage_solution, passage: quest_passage) }
+
     context 'when has accepted solution' do
       before { passage_solution.accepted! }
 

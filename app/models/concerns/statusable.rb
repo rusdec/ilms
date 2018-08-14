@@ -39,6 +39,7 @@ module Statusable
     # Template method
     def after_update_status_hook; end
 
+    # Template method
     def default_status
       Status.in_progress
     end

@@ -40,6 +40,6 @@ class CourseMaster::PassageSolutionsController < CourseMaster::BaseController
   end
 
   def set_passage_solutions
-    @passage_solutions = PassageSolution.for_auditor(current_user, :quests).order(updated_at: :desc)
+    @passage_solutions = PassageSolution.for_auditor(current_user, :quests).order(created_at: :desc)
   end
 end

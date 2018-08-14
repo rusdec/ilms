@@ -2,6 +2,7 @@ class PassagesController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_passage, only: :show
+  before_action :set_passable_type, only: :show
   before_action :set_passages, only: :index
 
   respond_to :html, only: %i(show index)
@@ -14,7 +15,7 @@ class PassagesController < ApplicationController
   def show
     authorize! :passing, @passage
     @passage = decorator_class.decorate(@passage)
-    render "#{passable_type}/passages/show"
+    render "#{@passable_type}/passages/show"
   end
 
   protected
@@ -27,8 +28,8 @@ class PassagesController < ApplicationController
     "#{passable_class}PassageDecorator".constantize
   end
 
-  def passable_type
-    passable_class.to_s.pluralize.underscore
+  def set_passable_type
+    @passable_type = passable_class.to_s.pluralize.underscore
   end
 
   def passable_class

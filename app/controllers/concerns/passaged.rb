@@ -13,7 +13,7 @@ module Passaged
         { with_location: :passage_path,
           without_object: true,
           with_flash: true },
-        passable.passages.create(user: current_user, type: passage_class)
+        passage_class.create(user: current_user, passable: passable)
       )
     end
 
@@ -25,7 +25,7 @@ module Passaged
     protected
 
     def passage_class
-      "#{polymorphic_resource_class}Passage"
+      "#{polymorphic_resource_class}Passage".constantize
     end
   end
 end

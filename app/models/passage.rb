@@ -45,8 +45,13 @@ class Passage < ApplicationRecord
 
   def after_create_hook_create_children
     transaction do
-      passable.passable_children.each do |passable_child|
-        children.create!(passable: passable_child, user: self.user)
+      passable.passable_children.each do |child|
+        # todo: move to subclasses
+        "#{child.class}Passage".constantize.create!(
+          passable: child,
+          user: self.user,
+          parent: self
+        )
       end
     end
   end

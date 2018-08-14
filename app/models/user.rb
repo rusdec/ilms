@@ -31,10 +31,6 @@ class User < ApplicationRecord
     admin? || type == 'CourseMaster'
   end
 
-  def full_name
-    "#{name} #{surname}"
-  end
-
   def author_of?(any)
     id == any.author.id
   end
