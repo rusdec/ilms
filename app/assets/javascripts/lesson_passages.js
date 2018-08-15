@@ -5,14 +5,20 @@ document.addEventListener('turbolinks:load', () => {
   }
   let scrollHeight = document.body.scrollHeight
   let innerHeight = window.innerHeight
+  let isNotPassed = () => { return passage().dataset.status != 'passed' }
 
-  let isNotRequested = true
-  window.onscroll = () => {
-    let currentHeight = (innerHeight + window.scrollY) + 20
-    let isNotPassed = passage().dataset.status != 'passed'
-    if ((currentHeight >= scrollHeight) && isNotRequested && isNotPassed) {
+  if (scrollHeight == innerHeight) {
+    if (isNotPassed()) {
       tryPass(passage().dataset.id)
-      isNotRequested = false
+    }
+  } else {
+    isNotRequested = true
+    window.onscroll = () => {
+      let currentHeight = (innerHeight + window.scrollY) + 20
+      if ((currentHeight >= scrollHeight) && isNotRequested && isNotPassed()) {
+        tryPass(passage().dataset.id)
+        isNotRequested = false
+      }
     }
   }
 })
