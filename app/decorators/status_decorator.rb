@@ -2,7 +2,8 @@ class StatusDecorator < Draper::Decorator
   delegate_all
 
   STATUSES = {
-    passed:       { title: 'accepted',    css: { badge: 'badge-success' } },
+    passed:       { title: 'passed',      css: { badge: 'badge-success' } },
+    accepted:     { title: 'accepted',    css: { badge: 'badge-success' } },
     declined:     { title: 'declined',    css: { badge: 'badge-danger'  } },
     unverified:   { title: 'unverified',  css: { badge: 'badge-default' } },
     unavailable:  { title: 'unavailable', css: { badge: 'badge-danger'  } },

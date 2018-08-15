@@ -1,11 +1,15 @@
 class PassagesController < ApplicationController
+  include JsonResponsed
+
   before_action :authenticate_user!
 
-  before_action :set_passage, only: :show
+  before_action :set_passage, only: %i(show try_pass)
   before_action :set_passable_type, only: :show
   before_action :set_passages, only: :index
+  before_action :require_passing_abilities, only: %i(show try_pass)
 
   respond_to :html, only: %i(show index)
+  respond_to :json, only: :try_pass
   before_action :verify_requested_format!
 
   def index
@@ -13,12 +17,20 @@ class PassagesController < ApplicationController
   end
 
   def show
-    authorize! :passing, @passage
     @passage = decorator_class.decorate(@passage)
     render "#{@passable_type}/passages/show"
   end
 
+  def try_pass
+    @passage.try_chain_pass!
+    json_response_by_result({ with_serializer: PassageSerializer })
+  end
+
   protected
+
+  def require_passing_abilities
+    authorize! :passing, @passage
+  end
 
   def set_passage
     @passage = Passage.find(params[:id])

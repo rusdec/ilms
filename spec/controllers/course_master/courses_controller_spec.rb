@@ -19,11 +19,17 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
     end
 
     context 'Any manage role' do
-      before { sign_in(user) }
+      before do
+        sign_in(user)
+        get :show, params: params
+      end
 
       it 'Course assigns to @course' do
-        get :show, params: params
-        expect(assigns(:course)).to eq(course)
+        expect(assigns(:course).object).to eq(course)
+      end
+
+      it '@course should be decorated' do
+        expect(assigns(:course)).to be_decorated
       end
     end
   end

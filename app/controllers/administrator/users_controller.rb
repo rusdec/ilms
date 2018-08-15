@@ -5,10 +5,15 @@ class Administrator::UsersController < Administrator::BaseController
   include JsonResponsed
 
   respond_to :json, only: :update
+  before_action :verify_requested_format!
 
-  def index; end
+  def index
+    @users = UserDecorator.decorate_collection(@users)
+  end
 
-  def show; end
+  def show
+    @user = UserDecorator.decorate(@user)
+  end
 
   def update
     @user.update(user_params)

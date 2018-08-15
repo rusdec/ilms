@@ -1,7 +1,8 @@
 = page_header(@passage.passable.title)
 
 .row
-  = render partial: 'lessons/passages/materials', locals: { lesson: @passage.passable }
+  = render partial: 'lessons/passages/materials', locals: { lesson: @passage.passable,
+                                                            passage: @passage }
 
   = render partial: 'lessons/passages/rightside_menu',
            locals: { lesson: @passage.passable,

@@ -1,4 +1,5 @@
  .col-lg-9
+    #passage data-status="#{passage.status.name}" data-id="#{passage.id}"
 
     - unless lesson.ideas_html_empty?
       = simple_card(title: 'Ideas', body: lesson.ideas_html, anchor: 'ideas')

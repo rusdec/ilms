@@ -4,7 +4,7 @@ module CourseMaster::CourseHelper
       [
         "Level: #{course.level}",
         "Author: #{course.author.full_name}",
-        "Created: #{format_date(course.created_at)}"
+        "Created: #{course.created_at}"
       ].each { |text| concat("#{text}#{tag.br}".html_safe) }
     end
   end

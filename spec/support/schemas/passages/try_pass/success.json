@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {"type": "boolean"},
+    "message": {"type": "string"},
+    "object": {"$ref":"../passage.json"}
+  },
+  "required": ["status", "message", "object"],
+  "maxProperties": 3
+}

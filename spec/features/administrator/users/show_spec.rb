@@ -6,7 +6,7 @@ feature 'Show user', %q{
   so that I can view all details info about it user
 } do
 
-  given(:user) { create(:user) }
+  given(:user) { UserDecorator.decorate(create(:user)) }
   before do
     sign_in(create(:administrator))
     visit administrator_user_path(user)

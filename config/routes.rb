@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   #
   resources :passages, only: %i(show), shallow: true do
     resources :solutions, controller: 'passage_solutions', only: :create
+    member do
+      patch :try_pass
+    end
   end
 
   #

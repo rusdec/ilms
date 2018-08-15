@@ -11,6 +11,8 @@ class Passage < ApplicationRecord
 
   validate :validate_passage_in_progress, on: :create
 
+  default_scope { order(:created_at) }
+
   scope :by_type, ->(type) { where(passable_type: type) }
   scope :for_courses, ->() { by_type('Course') }
   scope :for_lessons, ->() { by_type('Lesson') }

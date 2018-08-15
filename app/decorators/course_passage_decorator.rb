@@ -1,6 +1,7 @@
 class CoursePassageDecorator < PassageDecorator
   def lesson_passages
     children.collect do |lesson_passage|
+      lesson_passage = lesson_passage.decorate
       title = "#{lesson_passage.passable.title} #{lesson_passage.status.badge}".html_safe
 
       if lesson_passage.unavailable?

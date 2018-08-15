@@ -15,7 +15,9 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def edit; end
 
-  def show; end
+  def show
+    @course = CourseDecorator.decorate(@course)
+  end
 
   def new
     @course = current_user.courses.new

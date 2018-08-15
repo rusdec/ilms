@@ -1,5 +1,6 @@
 class CourseDecorator < Draper::Decorator
   include PassableDecorator
+  include DateDecorator
 
   delegate_all
   decorates_association :author

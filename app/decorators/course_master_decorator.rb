@@ -1,0 +1,1 @@
+class CourseMasterDecorator < UserDecorator; end

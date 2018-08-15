@@ -18,6 +18,7 @@ module CourseMaster::SharedHelper
   end
 
   def remote_links(model, resource = nil)
+    puts 'AAAAAA'
     resource ||= model.last
     model = [:course_master] + model
     yield_if_author(resource) do

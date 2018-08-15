@@ -5,13 +5,33 @@ RSpec.describe LessonPassage, type: :model do
   let!(:passage) { create(:passage, passable: course) }
   let(:lesson_passage) { LessonPassage.last }
 
+  context '.after_pass_hook' do
+    let!(:lesson_passage) { LessonPassage.first }
+    before do
+      class << lesson_passage
+        def ready_to_pass?
+          true
+        end
+      end
+    end
+
+    it 'open lesson passages for next lessons' do
+      passable_ids = lesson_passage.passable.children.pluck(:id)
+      siblings = lesson_passage.siblings.where(passable_id: passable_ids)
+      lesson_passage.try_chain_pass!
+      siblings.each do |sibling|
+        expect(sibling).to be_in_progress
+      end
+    end
+  end
+
   context '.default_status' do
     it 'should be unavailable' do
       expect(lesson_passage.status).to eq(Status.unavailable)
     end
   end
 
-  context '.open_passage_if_root' do
+  context '.after_create_hook_open_passage_if_root' do
     let!(:lesson) { create(:lesson, course: course) }
     let!(:lesson_passage) do
       build(:lesson_passage, passable: lesson, user: passage.user)

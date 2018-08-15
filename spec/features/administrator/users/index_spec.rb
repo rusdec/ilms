@@ -11,7 +11,7 @@ feature 'Index user', %q{
     sign_in(create(:administrator))
     visit administrator_users_path
   end
-  given!(:users) { User.all }
+  given!(:users) { UserDecorator.decorate_collection(User.all) }
 
   context 'when administrator' do
     scenario 'see list of users' do

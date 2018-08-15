@@ -3,7 +3,7 @@
   .col
     = simple_card(title: 'Quest',
                   body: @passage_solution.passage.passable.body_html)
-    = simple_card(title: "Solution (#{@passage_solution.status})",
+    = simple_card(title: "Solution (#{@passage_solution.status.name})",
                   body: @passage_solution.body_html,
                   anchor: 'passage_solution')
 .row

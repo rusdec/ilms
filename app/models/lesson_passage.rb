@@ -1,5 +1,5 @@
 class LessonPassage < Passage
-  after_create :open_passage_if_root
+  after_create :after_create_hook_open_passage_if_root
 
   # Statusable Template method
   def ready_to_pass?
@@ -16,14 +16,14 @@ class LessonPassage < Passage
     statuses.unavailable
   end
 
-  # Passage Template method
-  def after_pass_hook
-    #passable.children.each(&:in_progress!)
-  end
-
   protected
 
-  def open_passage_if_root
+  # Passage Template method
+  def after_pass_hook
+    siblings.where(passable_id: passable.children.pluck(:id)).each(&:in_progress!)
+  end
+
+  def after_create_hook_open_passage_if_root
     in_progress! if passable.root?
   end
 end

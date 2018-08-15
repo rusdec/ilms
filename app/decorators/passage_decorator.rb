@@ -5,5 +5,4 @@ class PassageDecorator < Draper::Decorator
   decorates_association :status
   decorates_association :passable
   decorates_association :parent
-  decorates_association :children
 end

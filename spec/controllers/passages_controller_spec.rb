@@ -12,6 +12,10 @@ RSpec.describe PassagesController, type: :controller do
 
     model do
       include Passable
+
+      def ready_to_pass?
+        true
+      end
     end
   end
 
@@ -20,7 +24,11 @@ RSpec.describe PassagesController, type: :controller do
   before do
     routes.draw do
       resources :any_passables
-      resources :passages, only: %i(index show)
+      resources :passages, only: %i(index show) do
+        member do
+          patch :try_pass, action: :try_pass
+        end
+      end
       root to: 'home#index'
     end
   end
@@ -81,6 +89,7 @@ RSpec.describe PassagesController, type: :controller do
       let(:view_path) { Rails.root.join('app/views/any_passables') }
 
       before do
+        # todo: double passages?
         FileUtils.mkdir_p("#{view_path}/passages")
         FileUtils.touch("#{view_path}/passages/index.slim")
         sign_in(user)
@@ -98,6 +107,36 @@ RSpec.describe PassagesController, type: :controller do
       it 'render any_passables/passages/index' do
         expect(response).to render_template('any_passables/passages/index')
       end
+    end
+  end
+
+  describe 'PATCH #try_chain_pass' do
+    let!(:passage) { create(:passage, passable: AnyPassable.create, user: user) }
+    let(:params) { { id: passage } }
+
+    context 'when authenticated user' do
+      before { sign_in(user) }
+
+      context 'when json' do
+        before { params[:format] = :json }
+
+        context 'and passages owner' do
+          it 'passage receives try_chain_pass!' do
+            allow(assigns(:passage)).to receive(:try_chain_pass!)
+            patch :try_pass, params: params
+          end
+
+          it 'returns object' do
+            patch :try_pass, params: params
+            expect(response).to match_json_schema('passages/try_pass/success')
+          end
+        end
+
+        context 'and not passages owner' do
+        end
+      end
+    end
+    context 'when not authenticated user' do
     end
   end
 end
