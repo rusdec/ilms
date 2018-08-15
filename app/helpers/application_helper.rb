@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def yield_if_author(object)
-    puts "author? -> #{current_user.author_of?(object)}"
+    object = object.object if object.decorated?
     if can? :author, object
       yield if block_given?
     end

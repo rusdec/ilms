@@ -16,8 +16,8 @@ feature 'Destroy course', %q{
     end
 
     scenario 'can delete course', js: true do
+      click_on 'Delete'
       Capybara.using_wait_time(5) do
-        click_on 'Delete'
         expect(page).to have_content('Success')
         expect(page).to_not have_content(course.title)
       end

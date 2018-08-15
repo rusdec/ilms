@@ -7,7 +7,9 @@ feature 'Show course', %q{
 } do
 
   given(:user) { create(:course_master) }
-  given!(:course) { create(:course, :with_lessons, author: user) }
+  given!(:course) do
+    CourseDecorator.decorate(create(:course, :with_lessons, author: user))
+  end
   
   context 'when author' do
     before do
@@ -66,7 +68,7 @@ feature 'Show course', %q{
         [course.title,
          course.author.full_name,
          course.decoration_description,
-         date_format(course.created_at),
+         course.created_at,
         ].each { |text| expect(page).to have_content(text) }
         sign_out
       end

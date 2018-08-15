@@ -18,7 +18,7 @@ module CourseMaster::SharedHelper
   end
 
   def remote_links(model, resource = nil)
-    puts 'AAAAAA'
+    model.map! { |m| m.object if m.decorated? }
     resource ||= model.last
     model = [:course_master] + model
     yield_if_author(resource) do
