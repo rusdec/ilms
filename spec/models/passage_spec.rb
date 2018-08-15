@@ -89,11 +89,7 @@ RSpec.describe Passage, type: :model do
 
     context 'when passage is not passed and ready to pass' do
       before do
-        class << passage
-          def ready_to_pass?
-            true
-          end
-        end
+        allow(passage).to receive(:ready_to_pass?) { true }
       end
 
       it 'passage should receive passed!' do
@@ -129,13 +125,20 @@ RSpec.describe Passage, type: :model do
       let(:new_passage) { build(:passage, params) }
 
       context 'and existed passage in progress' do
-        it 'new passage should be invalid' do
+        it 'new passage is invalid' do
           expect(new_passage).to_not be_valid
         end
 
-        it 'new should contains error' do
+        it 'new passage contains error' do
           new_passage.valid?
           expect(new_passage.errors.full_messages).to eq(['Any passable in progress'])
+        end
+
+        context 'new passage may be in progress' do
+          it 'new passage is invalid' do
+            allow(new_passage).to receive(:may_be_in_progress?) { true }
+            expect(new_passage).to be_valid
+          end
         end
       end # context 'and existed passage in progress'
 

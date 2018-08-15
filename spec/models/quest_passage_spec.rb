@@ -5,8 +5,14 @@ RSpec.describe QuestPassage, type: :model do
   let!(:passage) { create(:passage, passable: course) }
   let(:quest_passage) { QuestPassage.first }
 
+  context '.may_be_in_progress?' do
+    it 'returns true' do
+      expect(quest_passage).to be_may_be_in_progress
+    end
+  end
+
   context '.default_status' do
-    it 'should be in_progress' do
+    it 'returns Status in_progress' do
       expect(quest_passage.status). to eq(Status.in_progress)
     end
   end
@@ -17,13 +23,13 @@ RSpec.describe QuestPassage, type: :model do
     context 'when has accepted solution' do
       before { passage_solution.accepted! }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(quest_passage).to be_ready_to_pass
       end
     end
 
     context 'when has not accepted solution' do
-      it 'should return false' do
+      it 'returns false' do
         expect(quest_passage).to_not be_ready_to_pass
       end
     end

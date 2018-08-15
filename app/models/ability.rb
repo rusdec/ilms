@@ -91,7 +91,7 @@ class Ability
 
   def passing_abilities
     can :passing, Passage do |passage|
-      passage.user == user
+      passage.user == user && !passage.unavailable?
     end
   end
 end

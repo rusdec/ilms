@@ -12,14 +12,14 @@ RSpec.describe PassagesController, type: :controller do
 
     model do
       include Passable
-
-      def ready_to_pass?
-        true
-      end
     end
   end
 
-  class AnyPassablePassage < Passage; end
+  class AnyPassablePassage < Passage
+    def ready_to_pass?
+      true
+    end
+  end
 
   before do
     routes.draw do
@@ -47,21 +47,33 @@ RSpec.describe PassagesController, type: :controller do
           FileUtils.mkdir_p("#{view_path}/passages")
           FileUtils.touch("#{view_path}/passages/show.slim")
           sign_in(user)
-          get :show, params: params
         end
 
         after { FileUtils.rm_r(view_path) }
         
-        it 'assign Passage to @passage' do
-          expect(assigns(:passage)).to eq(AnyPassablePassage.find(passage.id))
+        context 'and passage is unavailable' do
+          before { passage.unavailable! }
+
+          it 'redirect to root path' do
+            get :show, params: params
+            expect(response).to redirect_to(root_path)
+          end
         end
 
-        it 'should be decorated' do
-          expect(assigns(:passage)).to be_decorated_with AnyPassablePassageDecorator
-        end
+        context 'and passage is unavailable' do
+          before { get :show, params: params }
 
-        it 'render any_passables/passages/show' do
-          expect(response).to render_template('any_passables/passages/show')
+          it 'assign Passage to @passage' do
+            expect(assigns(:passage)).to eq(AnyPassablePassage.find(passage.id))
+          end
+
+          it 'should be decorated' do
+            expect(assigns(:passage)).to be_decorated_with AnyPassablePassageDecorator
+          end
+
+          it 'render any_passables/passages/show' do
+            expect(response).to render_template('any_passables/passages/show')
+          end
         end
       end
 
@@ -121,9 +133,10 @@ RSpec.describe PassagesController, type: :controller do
         before { params[:format] = :json }
 
         context 'and passages owner' do
-          it 'passage receives try_chain_pass!' do
-            allow(assigns(:passage)).to receive(:try_chain_pass!)
+          it 'passage be passed' do
             patch :try_pass, params: params
+            passage.reload
+            expect(passage).to be_passed
           end
 
           it 'returns object' do
