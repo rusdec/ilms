@@ -113,7 +113,7 @@ RSpec.describe PassagesController, type: :controller do
       it 'assign Passage to @passages' do
         expect(
           assigns(:passages)
-        ).to eq(Passage.where(user: user, passable_type: AnyPassable))
+        ).to eq(user.passages.where(passable_type: 'AnyPassable'))
       end
 
       it 'render any_passables/passages/index' do

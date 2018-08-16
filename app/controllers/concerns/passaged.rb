@@ -19,6 +19,7 @@ module Passaged
 
     def passages
       @passages = current_user.passages.where(passable_type: polymorphic_resource_class.to_s)
+      @passages = passage_decorator_class.decorate_collection(@passages)
       render "#{polymorphic_resource_name.pluralize}/passages/index"
     end
 
@@ -26,6 +27,10 @@ module Passaged
 
     def passage_class
       "#{polymorphic_resource_class}Passage".constantize
+    end
+
+    def passage_decorator_class
+      "#{polymorphic_resource_class}PassageDecorator".constantize
     end
   end
 end

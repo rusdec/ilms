@@ -5,3 +5,4 @@
       - @passages.each do |passage|
         li class='list-group-item d-flex justify-content-between align-items-center'
           = link_to passage.passable.title, passage_path(passage)
+          = passage.status.badge

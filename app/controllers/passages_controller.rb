@@ -49,8 +49,6 @@ class PassagesController < ApplicationController
   end
 
   def set_passages
-    @passages = Passage.where(
-      user: current_user, passable_type: params[:passable_type].classify
-    )
+    @passages = current_user.passages.where(passable_type: params[:passable_type].classify)
   end
 end
