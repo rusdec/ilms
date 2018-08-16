@@ -12,6 +12,9 @@ RSpec.describe User, type: :model do
   it { should have_many(:quests) }
   it { should have_many(:materials) }
 
+  it { should have_many(:user_badges) }
+  it { should have_many(:badges).through(:user_badges) }
+
   it_behaves_like 'educable' do
     let(:educable) { create(:user) }
   end
