@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   # 
   namespace :course_master do
     concerns :home
+    resources :badges
     resources :courses do
       resources :lessons, shallow: true do
         resources :quests

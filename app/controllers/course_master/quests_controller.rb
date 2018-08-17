@@ -1,5 +1,6 @@
 class CourseMaster::QuestsController < CourseMaster::BaseController
   include JsonResponsed
+  include Badged
 
   before_action :set_quest, only: %i(edit show update destroy)
   before_action :set_quest_form, only: %i(edit show update destroy)

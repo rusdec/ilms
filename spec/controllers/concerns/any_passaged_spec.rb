@@ -18,6 +18,7 @@ RSpec.describe AnyPassablesController, type: :controller do
   end
 
   class AnyPassablePassage < Passage; end
+  class AnyPassablePassageDecorator < Draper::Decorator; end
 
   before do
     routes.draw do

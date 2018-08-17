@@ -8,9 +8,7 @@ class User < ApplicationRecord
   has_many :lessons
   has_many :quests
   has_many :materials
-
-  has_many :user_badges
-  has_many :badges, through: :user_badges
+  has_many :created_badges, class_name: 'Badge'
 
   has_many :passages, dependent: :destroy
 

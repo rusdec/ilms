@@ -32,3 +32,4 @@
 .rubocop.yml
 *.swp
 *.swo
+.DS_Store
