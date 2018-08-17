@@ -136,7 +136,7 @@ RSpec.describe Passage, type: :model do
 
         context 'new passage may be in progress' do
           it 'new passage is invalid' do
-            allow(new_passage).to receive(:may_be_in_progress?) { true }
+            allow(new_passage).to receive(:can_be_in_progress?) { true }
             expect(new_passage).to be_valid
           end
         end

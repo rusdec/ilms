@@ -5,9 +5,9 @@ RSpec.describe QuestPassage, type: :model do
   let!(:passage) { create(:passage, passable: course) }
   let(:quest_passage) { QuestPassage.first }
 
-  context '.may_be_in_progress?' do
+  context '.can_be_in_progress?' do
     it 'returns true' do
-      expect(quest_passage).to be_may_be_in_progress
+      expect(quest_passage).to be_can_be_in_progress
     end
   end
 

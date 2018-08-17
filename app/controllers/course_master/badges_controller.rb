@@ -4,6 +4,10 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   before_action :set_badge, only: %i(show update edit destroy)
   before_action :require_author_abilities, only: %i(show update edit destroy)
 
+  def index
+    @badges = BadgeDecorator.decorate_collection(current_user.created_badges)
+  end
+
   def new
     @badge = current_user.created_badges.new
   end
@@ -12,7 +16,9 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
     @badge = current_user.created_badges.create(badge_params)
     json_response_by_result(
       with_serializer: BadgeSerializer,
-      with_location: :course_master_badge_path
+      with_location: :course_master_badges_path,
+      without_object: true,
+      with_flash: true
     )
   end
 
@@ -28,8 +34,9 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   def destroy
     @badge.destroy
     json_response_by_result(
+      with_location: :course_master_badges_path,
       without_object: true,
-      with_location: :course_master_badges_path
+      with_flash: true
     )
   end
 

@@ -1,6 +1,45 @@
 require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::BadgesController, type: :controller do
+  context 'GET #index' do
+    let(:action) { get :index }
+    let!(:user) { create(:course_master) }
+
+    context 'when authenticated user' do
+      context 'when user is CourseMaster' do
+        let!(:user) { create(:course_master) }
+        before do
+          sign_in(user)
+          3.times { create(:badge, author: user) }
+          create(:badge, author: create(:course_master))
+          action
+        end
+
+        it 'assigned badges related with user to @badges' do
+          expect(assigns(:badges)).to eq(user.created_badges)
+        end
+
+        it 'assigns @badges are decorateds' do
+          expect(assigns(:badges)).to be_decorated
+        end
+      end
+
+      context 'when user is User' do
+        before do
+          sign_in(create(:user))
+          action
+        end
+
+        it_behaves_like 'unauthorizable'
+      end
+    end # context 'when authenticated user'
+
+    context 'when not authenticated user' do
+      before { action }
+      it_behaves_like 'unauthorizable'
+    end
+  end
+
   context 'GET #new' do
     let(:action) { get :new }
 

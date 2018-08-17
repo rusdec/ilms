@@ -1,0 +1,11 @@
+= form_for [:course_master, model], remote: true, format: :json, html: { form_editor: true } do |f|
+  .form-group
+    = f.label :title
+    = f.text_field :title, autocompleate: 'title', class: 'form-control smal'
+
+  .form-group
+    = editor_text_area(form: f, name: :description)
+
+  .form-group
+    = f.submit class: 'btn btn-primary mr-2'
+    = link_back if link_back

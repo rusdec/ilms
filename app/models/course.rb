@@ -17,9 +17,6 @@ class Course < ApplicationRecord
 
   protected
 
-  def ready_to_pass?
-  end
-
   def validate_author
     unless author&.course_master?
       errors.add(:user, 'can\'t do this')

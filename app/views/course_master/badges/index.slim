@@ -1,0 +1,27 @@
+.row
+  . class='col text-center mb-2'
+    h2.page-title= 'Badges'
+
+.row
+  .col
+    .card
+      table class="table card-table table-striped table-vcenter"
+        thead
+          tr
+            th= 'Image'
+            th= 'Title'
+            th= 'Description'
+            th= 'Created at'
+            th= 'Actions'
+        tbody
+          - @badges.each do |badge|
+            tr
+              td=
+              td= badge.title_preview
+              td= badge.description_preview
+              td= badge.created_at
+              td= badge.remote_links
+
+.row
+  . class='col text-center'
+    = link_to 'Create Badge', new_course_master_badge_path, class: 'btn btn-primary mt-2'

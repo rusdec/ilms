@@ -1,0 +1,10 @@
+.row
+  . class='col text-center'
+    h2.page-title= 'New badge'
+
+.row
+  .col
+    = render partial: 'form',
+             locals: { model: @badge,
+                       link_back: secondary_button(text: 'Badges',
+                                                   path: course_master_badges_path) }

@@ -36,10 +36,14 @@ module CourseMaster::SharedHelper
     name = params[:name]
     form = params[:form]
 
-    content_tag :div, class: "editor-container", id: "editor_#{name}"  do
+    editor = content_tag :div, class: 'card' do
+      concat(tag.div class: 'editor')
+    end
+
+    content_tag :div, class: 'editor-container', id: "editor_#{name}"  do
       concat(form.label name) unless params[:without_title]
       concat(tag.div class: 'toolbar')
-      concat(tag.div class: 'editor')
+      concat(editor)
       concat(form.hidden_field name, class: 'textarea')
     end
   end

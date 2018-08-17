@@ -34,7 +34,7 @@ class Passage < ApplicationRecord
   end
 
   # Template method
-  def may_be_in_progress?
+  def can_be_in_progress?
     false
   end
 
@@ -64,7 +64,7 @@ class Passage < ApplicationRecord
   end
 
   def validate_passage_in_progress
-    return if may_be_in_progress?
+    return if can_be_in_progress?
     if self.class.find_by(user: user, passable: passable, status: Status.in_progress)
       errors.add(passable.class.to_s.underscore.to_sym, 'in progress')
     end

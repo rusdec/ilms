@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "title": {"type": "string"},
+    "description": {"type": "string"},
+    "image": {"type": ["string", "null"]}
+  },
+  "required": ["id", "title", "description", "image"],
+  "maxProperties": 4
+}

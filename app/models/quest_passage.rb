@@ -5,7 +5,7 @@ class QuestPassage < Passage
   end
 
   # Passage Temaplate method
-  def may_be_in_progress?
+  def can_be_in_progress?
     true
   end
 end
