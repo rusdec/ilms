@@ -33,5 +33,28 @@ RSpec.describe QuestPassage, type: :model do
         expect(quest_passage).to_not be_ready_to_pass
       end
     end
-  end
+  end # context '.ready_to_pass?'
+
+  context '.after_pass_hook' do
+    let(:user) { quest_passage.user }
+
+    context 'when passable (quest) have badge' do
+      before do
+        create(:badge, badgable: quest_passage.passable)
+        allow(quest_passage).to receive(:ready_to_pass?).and_return(true)
+      end
+
+      it 'user receives reward! with badge' do
+        expect(user).to receive(:reward!).with(quest_passage.passable.badge)
+        quest_passage.try_chain_pass!
+      end
+    end
+
+    context 'when passable (quest) have not badge' do
+      it 'user does not receives reward!' do
+        expect(user).to_not receive(:reward!)
+        quest_passage.try_chain_pass!
+      end
+    end
+  end # context '.after_pass_hook'
 end

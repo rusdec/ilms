@@ -8,4 +8,9 @@ class QuestPassage < Passage
   def can_be_in_progress?
     true
   end
+
+  # Passage Template method
+  def after_pass_hook
+    self.user.reward!(passable.badge) if passable.badge
+  end
 end

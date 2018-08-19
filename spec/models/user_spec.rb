@@ -13,6 +13,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:materials) }
   it { should have_many(:created_badges).class_name('Badge') }
 
+  it_behaves_like 'rewardable'
   it_behaves_like 'educable' do
     let(:educable) { create(:user) }
   end

@@ -2,6 +2,7 @@ require_relative 'models_helper'
 
 RSpec.describe Badge, type: :model do
   it_behaves_like 'authorable'
+  it_behaves_like 'grantable'
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:image) }

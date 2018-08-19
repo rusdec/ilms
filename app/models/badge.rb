@@ -1,5 +1,6 @@
 class Badge < ApplicationRecord
   include Authorable
+  include Grantable
 
   mount_uploader :image, ImageUploader
 

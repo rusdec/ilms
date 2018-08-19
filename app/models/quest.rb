@@ -2,7 +2,7 @@ class Quest < ApplicationRecord
   include HtmlAttributable
   include Passable
   include Authorable
-  include Rewardable
+  include Badgable
 
   belongs_to :lesson
   belongs_to :quest_group, optional: true
