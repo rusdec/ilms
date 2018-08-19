@@ -24,4 +24,10 @@ class BadgeDecorator < Draper::Decorator
   def description_preview
     description_as_text.truncate(30)
   end
+
+  def link_to_related_badgable(params = {})
+    h.link_to "Related #{object.badgable.class}",
+              h.polymorphic_path([:edit, :course_master, object.badgable]),
+              params
+  end
 end

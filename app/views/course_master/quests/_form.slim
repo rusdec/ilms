@@ -24,6 +24,12 @@
     .quest-groups
       = alternative_quest_for_selector(quest_groups: @quest_form.quest_groups, form: f)
   
+  - if quest.persisted?
+    .form-group
+      = f.label :badge
+      br
+      = quest.link_to_badge
+
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
     = link_back if link_back

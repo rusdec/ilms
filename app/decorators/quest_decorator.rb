@@ -1,4 +1,6 @@
 class QuestDecorator < Draper::Decorator
+  include BadgableDecorator
+
   delegate_all
 
   decorates_association :author

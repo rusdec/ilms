@@ -10,4 +10,6 @@ RSpec.describe Badge, type: :model do
       .is_at_least(3)
       .is_at_most(20)
   end
+
+  it { should belong_to(:badgable) }
 end

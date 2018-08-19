@@ -1,11 +1,10 @@
 class CourseMaster::QuestsController < CourseMaster::BaseController
   include JsonResponsed
-  include Badged
 
   before_action :set_quest, only: %i(edit show update destroy)
+  before_action :require_author_abilities, only: %i(edit update destroy)
   before_action :set_quest_form, only: %i(edit show update destroy)
   before_action :set_new_quest_form, only: %i(new create)
-  before_action :require_author_abilities, only: %i(edit update destroy)
 
   def index
     @quests = current_user.quests
@@ -42,7 +41,7 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   protected
 
   def require_author_abilities
-    authorize! :author, @quest_form.quest
+    authorize! :author, @quest
   end
 
   def set_new_quest_form
@@ -51,7 +50,7 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   end
 
   def set_quest_form
-    @quest_form = QuestForm.new(@quest)
+    @quest_form = QuestForm.new(@quest.decorate)
   end
 
   def set_quest

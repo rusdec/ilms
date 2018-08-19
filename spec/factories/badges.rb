@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :badge do
     association :author, factory: :course_master
+    association :badgable, factory: :course
     sequence(:title) { |n| "BadgeTitle#{n}"  }
     sequence(:description) { |n| "BadgeDescription#{n}" }
     image do

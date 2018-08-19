@@ -1,4 +1,4 @@
-= form_for [:course_master, model], remote: true, format: :json, html: { form_editor: true } do |f|
+= form_for resource, remote: true, format: :json, html: { form_editor: true } do |f|
 
   .form-group
     = f.label :title
@@ -10,9 +10,10 @@
   .form-group
     = f.label :image
     .form-group
-      = model.image_preview(class: 'img-preview', name: 'badge_image')
+      = badge.image_preview(class: 'img-preview', name: 'badge_image')
     = f.file_field :image
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
+    = badge.link_to_related_badgable(class: 'btn btn-secondary mr-2')
     = link_back if link_back

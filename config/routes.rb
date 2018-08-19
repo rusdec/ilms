@@ -16,6 +16,10 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :badgable do
+    resources :badges, only: %i(create new)
+  end
+
   #
   # All users
   #
@@ -42,10 +46,12 @@ Rails.application.routes.draw do
   # 
   namespace :course_master do
     concerns :home
-    resources :badges
+    resources :badges, except: %i(create new)
     resources :courses do
       resources :lessons, shallow: true do
-        resources :quests
+        resources :quests do
+          concerns :badgable
+        end
         resources :materials
       end
     end

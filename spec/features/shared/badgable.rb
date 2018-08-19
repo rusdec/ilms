@@ -1,14 +1,12 @@
-require_relative '../../features_helper'
-
-feature 'Create badge', %q{
-  As user
-  I can create badge
-  so that I can attach it to quests, courses, etc
-} do
-
+shared_examples_for 'badgable' do
   before do
-    sign_in(create(:course_master))
-    visit new_course_master_badge_path
+    sign_in(badgable.author)
+    visit polymorphic_path([:edit, :course_master, badgable])
+    click_on 'Create Badge'
+  end
+
+  scenario 'see link to related badgable' do
+    expect(page).to have_link("Related #{badgable.class}")
   end
 
   context 'with valid data' do
@@ -22,7 +20,9 @@ feature 'Create badge', %q{
       end
       Capybara.using_wait_time(5) do
         expect(page).to have_content('Success')
-        expect(page).to have_content(badge[:title])
+        expect(page).to_not have_content('Create Badge')
+        expect(page).to have_text(badgable.description)
+        expect(page).to have_link(badge[:title])
       end
     end
   end

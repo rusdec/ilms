@@ -3,20 +3,27 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
 
   before_action :set_badge, only: %i(update edit destroy)
   before_action :require_author_abilities, only: %i(update edit destroy)
+  before_action :set_badgable, only: %i(create new)
 
   def index
     @badges = BadgeDecorator.decorate_collection(current_user.created_badges)
   end
 
   def new
-    @badge = BadgeDecorator.decorate(current_user.created_badges.new)
+    @badge = BadgeDecorator.decorate(
+      current_user.created_badges.new(badgable: @badgable)
+    )
   end
 
   def create
-    @badge = current_user.created_badges.create(badge_params)
+    authorize! :author, @badgable
+    @badge = current_user.created_badges.create(
+      badge_params.merge(badgable: @badgable)
+    )
     json_response_by_result(
       with_serializer: BadgeSerializer,
-      with_location: :course_master_badges_path,
+      with_location: :polymorphic_path,
+      location_object: [:edit, :course_master, @badgable],
       without_object: true,
       with_flash: true
     )
@@ -52,5 +59,17 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
 
   def badge_params
     params.require(:badge).permit(:title, :description, :image)
+  end
+
+  def set_badgable
+    @badgable = badgable_class.find(params[badgable_id_param])
+  end
+
+  def badgable_class
+    badgable_id_param[0...-3].classify.constantize
+  end
+
+  def badgable_id_param
+    params.keys.select { |key| key[-3..-1] == '_id' }[0]
   end
 end
