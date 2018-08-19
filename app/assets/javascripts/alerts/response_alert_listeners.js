@@ -40,7 +40,7 @@ function addResponseAlertListener(params) {
     }
 
     if (params.callback) {
-      params.callback()
+      params.callback(response.data)
     }
   })
 }

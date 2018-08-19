@@ -2,6 +2,6 @@ class BadgeSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :image
 
   def image
-    object.image.service_url if object.image.attached?
+    { original: object.image.url, preview: object.image.preview.url }
   end
 end

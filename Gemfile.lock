@@ -77,6 +77,10 @@ GEM
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       xpath (~> 3.1)
+    carrierwave (1.2.3)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
     childprocess (0.9.0)
@@ -150,7 +154,11 @@ GEM
     marcel (0.3.2)
       mimemagic (~> 0.3.2)
     method_source (0.9.0)
+    mime-types (3.2.2)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2018.0812)
     mimemagic (0.3.2)
+    mini_magick (4.8.0)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -318,6 +326,7 @@ DEPENDENCIES
   byebug
   cancancan (~> 2.0)
   capybara (>= 2.15, < 4.0)
+  carrierwave (~> 1.0)
   chromedriver-helper
   closure_tree
   coffee-rails (~> 4.2)
@@ -330,6 +339,7 @@ DEPENDENCIES
   jquery-rails
   json_matchers
   listen (>= 3.0.5, < 3.2)
+  mini_magick (~> 4.8)
   mustache-js-rails
   pg (~> 0.21)
   puma (~> 3.11)

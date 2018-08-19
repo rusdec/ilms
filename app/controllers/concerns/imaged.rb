@@ -2,12 +2,12 @@ module Imaged
   extend ActiveSupport::Concern
 
   included do
-    include Polymorphic
+    include Polymorphed
 
     protected
 
     def ready_to_imaged?
-      params[:image]
+      image_params[:image]
     end
 
     def delete_image
@@ -16,13 +16,17 @@ module Imaged
 
     def attache_image
       return unless ready_to_imaged?
-      polymorphic_resource.image.attach(params[:image])
+      polymorphic_resource.image.attach(image_params[:image])
     end
 
     def update_image
       return unless ready_to_imaged?
       delete_image
       attache_image
+    end
+
+    def image_params
+      params.require(:badge).permit(:image)
     end
   end
 end

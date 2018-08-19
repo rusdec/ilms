@@ -4,7 +4,15 @@
     "id": {"type": "integer"},
     "title": {"type": "string"},
     "description": {"type": "string"},
-    "image": {"type": ["string", "null"]}
+    "image": {
+      "type": "object",
+      "properties": {
+        "original": {"type": "string"},
+        "preview": {"type": "string"}
+      },
+      "required": ["original", "preview"],
+      "maxProperties": 2
+    }
   },
   "required": ["id", "title", "description", "image"],
   "maxProperties": 4

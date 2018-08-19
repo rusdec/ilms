@@ -16,7 +16,7 @@
         tbody
           - @badges.each do |badge|
             tr
-              td=
+              td= badge.image_preview class: 'img-thumb'
               td= badge.title_preview
               td= badge.description_preview
               td= badge.created_at

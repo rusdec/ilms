@@ -17,17 +17,19 @@ feature 'Edit badge', %q{
     end
 
     context 'with valid data' do
+      given(:attributes) { attributes_for(:badge) }
+
       scenario 'can update badge', js: true do
         within 'form' do
-          fill_in 'Title', with: 'NewValidTitle'
-          fill_editor 'Description', with: 'NewValidDecorationDescription'
+          fill_in 'Title', with: attributes[:title]
+          fill_editor 'Description', with: attributes[:description]
+          attach_file(badge.image.path)
           click_on 'Update Badge'
         end
 
         expect(page).to have_content('Success')
       end
     end
-
     context 'with invalid data' do
       scenario 'can\'t update badge', js: true do
         within 'form' do

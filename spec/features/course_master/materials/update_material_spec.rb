@@ -35,12 +35,15 @@ feature 'Lessons author update material', %q{
         fill_in 'Order', with: nil
         click_on 'Update Material'
 
-        [ 'Title can\'t be blank',
-          'Title is too short',
-          'Body can\'t be blank',
-          'Body is too short',
-          'Order is not a number'
-        ].each { |error| expect(page).to have_content(error) }
+
+        Capybara.using_wait_time(5) do
+          [ 'Title can\'t be blank',
+            'Title is too short',
+            'Body can\'t be blank',
+            'Body is too short',
+            'Order is not a number'
+          ].each { |error| expect(page).to have_content(error) }
+        end
       end
     end # context 'with valid data'
   end # context 'when author of lesson'

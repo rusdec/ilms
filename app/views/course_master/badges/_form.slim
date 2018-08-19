@@ -1,10 +1,17 @@
 = form_for [:course_master, model], remote: true, format: :json, html: { form_editor: true } do |f|
+
   .form-group
     = f.label :title
-    = f.text_field :title, autocompleate: 'title', class: 'form-control smal'
+    = f.text_field :title, autocompleate: 'title', class: 'form-control small'
 
   .form-group
     = editor_text_area(form: f, name: :description)
+
+  .form-group
+    = f.label :image
+    .form-group
+      = model.image_preview(class: 'img-preview', name: 'badge_image')
+    = f.file_field :image
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'

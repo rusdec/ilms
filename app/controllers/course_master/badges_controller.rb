@@ -1,15 +1,15 @@
 class CourseMaster::BadgesController < CourseMaster::BaseController
   include JsonResponsed
 
-  before_action :set_badge, only: %i(show update edit destroy)
-  before_action :require_author_abilities, only: %i(show update edit destroy)
+  before_action :set_badge, only: %i(update edit destroy)
+  before_action :require_author_abilities, only: %i(update edit destroy)
 
   def index
     @badges = BadgeDecorator.decorate_collection(current_user.created_badges)
   end
 
   def new
-    @badge = current_user.created_badges.new
+    @badge = BadgeDecorator.decorate(current_user.created_badges.new)
   end
 
   def create
@@ -22,9 +22,9 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
     )
   end
 
-  def show; end
-
-  def edit; end
+  def edit
+    @badge = BadgeDecorator.decorate(@badge)
+  end
 
   def update
     @badge.update(badge_params)
@@ -51,6 +51,6 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   end
 
   def badge_params
-    params.require(:badge).permit(:title, :description)
+    params.require(:badge).permit(:title, :description, :image)
   end
 end

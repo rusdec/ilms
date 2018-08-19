@@ -55,6 +55,10 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
           expect(assigns(:badge)).to be_a_new(Badge)
         end
 
+        it 'assigns @badges are decorateds' do
+          expect(assigns(:badge)).to be_decorated
+        end
+
         it 'assigned @badge related with user' do
           expect(assigns(:badge).author).to eq(user)
         end
@@ -121,37 +125,6 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
         end
 
         before { action }
-        it_behaves_like 'unauthorizable'
-      end
-    end # context 'when authenticated user'
-
-    context 'when not authenticated user' do
-      before { action }
-      it_behaves_like 'unauthorizable'
-    end
-  end
-
-  context 'GET #show' do
-    let!(:user) { create(:course_master) }
-    let!(:badge) { create(:badge, author: user) }
-    let(:action) { get :show, params: { id: badge } }
-
-    context 'when authenticated user' do
-      context 'when author of badge' do
-        before { sign_in(user) }
-
-        it 'assigns finded badge to @badge' do
-          action
-          expect(assigns(:badge)).to eq(badge)
-        end
-      end # context 'when author of badge'
-
-      context 'when not author of badge' do
-        before do
-          sign_in(create(:course_master))
-          action
-        end
-
         it_behaves_like 'unauthorizable'
       end
     end # context 'when authenticated user'

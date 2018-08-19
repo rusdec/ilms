@@ -1,7 +1,11 @@
 FactoryBot.define do
   factory :badge do
+    association :author, factory: :course_master
     sequence(:title) { |n| "BadgeTitle#{n}"  }
     sequence(:description) { |n| "BadgeDescription#{n}" }
+    image do
+      Rack::Test::UploadedFile.new("#{Rails.root.join('spec/fixtures/image.png')}")
+    end
   end
 
   factory :invalid_badge, class: Badge do

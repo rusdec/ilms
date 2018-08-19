@@ -1,6 +1,6 @@
 require_relative '../../features_helper'
 
-feature 'Create course', %q{
+feature 'Create badge', %q{
   As user
   I can create badge
   so that I can attach it to quests, courses, etc
@@ -17,12 +17,13 @@ feature 'Create course', %q{
       within 'form' do
         fill_in 'Title', with: badge[:title]
         fill_editor 'Description', with: badge[:description]
+        attach_file(badge[:image].path)
         click_on 'Create Badge'
       end
-
-      expect(page).to have_content('Success')
-      expect(page).to have_content(badge[:title])
-      expect(page).to have_content(format_date(badge[:created_at]))
+      Capybara.using_wait_time(5) do
+        expect(page).to have_content('Success')
+        expect(page).to have_content(badge[:title])
+      end
     end
   end
 
@@ -33,8 +34,11 @@ feature 'Create course', %q{
         click_on 'Create Badge'
       end
 
-      expect(page).to have_content('Title can\'t be blank')
-      expect(page).to have_content('Title is too short')
+      Capybara.using_wait_time(5) do
+        expect(page).to have_content('Image can\'t be blank')
+        expect(page).to have_content('Title can\'t be blank')
+        expect(page).to have_content('Title is too short')
+      end
     end
   end
 end 
