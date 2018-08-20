@@ -10,7 +10,6 @@ feature 'User see courses', %q{
     given(:user) { create(:course_master) }
     given!(:badge) { BadgeDecorator.decorate(create(:badge, author: user)) }
     before do
-      puts user.created_badges.inspect
       sign_in(user)
       visit course_master_badges_path
     end

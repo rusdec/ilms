@@ -70,7 +70,7 @@ RSpec.configure do |config|
   # Remove files after using CarrierWave
   config.after(:all) do
     if Rails.env.test?
-      FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"])
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/uploads/rspec_testing/"])
     end
   end
 end
@@ -80,11 +80,11 @@ if defined?(CarrierWave)
     next if klass.anonymous?
     klass.class_eval do
       def cache_dir
-        "#{Rails.root}/spec/support/uploads/tmp"
+        "#{Rails.root}/public/uploads/rspec_testing/tmp"
       end
 
       def store_dir
-        "#{Rails.root}/spec/support/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+        "#{Rails.root}/public/uploads/rspec_testing/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
       end
     end
   end

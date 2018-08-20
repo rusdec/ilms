@@ -25,10 +25,6 @@ feature 'User see badges', %q{
       expect(page).to have_link('Edit', count: created_badges.count)
       expect(page).to have_link('Delete', count: created_badges.count)
     end # scenario 'see all created badges'
-
-    scenario 'see create badge link' do
-      expect(page).to have_link('Create Badge')
-    end
   end # context 'when user with any manage role'
 
   context 'when user without manage role' do
