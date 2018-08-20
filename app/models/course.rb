@@ -2,6 +2,7 @@ class Course < ApplicationRecord
   include HtmlAttributable
   include Passable
   include Authorable
+  include Badgable
 
   has_many :lessons, dependent: :destroy
 

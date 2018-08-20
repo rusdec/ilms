@@ -59,12 +59,12 @@ feature 'New quest', %q{
 
     context 'with invalid data' do
       scenario 'can\'t create quest', js: true do
-        Capybara.using_wait_time(5) do
-          fill_in 'Title', with: nil
-          fill_in 'Description', with: nil
-          fill_editor 'Body', with: nil
-          click_on 'Create Quest'
+        fill_in 'Title', with: nil
+        fill_in 'Description', with: nil
+        fill_editor 'Body', with: nil
+        click_on 'Create Quest'
 
+        Capybara.using_wait_time(5) do
           expect(page).to_not have_content('Success')
           ['Title can\'t be blank',
            'Title is too short',

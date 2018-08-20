@@ -2,8 +2,12 @@ require_relative 'models_helper'
 
 RSpec.describe QuestPassage, type: :model do
   let!(:course) { create(:course, :full) }
-  let!(:passage) { create(:passage, passable: course) }
+  before { create(:passage, passable: course) }
   let(:quest_passage) { QuestPassage.first }
+
+  it_behaves_like 'after_pass_hook_badge_grantable' do
+    let(:passage) { quest_passage }
+  end
 
   context '.can_be_in_progress?' do
     it 'returns true' do
@@ -35,26 +39,4 @@ RSpec.describe QuestPassage, type: :model do
     end
   end # context '.ready_to_pass?'
 
-  context '.after_pass_hook' do
-    let(:user) { quest_passage.user }
-
-    context 'when passable (quest) have badge' do
-      before do
-        create(:badge, badgable: quest_passage.passable)
-        allow(quest_passage).to receive(:ready_to_pass?).and_return(true)
-      end
-
-      it 'user receives reward! with badge' do
-        expect(user).to receive(:reward!).with(quest_passage.passable.badge)
-        quest_passage.try_chain_pass!
-      end
-    end
-
-    context 'when passable (quest) have not badge' do
-      it 'user does not receives reward!' do
-        expect(user).to_not receive(:reward!)
-        quest_passage.try_chain_pass!
-      end
-    end
-  end # context '.after_pass_hook'
 end

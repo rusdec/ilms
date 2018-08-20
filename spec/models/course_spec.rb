@@ -7,6 +7,7 @@ RSpec.describe Course, type: :model do
   it { should have_many(:lessons).dependent(:destroy) }
 
   it_behaves_like 'passable'
+  it_behaves_like 'badgable'
   it_behaves_like 'authorable'
   it_behaves_like 'html_attributable', %w(decoration_description)
 

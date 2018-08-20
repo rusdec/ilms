@@ -11,6 +11,12 @@
     = f.text_field :level, autocomplete: 'level',
                            placeholder: 'Level',
                            class: 'form-control small'
+
+  - if @course.persisted?
+    .form-group
+      = f.label :badge
+      br
+      = @course.link_to_badge
                                             
   .form-group
     = f.submit class: 'btn btn-primary mr-2'

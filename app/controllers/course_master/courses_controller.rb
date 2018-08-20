@@ -13,14 +13,16 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
                             with_flash: true)
   end
 
-  def edit; end
+  def edit
+    @course = CourseDecorator.decorate(@course)
+  end
 
   def show
     @course = CourseDecorator.decorate(@course)
   end
 
   def new
-    @course = current_user.courses.new
+    @course = CourseDecorator.decorate(current_user.courses.new)
   end
 
   def destroy

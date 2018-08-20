@@ -47,7 +47,9 @@ Rails.application.routes.draw do
   namespace :course_master do
     concerns :home
     resources :badges, except: %i(create new)
+
     resources :courses do
+      concerns :badgable
       resources :lessons, shallow: true do
         resources :quests do
           concerns :badgable

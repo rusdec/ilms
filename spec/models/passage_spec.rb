@@ -143,9 +143,7 @@ RSpec.describe Passage, type: :model do
       end # context 'and existed passage in progress'
 
       context 'and existed passage not in progress' do
-        before do
-          existed_passage.accepted!
-        end
+        before { existed_passage.accepted! }
 
         it 'new passage should be valid' do
           expect(new_passage).to be_valid

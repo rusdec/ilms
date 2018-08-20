@@ -51,11 +51,17 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
     end
 
     context 'Any manage role' do
-      before { sign_in(user) }
+      before do
+        sign_in(user)
+        get :edit, params: params
+      end
 
       it 'Course assigns to @course' do
-        get :edit, params: params
         expect(assigns(:course)).to eq(course)
+      end
+
+      it '@course is decorated' do
+        expect(assigns(:course)).to be_decorated
       end
     end
   end
@@ -82,6 +88,10 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
       it 'New Course assigns to @course' do
         expect(assigns(:course)).to be_a_new(Course)
+      end
+
+      it '@course is decorated' do
+        expect(assigns(:course)).to be_decorated
       end
 
       it 'New Course related with his author' do

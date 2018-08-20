@@ -5,6 +5,10 @@ RSpec.describe CoursePassage, type: :model do
   before { create(:passage, passable: course) }
   let!(:course_passage) { CoursePassage.first }
 
+  it_behaves_like 'after_pass_hook_badge_grantable' do
+    let(:passage) { course_passage }
+  end
+
   context '.default_status' do
     it 'should be in_progress' do
       expect(course_passage.status). to eq(Status.in_progress)

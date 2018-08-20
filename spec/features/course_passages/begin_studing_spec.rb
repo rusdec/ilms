@@ -21,10 +21,10 @@ feature 'Start learning', %q{
       end
 
       scenario 'can start learning course', js: true do
-        Capybara.using_wait_time(5) do
-          click_on('Learn now!')
-          expect(page).to have_content('Success')
+        click_on('Learn now!')
 
+        Capybara.using_wait_time(5) do
+          expect(page).to have_content('Success')
           course.lessons.each do |lesson|
             expect(page).to have_content(lesson.title)
           end

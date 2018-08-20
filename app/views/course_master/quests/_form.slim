@@ -24,7 +24,7 @@
     .quest-groups
       = alternative_quest_for_selector(quest_groups: @quest_form.quest_groups, form: f)
   
-  - if quest.persisted?
+  - if @quest_form.quest.persisted?
     .form-group
       = f.label :badge
       br
