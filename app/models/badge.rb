@@ -5,6 +5,7 @@ class Badge < ApplicationRecord
   mount_uploader :image, ImageUploader
 
   belongs_to :badgable, polymorphic: true
+  belongs_to :course
 
   validates :title, presence: true
   validates :image, presence: true

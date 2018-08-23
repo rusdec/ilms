@@ -1,10 +1,7 @@
 class PassageSolution < ApplicationRecord
-  include HtmlAttributable
   include Statusable
 
   belongs_to :passage
-
-  html_attributes :body
 
   validates :body, html: { presence: true }
 

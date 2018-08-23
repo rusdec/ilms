@@ -21,7 +21,6 @@ RSpec.describe Quest, type: :model do
 
   it_behaves_like 'passable'
   it_behaves_like 'authorable'
-  it_behaves_like 'html_attributable', %w(body)
   it_behaves_like 'badgable'
 
   it do

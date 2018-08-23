@@ -10,7 +10,6 @@ RSpec.describe Material, type: :model do
       .is_at_most(150)
   end
 
-  it_behaves_like 'html_attributable', %w(body summary)
   it_behaves_like 'authorable'
 
   context 'html validations' do

@@ -4,28 +4,6 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
   let!(:author) { create(:course_master, :with_course_and_lesson) }
   let(:lesson) { author.lessons.last }
 
-  describe 'GET #show' do
-    let(:material) { lesson.materials.last }
-
-    context 'when author of lesson' do
-      before { sign_in(author) }
-
-      it 'assign Material to @material' do
-        get :show, params: { id: material }
-        expect(assigns(:material)).to eq(material)
-      end
-    end
-
-    context 'when not author of lesson' do
-      before { sign_in(create(:course_master)) }
-
-      it 'assign Material to @material' do
-        get :show, params: { id: material }
-        expect(assigns(:material)).to eq(material)
-      end
-    end
-  end
-
   describe 'GET #new' do
     context 'when author of lesson' do
       before do

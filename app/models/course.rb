@@ -1,20 +1,26 @@
 class Course < ApplicationRecord
-  include HtmlAttributable
+  include Coursable
   include Passable
   include Authorable
   include Badgable
 
   has_many :lessons, dependent: :destroy
+  has_many :badges, dependent: :destroy
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
 
   validate :validate_author
 
-  html_attributes :decoration_description
-
   # Passable Template method
   alias_attribute :passable_children, :lessons
+
+  scope :all_published, -> { where(published: true) }
+
+  # Coursable template method
+  def course
+    self
+  end
 
   protected
 

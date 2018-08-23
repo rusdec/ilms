@@ -13,4 +13,5 @@ RSpec.describe Badge, type: :model do
   end
 
   it { should belong_to(:badgable) }
+  it { should belong_to(:course) }
 end

@@ -10,7 +10,9 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
     @lessons = @course.lessons
   end
 
-  def edit; end
+  def edit
+    @lesson = @lesson.decorate
+  end
 
   def show; end
 

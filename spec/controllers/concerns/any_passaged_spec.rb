@@ -10,6 +10,7 @@ RSpec.describe AnyPassablesController, type: :controller do
   with_model :any_passable do
     table do |t|
       t.integer :parent_id
+      t.boolean :published, default: true
     end
 
     model do
@@ -91,6 +92,19 @@ RSpec.describe AnyPassablesController, type: :controller do
       
       context 'when json' do
         before { params[:format] = :json }
+
+        context 'when unpublished' do
+          before { any_passable.update(published: false) }
+
+          it 'can\'t create passage' do
+            expect{
+              post :learn!, params: params
+            }.to_not change(Passage, :count)
+          end
+
+          before { post :learn!, params: params }
+          it_behaves_like 'recipient_of_json_with_errors'
+        end
 
         it 'can create passage related with user' do
           expect{

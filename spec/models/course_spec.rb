@@ -9,10 +9,8 @@ RSpec.describe Course, type: :model do
   it_behaves_like 'passable'
   it_behaves_like 'badgable'
   it_behaves_like 'authorable'
-  it_behaves_like 'html_attributable', %w(decoration_description)
 
   let(:administrator) { create(:administrator) }
-
 
   it '.passable_children' do
     course = create(:course, :with_lessons)
@@ -43,6 +41,15 @@ RSpec.describe Course, type: :model do
   %w(Administrator CourseMaster).each do |role|
     it "should be valid if author have #{role} role" do
       expect(build(:course, author: create(role.underscore.to_sym))).to be_valid
+    end
+  end
+
+  context '#all_published' do
+    let!(:published_courses) { create_list(:course, 3) }
+    let!(:unpublised_courses) { create_list(:course, 3, :unpublished) }
+
+    it 'returns all published courses' do
+      expect(Course.all_published).to eq(published_courses)
     end
   end
 end

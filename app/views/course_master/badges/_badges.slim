@@ -1,0 +1,16 @@
+table class="table card-table table-striped table-vcenter"
+  thead
+    tr
+      th= 'Image'
+      th= 'Title'
+      th= 'Related'
+      th= 'Created at'
+      th= 'Actions'
+  tbody.small
+    - badges.each do |badge|
+      tr
+        td= badge.image_preview class: 'img-thumb'
+        td= badge.title_preview
+        td= badge.link_to_related_badgable
+        td= badge.created_at
+        td= badge.remote_links

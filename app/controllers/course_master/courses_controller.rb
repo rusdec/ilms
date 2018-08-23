@@ -3,6 +3,8 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   before_action :set_course, only: %i(update edit destroy show)
   before_action :require_author_of_course, only: %i(edit destroy update)
 
+  after_action :decorate_course, only: %i(edit show new)
+
   include JsonResponsed
 
   def index; end
@@ -13,16 +15,12 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
                             with_flash: true)
   end
 
-  def edit
-    @course = CourseDecorator.decorate(@course)
-  end
+  def edit; end
 
-  def show
-    @course = CourseDecorator.decorate(@course)
-  end
+  def show; end
 
   def new
-    @course = CourseDecorator.decorate(current_user.courses.new)
+    @course = current_user.courses.new
   end
 
   def destroy
@@ -38,6 +36,10 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   protected
+
+  def decorate_course
+    @course = @course.decorate
+  end
 
   def require_author_of_course
     authorize! :author, @course

@@ -4,11 +4,14 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
   with_model :any_badgable do
     table do |t|
       t.references :user
+      t.integer :course_id
     end
 
     model do
       include Rewardable
       include Authorable
+
+      belongs_to :course
     end
   end
 
@@ -70,7 +73,7 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
 
   context 'GET #new' do
     let!(:user) { create(:course_master) }
-    let(:badgable) { AnyBadgable.create(author: user) }
+    let(:badgable) { AnyBadgable.create(author: user, course: create(:course, author: user)) }
     let(:action) { get :new, params: { any_badgable_id: badgable } }
 
     context 'when authenticated user' do
@@ -115,7 +118,7 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
 
   describe 'POST #create' do
     let(:user) { create(:course_master) }
-    let!(:badgable) { AnyBadgable.create(author: user) }
+    let!(:badgable) { AnyBadgable.create(author: user, course: create(:course, author: user)) }
     let(:params) { { any_badgable_id: badgable, badge: attributes_for(:badge) } }
     let(:action) { post :create, params: params }
 
@@ -130,6 +133,10 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
             context 'when data is valid' do
               it 'creates badge related with user' do
                 expect{ action }.to change(user.created_badges, :count).by(1)
+              end
+
+              it 'creates badge related with user' do
+                expect{ action }.to change(badgable.course.badges, :count).by(1)
               end
 
               it 'return success' do

@@ -4,7 +4,7 @@ class CourseMaster::BaseController < ApplicationController
   layout 'course_master'
 
   respond_to :html, only: %i(index new edit show)
-  respond_to :json, only: %i(destroy create update used unused)
+  respond_to :json, only: %i(destroy create update used unused index)
   before_action :verify_requested_format!
 
   protected

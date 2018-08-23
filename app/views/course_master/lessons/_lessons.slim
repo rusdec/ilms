@@ -1,0 +1,14 @@
+table class="table card-table table-striped table-vcenter"
+  thead
+    tr
+      th= 'Title'
+      th= 'Parent'
+      th= 'Created at'
+      th= 'Actions'
+  tbody.small
+    - lessons.each do |lesson|
+      tr
+        td= lesson.title_preview
+        td= lesson.parent&.title
+        td= lesson.created_at
+        td= lesson.remote_links

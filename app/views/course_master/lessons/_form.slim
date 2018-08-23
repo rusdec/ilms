@@ -14,8 +14,8 @@
 
   .form-group
     = f.label 'Will opened after lesson', for: :parent_id
-    = selector_with_lessons(form: f, lesson: @lesson)
+    = selector_with_lessons(form: f, lesson: @lesson.object)
                                             
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_back if link_back
+    = link_to 'Lessons', edit_course_master_course_path(@lesson.course), class: 'btn btn-secondary'

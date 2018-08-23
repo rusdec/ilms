@@ -1,22 +1,12 @@
 class CoursesController < ApplicationController
   include Passaged
 
-  before_action :set_courses, only: :index
-  before_action :set_course, only: :show
-
-  def index; end
+  def index
+    @courses = CourseDecorator.decorate_collection(Course.all_published)
+  end
 
   def show
+    @course = Course.find(params[:id]).decorate
     @passage = @course.passages.new
-  end
-
-  protected
-
-  def set_courses
-    @courses = Course.all
-  end
-
-  def set_course
-    @course = CourseDecorator.decorate(Course.find(params[:id]))
   end
 end

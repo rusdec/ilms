@@ -2,35 +2,6 @@ require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::LessonsController, type: :controller do
 
-  describe 'GET #index' do
-    let(:user) { create(:course_master) }
-    let(:course) { create(:course, :with_lessons, author: user) }
-    let(:params) { { course_id: course } }
-    before { create(:course, :with_lessons, author: user) }
-
-    non_manage_roles.each do |role|
-      context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
-
-        it 'Redirect to root' do
-          get :index, params: params
-          expect(response).to redirect_to(root_path)
-        end
-      end
-    end
-
-    manage_roles.each do |role|
-      context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
-
-        it 'Lessons of the course assign to @lessons' do
-          get :index, params: params
-          expect(assigns(:lessons)).to eq(course.lessons)
-        end
-      end
-    end
-  end
-
   describe 'GET #edit' do
     let(:user) { create(:course_master) }
     let!(:lesson) { create(:course, :with_lesson, author: user).lessons.last }
@@ -58,21 +29,6 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
       end
     end
   end # context 'when author'
-
-  describe 'GET #show' do
-    let(:user) { create(:course_master) }
-    let(:lesson) { create(:course, :with_lesson, author: user).lessons.last }
-    let(:params) { { course: lesson.course, id: lesson } }
-
-    context "Any manage role" do
-      before { sign_in(user) }
-
-      it 'Lesson assigns to @lesson' do
-        get :show, params: params
-        expect(assigns(:lesson)).to eq(lesson)
-      end
-    end
-  end
 
   describe 'GET #new' do
     let(:user) { create(:course_master) }

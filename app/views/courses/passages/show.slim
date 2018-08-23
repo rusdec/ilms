@@ -3,3 +3,17 @@
   = render partial: 'courses/passages/lesson_passages_list',
            locals: { passage: @passage }
   .col-lg-9
+
+    ul#passageTab class='nav nav-tabs' role='tablist'
+      li.nav-item
+        a class='nav-link active' id='passage-map-tab' data-toggle='tab'  href='#passage-map' role='tab' aria-controls='passage-map' aria-selected='true'
+          | Content
+      li.nav-item
+        a class='nav-link' id='passage-info-tab' data-toggle='tab'  href='#passage-info' role='tab' aria-controls='passage-info' aria-selected='false'
+          | Info
+
+    #passageTabContent class='tab-content mt-5'
+      #passage-map class='tab-pane fade show active' role='tabpanel' aria-labelledby='passage-map-tab'
+
+      #passage-info class='tab-pane fade' role='tabpanel' aria-labelledby='passage-info-tab'
+        = @passage.current_progress_card

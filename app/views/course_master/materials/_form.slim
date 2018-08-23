@@ -1,5 +1,6 @@
 = form_for model, remote: true, format: :json, html: { form_editor: true } do |f|
   .form-group
+    = f.label :title
     = f.text_field :title, autocomplete: 'title',
                            placeholder: 'Title',
                            class: 'form-control small'
@@ -17,4 +18,4 @@
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_back if link_back
+    = link_to 'Materials', edit_course_master_lesson_path(lesson), class: 'btn btn-secondary'

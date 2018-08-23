@@ -18,7 +18,7 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   def create
     authorize! :author, @badgable
     @badge = current_user.created_badges.create(
-      badge_params.merge(badgable: @badgable)
+      badge_params.merge(badgable: @badgable, course: @badgable.course)
     )
     json_response_by_result(
       with_serializer: BadgeSerializer,
@@ -41,7 +41,8 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   def destroy
     @badge.destroy
     json_response_by_result(
-      with_location: :course_master_badges_path,
+      with_location: :edit_course_master_course_path,
+      location_object: @badge.course,
       without_object: true,
       with_flash: true
     )

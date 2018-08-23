@@ -1,0 +1,4 @@
+select class='passaged_badges_selectizer form-control custom-select'
+  - passaged_badges.each do |passaged_badge|
+    = tag.option value: passaged_badge.id,
+                 data: { data: { image: passaged_badge.image.preview.url, text: passaged_badge.title } }

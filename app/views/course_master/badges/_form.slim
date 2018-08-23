@@ -8,12 +8,18 @@
     = editor_text_area(form: f, name: :description)
 
   .form-group
-    = f.label :image
+    label class='custom-control custom-checkbox'
+      = f.check_box :hidden,  autocompleate: 'hidden', class: 'custom-control-input'
+      span class='custom-control-label'
+        | Hidden?
+
+  .form-group
     .form-group
       = badge.image_preview(class: 'img-preview', name: 'badge_image')
-    = f.file_field :image
+    . class='custom-file col-3'
+      = f.file_field :image, class: 'custom-file-input'
+      = f.label :image, class: 'custom-file-label'
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = badge.link_to_related_badgable(class: 'btn btn-secondary mr-2')
-    = link_back if link_back
+    = badge.link_to_related_badgable(class: 'btn btn-secondary mr-2 ml-2')

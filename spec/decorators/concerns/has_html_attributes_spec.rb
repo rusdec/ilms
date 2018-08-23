@@ -1,19 +1,18 @@
-require_relative '../models_helper'
+require_relative '../decorators_helper'
 
-RSpec.configure do |config|
-  config.extend WithModel
-end
-
-RSpec.describe HtmlAttributable, type: :model do
-  with_model :any_htmlable do
+RSpec.describe HasHtmlAttributes do
+  with_model :any_html_attributable do
     table { |t| t.text :body }
-    model do
-      include HtmlAttributable
-      html_attributes :body
-    end
   end
 
-  let!(:object) { AnyHtmlable.new }
+  class AnyHtmlAttributableDecorator <  Draper::Decorator
+    include HasHtmlAttributes
+    delegate_all
+    html_attributes :body
+  end
+
+
+  let!(:object) { AnyHtmlAttributable.create.decorate }
 
   it 'create body_html method' do
     expect(object).to respond_to(:body_html)
@@ -26,14 +25,14 @@ RSpec.describe HtmlAttributable, type: :model do
   context 'body_html_text' do
     context 'when empty' do
       it 'return empty array' do
-        expect(object.body_html_text).to eq([])
+        expect(object.body_text).to eq('')
       end
     end
 
     context 'when not empty' do
       it 'return array of strings' do
         object.body = '<p>any</p><span>bar<span>'
-        expect(object.body_html_text).to eq(['any','bar'])
+        expect(object.body_text).to eq('any bar')
       end 
     end
   end

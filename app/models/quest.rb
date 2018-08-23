@@ -1,5 +1,5 @@
 class Quest < ApplicationRecord
-  include HtmlAttributable
+  include Coursable
   include Passable
   include Authorable
   include Badgable
@@ -29,14 +29,17 @@ class Quest < ApplicationRecord
 
   after_destroy :after_destroy_delete_quest_group_if_empty
 
-  html_attributes :body
-
   def alternatives
     self.class.where('quest_group_id = ? AND id != ?', quest_group_id, id)
   end
 
   def has_alternatives?
     !alternatives.empty?
+  end
+
+  # Coursable Tempalte method
+  def course
+    lesson.course
   end
 
   private

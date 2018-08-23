@@ -46,17 +46,18 @@ Rails.application.routes.draw do
   # 
   namespace :course_master do
     concerns :home
-    resources :badges, except: %i(create new)
+    resources :badges, except: %i(create new index show)
 
-    resources :courses do
+    resources :courses, except: :show do
       concerns :badgable
-      resources :lessons, shallow: true do
-        resources :quests do
+      resources :lessons, except: %i(show index), shallow: true do
+        resources :quests, except: %i(show index) do
           concerns :badgable
         end
-        resources :materials
+        resources :materials, except: %i(show index)
       end
     end
+
     resources :solutions, controller: 'passage_solutions', only: %i(index show) do
       member do
         patch :accept

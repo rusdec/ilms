@@ -2,11 +2,12 @@ FactoryBot.define do
   factory :course do
     association :author, factory: :course_master
     sequence(:title) { |n| "CourseTitle#{n}" }
+    published true
 
     trait :full do
       after(:create) do |course|
         previous_lesson = nil
-        1.upto(5) do
+        1.upto(2) do
           previous_lesson = create(:lesson, :full,
             course: course,
             author: course.author,
@@ -14,6 +15,10 @@ FactoryBot.define do
           )
         end
       end
+    end
+
+    trait :unpublished do
+      published false
     end
 
     trait :with_lesson do

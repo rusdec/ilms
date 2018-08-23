@@ -1,10 +1,14 @@
 class LessonDecorator < Draper::Decorator
+  include HasDate
+  include HasRemoteLinks
+  include HasTextPreview
+
   delegate_all
 
   decorates_association :author
   decorates_association :course
+  decorates_association :quests
+  decorates_association :materials
 
-  def title_preview
-    object.title.truncate(30)
-  end
+  text_preview :title
 end

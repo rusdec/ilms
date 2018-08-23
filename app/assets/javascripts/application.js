@@ -16,6 +16,7 @@
 //= require popper
 //= require bootstrap
 //= require tabler
+//= require tabler/vendors/selectize.min
 //= require activestorage
 //= require turbolinks
 //= require_tree .

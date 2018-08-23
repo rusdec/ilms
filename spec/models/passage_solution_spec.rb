@@ -19,7 +19,6 @@ RSpec.describe PassageSolution, type: :model do
 
   let(:html_validable) { { field: :body, object: passage_solution } }
   it_behaves_like 'html_presence_validable'
-  it_behaves_like 'html_attributable', %i(body)
   it_behaves_like 'statusable'
 
   it '#for_auditor' do

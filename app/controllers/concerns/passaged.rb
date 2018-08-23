@@ -9,6 +9,8 @@ module Passaged
 
     def learn!
       passable = polymorphic_resource_class.find(params[:id])
+      authorize! :publicated, passable
+
       json_response_by_result(
         { with_location: :passage_path,
           without_object: true,

@@ -1,0 +1,14 @@
+table class="table card-table table-striped table-vcenter"
+  thead
+    tr
+      th= 'Title'
+      th= 'Level'
+      th= 'Created at'
+      th= 'Actions'
+  tbody.small
+    - quests.each do |quest|
+      tr
+        td= quest.title
+        td= quest.level
+        td= quest.created_at
+        td= quest.remote_links

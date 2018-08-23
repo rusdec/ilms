@@ -5,7 +5,4 @@
 .row
   .col
     = render partial: 'form',
-             locals: { resource: [:course_master, @badgable, @badge],
-                       badge: @badge,
-                       link_back: secondary_button(text: 'Badges',
-                                                   path: course_master_badges_path) }
+             locals: { resource: [:course_master, @badgable, @badge], badge: @badge }

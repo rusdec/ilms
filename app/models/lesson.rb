@@ -2,7 +2,6 @@ class Lesson < ApplicationRecord
   has_closure_tree
 
   include Persistable
-  include HtmlAttributable
   include Passable
   include Authorable
 
@@ -16,8 +15,6 @@ class Lesson < ApplicationRecord
   validates :title, length: { minimum: 5, maximum: 50 }
   validates :order, numericality: { only_integer: true,
                                     greater_than_or_equal_to: 1 }
-
-  html_attributes :ideas, :summary, :check_yourself
 
   # Passable Template method
   alias_attribute :passable_children, :quests

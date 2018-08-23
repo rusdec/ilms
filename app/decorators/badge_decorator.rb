@@ -1,7 +1,7 @@
 class BadgeDecorator < Draper::Decorator
-  include DateDecorator
-  include RemoteLinksDecorator
-  include HtmlAttributesDecorator
+  include HasDate
+  include HasRemoteLinks
+  include HasHtmlAttributes
 
   delegate_all
 
@@ -26,8 +26,12 @@ class BadgeDecorator < Draper::Decorator
   end
 
   def link_to_related_badgable(params = {})
-    h.link_to "Related #{object.badgable.class}",
-              h.polymorphic_path([:edit, :course_master, object.badgable]),
+    h.link_to "Related #{badgable.class}",
+              h.polymorphic_path([:edit, :course_master, badgable]),
               params
+  end
+
+  def edit_path
+    h.edit_course_master_badge_path(self)
   end
 end

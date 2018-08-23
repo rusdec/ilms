@@ -48,30 +48,6 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    context 'when author' do
-      before do
-        sign_in(author)
-        get :show, params: { id: quest }
-      end
-
-      it 'Quest assign to @quest' do
-        expect(assigns(:quest)).to eq(quest)
-      end
-    end
-
-    context 'when not author' do
-      before do
-        sign_in(author)
-        get :show, params: { id: quest }
-      end
-
-      it 'Quest assign to @quest' do
-        expect(assigns(:quest)).to eq(quest)
-      end
-    end
-  end
-
   describe 'POST #create' do
     before { sign_in(author) }
     let(:params) { { lesson_id: lesson, quest: {}, format: :json } }

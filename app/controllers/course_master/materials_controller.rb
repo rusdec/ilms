@@ -8,7 +8,9 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   before_action :set_material, only: %i(edit update destroy show)
   before_action :require_material_author_abilities, only: %i(edit update destroy)
 
-  def show; end
+  def show
+    @material = @material.decorate
+  end
 
   def new; end
 

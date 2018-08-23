@@ -4,7 +4,28 @@
 
 .row
   .col
-    = render partial: 'form',
-             locals: { model: [:course_master, @lesson],
-                       link_back: secondary_button(text: 'Lesson page',
-                                                   path: course_master_lesson_path(@lesson)) }
+
+    ul#lessonTab class='nav nav-tabs' role='tablist'
+      li.nav-item
+        a#lesson-tab class='nav-link active' data-toggle='tab' href='#lesson' role='tab' aria-controls='lesson' aria-selected='true'
+          | Lesson
+
+      li.nav-item
+        a#materials-tab class='nav-link' data-toggle='tab' href='#materials' role='tab' aria-controls='materials' aria-selected='false'
+          | Materials
+
+      li.nav-item
+        a#quests-tab class='nav-link' data-toggle='tab' href='#quests' role='tab' aria-controls='quests' aria-selected='false'
+          | Quests
+
+    #lessonTabContent class='tab-content mt-5'
+      #lesson class='tab-pane fade show active' role='tabpanel' aria-labelledby='lesson-tab'
+        = render partial: 'form', locals: { model: [:course_master, @lesson] }
+
+      #materials class='tab-pane fade' role='tabpanel' aria-labelledby='materials-tab'
+        .card
+          = render partial: 'course_master/materials/materials', locals: { materials: @lesson.materials }
+
+      #quests class='tab-pane fade' role='tabpanel' aria-labelledby='quests-tab'
+        .card
+          = render partial: 'course_master/quests/quests', locals: { quests: @lesson.quests }

@@ -85,6 +85,7 @@ class Ability
 
   def author_abilities
     can :author, Authorable do |any|
+      any = any.object if any.decorated?
       user.author_of?(any) || user.admin?
     end
   end
@@ -92,6 +93,10 @@ class Ability
   def passing_abilities
     can :passing, Passage do |passage|
       passage.user == user && !passage.unavailable?
+    end
+
+    can :publicated, Passable do |publicable|
+      publicable.published? || publicable.published.nil?
     end
   end
 end

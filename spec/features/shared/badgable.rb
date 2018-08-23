@@ -27,6 +27,7 @@ shared_examples_for 'badgable' do
           expect(page).to have_content('Success')
           expect(page).to_not have_link('Create Badge')
           expect(page).to have_link(badge[:title])
+          expect(page).to have_content('Awarded: 0')
         end
       end
     end # context 'with valid data'
