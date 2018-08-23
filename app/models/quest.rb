@@ -1,14 +1,15 @@
 class Quest < ApplicationRecord
-  include Coursable
   include Passable
   include Authorable
   include Badgable
 
   belongs_to :lesson
+  has_one :course, through: :lesson
   belongs_to :quest_group, optional: true
   belongs_to :old_quest_group, foreign_key: 'old_quest_group_id',
                                class_name: 'QuestGroup',
                                optional: true
+
 
   validates :title, presence: true
   validates :title, length: { minimum: 3, maximum: 50 }
@@ -35,11 +36,6 @@ class Quest < ApplicationRecord
 
   def has_alternatives?
     !alternatives.empty?
-  end
-
-  # Coursable Tempalte method
-  def course
-    lesson.course
   end
 
   private

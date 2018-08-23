@@ -5,6 +5,7 @@ RSpec.describe Course, type: :model do
 
   it { should validate_length_of(:title).is_at_least(5).is_at_most(50) }
   it { should have_many(:lessons).dependent(:destroy) }
+  it { should have_many(:quests).through(:lessons) }
 
   it_behaves_like 'passable'
   it_behaves_like 'badgable'
@@ -12,17 +13,24 @@ RSpec.describe Course, type: :model do
 
   let(:administrator) { create(:administrator) }
 
-  it '.passable_children' do
-    course = create(:course, :with_lessons)
-    expect(course.passable_children).to eq(course.lessons)
-  end
-
   it 'should be default level value' do
     expect(create(:course).level).to eq(1)
   end
 
   it 'should be default decoration_description value' do
     expect(create(:course).decoration_description).to be_empty
+  end
+
+  context 'alias attributes' do
+    it 'returns self' do
+      course = create(:course)
+      expect(course.course).to eq(course)
+    end
+
+    it '.passable_children' do
+      course = create(:course, :with_lessons)
+      expect(course.passable_children).to eq(course.lessons)
+    end
   end
 
   context 'when author have User role' do

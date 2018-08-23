@@ -9,5 +9,7 @@ class Badge < ApplicationRecord
 
   validates :title, presence: true
   validates :image, presence: true
-  validates :title, length: { minimum: 3, maximum: 20 }
+  validates :title, length: { minimum: 3, maximum: 35 }
+
+  scope :hiddens, -> { where(hidden: true) }
 end

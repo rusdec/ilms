@@ -1,6 +1,7 @@
 require_relative 'models_helper'
 
 RSpec.describe Quest, type: :model do
+  it { should have_one(:course).through(:lesson) }
   it { should validate_presence_of(:title) }
   it do
     should validate_length_of(:title)

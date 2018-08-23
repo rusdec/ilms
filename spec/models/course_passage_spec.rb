@@ -5,13 +5,45 @@ RSpec.describe CoursePassage, type: :model do
   before { create(:passage, passable: course) }
   let!(:course_passage) { CoursePassage.first }
 
+  it { should have_many(:quest_passages).through(:children).source(:children) }
+
   it_behaves_like 'after_pass_hook_badge_grantable' do
     let(:passage) { course_passage }
   end
 
+  context 'alias_attributes' do
+    it '.lesson_passages' do
+      expect(course_passage.lesson_passages).to eq(course_passage.children)
+    end
+
+    it '.course' do
+      expect(course_passage.course).to eq(course_passage.passable)
+    end
+  end
+
+  context '.passed_quest_passages' do
+    before { QuestPassage.first.passed! }
+
+    it 'returns passed quest for course' do
+      expect(
+        course_passage.passed_quest_passages
+      ).to eq(QuestPassage.all_passed)
+    end
+  end
+
+  context '.passed_lesson_passages' do
+    before { LessonPassage.first.passed! }
+
+    it 'returns passed quest for course' do
+      expect(
+        course_passage.passed_lesson_passages
+      ).to eq(LessonPassage.all_passed)
+    end
+  end
+
   context '.default_status' do
     it 'should be in_progress' do
-      expect(course_passage.status). to eq(Status.in_progress)
+      expect(course_passage.status).to eq(Status.in_progress)
     end
   end
 

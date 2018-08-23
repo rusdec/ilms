@@ -5,9 +5,13 @@ RSpec.describe QuestPassage, type: :model do
   before { create(:passage, passable: course) }
   let(:quest_passage) { QuestPassage.first }
 
+  it { should belong_to(:quest).with_foreign_key(:passable_id) }
+
   it_behaves_like 'after_pass_hook_badge_grantable' do
     let(:passage) { quest_passage }
   end
+
+  it { should belong_to(:quest).with_foreign_key(:passable_id) }
 
   context '.can_be_in_progress?' do
     it 'returns true' do

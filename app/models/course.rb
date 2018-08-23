@@ -1,11 +1,11 @@
 class Course < ApplicationRecord
-  include Coursable
   include Passable
   include Authorable
   include Badgable
 
   has_many :lessons, dependent: :destroy
   has_many :badges, dependent: :destroy
+  has_many :quests, through: :lessons
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
@@ -15,12 +15,9 @@ class Course < ApplicationRecord
   # Passable Template method
   alias_attribute :passable_children, :lessons
 
-  scope :all_published, -> { where(published: true) }
+  alias_attribute :course, :itself
 
-  # Coursable template method
-  def course
-    self
-  end
+  scope :all_published, -> { where(published: true) }
 
   protected
 
