@@ -25,16 +25,16 @@ RSpec.describe AnyPassablesController, type: :controller do
     routes.draw do
       concern :passable do |options|
         member do
-          post :learn, to: "#{options[:controller]}#learn!"
+          post :learn, action: :learn!
         end
 
         collection do
-          get 'passages/all', to: "#{options[:controller]}#passages"
+          get 'passages/all', action: :passages
         end
       end
 
       resources :any_passables do
-        concerns :passable, { controller: :any_passables }
+        concerns :passable
       end
 
       resources :passages

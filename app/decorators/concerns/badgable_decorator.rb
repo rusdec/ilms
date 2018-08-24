@@ -1,7 +1,7 @@
 module BadgableDecorator
-  def link_to_badge
+  def link_to_edit_badge
     if badge
-      h.render partial: 'shared/badges/mini_card',
+      h.render partial: 'shared/badges/edit_mini_card',
                locals: { badge: badge }
     else
       h.link_to 'Create Badge',

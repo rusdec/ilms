@@ -1,4 +1,4 @@
-table class="table card-table table-striped table-vcenter"
+table class='table card-table table-striped table-vcenter badge-items'
   thead
     tr
       th= 'Image'
@@ -8,7 +8,7 @@ table class="table card-table table-striped table-vcenter"
       th= 'Actions'
   tbody.small
     - badges.each do |badge|
-      tr
+      tr.badge-item data-id=badge.id
         td= badge.image_preview class: 'img-thumb'
         td= badge.title_preview
         td= badge.link_to_related_badgable

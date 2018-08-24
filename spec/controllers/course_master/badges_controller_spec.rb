@@ -74,7 +74,9 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
   context 'GET #new' do
     let!(:user) { create(:course_master) }
     let(:badgable) { AnyBadgable.create(author: user, course: create(:course, author: user)) }
-    let(:action) { get :new, params: { any_badgable_id: badgable } }
+    let(:action) do
+      get :new, params: { any_badgable_id: badgable }
+    end
 
     context 'when authenticated user' do
       context 'when user is CourseMaster' do
@@ -93,6 +95,10 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
 
         it 'assigned @badge related with user' do
           expect(assigns(:badge).author).to eq(user)
+        end
+
+        it 'assigned @badge related with course' do
+          expect(assigns(:badge).course).to eq(badgable.course)
         end
 
         it 'assigned @badge related with badgable' do

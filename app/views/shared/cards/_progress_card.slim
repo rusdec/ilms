@@ -1,9 +1,9 @@
-.col-sm-4
+.col-sm-3
   .card
     . class='card-body text-center'
       .h5
-        = "#{title}"
+        small= "#{title}"
       . class='h2 mb-4'
-        = "#{body}"
-      . class='progress progress-sm'
-        . class='progress-bar bg-green' style="width: #{percent}%"
+        small= "#{body}"
+      . class='progress progress-sm' style='height: 3px'
+        . class='progress-bar bg-green' style="width: #{percent}%;"

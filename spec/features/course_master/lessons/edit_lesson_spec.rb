@@ -11,14 +11,21 @@ feature 'Edit lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit course_master_lesson_path(lesson)
+      visit edit_course_master_course_path(lesson.course)
+      click_on 'Lessons'
       click_on 'Edit'
+    end
+
+    scenario 'can back to lessons' do
+      click_on 'Lessons'
+      expect(page).to have_content('Edit Course')
+      lesson.course.lessons.each do |lesson|
+        expect(page).to have_content(lesson.title)
+      end
     end
 
     context 'with valid data' do
       scenario 'can create new lesson', js: true do
-        expect(page).to have_content('Edit lesson')
-
         fill_in 'Title', with: 'NewLessonTitle'
         fill_editor :summary, with: "NewLessonSummary"
         click_on 'Update Lesson'
@@ -29,8 +36,6 @@ feature 'Edit lesson', %q{
 
     context 'with invalid data' do
       scenario 'see errors', js: true do
-        expect(page).to have_content('Edit lesson')
-
         fill_in 'Title', with: ''
         click_on 'Update Lesson'
 

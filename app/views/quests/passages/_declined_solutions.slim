@@ -1,4 +1,4 @@
 - if passage.solutions.all_declined.any?
   = page_header('Declined solutions')
   - passage.solutions.all_declined.each do |solution|
-    = simple_card(title: '', body: solution.body_html)
+    = simple_card(title: '', body: solution.decorate.body_html)

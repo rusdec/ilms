@@ -1,0 +1,11 @@
+. class='col-sm-6 col-lg-4'
+  . class='card p-3' style='min-height: 90px'
+    . class='d-flex align-items-center'
+      span.mr-3
+        = badge.image_preview class: 'img-thumb'
+      .
+        h4.m-0
+          small
+            = link_to badge.title, edit_course_master_badge_path(badge)
+        small.text-muted
+          = "Awarded: #{badge.rewarders.count}"

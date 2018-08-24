@@ -1,19 +1,39 @@
 = page_header(@passage.passable.title)
 .row
-  = render partial: 'courses/passages/lesson_passages_list',
-           locals: { passage: @passage }
-  .col-lg-9
-
-    ul#passageTab class='nav nav-tabs' role='tablist'
+  .col
+    ul#mainPageTab class='nav nav-tabs' role='tablist'
       li.nav-item
-        a class='nav-link active' id='passage-map-tab' data-toggle='tab'  href='#passage-map' role='tab' aria-controls='passage-map' aria-selected='true'
-          | Content
+        a class='nav-link active' id='lessons-tab' data-toggle='tab'  href='#lessons' role='tab' aria-controls='lessons' aria-selected='true'
+          | Lessons
       li.nav-item
-        a class='nav-link' id='passage-info-tab' data-toggle='tab'  href='#passage-info' role='tab' aria-controls='passage-info' aria-selected='false'
-          | Info
+        a class='nav-link' id='statistics-tab' data-toggle='tab'  href='#statistics' role='tab' aria-controls='statistics' aria-selected='false'
+          | Statistics
 
-    #passageTabContent class='tab-content mt-5'
-      #passage-map class='tab-pane fade show active' role='tabpanel' aria-labelledby='passage-map-tab'
 
-      #passage-info class='tab-pane fade' role='tabpanel' aria-labelledby='passage-info-tab'
-        = @passage.current_progress_card
+#mainPageTabContent class='tab-content mt-5'
+
+  #lessons class='tab-pane fade show active' role='tabpanel' aria-labelledby='lessons-tab'
+    .row
+      .col
+        = page_header('Common progress')
+    . class='row row-common-progress'
+      = @passage.lessons_progress_card
+      = @passage.quests_progress_card
+      = @passage.user.collected_course_badges_progress_card(@passage.passable)
+      = @passage.user.collected_course_hidden_badges_progress_card(@passage.passable)
+    .row
+      .col
+        = page_header('Lessons')
+    . class='row row-lessons'
+      .col
+        = render partial: 'courses/passages/lesson_passages_list',
+                 locals: { lesson_passages: @passage.lesson_passages }
+
+
+  #statistics class='tab-pane fade' role='tabpanel' aria-labelledby='statistics-tab'
+    .row
+      .col
+        = page_header('Collected badges')
+    . class='row row-collected-badges'
+      - @passage.passable.badges.each do |badge|
+        = current_user.badges.include?(badge) ? badge.mini_card : badge.disabled_mini_card

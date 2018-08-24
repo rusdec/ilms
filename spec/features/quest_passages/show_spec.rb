@@ -9,7 +9,7 @@ feature 'Show quest_passage page', %q{
   given!(:course) { create(:course, :full) }
   given!(:owner) { create(:user) }
   before { create(:passage, passable: course, user: owner) }
-  given(:passage) { Passage.for_quests.first }
+  given(:passage) { Passage.for_quests.first.decorate }
   given(:lesson) { passage.passable.lesson }
   given(:params) { { id: passage } }
 
@@ -25,9 +25,7 @@ feature 'Show quest_passage page', %q{
           expect(page).to have_content(passage.passable.send field)
         end
 
-        passage.passable.body_html_text.each do |text|
-          expect(page).to have_content(text)
-        end
+        expect(page).to have_content(passage.passable.body_text)
       end
 
       scenario 'can back to parent(lesson) passage page' do
@@ -43,7 +41,7 @@ feature 'Show quest_passage page', %q{
 
         passage.solutions.all_declined.each do |solution|
           expect(page).to have_content('Declined solutions')
-          expect(page).to have_content(solution.body_html)
+          expect(page).to have_content(solution.decorate.body_html)
         end
       end
 

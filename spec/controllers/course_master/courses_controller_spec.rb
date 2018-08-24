@@ -80,12 +80,16 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
         get :index
       end
       
-      it 'all user Cource assign to @cources' do
+      it 'assigns related with user Courses to @cources' do
         expect(assigns(:courses)).to eq(user.courses)
       end
 
       it 'render index' do
         expect(response).to render_template(:index)
+      end
+
+      it 'decorates assigned @courses' do
+        expect(assigns(:courses)).to be_decorated
       end
     end # context 'when CourseMaster'
 
@@ -179,15 +183,21 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
       context 'when valid data' do
         let!(:params) do
-          { course: { title: 'NewValidTitle' }, id: course, format: :json }
+          { id: course,
+            course: { title: 'NewValidTitle', published: false, level: 3,
+                      decoration_description: 'NewDecorationDescriotion' } }
         end
 
         context 'when json' do
-          before { patch :update, params: params }
+          before do
+            params[:format] = :json
+            patch :update, params: params
+          end
 
           it 'can update course' do
-            course.reload
-            expect(course.title).to eq(params[:course][:title])
+            [:title, :published, :level, :decoration_description].each do |property|
+              expect(assigns(:course).send property).to eq(params[:course][property])
+            end
           end
 
           it 'return course object' do
@@ -198,12 +208,15 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
       context 'when invalid data' do
         let(:invalid_params) do
-          { course: { title: nil }, id: course.id, format: :json }
+          { course: { title: nil }, id: course.id }
         end
 
         context 'when json' do
           let!(:old_title) { course.title }
-          before { patch :update, params: invalid_params }
+          before do
+            invalid_params[:format] = :json
+            patch :update, params: invalid_params
+          end
 
           it 'can\'t update own course' do
             course.reload

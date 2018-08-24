@@ -1,13 +1,17 @@
 document.addEventListener('turbolinks:load', () => {
-  let showImage = (data) => {
-    let badgeImage = document.querySelector('img[name="badge_image"]')
-    if (!badgeImage) {
-      return
-    }
-    badgeImage.src = data.object.image.preview
-  }
+  remoteLinksListener('badge')
+  formLinksListener('badge')
+})
 
-  ['.edit_badge', '.new_badge', '.destroy_badge'].forEach((selector) => {
-    addResponseAlertListener({selector: selector, callback: showImage})
+document.addEventListener('turbolinks:load', () => {
+  let badgeEditForm = document.querySelector('form.edit_badge')
+  if (!badgeEditForm) { return }
+
+  badgeEditForm.addEventListener('ajax:success', (ev) => {
+    let response = parseAjaxResponse(ev)
+    if (response.data.errors) { return }
+    if (!response.data.object.image.preview) { return }
+
+    document.querySelector('img[name="badge_image"]').src = response.data.object.image.preview
   })
 })

@@ -11,15 +11,15 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
         get :new, params: { lesson_id: lesson }
       end
 
-      it 'assign new Material to @material' do
+      it 'assigns new Material to @material' do
         expect(assigns(:material)).to be_a_new(Material)
       end
 
-      it '@material related with lesson' do
+      it 'relates assigned @material with lesson' do
         expect(assigns(:material).lesson).to eq(lesson)
       end
 
-      it '@material related with author' do
+      it 'relates assigned @material with author' do
         expect(assigns(:material).author).to eq(author)
       end
     end # context 'when author of lesson'

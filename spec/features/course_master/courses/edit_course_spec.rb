@@ -6,20 +6,40 @@ feature 'Show course', %q{
   so that I can supplement description, change level, add lessons or something else
 } do
 
-  given(:user) { create(:course_master) }
-  given(:course) { create(:course, author: user) }
+  given!(:user) { create(:course_master) }
+  given!(:course) { create(:course, author: user) }
   
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_course_path(course)
+      visit course_master_courses_path
+      click_on course.title
+    end
+
+    scenario 'see title course properties' do
+      ['Title', 'Decoration description',
+       'Level', 'Badge', 'Published'].each do |property|
+        expect(page).to have_content(property)
+      end
+    end
+
+    scenario 'see tabs' do
+      ['Course', 'Lessons', 'Badges', 'Statistics'].each do |tab|
+        expect(page).to have_content(tab)
+      end
+    end
+
+    scenario 'see link to courses' do
+      expect(page).to have_link('Courses')
     end
 
     context 'with valid data' do
       scenario 'can update course', js: true do
+        sleep 5
         within 'form' do
           fill_in 'Title', with: 'NewValidTitle'
           fill_editor 'Decoration description', with: 'NewValidDecorationDescriptio'
+          check 'Published'
           click_on 'Update'
         end
 

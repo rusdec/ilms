@@ -12,7 +12,7 @@ feature 'Destroy course', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit course_master_course_path(course)
+      visit course_master_courses_path
     end
 
     scenario 'can delete course', js: true do

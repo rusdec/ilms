@@ -1,8 +1,6 @@
-= page_title('Edit quest')
+= page_title('Edit Quest')
 .row
   .col
     = render partial: 'form',
              locals: { model: [:course_master, @quest_form.quest],
-                       quest: @quest_form.quest,
-                       link_back: secondary_button(text: 'Cancel',
-                                                   path: course_master_quest_path(@quest_form.quest)) }
+                       quest: @quest_form.quest }

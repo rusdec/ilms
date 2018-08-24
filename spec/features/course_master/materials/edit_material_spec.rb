@@ -1,7 +1,7 @@
 require_relative '../../features_helper'
 
-feature 'Lessons author update material', %q{
-  As lessons author
+feature 'Author of lesson update material', %q{
+  As author of lesson
   I can update material
   so that I can change it details
 } do
@@ -12,8 +12,19 @@ feature 'Lessons author update material', %q{
   context 'when author of lesson' do
     before do
       sign_in(author)
-      visit course_master_material_path(material)
-      click_on 'Edit'
+      visit edit_course_master_lesson_path(lesson)
+      click_on 'Materials'
+      within ".material-item[data-id='#{material.id}']" do
+        click_on 'Edit'
+      end
+    end
+
+    scenario 'can back to materials' do
+      click_on 'Materials'
+      expect(page).to have_content('Edit Lesson')
+      lesson.materials.each do |material|
+        expect(page).to have_content(material.title)
+      end
     end
 
     context 'with valid data' do

@@ -11,7 +11,7 @@ class BadgeDecorator < Draper::Decorator
     object.title.truncate(30)
   end
 
-  def image(params = {})
+  def image_original(params = {})
     return if object.image.file.nil?
     h.image_tag object.image.url, params
   end
@@ -33,5 +33,13 @@ class BadgeDecorator < Draper::Decorator
 
   def edit_path
     h.edit_course_master_badge_path(self)
+  end
+
+  def mini_card
+    h.render partial: 'shared/badges/mini_card', locals: { badge: self }
+  end
+
+  def disabled_mini_card
+    h.render partial: 'shared/badges/disabled_mini_card', locals: { badge: self }
   end
 end

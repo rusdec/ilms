@@ -46,6 +46,12 @@ module JsonResponsed
       end
 
       params[:location] = send(params[:with_location], resource)
+
+      if params[:with_url_hash]
+        params[:location] += "##{params[:with_url_hash]}"
+        params.delete(:with_url_hash)
+      end
+
       params.delete(:with_location)
       params
     end

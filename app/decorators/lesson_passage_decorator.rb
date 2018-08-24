@@ -4,4 +4,9 @@ class LessonPassageDecorator < PassageDecorator
       children.where(passable: quest_group.quests)
     end
   end
+
+  def td_required_quests
+    required_quests = passable.quest_groups.count
+    required_quests > 0 ? required_quests : 'No. Read only'
+  end
 end

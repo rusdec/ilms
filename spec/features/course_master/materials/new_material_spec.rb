@@ -1,7 +1,7 @@
 require_relative '../../features_helper'
 
-feature 'Lessons author create material', %q{
-  As lessons author
+feature 'Author of lesson create material', %q{
+  As author of lesson
   I can create material
   so that I can demarcate the subthemes of the lesson
 } do
@@ -11,34 +11,31 @@ feature 'Lessons author create material', %q{
   context 'when author of lesson' do
     before do
       sign_in(author)
-      visit course_master_lesson_path(lesson)
+      visit edit_course_master_lesson_path(lesson)
+      click_on 'Materials'
+      click_on 'New Material'
     end
 
     context 'with valid data' do
       given(:attributes) { attributes_for(:material) }
 
       scenario 'can create material', js: true do
-        click_on 'Add material'
-
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]
         click_on 'Create Material'
-
         expect(page).to have_content('Success')
-        expect(page).to have_content(attributes[:title])
+        expect(page).to have_content('Edit Material')
       end
     end # conetx 'with valid data'
 
     context 'with invalid data' do
       scenario 'can\'t create material', js: true do
+        fill_in 'Title', with: nil
+        fill_editor 'Body', with: nil
+        fill_in 'Order', with: ' '
+        click_on 'Create Material'
+
         Capybara.using_wait_time(5) do
-          click_on 'Add material'
-
-          fill_in 'Title', with: nil
-          fill_editor 'Body', with: nil
-          fill_in 'Order', with: ' '
-          click_on 'Create Material'
-
           [ 'Title can\'t be blank',
             'Title is too short',
             'Body can\'t be blank',
@@ -58,7 +55,7 @@ feature 'Lessons author create material', %q{
 
     scenario 'redirect to root' do
       expect(page).to have_content('Access denied')
-      expect(page).to_not have_content('Create Lesson')
+      expect(page).to_not have_content('Create Material')
     end
   end
 end

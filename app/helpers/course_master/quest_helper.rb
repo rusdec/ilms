@@ -51,4 +51,8 @@ module CourseMaster::QuestHelper
       radio_quest_group(group: group, form: params[:form])
     end.join('').html_safe
   end
+
+  def quests_path(quest)
+    "#{edit_course_master_lesson_path(quest.lesson)}#quests"
+  end
 end

@@ -1,5 +1,5 @@
 module CourseMaster::MaterialsHelper
-  def material_remote_links(material)
-    remote_links([material])
+  def materials_path(material)
+    "#{edit_course_master_lesson_path(material.lesson)}#materials"
   end
 end

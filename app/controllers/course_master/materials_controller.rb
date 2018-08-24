@@ -5,12 +5,8 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   before_action :set_new_material, only: %i(new create)
   before_action :require_lesson_author_abilities, only: %i(new create)
 
-  before_action :set_material, only: %i(edit update destroy show)
+  before_action :set_material, only: %i(edit update destroy)
   before_action :require_material_author_abilities, only: %i(edit update destroy)
-
-  def show
-    @material = @material.decorate
-  end
 
   def new; end
 
@@ -19,7 +15,11 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   def create
     @material.assign_attributes(material_params)
     @material.save
-    json_response_by_result(json_redirect_params)
+    json_response_by_result(
+      with_location: :edit_course_master_material_url,
+      without_object: true,
+      with_flash: true
+    )
   end
 
   def update
@@ -29,7 +29,7 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
 
   def destroy
     @material.destroy
-    json_response_by_result(json_redirect_params)
+    json_response_by_result
   end
 
   private
@@ -56,12 +56,5 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
 
   def material_params
     params.require(:material).permit(:title, :body, :summary, :order)
-  end
-
-  def json_redirect_params
-    { with_location: :course_master_lesson_url,
-      location_object: @material.lesson,
-      with_flash: true,
-      without_object: true }
   end
 end

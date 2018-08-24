@@ -17,6 +17,7 @@ class PassagesController < ApplicationController
   end
 
   def show
+    @solution = @passage.solutions.new
     @passage = decorator_class.decorate(@passage)
     render "#{@passable_type}/passages/show"
   end

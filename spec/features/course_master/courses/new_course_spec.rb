@@ -8,7 +8,8 @@ feature 'Create course', %q{
 
   before do
     sign_in(create(:course_master))
-    visit new_course_master_course_path
+    visit course_master_courses_path
+    click_on 'Create your course'
   end
 
   context 'with valid data' do
@@ -17,15 +18,26 @@ feature 'Create course', %q{
       within 'form' do
         fill_in 'Title', with: course[:title]
         fill_editor 'Decoration description', with: course[:decoration_description]
+        check 'Published'
         click_on 'Create'
       end
 
-      [course[:title],
-       course[:decoration_description],
-       course[:level],
-       course[:created_at]
-      ].each { |text| expect(page).to have_content(text) }
+      expect(page).to have_content('Success')
+      expect(page).to have_content('Edit Course')
+      expect(page).to have_link('Create Badge')
     end
+  end
+
+  scenario 'see title course properties' do
+    ['Title', 'Decoration description',
+     'Level', 'Published'].each do |property|
+      expect(page).to have_content(property)
+    end
+  end
+
+  scenario 'can\'t create badge' do
+    expect(page).to_not have_content('Badge')
+    expect(page).to_not have_link('Create Badge')
   end
 
   context 'with invalid data' do

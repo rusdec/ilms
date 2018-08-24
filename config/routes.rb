@@ -7,11 +7,11 @@ Rails.application.routes.draw do
 
   concern :passable do |options|
     member do
-      post :learn, to: "#{options[:controller]}#learn!"
+      post :learn, action: :learn!
     end
     if options[:with_passages]
       collection do
-        get 'passages/all', to: "#{options[:controller]}#passages"
+        get 'passages/all', action: :passages
       end
     end
   end
@@ -25,17 +25,15 @@ Rails.application.routes.draw do
   #
   root to: 'home#index'
   resources :courses, only: %i(index show), shallow: true do
-    concerns :passable, { controller: :courses, with_passages: true }
-    resources :lessons, only: %i(index show) do
-      concerns :passable, { controller: :lessons }
-    end
+    concerns :passable, { with_passages: true }
+    resources :lessons, only: %i(index show)
   end
 
   #
   # Passages
   #
   resources :passages, only: %i(show), shallow: true do
-    resources :solutions, controller: 'passage_solutions', only: :create
+    resources :solutions, controller: :passage_solutions, only: :create
     member do
       patch :try_pass
     end
@@ -46,7 +44,7 @@ Rails.application.routes.draw do
   # 
   namespace :course_master do
     concerns :home
-    resources :badges, except: %i(create new index show)
+    resources :badges, only: %i(edit update destroy)
 
     resources :courses, except: :show do
       concerns :badgable
@@ -58,7 +56,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :solutions, controller: 'passage_solutions', only: %i(index show) do
+    resources :solutions, controller: :passage_solutions, only: %i(index show) do
       member do
         patch :accept
         patch :decline

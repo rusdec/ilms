@@ -11,7 +11,7 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
 
   def new
     @badge = BadgeDecorator.decorate(
-      current_user.created_badges.new(badgable: @badgable)
+      current_user.created_badges.new(badgable: @badgable, course: @badgable.course)
     )
   end
 
@@ -40,12 +40,7 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
 
   def destroy
     @badge.destroy
-    json_response_by_result(
-      with_location: :edit_course_master_course_path,
-      location_object: @badge.course,
-      without_object: true,
-      with_flash: true
-    )
+    json_response_by_result(with_serializer: BadgeSerializer)
   end
 
   protected

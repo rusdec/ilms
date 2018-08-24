@@ -13,8 +13,16 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
         get :edit, params: params
       end
 
-      it 'Lesson assigns to @lesson' do
+      it 'assigns Lesson to @lesson' do
         expect(assigns(:lesson)).to eq(lesson)
+      end
+
+      it 'decorates assigned @lesson' do
+        expect(assigns(:lesson)).to be_decorated
+      end
+
+      it 'assigns course persisted Lessons to @lessons' do
+        expect(assigns(:lessons)).to eq(lesson.course.lessons.persisted)
       end
     end
 
@@ -42,21 +50,23 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           get :new, params: params
         end
 
-        it 'New Lesson assigns to @lesson' do
+        it 'assigns Lesson to @lesson' do
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
-        it '@lesson related with course' do
+        it 'relates @lesson with course' do
           expect(assigns(:lesson).course).to eq(course)
         end
 
-        it 'Lesson assigns to @lessons' do
-          expect(assigns(:lessons)).to eq(course.lessons)
+        it 'assigns course Lessons to @lessons' do
+          expect(assigns(:lessons)).to eq(course.lessons.persisted)
         end
 
-        it 'Course assigns to @course' do
+        it 'assigns Course to @course' do
           expect(assigns(:course)).to eq(course)
         end
+
+
       end
 
       context 'Not author of course' do

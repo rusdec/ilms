@@ -1,14 +1,10 @@
 class CourseMaster::QuestsController < CourseMaster::BaseController
   include JsonResponsed
 
-  before_action :set_quest, only: %i(edit show update destroy)
+  before_action :set_quest, only: %i(edit update destroy)
   before_action :require_author_abilities, only: %i(edit update destroy)
-  before_action :set_quest_form, only: %i(edit show update destroy)
+  before_action :set_quest_form, only: %i(edit update destroy)
   before_action :set_new_quest_form, only: %i(new create)
-
-  def index
-    @quests = current_user.quests
-  end
 
   def new; end
 
@@ -16,13 +12,13 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def create
     @quest_form.create(params)
-    json_response_by_result({ with_location: :course_master_quest_url,
-                            with_flash: true,
-                            without_object: true },
-                            @quest_form.quest)
+    json_response_by_result(
+      { with_location: :edit_course_master_quest_url,
+        without_object: true,
+        with_flash: true },
+      @quest_form.quest
+    )
   end
-
-  def show; end
 
   def update
     @quest_form.update(params)
@@ -31,11 +27,7 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def destroy
     @quest_form.destroy
-    json_response_by_result({ with_location: :course_master_lesson_url,
-                              location_object: @quest_form.lesson,
-                              with_flash: true,
-                              without_object: true },
-                              @quest_form.quest)
+    json_response_by_result(with_serializer: QuestSerializer)
   end
 
   protected

@@ -6,14 +6,29 @@ feature 'Edit badge', %q{
   so that I can supplement description, title, image
 } do
 
-  given(:user) { create(:course_master) }
-  given!(:badge) { create(:badge, author: user) }
+  given!(:course) { create(:course) }
+  given!(:badge) do
+    BadgeDecorator.decorate(
+      create(:badge, badgable: course, course: course, author: course.author)
+    )
+  end
   
   context 'when author' do
     before do
-      sign_in(user)
-      visit course_master_badges_path
-      click_on 'Edit'
+      sign_in(course.author)
+      visit edit_course_master_course_path(course)
+      click_on 'Badges'
+      within ".badge-item[data-id='#{badge.id}']" do
+        click_on 'Edit'
+      end
+    end
+
+    scenario 'can back to badges' do
+      click_on 'Badges'
+      expect(page).to have_content('Edit Course')
+      course.badges.each do |badge|
+        expect(page).to have_content(badge.title)
+      end
     end
 
     context 'with valid data' do

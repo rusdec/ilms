@@ -12,11 +12,14 @@ feature 'Author destory material', %q{
   context 'when author' do
     before do
       sign_in(author)
-      visit course_master_material_path(material)
+      visit edit_course_master_lesson_path(material.lesson)
+      click_on('Materials')
     end
 
     scenario 'can delete course', js: true do
-      click_on 'Delete'
+      within ".material-item[data-id='#{material.id}']" do
+        click_on 'Delete'
+      end
 
       expect(page).to have_content('Success')
       expect(page).to_not have_content(material.title)

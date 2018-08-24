@@ -1,4 +1,4 @@
-table class="table card-table table-striped table-vcenter"
+table class="table card-table table-striped table-vcenter quest-items"
   thead
     tr
       th= 'Title'
@@ -7,7 +7,7 @@ table class="table card-table table-striped table-vcenter"
       th= 'Actions'
   tbody.small
     - quests.each do |quest|
-      tr
+      tr.quest-item data-id=quest.id
         td= quest.title
         td= quest.level
         td= quest.created_at

@@ -25,7 +25,7 @@ module CourseMaster::SharedHelper
       content_tag :span, class: 'remote-links small' do
         concat(link_to 'Edit', edit_polymorphic_path(model))
         concat(link_to 'Delete', polymorphic_path(model),
-                                 class: "destroy_#{underscored_klass(resource)}",
+                                 class: "destroy_#{underscored_klass(resource)} destroy",
                                  method: :delete,
                                  remote: true)
       end

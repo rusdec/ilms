@@ -6,20 +6,20 @@ feature 'Destory lesson', %q{
   so that I no one had any access to it
 } do
 
-  given(:user) { create(:course_master) }
-  given!(:lesson) { create(:course, :with_lesson, author: user).lessons.last }
+  given!(:course) { create(:course, :with_lesson) }
+  given!(:lesson) { course.lessons.first }
   
   context 'Author' do
     before do
-      sign_in(user)
-      visit course_master_lesson_path(lesson)
+      sign_in(course.author)
+      visit edit_course_master_course_path(course)
+      click_on 'Lessons'
     end
 
     scenario 'can delete course', js: true do
       click_on 'Delete'
 
       expect(page).to have_content('Success')
-      expect(page).to have_content(lesson.course.title)
       expect(page).to_not have_content(lesson.title)
     end
   end

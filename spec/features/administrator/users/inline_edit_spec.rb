@@ -20,7 +20,10 @@ feature 'Inline edit user', %q{
           select 'CourseMaster', from: 'user[type]'
           click_on 'Save'
         end
-        %w(Success CourseMaster).each { |text| expect(page).to have_content(text) }
+
+        expect(page).to have_content('Success')
+        expect(page).to_not have_link('Cancel')
+        expect(page).to_not have_link('Save')
       end
     end
   end

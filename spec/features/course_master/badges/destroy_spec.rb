@@ -1,23 +1,34 @@
 require_relative '../../features_helper'
 
-feature 'User see courses', %q{
-  As user of Manage panel
-  I can see list of badges
-  so that I can see all created badges
+feature 'Delete badge', %q{
+  As author of course
+  I can delete badge
+  so that it does not exist
 } do
   
   context 'when user with any manage role' do
-    given(:user) { create(:course_master) }
-    given!(:badge) { BadgeDecorator.decorate(create(:badge, author: user)) }
+    given!(:course) { create(:course) }
+    given!(:badge) do
+      BadgeDecorator.decorate(
+        create(:badge, badgable: course, course: course, author: course.author)
+      )
+    end
+
     before do
-      sign_in(user)
-      visit course_master_badges_path
+      sign_in(course.author)
+      visit edit_course_master_course_path(course)
+      click_on 'Badges'
     end
 
     scenario 'can delete badge', js: true do
-      click_on 'Delete'
-      expect(page).to have_content('Success')
-      expect(page).to_not have_link('Delete')
+      within ".badge-item[data-id='#{badge.id}']" do
+        click_on 'Delete'
+      end
+
+      Capybara.using_wait_time(5) do
+        expect(page).to have_content('Success')
+        expect(page).to_not have_link('Delete')
+      end
       expect(page).to_not have_content(badge.title_preview)
     end
   end # context 'when user with any manage role'

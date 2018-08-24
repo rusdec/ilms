@@ -1,24 +1,21 @@
 class CourseMaster::LessonsController < CourseMaster::BaseController
-  before_action :set_course, only: %i(index new create)
+  before_action :set_course, only: %i(new create)
   before_action :set_lesson, only: %i(show destroy update edit)
   before_action :require_author_of_course, only: %i(new create)
   before_action :require_author_of_lesson, only: %i(destroy update edit)
 
   include JsonResponsed
 
-  def index
-    @lessons = @course.lessons
-  end
-
   def edit
+    @lessons = @lesson.course.lessons.persisted
     @lesson = @lesson.decorate
   end
 
   def show; end
 
   def new
-    @lesson = @course.lessons.new
     @lessons = @course.lessons.persisted
+    @lesson = @course.lessons.new
   end
 
   def update
@@ -28,15 +25,16 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
 
   def create
     create_lesson
-    json_response_by_result(with_location: :course_master_lesson_url,
-                            with_flash: true)
+    json_response_by_result(
+      with_location: :edit_course_master_lesson_url,
+      without_object: true,
+      with_flash: true
+    )
   end
 
   def destroy
     @lesson.destroy
-    json_response_by_result({ with_location: :course_master_course_url,
-                              location_object: @lesson.course,
-                              without_object: true, with_flash: true })
+    json_response_by_result
   end
 
   protected

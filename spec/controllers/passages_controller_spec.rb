@@ -63,16 +63,24 @@ RSpec.describe PassagesController, type: :controller do
         context 'and passage is unavailable' do
           before { get :show, params: params }
 
-          it 'assign Passage to @passage' do
+          it 'assigns Passage to @passage' do
             expect(assigns(:passage)).to eq(AnyPassablePassage.find(passage.id))
           end
 
-          it 'should be decorated' do
+          it 'decorateds @passage' do
             expect(assigns(:passage)).to be_decorated_with AnyPassablePassageDecorator
           end
 
           it 'render any_passables/passages/show' do
             expect(response).to render_template('any_passables/passages/show')
+          end
+
+          it 'assigns new Solution to @solution' do
+            expect(assigns(:solution)).to be_a_new(PassageSolution)
+          end
+
+          it 'relates assigned @solution with @passage' do
+            expect(assigns(:solution).passage.id).to eq(passage.id)
           end
         end
       end

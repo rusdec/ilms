@@ -1,5 +1,9 @@
 = form_for model, remote: true, format: :json, html: { form_editor: true } do |f|
   .form-group
+    = f.check_box :published, class: 'mr-2'
+    = f.label :published
+
+  .form-group
     = f.label :title
     = f.text_field :title, autocomplete: 'title',
                            placeholder: 'Title',
@@ -18,7 +22,7 @@
     .form-group
       = f.label :badge
       br
-      = @course.link_to_badge
+      = @course.link_to_edit_badge
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'

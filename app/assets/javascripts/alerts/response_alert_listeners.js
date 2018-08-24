@@ -1,28 +1,24 @@
 /**
- *  params
- *    selector: string
+ *  @params Object params
+ *    @params String selector
+ *    @params Function callback 
  */
-function addResponseAlertListener(params) {
+function addResponseAlertListener(params = {selector: '', callback: null}) {
   if (!params.selector) {
     return
   }
 
-  let selector = document.querySelector(params.selector)
-  if (!selector) {
+  let element = document.querySelector(params.selector)
+  if (!element) {
     return
   }
+  alertListenerForDevise(element, params)
+  alertListenerNormal(element, params)
+}
 
-  /**
-   * Devise
-   */
-  selector.addEventListener('ajax:complete', (ev) => {
-    let response = JSON.parse(parseAjaxResponse(ev).data.response)
-    if (response.error) {
-      showErrors([response.error], params.error_contatiner)
-    }
-  })
+function alertListenerNormal(element, params = {}) {
 
-  selector.addEventListener('ajax:success', (ev) => {
+  element.addEventListener('ajax:success', (ev) => {
     let response = parseAjaxResponse(ev)
 
     if (response.data.location) {
@@ -31,16 +27,32 @@ function addResponseAlertListener(params) {
     }
 
     if (response.data.errors) {
-      showErrors(response.data.errors, params.error_container)
+      showAlert({
+        messages: response.data.errors,
+        container: params.container,
+        type: 'danger'
+      })
       return
     }
     
     if (response.data.message) {
-      showSuccess(response.data.message)
+      showAlert({
+        messages: [response.data.message],
+        container: params.container
+      })
     }
 
     if (params.callback) {
       params.callback(response.data)
+    }
+  })
+}
+
+function alertListenerForDevise(element, params = {}) {
+  element.addEventListener('ajax:complete', (ev) => {
+    let response = JSON.parse(parseAjaxResponse(ev).data.response)
+    if (response.error) {
+      showErrors([response.error], params.error_contatiner)
     }
   })
 }

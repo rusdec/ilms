@@ -1,11 +1,9 @@
-.row
-  . class='col text-center'
-    h2.page-title= 'Edit course'
+= page_title('Edit Course')
 
 .row
   .col
 
-    ul#courseTab class='nav nav-tabs' role='tablist'
+    ul#mainPageTab class='nav nav-tabs' role='tablist'
       li.nav-item
         a#course-tab class='nav-link active' data-toggle='tab' href='#course' role='tab' aria-controls='course' aria-selected='true'
           | Course
@@ -23,10 +21,9 @@
           | Statistics
 
 
-    #courseTabContent class='tab-content mt-5'
+    #mainPageTabContent class='tab-content mt-5'
       #course class='tab-pane fade show active' role='tabpanel' aria-labelledby='course-tab'
-        = render partial: 'form',
-                 locals: { model: [:course_master, @course] }
+        = render partial: 'form', locals: { model: [:course_master, @course] }
 
       #lessons class='tab-pane fade' role='tabpanel' aria-labelledby='lessons-tab'
         .card

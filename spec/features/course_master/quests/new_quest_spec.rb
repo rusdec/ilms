@@ -12,7 +12,9 @@ feature 'New quest', %q{
   context 'when CourseMaster' do
     before do
       sign_in(user)
-      visit new_course_master_lesson_quest_path(lesson)
+      visit edit_course_master_lesson_path(lesson)
+      click_on 'Quests'
+      click_on 'New Quest'
     end
 
     context 'with valid data' do
@@ -32,11 +34,7 @@ feature 'New quest', %q{
           click_on 'Create Quest'
 
           expect(page).to have_content('Success')
-          expect(page).to have_content(attributes[:title])
-          expect(page).to have_content(attributes[:body])
-          expect(page).to have_content(attributes[:description])
-          expect(page).to_not have_link(default_quest.title)
-          expect(page).to_not have_link(attributes[:title])
+          expect(page).to have_content('Edit Quest')
         end
       end
       
@@ -48,11 +46,7 @@ feature 'New quest', %q{
           click_on 'Create Quest'
 
           expect(page).to have_content('Success')
-          expect(page).to have_content(attributes[:title])
-          expect(page).to have_content(attributes[:body])
-          expect(page).to have_content(attributes[:description])
-          expect(page).to have_link(default_quest.title)
-          expect(page).to_not have_link(attributes[:title])
+          expect(page).to have_content('Edit Quest')
         end
       end
     end

@@ -1,21 +1,6 @@
-.row
-  . class='col text-center'
-    h2.page-title= 'Users'
+= page_title('Users')
 
 .row
   .col
-    table class='table table-striped'
-      thead
-        .tr
-          - ['Fullname', 'Email', 'Role', 'Created at', 'Updated at'].each do |text|
-            th scope='col'
-              = text
-      tbody
-        - @users.each do |user|
-          tr.small
-            td.full_name= link_to user.full_name, administrator_user_path(user)
-            td.email = user.email
-            td.role = editable_role(user)
-            - [:created_at, :updated_at].each do |row|
-              td class="text-center #{row}"
-                = format_date(user.send row)
+    .card
+      = render partial: 'users'

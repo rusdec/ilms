@@ -13,10 +13,20 @@ feature 'Course passages page', %q{
   end
 
   context 'when authenticated user' do
-    before { sign_in(user) }
+    before do
+      sign_in(user)
+      click_on 'My courses'
+    end
     
     scenario 'see my courses link' do
-      expect(page).to have_link('My courses')
+      expect(page).to have_content('My Courses')
+    end
+
+    scenario 'see progress data' do
+      passage = CoursePassageDecorator.decorate(user.passages.first)
+      expect(page).to have_content("#{passage.passed_lesson_passages_percent}%")
+      expect(page).to have_content(passage.created_at)
+      expect(page).to have_content(passage.status.name)
     end
 
     scenario 'see own course passages' do

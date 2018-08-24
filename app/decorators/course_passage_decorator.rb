@@ -1,36 +1,45 @@
 class CoursePassageDecorator < PassageDecorator
   include HasCards
+  include HasDate
 
-  def lesson_passages
-    children.collect do |lesson_passage|
-      lesson_passage = lesson_passage.decorate
-      title = "#{lesson_passage.passable.title} #{lesson_passage.status.badge}".html_safe
+  delegate_all
 
-      if lesson_passage.unavailable?
-        h.tag.span title, class: 'list-group-item list-group-item-action'
-      else
-        h.link_to title, h.passage_path(lesson_passage),
-                         class: 'list-group-item list-group-item-action'
-      end
-    end.join.html_safe
-  end
+  decorates_association :lesson_passages
 
-  def current_progress_card
-    passed = children.all_passed.count
-    total = children.count
-
+  def lessons_progress_card
     progress_card(
       title: 'Lessons',
-      body: "#{passed} from #{total}",
-      percent: "#{(passed.to_f/total.to_f) * 100}"
+      body: "#{passed_lesson_passages.count} from #{children.count}",
+      percent: passed_lesson_passages_percent
     )
   end
 
-  def passed_lessons
-    children.all_passed.count
+  def quests_progress_card
+    progress_card(
+      title: 'Quests',
+      body: "#{passed_quest_passages.count} from #{quest_passages.count}",
+      percent: passed_quest_passages_percent
+    )
   end
 
-  def non_passed_lessons
-    children
+  def passed_lesson_passages_percent
+    ((passed_lesson_passages.count.to_f/children.count.to_f) * 100).to_i
+  end
+
+  def passed_quest_passages_percent
+    ((passed_quest_passages.count.to_f/quest_passages.count.to_f) * 100).to_i
+  end
+
+  def lessons_progress_bar
+    percent = passed_lesson_passages_percent
+
+    color = case percent
+            when 0..30 then 'bg-red'
+            when 31..70 then 'bg-yellow'
+            when 71..100 then 'bg-green'
+            end
+
+    h.render partial: 'shared/progress_bar',
+             locals: { percent: percent, color: color }
   end
 end

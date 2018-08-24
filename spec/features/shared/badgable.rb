@@ -11,7 +11,7 @@ shared_examples_for 'badgable' do
     end
 
     scenario 'see link to related badgable' do
-      expect(page).to have_link("Related #{badgable.class}")
+      expect(page).to have_link("Badges")
     end
 
     context 'with valid data' do

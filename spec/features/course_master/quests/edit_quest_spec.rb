@@ -17,14 +17,24 @@ feature 'Edit quest', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_quest_path(quest)
+      visit edit_course_master_lesson_path(lesson)
+      click_on 'Quests'
+      within ".quest-item[data-id='#{quest.id}']" do
+        click_on 'Edit'
+      end
+    end
+
+    scenario 'can back to quests' do
+      click_on 'Quests'
+      expect(page).to have_content('Edit Lesson')
+      lesson.quests.each { |quest| expect(page).to have_content(quest.title) }
     end
 
     context 'with valid data' do
       given(:attributes) { attributes_for(:updated_quest) }
 
       scenario 'can update quest', js: true do
-        expect(page).to have_content('Edit quest')
+        expect(page).to have_content('Edit Quest')
 
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]

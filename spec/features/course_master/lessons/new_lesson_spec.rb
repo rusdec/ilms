@@ -12,8 +12,9 @@ feature 'New lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit course_master_course_path(course)
-      click_on 'Add lesson'
+      visit edit_course_master_course_path(course)
+      click_on 'Lessons'
+      click_on 'New Lesson'
     end
 
     context 'with valid data' do
@@ -30,9 +31,13 @@ feature 'New lesson', %q{
         select parent_lesson.title, from: 'lesson[parent_id]'
         click_on 'Create Lesson'
 
-        ['Add quest', 'Quests', 'Success', lesson[:title],
-         lesson[:ideas], lesson[:summary]
-        ].each { |text| expect(page).to have_content(text) }
+        Capybara.using_wait_time(5) do
+          expect(page).to have_content('Success')
+          expect(page).to have_content('Lessons')
+          expect(page).to have_link('Lesson')
+          expect(page).to have_link('Materials')
+          expect(page).to have_link('Quests')
+        end
       end # scenario 'can create new lesson'
     end # context 'with valid data'
 
@@ -53,11 +58,11 @@ feature 'New lesson', %q{
   context 'when not author' do
     before do
       sign_in(create(:course_master))
-      visit course_master_course_path(course)
+      visit edit_course_master_course_path(course)
     end
 
     scenario 'redirect to root' do
-      expect(page).to_not have_content('New lesson')
+      expect(page).to_not have_content('New Lesson')
       expect(page).to_not have_content(/^Create$/)
     end
   end
