@@ -25,5 +25,23 @@
       = @course.link_to_edit_badge
 
   .form-group
+    = f.label :knowledges
+    .row
+      .col
+        .card
+          = render partial: 'knowledges'
+      .col-md-3
+        .input-group
+          = tag.input type: 'text', class: 'form-control', id: 'new-knowledge', placeholder: 'New knowledge', data: { id: nil, name: '' }, style: 'padding: 0.40rem 1.25rem;'
+          span.input-group-append
+            button class='btn btn-secondary text-muted bg-white border-left-0' type='button' id='add-new-knowledge' style='padding: 0.40rem 1.25rem;'
+              = icon('fas', 'plus-circle')
+        ul.list-group id='knowledge-items' style='max-height: 190px; overflow: scroll;'
+          - Knowledge.all.each do |knowledge|
+            li class='list-group-item knowledge-item' data-id=knowledge.id data-name=knowledge.name
+              = knowledge.name.capitalize
+              = icon('fas', 'plus-circle', { class: 'float-right text-muted' } )
+
+  .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = secondary_button(text: 'Courses', path: course_master_courses_path)
+    = link_to 'Courses', course_master_courses_path, class: 'btn btn-secondary'
