@@ -12,6 +12,8 @@ RSpec.describe User, type: :model do
   it { should have_many(:quests) }
   it { should have_many(:materials) }
   it { should have_many(:created_badges).class_name('Badge') }
+  it { should have_many(:user_knowledges).dependent(:destroy) }
+  it { should have_many(:knowledges).through(:user_knowledges) }
 
   it_behaves_like 'rewardable'
   it_behaves_like 'educable' do

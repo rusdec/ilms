@@ -11,8 +11,10 @@ class User < ApplicationRecord
   has_many :quests
   has_many :materials
   has_many :created_badges, class_name: 'Badge'
-
   has_many :passages, dependent: :destroy
+
+  has_many :user_knowledges, dependent: :destroy
+  has_many :knowledges, through: :user_knowledges
 
   validates :name, presence: true
   validates :surname, presence: true

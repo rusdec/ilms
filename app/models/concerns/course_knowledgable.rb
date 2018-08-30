@@ -8,6 +8,9 @@ module CourseKnowledgable
       Knowledge.where.not(id: knowledges.pluck(:id))
     end
 
+    def new_knowledges_for_user(user)
+    end
+
     protected
 
     def validate_percent

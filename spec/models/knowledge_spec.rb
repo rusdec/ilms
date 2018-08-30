@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'models_helper'
 
 RSpec.describe Knowledge, type: :model do
   it { should validate_presence_of(:name) }
@@ -15,8 +15,10 @@ RSpec.describe Knowledge, type: :model do
       .dependent(:destroy)
       .inverse_of(:knowledge)
   end
-
   it { should have_many(:courses).through(:course_knowledges) }
+
+  it { should have_many(:user_knowledges).dependent(:destroy) }
+  it { should have_many(:users).through(:user_knowledges) }
 
   context 'default_scope' do
     let!(:knowledge_b) { create(:knowledge, name: 'Bknowledge') }
@@ -39,6 +41,35 @@ RSpec.describe Knowledge, type: :model do
       knowledge.name = nil
       expect(knowledge.name).to_not receive(:downcase!)
       knowledge.valid?
+    end
+  end # context 'downcase name'
+
+  context 'new_knowledges_for' do
+    let!(:any_knowledgable) { double('AnyKnowledgable') }
+    let!(:other_knowledgable) { double('AnyKnowledgable') }
+
+    it 'returns all knowledges' do
+      knowledges = create_list(:knowledge, 3)
+      allow(any_knowledgable).to receive(:knowledges) { Knowledge.all }
+      allow(other_knowledgable).to receive(:knowledges) { Knowledge.where(id: nil) }
+
+      expect(
+        any_knowledgable.knowledges.new_for(other_knowledgable)
+      ).to eq(knowledges)
+    end
+
+    it 'return last knowledge' do
+      create_list(:knowledge, 2)
+      knowledges = create_list(:knowledge, 1)
+
+      allow(any_knowledgable).to receive(:knowledges) { Knowledge.all }
+      allow(other_knowledgable).to receive(:knowledges) do
+        Knowledge.where.not(id: Knowledge.last)
+      end
+      
+      expect(
+        any_knowledgable.knowledges.new_for(other_knowledgable)
+      ).to eq(knowledges)
     end
   end
 end

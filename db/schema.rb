@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_25_162958) do
+ActiveRecord::Schema.define(version: 2018_08_30_022457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,6 +169,17 @@ ActiveRecord::Schema.define(version: 2018_08_25_162958) do
     t.index ["user_id"], name: "index_user_grantables_on_user_id"
   end
 
+  create_table "user_knowledges", force: :cascade do |t|
+    t.string "user_type"
+    t.bigint "user_id"
+    t.bigint "knowledge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["knowledge_id"], name: "index_user_knowledges_on_knowledge_id"
+    t.index ["user_id", "knowledge_id"], name: "index_user_knowledges_on_user_id_and_knowledge_id", unique: true
+    t.index ["user_type", "user_id"], name: "index_user_knowledges_on_user_type_and_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -205,4 +216,5 @@ ActiveRecord::Schema.define(version: 2018_08_25_162958) do
   add_foreign_key "quests", "quest_groups"
   add_foreign_key "quests", "users"
   add_foreign_key "user_grantables", "users"
+  add_foreign_key "user_knowledges", "knowledges"
 end

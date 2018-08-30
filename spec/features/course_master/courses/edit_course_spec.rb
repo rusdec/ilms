@@ -35,7 +35,6 @@ feature 'Show course', %q{
 
     context 'with valid data' do
       scenario 'can update course', js: true do
-        sleep 5
         within 'form' do
           fill_in 'Title', with: 'NewValidTitle'
           fill_editor 'Decoration description', with: 'NewValidDecorationDescriptio'
