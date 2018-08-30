@@ -16,7 +16,7 @@ module Statusable
         change_status_to(s.name)
       end
 
-      scope "all_#{s.name}", ->() { where(status: Status.send(s.name)) }
+      scope "all_#{s.name}", -> { where(status: Status.send(s.name)) }
     end
 
     def statuses
@@ -50,7 +50,7 @@ module Statusable
 
     # It is only necessary for
     # passage_solutions with type a Quest.
-    # todo: Where I can check it? 
+    # todo: Where I can check it?
     def already_verified!
       return unless unverified?
       errors.add(:status, 'already verified')

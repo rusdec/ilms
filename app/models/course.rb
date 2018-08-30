@@ -2,10 +2,18 @@ class Course < ApplicationRecord
   include Passable
   include Authorable
   include Badgable
+  include CourseKnowledgable
 
   has_many :lessons, dependent: :destroy
   has_many :badges, dependent: :destroy
   has_many :quests, through: :lessons
+  has_many :course_knowledges, dependent: :destroy, inverse_of: :course
+  has_many :knowledges, through: :course_knowledges
+
+  accepts_nested_attributes_for :course_knowledges,
+                                reject_if: proc { |ck| ck[:percent].to_i <= 0 },
+                                allow_destroy: true
+
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }

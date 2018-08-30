@@ -10,7 +10,7 @@ class CoursePassage < Passage
 
   # Passage Template method
   def after_pass_hook
-    self.user.reward!(passable.badge) if passable.badge
+    user.reward!(passable.badge) if passable.badge
   end
 
   def passed_quest_passages

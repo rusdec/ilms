@@ -29,7 +29,7 @@ class Passage < ApplicationRecord
     transaction do
       passed!
       after_pass_hook
-      parent&.try_chain_pass! 
+      parent&.try_chain_pass!
     end
   end
 

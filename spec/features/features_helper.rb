@@ -8,6 +8,7 @@ RSpec.configure do |config|
   config.include Features::CourseMasterMacros::CoursesMacros
   config.include Features::CourseMasterMacros::Shared
   config.include Features::SharedMacros
+  config.include Features::KnowledgeMacros
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

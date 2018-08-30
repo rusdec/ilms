@@ -19,11 +19,6 @@ feature 'Show course', %q{
   end
 
   scenario 'see details of course ' do
-    [course.title,
-     course.author.full_name,
-     course.decoration_description,
-     course.created_at,
-    ].each { |text| expect(page).to have_content(text) }
   end
 
   scenario 'see lessons of course' do

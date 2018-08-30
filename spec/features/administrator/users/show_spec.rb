@@ -14,11 +14,10 @@ feature 'Show user', %q{
 
   context 'when administrator' do
     scenario 'see user info' do
-      [user.email,
-       user.type,
-       user.full_name,
-       format_date(user.created_at)
-      ].each { |text| expect(page).to have_content(text) } 
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(user.type)
+      expect(page).to have_content(user.full_name)
+      expect(page).to have_content(user.created_at)
     end
 
     scenario 'see avatar' do

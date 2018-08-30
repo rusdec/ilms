@@ -7,7 +7,13 @@ module JsonResponsed
     private
 
     def json_response_by_result(params = {}, resource = nil)
-      @json_resource = resource || polymorphic_resource
+      @json_resource = if resource 
+                         resource
+                       elsif polymorphic_resource
+                         polymorphic_resource
+                       else
+                         plural_polymorphic_resource
+                       end
 
       if @json_resource.is_a?(ActiveRecord::Relation)
         params[:objects] = @json_resource

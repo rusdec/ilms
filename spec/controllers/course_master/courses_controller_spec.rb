@@ -136,7 +136,9 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
 
       context 'when valid data' do
         let(:params) do
-          { course: attributes_for(:course), format: :json }
+          attributes = { percent: 100,  knowledge_id: create(:knowledge) }
+          { course: attributes_for(:course, course_knowledges_attributes: [attributes]),
+            format: :json }
         end
 
         context 'when json' do

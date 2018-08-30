@@ -6,6 +6,20 @@ RSpec.describe Course, type: :model do
   it { should validate_length_of(:title).is_at_least(5).is_at_most(50) }
   it { should have_many(:lessons).dependent(:destroy) }
   it { should have_many(:quests).through(:lessons) }
+  it do
+    should have_many(:course_knowledges)
+      .dependent(:destroy)
+      .inverse_of(:course)
+  end
+  it { should have_many(:knowledges).through(:course_knowledges) }
+  it { should accept_nested_attributes_for(:course_knowledges).allow_destroy(true) }
+  it do
+    should accept_but_reject_nested_attributes_for(:course_knowledges)
+      .reject([
+        attributes_for(:course_knowledge, percent: 0, knowledge: create(:knowledge)),
+        attributes_for(:course_knowledge, percent: -1, knowledge: create(:knowledge))
+      ])
+  end
 
   it_behaves_like 'passable'
   it_behaves_like 'badgable'

@@ -16,18 +16,14 @@ class Quest < ApplicationRecord
 
   validates :description, presence: true
   validates :description, length: { minimum: 10, maximum: 500 }
-
   validates :body, html: { presence: true, length: { minimum: 10 } }
-  
   validates :level, numericality: { only_integer: true,
                                     greater_than_or_equal_to: 1,
-                                    less_than_or_equal_to: 5 } 
+                                    less_than_or_equal_to: 5 }
 
   before_create :before_create_set_quest_group
-
   before_update :before_update_create_new_quest_group_if_nil
   after_update :after_update_delete_old_quest_group_if_empty
-
   after_destroy :after_destroy_delete_quest_group_if_empty
 
   def alternatives

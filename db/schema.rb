@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_22_223739) do
+ActiveRecord::Schema.define(version: 2018_08_25_162958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,17 @@ ActiveRecord::Schema.define(version: 2018_08_22_223739) do
     t.index ["user_id"], name: "index_badges_on_user_id"
   end
 
+  create_table "course_knowledges", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "knowledge_id"
+    t.integer "percent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "knowledge_id"], name: "index_course_knowledges_on_course_id_and_knowledge_id", unique: true
+    t.index ["course_id"], name: "index_course_knowledges_on_course_id"
+    t.index ["knowledge_id"], name: "index_course_knowledges_on_knowledge_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "title", null: false
     t.bigint "user_id"
@@ -40,6 +51,13 @@ ActiveRecord::Schema.define(version: 2018_08_22_223739) do
     t.datetime "updated_at", null: false
     t.boolean "published", default: false
     t.index ["user_id"], name: "index_courses_on_user_id"
+  end
+
+  create_table "knowledges", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_knowledges_on_name", unique: true
   end
 
   create_table "lesson_hierarchies", id: false, force: :cascade do |t|
@@ -173,6 +191,8 @@ ActiveRecord::Schema.define(version: 2018_08_22_223739) do
 
   add_foreign_key "badges", "courses"
   add_foreign_key "badges", "users"
+  add_foreign_key "course_knowledges", "courses"
+  add_foreign_key "course_knowledges", "knowledges"
   add_foreign_key "courses", "users"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"

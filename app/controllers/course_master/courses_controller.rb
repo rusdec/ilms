@@ -31,7 +31,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def update
     @course.update(course_params)
-    json_response_by_result
+    json_response_by_result(with_serializer: CourseFormSerializer)
   end
 
   protected
@@ -45,7 +45,13 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   end
 
   def course_params
-    params.require(:course).permit(:title, :decoration_description, :level, :published)
+    params.require(:course).permit(
+      :title, :decoration_description,
+      :level, :published,
+      course_knowledges_attributes: [:id, :knowledge_id,
+                                     :_destroy, :percent,
+                                     knowledge_attributes: [:name]]
+    )
   end
 
   def set_course

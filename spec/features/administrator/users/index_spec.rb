@@ -21,7 +21,7 @@ feature 'Index user', %q{
         expect(page).to have_link(user.full_name)
         [user.email, user.type].each { |text| expect(page).to have_content(text) }
         [user.created_at, user.created_at].each do |date|
-          expect(page).to have_content(format_date(date))
+          expect(page).to have_content(date)
         end
       end
     end

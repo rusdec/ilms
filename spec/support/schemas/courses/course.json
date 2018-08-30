@@ -4,8 +4,8 @@
     "id": {"type": "integer"},
     "title": {"type": "string"},
     "level": {"type": "integer"},
-    "published": {"type": "boolean"},
     "user_id": {"type": "integer"},
+    "published": {"type": "boolean"},
     "decoration_description": {"type": "string"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"}

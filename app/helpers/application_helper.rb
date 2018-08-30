@@ -54,4 +54,13 @@ module ApplicationHelper
   def lesson_sidebar_link(params)
     link_to params[:text], params[:path], class: 'list-group-item list-group-item-action'
   end
+
+  def progress_color(value)
+    case value.to_i
+    when 25..49 then 'bg-orange'
+    when 50..74 then 'bg-yellow'
+    when 75..100 then 'bg-green'
+    else 'bg-red'
+    end
+  end
 end

@@ -6,6 +6,7 @@ feature 'Create course', %q{
   so that I can learn other peoples
 } do
 
+  let!(:knowledge) { create(:knowledge) }
   before do
     sign_in(create(:course_master))
     visit course_master_courses_path
@@ -18,6 +19,8 @@ feature 'Create course', %q{
       within 'form' do
         fill_in 'Title', with: course[:title]
         fill_editor 'Decoration description', with: course[:decoration_description]
+        select_knowledge(knowledge.name)
+        set_percent_for_knowledge(knowledge.name, 100)
         check 'Published'
         click_on 'Create'
       end
@@ -28,9 +31,9 @@ feature 'Create course', %q{
     end
   end
 
-  scenario 'see title course properties' do
+  scenario 'see course properties' do
     ['Title', 'Decoration description',
-     'Level', 'Published'].each do |property|
+     'Level', 'Published', 'Knowledges'].each do |property|
       expect(page).to have_content(property)
     end
   end
@@ -49,6 +52,7 @@ feature 'Create course', %q{
 
       expect(page).to have_content('Title can\'t be blank')
       expect(page).to have_content('Title is too short')
+      expect(page).to have_content('Percent of course knowledges must be 100% now 0%')
     end
   end
 end 

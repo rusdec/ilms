@@ -1,3 +1,8 @@
 // Place all the styles related to the course_master::knowledges controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.course-knowledge-item {
+  .td-del { width: 5%; }
+  .td-name { width: 15%; }
+  .td-percent { width: 15%; }
+}

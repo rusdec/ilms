@@ -3,6 +3,9 @@ FactoryBot.define do
     association :author, factory: :course_master
     sequence(:title) { |n| "CourseTitle#{n}" }
     published true
+    course_knowledges_attributes {
+      [attributes_for(:course_knowledge, knowledge: create(:knowledge))]
+    }
 
     trait :full do
       after(:create) do |course|

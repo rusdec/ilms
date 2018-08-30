@@ -11,6 +11,7 @@ class CourseDecorator < Draper::Decorator
   decorates_association :badge
   decorates_association :badges
   decorates_association :lessons
+  decorates_association :course_knowledges
 
   html_attributes :decoration_description
   text_preview :title

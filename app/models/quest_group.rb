@@ -4,7 +4,6 @@ class QuestGroup < ApplicationRecord
   has_many :quest_passages
 
   def destroy_if_empty
-    "EMPTY? #{empty?}"
     destroy if empty?
   end
 

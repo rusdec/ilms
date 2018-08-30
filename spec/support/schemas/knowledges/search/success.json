@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "status": {"type": "boolean"},
+    "message": {"type": "Success"},
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {"$ref": "../knowledge.json"}
+      }
+    },
+    "required": ["status", "message", "objects"],
+    "maxProperties": 3
+  }
+}

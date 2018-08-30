@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "title": {"type": "string"},
+    "level": {"type": "integer"},
+    "published": {"type": "boolean"},
+    "course_knowledges": {
+      "type": "array",
+      "items": {"$ref":"../course_knowledges/course_knowledge.json"}
+    },
+    "free_knowledges": {
+      "type": "array",
+      "items": {"$ref":"../knowledges/knowledge.json"}
+    },
+    "decoration_description": {"type": "string"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "required": [
+    "id",
+    "title",
+    "level",
+    "published",
+    "course_knowledges",
+    "free_knowledges",
+    "decoration_description",
+    "created_at",
+    "updated_at"
+  ],
+  "maxProperties": 9
+}

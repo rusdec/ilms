@@ -5,7 +5,8 @@ module BadgableDecorator
                locals: { badge: badge }
     else
       h.link_to 'Create Badge',
-                h.polymorphic_path([:new, :course_master, object, :badge])
+                h.polymorphic_path([:new, :course_master, object, :badge]),
+                class: 'btn btn-secondary'
     end
   end
 end
