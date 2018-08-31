@@ -14,7 +14,7 @@
             . class='quest_solution_status text-center'
           . class='card-footer text-muted small'
             . class='d-flex align-items-center mt-auto'
-              ="Level: #{quest_passage.passable.level}"
+              ="Level: #{quest_passage.quest.difficulty}"
               .ml-auto
                 = link_to 'Go!', "#{passage_path(quest_passage)}", class: 'm-1 text-purple'
 

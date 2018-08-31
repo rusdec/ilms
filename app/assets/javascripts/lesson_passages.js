@@ -23,6 +23,51 @@ document.addEventListener('turbolinks:load', () => {
   }
 })
 
+document.addEventListener('turbolinks:load', () => {
+  let lessonContentList = document.querySelector('#lesson-content-list')
+  if (!lessonContentList) return
+
+  let originalPosition = lessonContentList.style.position
+  let originalTop = lessonContentList.style.top
+
+  window.onscroll = () => {
+    let currentHeight = (innerHeight + window.scrollY)
+    if (currentHeight > window.innerHeight + 20) {
+      lessonContentList.style.position = 'fixed'
+      lessonContentList.style.top = '0px'
+    } else {
+      lessonContentList.style.position = originalPosition
+      lessonContentList.style.top = originalTop
+    }
+
+  }
+
+  let materials = document.querySelectorAll('#materials .card')
+  markAsCurrentListItem(lessonContentList.children[0])
+
+  window.addEventListener('scroll', () => {
+    materials.forEach((material) => {
+      if (isMaterialOnTop(material)) {
+        unmarkMarkedListItem()
+        markAsCurrentListItem(lessonContentList.querySelector(`a[href="#${material.id}"]`))
+      }
+    })
+  })
+})
+
+function markAsCurrentListItem(element) {
+  element.classList.add('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
+}
+
+function unmarkMarkedListItem() {
+  let marked = document.querySelector('#lesson-content-list a.border-success')
+  if (marked) marked.classList.remove('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
+}
+
+function isMaterialOnTop(material) {
+  return material.getBoundingClientRect().top < 100
+}
+
 function tryPass(id = null) {
   if (!id) {
     return
