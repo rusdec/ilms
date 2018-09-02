@@ -1,5 +1,5 @@
 class CourseFormSerializer < ActiveModel::Serializer
-  attributes :id, :title, :level, :published,
+  attributes :id, :title, :difficulty, :published,
              :decoration_description,
              :created_at, :updated_at, :free_knowledges
 

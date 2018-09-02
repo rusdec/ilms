@@ -1,4 +1,6 @@
 class QuestPassage < Passage
+  include ExperienceDistributable
+
   belongs_to :quest, foreign_key: :passable_id
 
   # Passage Template method
@@ -14,5 +16,6 @@ class QuestPassage < Passage
   # Passage Template method
   def after_pass_hook
     self.user.reward!(passable.badge) if passable.badge
+    destribute_experience_between_knowledges
   end
 end

@@ -23,13 +23,7 @@ RSpec.describe Quest, type: :model do
   it_behaves_like 'passable'
   it_behaves_like 'authorable'
   it_behaves_like 'badgable'
-
-  it do
-    should validate_numericality_of(:level)
-      .only_integer
-      .is_greater_than_or_equal_to(1)
-      .is_less_than_or_equal_to(5)
-  end
+  it_behaves_like 'difficultable'
 
   it { should belong_to(:lesson) }
   it { should belong_to(:quest_group) }

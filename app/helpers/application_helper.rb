@@ -37,8 +37,8 @@ module ApplicationHelper
   end
 
   def simple_card(params)
-    wraper = content_tag :div, class: 'text-wrap p-lg-6' do
-      concat(params[:title].empty? ? '' : tag.h3(params[:title], class: 'mt-0 mb4'))
+    wraper = content_tag :div, class: 'text-wrap p-lg-3' do
+      concat(params[:title].empty? ? '' : tag.h4(params[:title], class: 'mt-0 mb4'))
       concat(params[:body])
     end
 
@@ -52,7 +52,9 @@ module ApplicationHelper
   end
 
   def lesson_sidebar_link(params)
-    link_to params[:text], params[:path], class: 'list-group-item list-group-item-action'
+    tag.span href: params[:path], class: 'list-group-item list-group-item-action' do
+      params[:text]
+    end
   end
 
   def progress_color(value)

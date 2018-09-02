@@ -13,10 +13,8 @@
     = editor_text_area(form: f, name: :decoration_description)
 
   .form-group
-    = f.label :level
-    = f.text_field :level, autocomplete: 'level',
-                           placeholder: 'Level',
-                           class: 'form-control small'
+    = f.label :difficulty
+    = f.object.difficulty_selector(f)
 
   - if @course.persisted?
     .form-group

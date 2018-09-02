@@ -7,6 +7,9 @@ document.addEventListener('turbolinks:load', () => {
   let innerHeight = window.innerHeight
   let isNotPassed = () => { return passage().dataset.status != 'passed' }
 
+  /**
+   * Autopass
+   */
   if (scrollHeight == innerHeight) {
     if (isNotPassed()) {
       tryPass(passage().dataset.id)
@@ -27,32 +30,40 @@ document.addEventListener('turbolinks:load', () => {
   let lessonContentList = document.querySelector('#lesson-content-list')
   if (!lessonContentList) return
 
-  let originalPosition = lessonContentList.style.position
-  let originalTop = lessonContentList.style.top
-
-  window.onscroll = () => {
-    let currentHeight = (innerHeight + window.scrollY)
-    if (currentHeight > window.innerHeight + 20) {
-      lessonContentList.style.position = 'fixed'
-      lessonContentList.style.top = '0px'
-    } else {
-      lessonContentList.style.position = originalPosition
-      lessonContentList.style.top = originalTop
-    }
-
-  }
-
   let materials = document.querySelectorAll('#materials .card')
+  if (!materials) return
   markAsCurrentListItem(lessonContentList.children[0])
 
-  window.addEventListener('scroll', () => {
-    materials.forEach((material) => {
-      if (isMaterialOnTop(material)) {
-        unmarkMarkedListItem()
-        markAsCurrentListItem(lessonContentList.querySelector(`a[href="#${material.id}"]`))
-      }
+  /**
+   * Scroll to material
+   */
+  lessonContentList.querySelectorAll('.list-group-item').forEach((listItem) => {
+    console.log(listItem.attributes.href.value)
+    listItem.addEventListener('click', () => {
+      document.querySelector(`#materials ${listItem.attributes.href.value}`).scrollIntoView()
     })
   })
+
+  window.onscroll = () => {
+    /**
+     * Fix content menu
+     */
+    let currentHeight = (innerHeight + window.scrollY)
+    if (currentHeight > window.innerHeight + 20) {
+      lessonContentList.classList.add('sticky-top')
+    } else {
+      lessonContentList.classList.remove('sticky-top')
+    }
+
+    /**
+     * Mark current material
+     */
+    materials.forEach((material) => {
+      if (!isMaterialOnTop(material)) return
+      unmarkMarkedListItem()
+      markAsCurrentListItem(lessonContentList.querySelector(`.list-group-item[href="#${material.id}"]`))
+    })
+  }
 })
 
 function markAsCurrentListItem(element) {
@@ -60,8 +71,10 @@ function markAsCurrentListItem(element) {
 }
 
 function unmarkMarkedListItem() {
-  let marked = document.querySelector('#lesson-content-list a.border-success')
-  if (marked) marked.classList.remove('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
+  let marked = document.querySelector('#lesson-content-list .border-success')
+  if (marked) {
+    marked.classList.remove('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
+  }
 }
 
 function isMaterialOnTop(material) {

@@ -28,6 +28,7 @@ feature 'Edit lesson', %q{
       scenario 'can create new lesson', js: true do
         fill_in 'Title', with: 'NewLessonTitle'
         fill_editor :summary, with: "NewLessonSummary"
+        select('3', from: 'Difficulty')
         click_on 'Update Lesson'
 
         expect(page).to have_content('Success')

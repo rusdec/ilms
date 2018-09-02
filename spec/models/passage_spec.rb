@@ -88,9 +88,7 @@ RSpec.describe Passage, type: :model do
     end
 
     context 'when passage is not passed and ready to pass' do
-      before do
-        allow(passage).to receive(:ready_to_pass?) { true }
-      end
+      before { allow(passage).to receive(:ready_to_pass?) { true } }
 
       it 'passage should receive passed!' do
         expect(passage).to receive(:passed!)

@@ -47,7 +47,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   def course_params
     params.require(:course).permit(
       :title, :decoration_description,
-      :level, :published,
+      :difficulty, :published,
       course_knowledges_attributes: [:id, :knowledge_id,
                                      :_destroy, :percent,
                                      knowledge_attributes: [:name]]

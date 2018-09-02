@@ -15,9 +15,8 @@
     = editor_text_area(form: f, name: :body)
 
   .form-group
-    = f.text_field :level, autocomplete: 'level',
-                           placeholder: 'Level',
-                           class: 'form-control small'
+    = f.label :difficulty
+    = f.object.difficulty_selector(f)
 
   . class='form-group small'
     = f.label :quest_group_id, 'Alternative quest for'

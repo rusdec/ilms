@@ -6,6 +6,7 @@ FactoryBot.define do
     ideas 'LessonIdeas'
     summary 'LessonSummary'
     check_yourself 'LessonCheckQuestions'
+    difficulty 2
 
     trait :full do
       after(:create) do |lesson|

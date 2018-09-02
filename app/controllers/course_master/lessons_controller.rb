@@ -15,7 +15,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
 
   def new
     @lessons = @course.lessons.persisted
-    @lesson = @course.lessons.new
+    @lesson = @course.lessons.new.decorate
   end
 
   def update

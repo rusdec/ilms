@@ -24,12 +24,9 @@ RSpec.describe Course, type: :model do
   it_behaves_like 'passable'
   it_behaves_like 'badgable'
   it_behaves_like 'authorable'
+  it_behaves_like 'difficultable'
 
   let(:administrator) { create(:administrator) }
-
-  it 'should be default level value' do
-    expect(create(:course).level).to eq(1)
-  end
 
   it 'should be default decoration_description value' do
     expect(create(:course).decoration_description).to be_empty

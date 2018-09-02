@@ -3,6 +3,7 @@ table class='table card-table table-striped table-vcenter lesson-items'
     tr
       th Title
       th Parent
+      th Difficulty
       th Created at
       th Actions
   tbody.small
@@ -10,5 +11,6 @@ table class='table card-table table-striped table-vcenter lesson-items'
       tr.lesson-item data-id=lesson.id
         td.title_preview= lesson.title_preview
         td.parent_title= lesson.parent&.title
+        td.difficulty= lesson.difficulty
         td.created_at= lesson.created_at
         td= lesson.remote_links

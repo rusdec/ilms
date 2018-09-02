@@ -3,6 +3,7 @@ class LessonDecorator < Draper::Decorator
   include HasRemoteLinks
   include HasTextPreview
   include HasHtmlAttributes
+  include HasDifficulty
 
   delegate_all
 

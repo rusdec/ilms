@@ -18,7 +18,7 @@ feature 'Show course', %q{
 
     scenario 'see title course properties' do
       ['Title', 'Decoration description',
-       'Level', 'Badge', 'Published'].each do |property|
+       'Difficulty', 'Badge', 'Published'].each do |property|
         expect(page).to have_content(property)
       end
     end

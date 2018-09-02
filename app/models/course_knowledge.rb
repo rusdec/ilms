@@ -10,4 +10,8 @@ class CourseKnowledge < ApplicationRecord
 
   validates :knowledge_id, uniqueness: { scope: :course_id,
                                       message: 'should be once per course' }
+
+  def experience_rate_from(value = 0)
+    value * (percent/100.0)
+  end
 end

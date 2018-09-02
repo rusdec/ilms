@@ -1,7 +1,7 @@
 class QuestForm
   include ActiveModel::Serialization
 
-  delegate :id, :title, :level, :description,
+  delegate :id, :title, :difficulty, :description,
            :lesson_id, :quest_group_id, to: :quest
 
   delegate :created_at, :updated_at, :quest_group,

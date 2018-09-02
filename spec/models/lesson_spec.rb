@@ -22,6 +22,7 @@ RSpec.describe Lesson, type: :model do
 
   it_behaves_like 'passable'
   it_behaves_like 'authorable'
+  it_behaves_like 'difficultable'
 
   it '.passable_children' do
     lesson = create(:lesson, :with_quests)

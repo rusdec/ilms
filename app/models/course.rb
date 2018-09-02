@@ -3,6 +3,7 @@ class Course < ApplicationRecord
   include Authorable
   include Badgable
   include CourseKnowledgable
+  include Difficultable
 
   has_many :lessons, dependent: :destroy
   has_many :badges, dependent: :destroy

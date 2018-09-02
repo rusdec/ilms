@@ -4,10 +4,10 @@
     "id": {"type": "integet"},
     "title": {"type": "string"},
     "description": {"type": "string"},
-    "level": {"type": "integer"},
+    "difficulty": {"type": "integer"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"}
   },
-  "required": ["id", "title", "description", "level", "created_at", "updated_at"],
+  "required": ["id", "title", "description", "difficulty", "created_at", "updated_at"],
   "maxProperties": 6
 }

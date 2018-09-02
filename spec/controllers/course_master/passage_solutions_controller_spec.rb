@@ -2,7 +2,7 @@ require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::PassageSolutionsController, type: :controller do
   let!(:passable) { create(:quest, author: create(:course_master)) }
-  let!(:passage) { create(:passage, passable: passable) }
+  let!(:passage) { create(:quest_passage, passable: passable) }
 
   describe 'GET #index' do
     let!(:passage_solution) { create(:passage_solution, passage: passage) }

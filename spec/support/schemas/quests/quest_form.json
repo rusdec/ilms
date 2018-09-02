@@ -4,7 +4,7 @@
     "id": {"type": "integet"},
     "title": {"type": "string"},
     "description": {"type": "string"},
-    "level": {"type": "integer"},
+    "difficulty": {"type": "integer"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"},
     "quest_group": {"$ref": "./quest_group.json"},

@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:title) { |n| "QuestsTitle#{n}" }
     sequence(:description) { |n| "QuestsDescription#{n}" }
     sequence(:body) { |n| "ValidQuestBody#{n}" }
-    level 1
+    difficulty 3
   end
 
   factory :invalid_quest, class: Quest do

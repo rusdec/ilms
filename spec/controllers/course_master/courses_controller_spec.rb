@@ -186,7 +186,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
       context 'when valid data' do
         let!(:params) do
           { id: course,
-            course: { title: 'NewValidTitle', published: false, level: 3,
+            course: { title: 'NewValidTitle', published: false, difficulty: 3,
                       decoration_description: 'NewDecorationDescriotion' } }
         end
 
@@ -197,7 +197,7 @@ RSpec.describe CourseMaster::CoursesController, type: :controller do
           end
 
           it 'can update course' do
-            [:title, :published, :level, :decoration_description].each do |property|
+            [:title, :published, :difficulty, :decoration_description].each do |property|
               expect(assigns(:course).send property).to eq(params[:course][property])
             end
           end

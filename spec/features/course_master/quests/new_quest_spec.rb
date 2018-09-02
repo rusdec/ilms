@@ -23,6 +23,7 @@ feature 'New quest', %q{
         fill_in 'Title', with: attributes[:title]
         fill_in 'Description', with: attributes[:description]
         fill_editor 'Body', with: attributes[:body]
+        select('5', from: 'Difficulty')
       end
 
       context 'when alternative quest changed to none' do
@@ -36,7 +37,7 @@ feature 'New quest', %q{
           expect(page).to have_content('Success')
           expect(page).to have_content('Edit Quest')
         end
-      end
+      end # context 'when alternative quest changed to none'
       
       context 'when changed alternative quest' do
         scenario 'can create quest', js: true do
@@ -48,8 +49,8 @@ feature 'New quest', %q{
           expect(page).to have_content('Success')
           expect(page).to have_content('Edit Quest')
         end
-      end
-    end
+      end # context 'when changed alternative quest'
+    end # context 'with valid data'
 
     context 'with invalid data' do
       scenario 'can\'t create quest', js: true do

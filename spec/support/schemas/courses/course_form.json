@@ -3,7 +3,7 @@
   "properties": {
     "id": {"type": "integer"},
     "title": {"type": "string"},
-    "level": {"type": "integer"},
+    "difficulty": {"type": "integer"},
     "published": {"type": "boolean"},
     "course_knowledges": {
       "type": "array",
@@ -20,7 +20,7 @@
   "required": [
     "id",
     "title",
-    "level",
+    "difficulty",
     "published",
     "course_knowledges",
     "free_knowledges",

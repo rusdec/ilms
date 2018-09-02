@@ -28,6 +28,7 @@ feature 'New lesson', %q{
         fill_editor :ideas, with: lesson[:ideas]
         fill_editor :summary, with: lesson[:summary]
         fill_editor :check_yourself, with: lesson[:check_yourself]
+        select('3', from: 'Difficulty')
         select parent_lesson.title, from: 'lesson[parent_id]'
         click_on 'Create Lesson'
 

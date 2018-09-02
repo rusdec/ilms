@@ -22,6 +22,10 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
     it 'New Quest related with lesson' do
       expect(assigns(:quest_form).quest.lesson).to eq(author.lessons.last)
     end
+
+    it 'decorates assigned quest' do
+      expect(assigns(:quest_form).quest).to be_decorated
+    end
   end
 
   describe 'GET #edit' do

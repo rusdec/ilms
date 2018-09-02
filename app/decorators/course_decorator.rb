@@ -5,6 +5,7 @@ class CourseDecorator < Draper::Decorator
   include HasHtmlAttributes
   include HasTextPreview
   include HasRemoteLinks
+  include HasDifficulty
 
   delegate_all
   decorates_association :author

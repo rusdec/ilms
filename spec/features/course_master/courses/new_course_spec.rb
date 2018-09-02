@@ -33,7 +33,7 @@ feature 'Create course', %q{
 
   scenario 'see course properties' do
     ['Title', 'Decoration description',
-     'Level', 'Published', 'Knowledges'].each do |property|
+     'Difficulty', 'Published', 'Knowledges'].each do |property|
       expect(page).to have_content(property)
     end
   end

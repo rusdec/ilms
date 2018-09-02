@@ -39,6 +39,7 @@ feature 'Edit quest', %q{
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]
         fill_in 'Description', with: attributes[:description]
+        select('3', from: 'Difficulty')
         click_on 'Update Quest'
 
         expect(page).to have_content('Success')

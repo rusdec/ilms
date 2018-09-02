@@ -38,7 +38,8 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def set_new_quest_form
     lesson = Lesson.find(params[:lesson_id])
-    @quest_form = QuestForm.new(current_user.quests.new(lesson: lesson))
+    @quest_form =
+      QuestForm.new(current_user.quests.new(lesson: lesson).decorate)
   end
 
   def set_quest_form

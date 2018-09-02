@@ -4,6 +4,7 @@ class Lesson < ApplicationRecord
   include Persistable
   include Passable
   include Authorable
+  include Difficultable
 
   belongs_to :course
 

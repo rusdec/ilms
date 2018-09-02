@@ -20,4 +20,11 @@ RSpec.describe CourseKnowledge, type: :model do
       .with_message('should be once per course')
   end
   it { should have_db_index([:course_id, :knowledge_id]).unique }
+
+  context '.experience_rate_from' do
+    let(:course_knowledge) { create(:course_knowledge, percent: 80) }
+    it 'returns 6,4' do
+      expect(course_knowledge.experience_rate_from(8)).to eq(6.4)
+    end
+  end
 end

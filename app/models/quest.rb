@@ -2,6 +2,7 @@ class Quest < ApplicationRecord
   include Passable
   include Authorable
   include Badgable
+  include Difficultable
 
   belongs_to :lesson
   has_one :course, through: :lesson
@@ -17,9 +18,6 @@ class Quest < ApplicationRecord
   validates :description, presence: true
   validates :description, length: { minimum: 10, maximum: 500 }
   validates :body, html: { presence: true, length: { minimum: 10 } }
-  validates :level, numericality: { only_integer: true,
-                                    greater_than_or_equal_to: 1,
-                                    less_than_or_equal_to: 5 }
 
   before_create :before_create_set_quest_group
   before_update :before_update_create_new_quest_group_if_nil

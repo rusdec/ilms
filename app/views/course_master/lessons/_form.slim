@@ -13,6 +13,10 @@
     = editor_text_area(form: f, name: :check_yourself)
 
   .form-group
+    = f.label :difficulty
+    = f.object.difficulty_selector(f)
+
+  .form-group
     = f.label 'Will opened after lesson', for: :parent_id
     = selector_with_lessons(form: f, lessons: @lessons)
                                             

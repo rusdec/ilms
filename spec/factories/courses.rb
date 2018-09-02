@@ -3,6 +3,7 @@ FactoryBot.define do
     association :author, factory: :course_master
     sequence(:title) { |n| "CourseTitle#{n}" }
     published true
+    difficulty 2
     course_knowledges_attributes {
       [attributes_for(:course_knowledge, knowledge: create(:knowledge))]
     }

@@ -9,6 +9,11 @@ FactoryBot.define do
     parent_id nil
   end
 
+  factory :quest_passage, class: QuestPassage do
+    association :user
+    parent_id nil
+  end
+
   trait :with_solutions do
     after(:create) do |passage|
       solution = create(:passage_solution, passage: passage)
