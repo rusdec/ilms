@@ -21,8 +21,9 @@ document.addEventListener('turbolinks:load', () => {
     {selector: '.decline_passage_solution', verify: 'declined'}
   ].forEach((e) => {
     let form = document.querySelector(e.selector)
-    let cardTitle = document.querySelector('#passage_solution h3')
+    let cardTitle = document.querySelector('#passage_solution h4')
     if (!form || !cardTitle) {
+      console.log(form, cardTitle)
       return
     }
     form.addEventListener('ajax:success', () => {

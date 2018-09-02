@@ -28,20 +28,24 @@ feature 'Show lesson_passage page', %q{
         lesson_passage.children.each do |quest_passage|
           expect(page).to have_content(quest_passage.passable.title)
           expect(page).to have_content(quest_passage.passable.description.truncate(150))
-          expect(page).to have_content("Level: #{quest_passage.passable.level}")
+          expect(page).to have_content("Level: #{quest_passage.quest.difficulty}")
         end
       end
 
       context 'see anchor links' do
         scenario 'to lessons details' do
-          ['Ideas', 'Lesson summary', 'Check yourself'].each do |link|
-            expect(page).to have_link(link)
+          within '#lesson-content-list' do
+            ['Ideas', 'Lesson summary', 'Check yourself'].each do |link|
+              expect(page).to have_content(link)
+            end
           end
         end
 
         scenario 'to materials' do
-          lesson.materials.each do |material|
-            expect(page).to have_link(material.title)
+          within '#lesson-content-list' do
+            lesson.materials.each do |material|
+              expect(page).to have_content(material.title)
+            end
           end
         end
       end
