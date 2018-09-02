@@ -27,8 +27,8 @@ RSpec.describe ExperienceDistributable, type: :model do
     allow(any_experience_distributable).to receive(:experience) { 100 }
   end
 
-  let!(:user_history) { create(:user_knowledge, user: user, knowledge: history) }
-  let!(:user_math) { create(:user_knowledge, user: user, knowledge: math) }
+  let!(:user_history) { create(:user_knowledge, user: user, knowledge: history, level: 30) }
+  let!(:user_math) { create(:user_knowledge, user: user, knowledge: math, level: 30) }
 
   context '.destribute_experience_between_knowledges' do
     before { any_experience_distributable.destribute_experience_between_knowledges }

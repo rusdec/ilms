@@ -9,15 +9,44 @@ class UserKnowledge < ApplicationRecord
   validates :experience, numericality: { greater_than_or_equal_to: 0,
                                          only_integer: true }
 
+  def add_experience!(value = 0)
+    transaction do
+      update!(experience: experience + value)
+      level_up!
+    end
+  end
+
+  def next_level_experience
+    ((level + 1) * (multiplier - (level/max_level.to_f))).round
+  end
+
+  def remaining_experience
+    next_level_experience - experience
+  end
+
   def max_level
     100
   end
 
-  def miltiplier
-    5
+  protected
+
+  def level_up!
+    return if max_level?
+    return unless level_up?
+
+    update!(level: level + 1, experience: remaining_experience.abs)
+    level_up!
   end
 
-  def add_experience!(value = 0)
-    update!(experience: experience + value)
+  def max_level?
+    level >= max_level
+  end
+
+  def level_up?
+    remaining_experience <= 0
+  end
+
+  def multiplier
+    5
   end
 end

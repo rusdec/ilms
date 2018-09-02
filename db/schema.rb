@@ -176,7 +176,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_210054) do
     t.bigint "knowledge_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "level", default: 0, null: false
+    t.integer "level", default: 1
     t.integer "experience", default: 0, null: false
     t.index ["knowledge_id"], name: "index_user_knowledges_on_knowledge_id"
     t.index ["user_id", "knowledge_id"], name: "index_user_knowledges_on_user_id_and_knowledge_id", unique: true
