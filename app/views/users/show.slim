@@ -1,0 +1,5 @@
+.row
+  .col-lg-4
+    = render partial: 'card_profile', locals: { user: @user }
+    - if can? :edit_profile, @user.object
+      = render partial: 'form', locals: { user: @user }

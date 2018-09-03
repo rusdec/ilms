@@ -5,6 +5,13 @@ FactoryBot.define do
     sequence(:email)   { |n| "bot#{n}@email.org" }
     password 'password'
 
+    trait :invalid do
+      name nil
+      surname nil
+      email nil
+      password nil
+    end
+
     trait :with_full_course do
       after(:create) do |user|
         course = create(:course, :full, author: user)

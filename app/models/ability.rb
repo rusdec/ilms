@@ -56,6 +56,7 @@ class Ability
   def user_abilities
     guest_abilities
     passing_abilities
+    profile_abilities
   end
 
   def course_master_abilities
@@ -97,6 +98,12 @@ class Ability
 
     can :publicated, Passable do |publicable|
       publicable.published? || publicable.published.nil?
+    end
+  end
+
+  def profile_abilities
+    can :edit_profile, User do |requested_user|
+      user == requested_user
     end
   end
 end

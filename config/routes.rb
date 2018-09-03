@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   # All users
   #
   root to: 'home#index'
+  resources :users, only: %i(show update)
   resources :courses, only: %i(index show), shallow: true do
     concerns :passable, { with_passages: true }
     resources :lessons, only: %i(index show)
