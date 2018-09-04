@@ -8,7 +8,7 @@ let _td_knowledge = `
   </td>
   <td class="td-progress-bar">
     <div class="progress progress-xs">
-      <div class="progress-bar bg-green" role="progressbar" style="width: 1%" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100">
+      <div class="progress-bar bg-red" role="progressbar" style="width: 1%" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100">
       </div>
     </div>
   </td>
@@ -28,6 +28,9 @@ let _td_knowledge = `
         <input name="course[course_knowledges_attributes][{{count}}][knowledge_attributes][name]"
                id="course_course_knowledges_attributes_{{count}}_knowledge_attributes_name"
                type="hidden" value="{{name}}">
+        <input name="course[course_knowledges_attributes][{{count}}][knowledge_attributes][knowledge_direction_id]"
+               id="course_course_knowledges_attributes_{{count}}_knowledge_attributes_knowledge_direction_id"
+               type="hidden" value="{{knowledge_direction_id}}">
       {{/id}}
       <!--/ knowledge -->
     <!--/ course_knowledges -->

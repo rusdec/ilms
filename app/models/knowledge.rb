@@ -5,6 +5,9 @@ class Knowledge < ApplicationRecord
   has_many :user_knowledges, dependent: :destroy
   has_many :users, through: :user_knowledges
 
+  belongs_to :direction, foreign_key: :knowledge_direction_id,
+             optional: true, class_name: 'KnowledgeDirection'
+
   before_validation :downcase_name
 
   validates :name, presence: true

@@ -6,3 +6,11 @@
 }
 .img-thumb { width: 50px; min-width: 50px; }
 .img-preview { width: 150px; min-width: 50px; }
+
+.disabled-element {
+  &:hover {
+    background-color: none;
+  }
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}

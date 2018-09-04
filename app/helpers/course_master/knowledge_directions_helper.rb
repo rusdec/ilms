@@ -1,0 +1,2 @@
+module CourseMaster::KnowledgeDirectionsHelper
+end

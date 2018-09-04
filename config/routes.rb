@@ -63,6 +63,8 @@ Rails.application.routes.draw do
         patch :decline
       end
     end
+
+    resources :knowledge_directions, only: :create
   end
 
   #

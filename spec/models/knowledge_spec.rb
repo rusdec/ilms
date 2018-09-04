@@ -1,8 +1,15 @@
 require_relative 'models_helper'
 
 RSpec.describe Knowledge, type: :model do
+  it do
+    should belong_to(:direction)
+      .with_foreign_key(:knowledge_direction_id)
+      .class_name('KnowledgeDirection')
+  end
+
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name).ignoring_case_sensitivity }
+
   it do
     should validate_length_of(:name)
       .is_at_least(3)

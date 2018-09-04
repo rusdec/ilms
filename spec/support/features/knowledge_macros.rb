@@ -18,7 +18,7 @@ module Features
 
     def select_custom_knowledge(name)
       fill_in 'new-knowledge', with: name
-      click_on 'add-new-knowledge'
+      click_on 'move-to-knowledge-directions'
     end
 
     def cancel_knowledge(name)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_02_144705) do
+ActiveRecord::Schema.define(version: 2018_09_03_195027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,10 +53,27 @@ ActiveRecord::Schema.define(version: 2018_09_02_144705) do
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
 
+  create_table "knowledge_areas", force: :cascade do |t|
+    t.string "name"
+    t.bigint "knowledge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["knowledge_id"], name: "index_knowledge_areas_on_knowledge_id"
+  end
+
+  create_table "knowledge_directions", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_knowledge_directions_on_name", unique: true
+  end
+
   create_table "knowledges", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "knowledge_direction_id"
+    t.index ["knowledge_direction_id"], name: "index_knowledges_on_knowledge_direction_id"
     t.index ["name"], name: "index_knowledges_on_name", unique: true
   end
 
@@ -209,6 +226,8 @@ ActiveRecord::Schema.define(version: 2018_09_02_144705) do
   add_foreign_key "course_knowledges", "courses"
   add_foreign_key "course_knowledges", "knowledges"
   add_foreign_key "courses", "users"
+  add_foreign_key "knowledge_areas", "knowledges"
+  add_foreign_key "knowledges", "knowledge_directions"
   add_foreign_key "lessons", "courses"
   add_foreign_key "lessons", "users"
   add_foreign_key "materials", "lessons"

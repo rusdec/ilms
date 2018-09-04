@@ -42,25 +42,107 @@ document.addEventListener('turbolinks:load', () => {
   })
 })
 
+/**
+ * #new-knowledge-direction
+ */
 document.addEventListener('turbolinks:load', () => {
+  let input = document.querySelector('#new-knowledge-direction')
+  if (!input) return
+  inputListenMaxMinValues({input: input, min: 3, max: 50})
+})
+
+/**
+ * #new-knowledge
+ */
+document.addEventListener('turbolinks:load', () => {
+  let input = document.querySelector('#new-knowledge')
+  if (!input) return
+  inputListenMaxMinValues({input: input, min: 3, max: 50})
+})
+
+document.addEventListener('turbolinks:load', () => {
+  let inputGroup = document.querySelector('#new-knowledge-direction-input-group .input-group')
+  let newKnowledgeInput = document.querySelector('#new-knowledge')
+  let input = document.querySelector('#new-knowledge-direction')
+
+  document.querySelector('#add-new-knowledge-direction').addEventListener('click', () => {
+    if (!input.value.length) return
+    (async () => {
+      let response = await createKnowledgeDirection(input.value)
+      response = await response.json()
+      if (response.errors) {
+        showAlert({messages: response.errors, type: 'danger'})
+      } else {
+        response.object['normalizedName'] = normalizeText(response.object.name)
+        document.querySelector('#knowledge-direction-items').insertAdjacentHTML('afterbegin',
+          Mustache.render(_li_knowledge_direction, response.object)
+        )
+        listenDirectionInsertToTable(
+          document.querySelector(`#knowledge-direction-items [data-id="${response.object.id}"]`)
+        )
+
+        newKnowledgeInput.dataset.name = newKnowledgeInput.value
+        newKnowledgeInput.dataset.knowledge_direction_id = response.object.id
+        insertToTable(newKnowledgeInput)
+        input.value = ''
+        newKnowledgeInput.value = ''
+        clearInputStates(input)
+        clearInputStates(newKnowledgeInput)
+        document.querySelector('#new-knowledge-direction-input-group').classList.add('hidden')
+        document.querySelector('#new-knowledge-input-group').classList.remove('hidden')
+      }
+    })()
+  })
+
+  document.querySelector('#back-to-new-knowledge').addEventListener('click', () => {
+    let newKnowledgeInput = document.querySelector('#new-knowledge')
+    if (!newKnowledgeInput) return
+
+    document.querySelector('#new-knowledge-direction-input-group').classList.add('hidden')
+    document.querySelector('#new-knowledge-input-group').classList.remove('hidden')
+  })
+
+})
+
+function listenDirectionInsertToTable(element) {
+  element.addEventListener('click', () => {
+    let newKnowledgeInput = document.querySelector('#new-knowledge')
+    if (!newKnowledgeInput) return
+    if (totalKnowledgePercent() >= 100) return
+
+    newKnowledgeInput.dataset.name = newKnowledgeInput.value
+    newKnowledgeInput.dataset.knowledge_direction_id = element.dataset.id
+    insertToTable(newKnowledgeInput)
+    newKnowledgeInput.value = ''
+    clearInputStates(newKnowledgeInput)
+    document.querySelector('#new-knowledge-direction-input-group').classList.add('hidden')
+    document.querySelector('#new-knowledge-input-group').classList.remove('hidden')
+  })
+}
+document.addEventListener('turbolinks:load', () => {
+  /**
+   * Knowledge's Directions from List To Table
+   */
+  document.querySelectorAll(
+    '#knowledge-direction-items .knowledge-direction-item'
+  ).forEach((item) => { listenDirectionInsertToTable(item) })
+
   /**
    * Knowledges from Table to List
    */
-  let tableItems = document.querySelectorAll('tbody.course-knowledge-items .course-knowledge-item')
-  if (!tableItems) return
-
-  tableItems.forEach((tableItem) => {
-    listenInputValueLimit(tableItem)
-    listenMarkedForDestruction(tableItem)
+  document.querySelectorAll(
+    'tbody.course-knowledge-items .course-knowledge-item'
+  ).forEach((item) => {
+    listenInputValueLimit(item)
+    listenMarkedForDestruction(item)
   })
 
   /**
    * Knowledge from List to Table
    */
-  let listItems = document.querySelectorAll('#knowledge-items .knowledge-item')
-  if (!listItems) return
-
-  listItems.forEach((listItem) => { listenInsertToTable(listItem) })
+  document.querySelectorAll('#knowledge-items .knowledge-item').forEach((item) => {
+    listenInsertToTable(item)
+  })
 
   /**
    * Knowledge from Input to Table
@@ -68,17 +150,20 @@ document.addEventListener('turbolinks:load', () => {
   let newKnowledgeInput = document.querySelector('#new-knowledge')
   if (!newKnowledgeInput) return
 
-  let buttonAddNewKnowledge = document.querySelector('#add-new-knowledge')
+  let buttonMoveToDirections = document.querySelector('#move-to-knowledge-directions')
   if (!newKnowledgeInput) return
 
-  buttonAddNewKnowledge.addEventListener('click', () => {
+  buttonMoveToDirections.addEventListener('click', () => {
     if (totalKnowledgePercent() >= 100) return 
-    newKnowledgeInput.dataset.name = newKnowledgeInput.value
-    insertToTable(newKnowledgeInput)
+    if (newKnowledgeInput.value.length < 3) return
+
+    document.querySelector('#new-knowledge-input-group').classList.add('hidden')
+    document.querySelector('#new-knowledge-direction-input-group').classList.remove('hidden')
   })
 
   updateTotalKnowledgePercent()
 })
+
 
  /**
  * @params Object knowledge
@@ -92,6 +177,7 @@ function insertToTable(knowledge) {
   tableBody.insertAdjacentHTML('beforeend', Mustache.render(_td_knowledge, {
     id: knowledge.dataset.id,
     name: knowledge.dataset.name,
+    knowledge_direction_id: knowledge.dataset.knowledge_direction_id,
     normalizedName: normalizeText(knowledge.dataset.name),
     count: document.querySelectorAll('.course-knowledge-item').length
   }))
@@ -204,9 +290,21 @@ function updateTotalKnowledgePercent() {
   totalPercent.innerText = `${totalKnowledgePercent()}% `
   if (totalKnowledgePercent() >= 100) {
     totalPercent.classList.add('text-danger')
+    disableNewKnowledgeInput()
   } else {
     totalPercent.classList.remove('text-danger')
+    enableNewKnowledgeInput()
   }
+}
+
+function enableNewKnowledgeInput() {
+  document.querySelector('#move-to-knowledge-directions').classList.remove('disabled-element')
+  document.querySelector('#new-knowledge').classList.remove('disabled-element')
+}
+
+function disableNewKnowledgeInput() {
+  document.querySelector('#move-to-knowledge-directions').classList.add('disabled-element')
+  document.querySelector('#new-knowledge').classList.add('disabled-element')
 }
 
 let totalKnowledgePercent = () => {

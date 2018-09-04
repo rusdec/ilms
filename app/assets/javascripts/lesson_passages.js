@@ -1,8 +1,7 @@
 document.addEventListener('turbolinks:load', () => {
   let passage = () => document.querySelector('#passage')
-  if (!passage() || passage().dataset.status == 'passed') {
-    return
-  }
+  if (!passage() || passage().dataset.status == 'passed') return
+
   let scrollHeight = document.body.scrollHeight
   let innerHeight = window.innerHeight
   let isNotPassed = () => { return passage().dataset.status != 'passed' }
@@ -38,7 +37,6 @@ document.addEventListener('turbolinks:load', () => {
    * Scroll to material
    */
   lessonContentList.querySelectorAll('.list-group-item').forEach((listItem) => {
-    console.log(listItem.attributes.href.value)
     listItem.addEventListener('click', () => {
       document.querySelector(`#materials ${listItem.attributes.href.value}`).scrollIntoView()
     })
@@ -48,7 +46,7 @@ document.addEventListener('turbolinks:load', () => {
     /**
      * Fix content menu
      */
-    let currentHeight = (innerHeight + window.scrollY)
+    let currentHeight = (window.innerHeight + window.scrollY)
     if (currentHeight > window.innerHeight + 20) {
       lessonContentList.classList.add('sticky-top')
     } else {
@@ -67,14 +65,16 @@ document.addEventListener('turbolinks:load', () => {
 })
 
 function markAsCurrentListItem(element) {
+  if (!element) return
+
   element.classList.add('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
 }
 
 function unmarkMarkedListItem() {
   let marked = document.querySelector('#lesson-content-list .border-success')
-  if (marked) {
-    marked.classList.remove('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
-  }
+  if (!marked) return
+
+  marked.classList.remove('border-left', 'border-success', 'rounded-0', 'font-weight-bold')
 }
 
 function isMaterialOnTop(material) {
@@ -82,9 +82,7 @@ function isMaterialOnTop(material) {
 }
 
 function tryPass(id = null) {
-  if (!id) {
-    return
-  }
+  if (!id) return
 
   (async () => {
     const rawResponse = await fetch(`/passages/${id}/try_pass`, {
@@ -94,8 +92,8 @@ function tryPass(id = null) {
         'Content-Type': 'application/json',
         'X-CSRF-Token': getCSRFToken()
       },
-    });
+    })
     const content = await rawResponse.json();
     document.querySelector('#passage').dataset.status = content.object.status.name 
-  })();
+  })()
 }

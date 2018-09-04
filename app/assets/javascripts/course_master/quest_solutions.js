@@ -22,10 +22,8 @@ document.addEventListener('turbolinks:load', () => {
   ].forEach((e) => {
     let form = document.querySelector(e.selector)
     let cardTitle = document.querySelector('#passage_solution h4')
-    if (!form || !cardTitle) {
-      console.log(form, cardTitle)
-      return
-    }
+    if (!form || !cardTitle) return
+
     form.addEventListener('ajax:success', () => {
       cardTitle.textContent = `Solution (${e.verify})`
     })

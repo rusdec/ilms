@@ -101,27 +101,92 @@ feature 'Select course knowledges', %q{
     expect(page).to have_content('0% EXP')
   end
 
-  scenario 'can add custom knowledge', js: true do
-    name = 'my_knowledge'
+  context 'when creates new knowledge' do
+    given(:name) { 'my_knowledge' }
 
-    select_custom_knowledge(name)
-    within selected_knowledges do
-      expect(page).to have_content(name.capitalize)
-    end
-    within free_knowledges do
-      expect(page).to_not have_content(name.capitalize)
-    end
-    expect(page).to have_content('1% EXP')
+    context 'and knowledge direction exist' do
+      given!(:direction) { create(:knowledge_direction) }
 
-    cancel_knowledge(name)
-    within selected_knowledges do
-      expect(page).to_not have_content(name.capitalize)
-    end
-    within free_knowledges do
-      expect(page).to_not have_content(name.capitalize)
-    end
-    expect(page).to have_content('0% EXP')
-  end
+      scenario 'can add custom knowledge', js: true do
+        refresh
+
+        select_custom_knowledge(name)
+        expect(page).to have_content(direction.name.capitalize)
+
+        back_to_knowledges
+        expect(page).to_not have_content(direction.name.capitalize)
+
+        select_custom_knowledge(name)
+        select_knowledge_direction(direction.name)
+        expect(page).to_not have_content(direction.name.capitalize)
+
+        within selected_knowledges do
+          expect(page).to_not have_content(name)
+        end
+
+        within free_knowledges do
+          expect(page).to_not have_content(name.capitalize)
+        end
+        expect(page).to have_content('1% EXP')
+
+        cancel_knowledge(name)
+        within selected_knowledges do
+          expect(page).to_not have_content(name.capitalize)
+        end
+        within free_knowledges do
+          expect(page).to_not have_content(name.capitalize)
+        end
+        expect(page).to have_content('0% EXP')
+      end
+    end # context 'and knowledge direction'
+
+    context 'and knowledge direction not exist' do
+      before do
+        allow_any_instance_of(
+          ActionController::Base
+        ).to receive(:protect_against_forgery?).and_return(true)
+        refresh
+      end
+
+      context 'and custom knowledge name is valid' do
+        scenario 'can add custom knowledge', js: true do
+          select_custom_knowledge(name)
+          select_custom_knowledge_direction('new_direction')
+
+          within selected_knowledges do
+            expect(page).to have_content(name.capitalize)
+          end
+
+          within free_knowledges do
+            expect(page).to_not have_content(name.capitalize)
+          end
+          expect(page).to have_content('1% EXP')
+
+          select_custom_knowledge(name)
+          expect(page).to have_content('New_direction')
+        end # context 'can add custom knowledge'
+      end # context 'and custom knowledge name is valid'
+
+      context 'and custom knowledge name is invalid' do
+        before do
+          allow_any_instance_of(
+            ActionController::Base
+          ).to receive(:protect_against_forgery?).and_return(true)
+          refresh
+        end
+
+        scenario 'can\'t add custom knowledge', js: true do
+          select_custom_knowledge(name)
+          select_custom_knowledge_direction('ne')
+
+          expect(page).to have_content('Name is too short')
+          expect(page).to_not have_content(name.capitalize)
+
+          expect(page).to have_content('0% EXP')
+        end # scenario 'can add custom knowledge'
+      end # context 'and custom knowledge name is invalid'
+    end # context 'and knowledge direction not exist'
+  end # context 'when creates new knowledge'
 
   context 'when course is created' do
     before do

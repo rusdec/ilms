@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative 'controller_helper'
 
 RSpec.describe LessonsController, type: :controller do
   describe 'GET #index' do

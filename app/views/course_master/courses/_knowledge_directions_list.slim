@@ -1,0 +1,12 @@
+.input-group
+  = tag.input type: 'text', class: 'form-control', id: 'new-knowledge-direction', placeholder: 'New knowledge\'s direction', data: { id: nil, name: '' }, style: 'padding: 0.40rem 1.25rem;'
+  span.input-group-append
+    button class='btn btn-secondary text-muted bg-white border-left-0' type='button' id='add-new-knowledge-direction' style='padding: 0.40rem 1.25rem;'
+      = icon('fas', 'plus-circle')
+    button class='btn btn-secondary text-muted bg-white border-left-0' type='button' id='back-to-new-knowledge' style='padding: 0.40rem 1.25rem;'
+      = icon('fas', 'chevron-circle-left')
+ul.list-group id='knowledge-direction-items' style='max-height: 190px; overflow: scroll;'
+  - KnowledgeDirection.all.each do |knowledge_direction|
+    li class='list-group-item knowledge-direction-item list-group-item-action' data-id=knowledge_direction.id data-name=knowledge_direction.name
+      = knowledge_direction.name.capitalize
+      = icon('fas', 'plus-circle', { class: 'float-right text-muted' } )

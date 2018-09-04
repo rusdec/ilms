@@ -21,6 +21,7 @@ RSpec.describe PassagesController, type: :controller do
     end
   end
 
+  controller do; end
   before do
     routes.draw do
       resources :any_passables

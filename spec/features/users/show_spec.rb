@@ -24,7 +24,7 @@ feature 'Show user', %q{
         create_list(:user_knowledge, 3, user: user)
 
         user.user_knowledges.each do |user_knowledge|
-          expect(page).to have_content(user_knowledge.knowledge.name)
+          expect(page).to have_content(user_knowledge.knowledge.name.capitalize)
           expect(page).to have_content(user_knowledge.level)
         end
       end # scenario 'see own knowledges'
