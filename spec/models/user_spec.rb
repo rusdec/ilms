@@ -14,6 +14,11 @@ RSpec.describe User, type: :model do
   it { should have_many(:created_badges).class_name('Badge') }
   it { should have_many(:user_knowledges).dependent(:destroy) }
   it { should have_many(:knowledges).through(:user_knowledges) }
+  it do
+    should have_many(:knowledge_directions)
+      .through(:knowledges)
+      .source(:direction)
+  end
 
   it_behaves_like 'rewardable'
   it_behaves_like 'educable' do

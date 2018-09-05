@@ -19,13 +19,35 @@ RSpec.describe Rewardable, type: :model do
     end
   end
 
+  context '.collected_course_badges_by_each_course' do
+    let!(:courses) { create_list(:course, 2) }
+
+    before do
+      courses.each do |course|
+        badge = create(:badge, course: course, badgable: course)
+        create(:course_passage, passable: course, user: rewardable).passed!
+        rewardable.reward!(badge)
+      end
+    end
+
+    it 'returns all opened badges for each course for all passages' do
+      expect(
+        rewardable.collected_course_badges_by_each_course
+      ).to eq([
+        { course: courses[0],
+          badges: rewardable.collected_course_badges(courses[0]) },
+
+        { course: courses[1],
+          badges: rewardable.collected_course_badges(courses[1]) }
+      ])
+    end
+  end
+
   context '.collected_course_badges' do
     let!(:course) { create(:course) }
 
     before do
-      create(:passage, passable: course, user: rewardable)
-      create(:badge, course: course, badgable: course)
-      CoursePassage.last.passed!
+      rewardable.reward!(create(:badge, course: course, badgable: course))
     end
     
     it 'returns all opened badges for given course for all passages' do
@@ -36,9 +58,8 @@ RSpec.describe Rewardable, type: :model do
 
     it 'not returns opened badges for passages for other course' do
       other_course = create(:course)
-      create(:passage, passable: other_course, user: rewardable)
       create(:badge, course: other_course, badgable: other_course)
-      CoursePassage.last.passed!
+      create(:passage, passable: other_course, user: rewardable).passed!
 
       expect(
         rewardable.collected_course_badges(course)
@@ -48,13 +69,12 @@ RSpec.describe Rewardable, type: :model do
 
   
   context '.collected_hidden_course_badges' do
-    let!(:course) { create(:course) }
-
-    before { create(:passage, passable: course, user: rewardable) }
+    let(:course) { create(:course) }
+    let!(:passage) { create(:course_passage, passable: course, user: rewardable) }
     
     it 'returns all opened hidden badges for given course for all passages' do
       create(:badge, course: course, badgable: course, hidden: true)
-      CoursePassage.last.passed!
+      passage.passed!
 
       expect(
         rewardable.collected_course_hidden_badges(course)
@@ -63,11 +83,9 @@ RSpec.describe Rewardable, type: :model do
 
     it 'not returns not hidden badges' do
       create(:badge, course: course, badgable: course, hidden: false)
-      CoursePassage.last.passed!
+      passage.passed!
 
-      expect(
-        rewardable.collected_course_hidden_badges(course)
-      ).to eq([])
+      expect(rewardable.collected_course_hidden_badges(course)).to eq([])
     end
   end
 end

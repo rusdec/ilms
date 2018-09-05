@@ -15,7 +15,7 @@ class QuestPassage < Passage
 
   # Passage Template method
   def after_pass_hook
-    self.user.reward!(passable.badge) if passable.badge
+    user.reward!(passable.badge) if passable.badge
     destribute_experience_between_knowledges
   end
 end

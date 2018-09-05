@@ -4,6 +4,12 @@ class UserDecorator < Draper::Decorator
 
   delegate_all
 
+  decorates_association :user_knowledges
+
+  def initials
+    "#{name.first}#{surname.first}".upcase
+  end
+
   def full_name
     "#{name} #{surname}"
   end

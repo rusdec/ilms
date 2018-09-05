@@ -9,6 +9,20 @@ class UserKnowledge < ApplicationRecord
   validates :experience, numericality: { greater_than_or_equal_to: 0,
                                          only_integer: true }
 
+  def self.by_directions
+    knowledges = {}
+    all.each do |user_knowledge|
+      direction = if user_knowledge.knowledge.direction
+                    user_knowledge.knowledge.direction.name
+                  else
+                    'Other'
+                  end
+      knowledges[direction] ||= []
+      knowledges[direction] << user_knowledge
+    end
+    knowledges
+  end
+
   def add_experience!(value = 0)
     transaction do
       update!(experience: experience + value)

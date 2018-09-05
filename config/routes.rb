@@ -9,11 +9,6 @@ Rails.application.routes.draw do
     member do
       post :learn, action: :learn!
     end
-    if options[:with_passages]
-      collection do
-        get 'passages/all', action: :passages
-      end
-    end
   end
 
   concern :badgable do
@@ -24,9 +19,16 @@ Rails.application.routes.draw do
   # All users
   #
   root to: 'home#index'
-  resources :users, only: %i(show update)
+  resources :users, only: %i(show update) do
+    member do
+      get :badges, action: :show_badges
+      get :knowledges, action: :show_knowledges
+      get :courses, action: :show_courses
+    end
+  end
+
   resources :courses, only: %i(index show), shallow: true do
-    concerns :passable, { with_passages: true }
+    concerns :passable
     resources :lessons, only: %i(index show)
   end
 

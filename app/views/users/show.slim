@@ -1,5 +1,28 @@
 .row
   .col-lg-4
-    = render partial: 'card_profile', locals: { user: @user }
-    - if can? :edit_profile, @user.object
-      = render partial: 'form', locals: { user: @user }
+    .card
+      .card-header
+        h3.card-title Courses
+      .card-body
+        canvas#profile-courses-count-chart
+
+  .col-lg-4
+    .card
+      .card-header
+        h3.card-title Lessons
+      .card-body
+        canvas#profile-lessons-count-chart
+
+  .col-lg-4
+    .card
+      .card-header
+        h3.card-title Quests
+      .card-body
+        canvas#profile-quests-count-chart
+
+  .col-lg-12
+    .card
+      .card-header
+        h3.card-title Top 3 knowledges
+      .card-body
+        canvas#profile-top-knowledges-chart

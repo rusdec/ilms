@@ -1,16 +1,26 @@
 class UsersController < ApplicationController
   include JsonResponsed
 
+  layout 'profile'
+
   respond_to :json, only: :update
-  respond_to :html, only: :show
+  respond_to :html, only: %i(show show_badges show_knowledges show_courses)
   before_action :authenticate_user!
 
   before_action :verify_requested_format!
-  before_action :set_user, only: %i(show update)
+  before_action :set_user, only: %i(show update show_badges show_knowledges show_courses)
+  before_action :decorate_user, only: %i(show show_badges show_knowledges show_courses)
 
-  def show
-    @user = @user.decorate
+  def show; end
+
+  def show_courses
+    authorize! :edit_profile, @user.object
+    @passages = CoursePassageDecorator.decorate_collection(@user.passages.for_courses)
   end
+
+  def show_knowledges; end
+
+  def show_badges; end
 
   def update
     authorize! :edit_profile, @user
@@ -25,6 +35,10 @@ class UsersController < ApplicationController
   end
 
   protected
+
+  def decorate_user
+    @user = @user.decorate
+  end
 
   def set_user
     @user = User.find(params[:id])

@@ -53,10 +53,20 @@ RSpec.describe UserKnowledge, type: :model do
         user_knowledge.add_experience!(user_knowledge.next_level_experience)
         expect(user_knowledge.level).to eq(user_knowledge.max_level)
       end
-
-      it 'ddd' do
-        user_knowledge.add_experience!(480)
-      end
     end # context 'when increases level'
   end # context '.add_experience!'
+
+  it '#by_directions' do
+    user = create(:user)
+    directions = create_list(:knowledge_direction, 2)
+    directions.each do |direction|
+      create(:user_knowledge, user: user,
+                              knowledge: create(:knowledge, direction: direction))
+    end
+    
+    expect(UserKnowledge.by_directions).to eq({
+      directions[0].name => [UserKnowledge.first],
+      directions[1].name => [UserKnowledge.last]
+    })
+  end
 end

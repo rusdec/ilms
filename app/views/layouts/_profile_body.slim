@@ -1,0 +1,25 @@
+. class='my-3 my-md-5 body'
+  .container
+    = render 'layouts/devise_alerts'
+    .row
+      .col-lg-3
+        = render partial: 'card_profile', locals: { user: @user }
+        - if can? :edit_profile, @user.object
+          = render partial: 'form', locals: { user: @user }
+      .col-lg-9
+        ul class='nav nav-tabs' role='tablist'
+          li.nav-item
+            a class='nav-link' href=user_path(@user)
+              | Profile
+          li.nav-item
+            a class='nav-link' href=knowledges_user_path(@user)
+              | Knowledges
+          li.nav-item
+            a class='nav-link' href=courses_user_path(@user)
+              | My Courses
+          li.nav-item
+            a class='nav-link' href=badges_user_path(@user)
+              | Badges
+
+        . class='tab-content mt-5'
+          = yield

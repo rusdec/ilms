@@ -50,7 +50,8 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
       :difficulty, :published,
       course_knowledges_attributes: [:id, :knowledge_id,
                                      :_destroy, :percent,
-                                     knowledge_attributes: [:name]]
+                                     knowledge_attributes: [:name,
+                                                            :knowledge_direction_id]]
     )
   end
 

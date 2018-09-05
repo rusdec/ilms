@@ -18,4 +18,4 @@
           = navbar_link(title: 'Courses', path: courses_path)
           
           - if current_user
-            = navbar_link(title: 'My courses', path: passages_all_courses_path)
+            = navbar_link(title: 'Profile', path: user_path(current_user))

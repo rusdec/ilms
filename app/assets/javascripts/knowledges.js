@@ -64,6 +64,9 @@ document.addEventListener('turbolinks:load', () => {
   let inputGroup = document.querySelector('#new-knowledge-direction-input-group .input-group')
   let newKnowledgeInput = document.querySelector('#new-knowledge')
   let input = document.querySelector('#new-knowledge-direction')
+  let newKnowledgeDirectionInput = document.querySelector('#add-new-knowledge-direction')
+
+  if (!inputGroup) return
 
   document.querySelector('#add-new-knowledge-direction').addEventListener('click', () => {
     if (!input.value.length) return

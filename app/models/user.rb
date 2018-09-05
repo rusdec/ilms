@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include Rewardable
+  include Educable
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -17,6 +18,7 @@ class User < ApplicationRecord
 
   has_many :user_knowledges, dependent: :destroy
   has_many :knowledges, through: :user_knowledges
+  has_many :knowledge_directions, through: :knowledges, source: :direction
 
   validates :name, presence: true
   validates :surname, presence: true
@@ -25,10 +27,6 @@ class User < ApplicationRecord
   validates :surname, length: { minimum: 2, maximum: 20 }
 
   validate :validate_type
-
-  def learning?(passable)
-    passages.all_in_progress.where(passable: passable).any?
-  end
 
   def admin?
     type == 'Administrator'

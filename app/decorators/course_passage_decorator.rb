@@ -23,10 +23,12 @@ class CoursePassageDecorator < PassageDecorator
   end
 
   def passed_lesson_passages_percent
+    return 0 if children.count == 0
     ((passed_lesson_passages.count.to_f/children.count.to_f) * 100).to_i
   end
 
   def passed_quest_passages_percent
+    return 0 if children.count == 0
     ((passed_quest_passages.count.to_f/quest_passages.count.to_f) * 100).to_i
   end
 

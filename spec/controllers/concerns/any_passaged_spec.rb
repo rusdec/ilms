@@ -27,10 +27,6 @@ RSpec.describe AnyPassablesController, type: :controller do
         member do
           post :learn, action: :learn!
         end
-
-        collection do
-          get 'passages/all', action: :passages
-        end
       end
 
       resources :any_passables do
@@ -40,47 +36,6 @@ RSpec.describe AnyPassablesController, type: :controller do
       resources :passages
     end
   end
-
-  describe 'GET passages' do
-    let(:view_path) { Rails.root.join('app/views/any_passables') }
-    before do
-      FileUtils.mkdir_p("#{view_path}/passages")
-      FileUtils.touch("#{view_path}/passages/index.slim")
-    end
-    after { FileUtils.rm_r(view_path) }
-
-    context 'when authenticated user' do
-      let(:user) { create(:user) }
-      before do
-        3.times { create(:passage, passable: AnyPassable.create, user: user) }
-        3.times { create(:passage, passable: AnyPassable.create, user: create(:user)) }
-      end
-
-      context 'when owner of passages' do
-        before do
-          sign_in(user)
-          get :passages
-        end
-
-        it 'assign all users Passage with type AnyPassagle to @passages' do
-          expect(
-            assigns(:passages)
-          ).to eq(user.passages.where(passable_type: 'AnyPassable'))
-        end
-
-        it 'render any_passables/passages/index' do
-          expect(response).to render_template("any_passables/passages/index")
-        end
-      end # context 'when owner of passages'
-    end # context 'when authenticated user'
-
-    context 'when not authenticated user' do
-      it 'redirect to sign_in page' do
-        get :passages
-        expect(response).to redirect_to(new_user_session_path)
-      end
-    end # context 'when not authenticated user'
-  end # describe 'GET passages'
 
   describe 'POST #learn!' do
     let!(:any_passable) { AnyPassable.create }

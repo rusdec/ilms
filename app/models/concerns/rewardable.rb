@@ -5,6 +5,13 @@ module Rewardable
     has_many :user_grantables, dependent: :destroy
     has_many :badges, through: :user_grantables, source: :grantable, source_type: 'Badge'
 
+    def collected_course_badges_by_each_course
+      learned_courses.collect do |passage|
+        { course: passage.course,
+          badges: collected_course_badges(passage.course) }
+      end
+    end
+
     def collected_course_badges(course)
       Badge.joins(:user_grantables)
         .where(user_grantables: { user: self })

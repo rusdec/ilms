@@ -5,6 +5,7 @@ FactoryBot.define do
   end
 
   factory :course_passage, class: CoursePassage do
+    association :passable, factory: :course
     association :user
     parent_id nil
   end
