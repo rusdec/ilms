@@ -3,7 +3,6 @@ module Statusable
 
   included do
     before_create :before_create_set_status
-
     belongs_to :status, optional: true
 
     Status.all.each do |s|

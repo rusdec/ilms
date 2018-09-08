@@ -18,5 +18,6 @@ module Ilms
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    Dir[Rails.root.join('app/libs/**/*.rb')].each { |f| require f }
   end
 end

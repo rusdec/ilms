@@ -1,6 +1,7 @@
 require_relative 'controller_helper'
 
 RSpec.describe UsersController, type: :controller do
+=begin
   describe 'PATCH #update' do
     let!(:user) { create(:user) }
     let(:avatar) { Rack::Test::UploadedFile.new("#{fixture_path}/image.png") }
@@ -173,4 +174,6 @@ RSpec.describe UsersController, type: :controller do
       end # context 'and user requests course page of foreign user'
     end # context 'when authenticated user'
   end
+=end
+  it_behaves_like 'user_statisticable'
 end

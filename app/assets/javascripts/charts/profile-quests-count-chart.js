@@ -1,21 +1,25 @@
 document.addEventListener('turbolinks:load', () => {
   if (!document.querySelector('#profile-quests-count-chart')) return
 
-  var myDoughnutChart = new Chart(document.querySelector('#profile-quests-count-chart'), {
+  new Chart(document.querySelector('#profile-quests-count-chart'), {
     type: 'doughnut',
     data: {
       datasets: [{
-        data: [10],
+        data: [
+          gon.statistic.quests_progress.quests.passed,
+          gon.statistic.quests_progress.quests.in_progress
+        ],
+        backgroundColor: ['#679c6d']
       }],
-      labels: ['Passed', 'Left']
+      labels: ['Passed', 'In progress']
     },
     options: {
       legend: {
-        display: false,
+        position: 'right'
       },
       animation: {
         animateRotate: true
       }
     }
-  });
+  })
 })

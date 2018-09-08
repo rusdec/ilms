@@ -19,6 +19,20 @@ RSpec.describe Rewardable, type: :model do
     end
   end
 
+  it '.all_badges_for_passaged_courses' do
+    courses = create_list(:course, 2).collect do |course|
+      badge = create(:badge, course: course, badgable: course)
+      create(:course_passage, passable: course, user: rewardable).passed!
+      rewardable.reward!(badge)
+      course
+    end
+    course = create(:course)
+    create(:badge, course: course, badgable: course)
+    expect(rewardable.all_badges_for_passaged_courses.to_a).to eq(
+      Badge.all.where(course: courses).to_a
+    )
+  end
+
   context '.collected_course_badges_by_each_course' do
     let!(:courses) { create_list(:course, 2) }
 

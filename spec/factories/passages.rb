@@ -10,7 +10,14 @@ FactoryBot.define do
     parent_id nil
   end
 
+  factory :lesson_passage, class: LessonPassage do
+    association :passable, factory: :lesson
+    association :user
+    parent_id nil
+  end
+
   factory :quest_passage, class: QuestPassage do
+    association :passable, factory: :quest
     association :user
     parent_id nil
   end

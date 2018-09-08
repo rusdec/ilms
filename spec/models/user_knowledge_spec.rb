@@ -21,11 +21,7 @@ RSpec.describe UserKnowledge, type: :model do
       .only_integer
   end
 
-  it do
-    should validate_numericality_of(:experience)
-      .is_greater_than_or_equal_to(0)
-      .only_integer
-  end
+  it { should validate_numericality_of(:experience).is_greater_than_or_equal_to(0) }
 
   context '.add_experience!' do
     let(:user_knowledge) { create(:user_knowledge, experience: 0) }

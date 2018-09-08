@@ -19,6 +19,7 @@
 //= require tabler/vendors/selectize.min
 //= require activestorage
 //= require turbolinks
-//= require d3/d3.v5.min
 //= require chartjs/chartjs.v072.min
+//= require highcharts/highcharts.js
+//= require highcharts/modules/drilldown.js
 //= require_tree .

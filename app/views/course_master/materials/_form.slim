@@ -12,9 +12,8 @@
     = editor_text_area(form: f, name: :summary)
 
   .form-group
-    = f.text_field :order, autocomplete: 'order',
-                           placeholder: 'Order',
-                           class: 'form-control small'
+    = f.label :order
+    = f.number_field :order, autocomplete: 'order', class: 'form-control small'
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'

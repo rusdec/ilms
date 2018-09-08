@@ -6,8 +6,7 @@ class UserKnowledge < ApplicationRecord
                                          message: 'should be once per user' }
   validates :level, numericality: { greater_than_or_equal_to: 0,
                                     only_integer: true }
-  validates :experience, numericality: { greater_than_or_equal_to: 0,
-                                         only_integer: true }
+  validates :experience, numericality: { greater_than_or_equal_to: 0 }
 
   def self.by_directions
     knowledges = {}

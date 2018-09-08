@@ -16,6 +16,19 @@ Rails.application.routes.draw do
   end
 
   #
+  # Statistics
+  #
+  concern :user_statisticable do
+    scope :statistics do
+      get :courses_progress, action: :courses_progress
+      get :lessons_progress, action: :lessons_progress
+      get :quests_progress,  action: :quests_progress
+      get :top_three_knowledges, action: :top_three_knowledges
+      get :knowledges_directions, action: :knowledges_directions
+    end
+  end
+
+  #
   # All users
   #
   root to: 'home#index'
@@ -25,6 +38,7 @@ Rails.application.routes.draw do
       get :knowledges, action: :show_knowledges
       get :courses, action: :show_courses
     end
+    concerns :user_statisticable
   end
 
   resources :courses, only: %i(index show), shallow: true do

@@ -1,21 +1,26 @@
 document.addEventListener('turbolinks:load', () => {
   if (!document.querySelector('#profile-lessons-count-chart')) return
 
-  var myDoughnutChart = new Chart(document.querySelector('#profile-lessons-count-chart'), {
+  new Chart(document.querySelector('#profile-lessons-count-chart'), {
     type: 'doughnut',
     data: {
       datasets: [{
-        data: [4],
+        data: [
+          gon.statistic.lessons_progress.lessons.passed,
+          gon.statistic.lessons_progress.lessons.unavailable,
+          gon.statistic.lessons_progress.lessons.in_progress
+        ],
+        backgroundColor: ['#679c6d', '#995463']
       }],
-      labels: ['Passed']
+      labels: ['Passed', 'Unavailable', 'In progress']
     },
     options: {
       legend: {
-        display: false,
+        position: 'right'
       },
       animation: {
         animateRotate: true
       }
     }
-  });
+  })
 })

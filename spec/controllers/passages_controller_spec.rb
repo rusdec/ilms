@@ -75,14 +75,6 @@ RSpec.describe PassagesController, type: :controller do
           it 'render any_passables/passages/show' do
             expect(response).to render_template('any_passables/passages/show')
           end
-
-          it 'assigns new Solution to @solution' do
-            expect(assigns(:solution)).to be_a_new(PassageSolution)
-          end
-
-          it 'relates assigned @solution with @passage' do
-            expect(assigns(:solution).passage.id).to eq(passage.id)
-          end
         end
       end
 

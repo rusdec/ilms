@@ -2,19 +2,20 @@
   .col-lg-12
     .card
       .card-header
-        h3.card-title Knowledge direction
-      .card-header
-        canvas#profile-knowledges-directions-chart
+        h3.card-title My Knowledge's directions
+      .card-body
+        #profile-knowledges-directions-chart
+  .col-lg-12
+    . class='card-columns card-columns-profile-knowledges'
 
-  - @user.user_knowledges.object.by_directions.each do |direction, user_knowledges|
-    .col-lg-6
-      .card
-        .card-header
-          h3.card-title= direction.capitalize
-        . class='card-body p-1'
-          table class='table table-hover table-outline table-vcenter text-nowrap card-table table-profile-knowledges'
-            - user_knowledges.each do |user_knowledge|
-              tr.tr-knoledge
-                td style='width: 15%'= user_knowledge.knowledge.name.capitalize
-                td= user_knowledge.decorate.progress_bar
-                td style='width: 10%'= user_knowledge.level
+      - @user.user_knowledges.object.by_directions.each do |direction, user_knowledges|
+        .card
+          .card-header
+            h3.card-title= direction.capitalize
+          . class='card-body p-1'
+            table class='table table-hover table-outline table-vcenter text-nowrap card-table table-profile-knowledges'
+              - user_knowledges.each do |user_knowledge|
+                tr.tr-knoledge
+                  td style='width: 15%'= user_knowledge.knowledge.name.capitalize
+                  td= user_knowledge.decorate.progress_bar
+                  td style='width: 10%'= user_knowledge.level
