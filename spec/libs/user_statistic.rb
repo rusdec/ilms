@@ -13,9 +13,18 @@ RSpec.describe UserStatistic do
 
     expect(statistic.knowledges_directions).to eq([
       { direction: KnowledgeDirection.first.name,
-        knowledges: user_knowledges[0].level + user_knowledge.level },
+        sum_of_levels: user_knowledges[0].level + user_knowledge.level,
+        user_knowledges: [
+          { level: user_knowledges[0].level, knowledge: user_knowledges[0].knowledge },
+          { level: user_knowledge.level, knowledge: user_knowledge.knowledge },
+        ]
+      },
       { direction: KnowledgeDirection.last.name,
-        knowledges: user_knowledges[1].level }
+        sum_of_levels: user_knowledges[1].level,
+        user_knowledges: [
+          { level: user_knowledges[1].level, knowledge: user_knowledges[1].knowledge }
+        ]
+      }
     ])
   end
 

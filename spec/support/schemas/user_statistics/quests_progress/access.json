@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "courses": {
+    "quests": {
       "type": "object",
       "properties": {
         "passed": {"type": "integer"},
@@ -9,8 +9,8 @@
       },
       "required": ["passed", "in_progress"],
       "maxProperties": 2
-    },
-    "required": ["courses"],
-    "maxProperties": 1
-  }
+    }
+  },
+  "required": ["quests"],
+  "maxProperties": 1
 }

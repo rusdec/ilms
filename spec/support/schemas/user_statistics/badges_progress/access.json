@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "badges": {
+      "type": "object",
+      "properties": {
+        "collected": {"type": "integer"},
+        "total": {"type": "integer"}
+      },
+      "required": ["collected", "total"],
+      "maxProperties": 2
+    }
+  },
+  "maxProperties": 1,
+  "required": ["badges"]
+}

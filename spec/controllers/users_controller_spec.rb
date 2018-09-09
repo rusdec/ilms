@@ -1,7 +1,6 @@
 require_relative 'controller_helper'
 
 RSpec.describe UsersController, type: :controller do
-=begin
   describe 'PATCH #update' do
     let!(:user) { create(:user) }
     let(:avatar) { Rack::Test::UploadedFile.new("#{fixture_path}/image.png") }
@@ -79,6 +78,7 @@ RSpec.describe UsersController, type: :controller do
           action
         end
 
+        it_behaves_like 'gon_user_settable'
         it_behaves_like 'user_decorable'
 
         it 'responses 200 OK' do
@@ -93,6 +93,7 @@ RSpec.describe UsersController, type: :controller do
         end
 
         it_behaves_like 'user_decorable'
+        it_behaves_like 'gon_user_settable'
 
         it 'responses 200 OK' do
           expect(response).to be_ok
@@ -130,6 +131,7 @@ RSpec.describe UsersController, type: :controller do
       get :show_knowledges, params: { id: user }
     end
 
+    it_behaves_like 'gon_user_settable'
     it_behaves_like 'user_decorable'
 
     it 'renders show_knowledges template' do
@@ -174,6 +176,6 @@ RSpec.describe UsersController, type: :controller do
       end # context 'and user requests course page of foreign user'
     end # context 'when authenticated user'
   end
-=end
+
   it_behaves_like 'user_statisticable'
 end

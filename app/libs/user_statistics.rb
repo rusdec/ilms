@@ -24,8 +24,8 @@ class UserStatistic
 
   def courses_progress
     { courses: {
-        passed: user.passed_courses.uniq.count,
-        in_progress: user.in_progress_courses.count
+      passed: user.passed_courses.uniq.count,
+      in_progress: user.in_progress_courses.count
       }
     }
   end

@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "lessons": {
+      "type": "object",
+      "properties": {
+        "passed": {"type": "integer"},
+        "unavailable": {"type": "integer"},
+        "in_progress": {"type": "integer"}
+      },
+      "required": ["passed", "unavailable", "in_progress"],
+      "maxProperties": 3
+    }
+  },
+  "required": ["lessons"],
+  "maxProperties": 1
+}

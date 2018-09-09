@@ -1,0 +1,24 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "direction": {"type": "string"},
+      "sum_of_levels": {"type": "integer"},
+      "user_knowledges": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "level": {"type": "integer"},
+            "knowledge": {"$ref": "../../knowledges/unserialized_knowledge.json"}
+          },
+          "required": ["level", "knowledge"],
+          "maxProperties": 2
+        }
+      }
+    },
+    "required": ["direction", "sum_of_levels", "user_knowledges"],
+    "maxProperties": 3
+  }
+}

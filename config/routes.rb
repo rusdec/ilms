@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get :courses_progress, action: :courses_progress
       get :lessons_progress, action: :lessons_progress
       get :quests_progress,  action: :quests_progress
+      get :badges_progress,  action: :badges_progress
       get :top_three_knowledges, action: :top_three_knowledges
       get :knowledges_directions, action: :knowledges_directions
     end

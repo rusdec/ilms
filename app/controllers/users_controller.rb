@@ -2,33 +2,28 @@ class UsersController < ApplicationController
   layout 'profile'
 
   include JsonResponsed
+  include UserStatisticated
 
   before_action :authenticate_user!
 
   before_action :set_user, only: %i(
     update show show_badges show_knowledges show_courses
   )
-  before_action :set_statistic, only: %i(show show_knowledges show_courses)
-  before_action :decorate_user, only: %i(show show_badges show_knowledges show_courses)
 
-  def show
-    gon.statistic = {
-      courses_progress: @statistic.courses_progress,
-      lessons_progress: @statistic.lessons_progress,
-      quests_progress: @statistic.quests_progress,
-      badges_progress: @statistic.badges_progress,
-      top_three_knowledges: @statistic.top_three_knowledges
-    }
-  end
+  before_action :set_gon_statistic_user, only: %i(show show_knowledges)
+
+  before_action :decorate_user, only: %i(
+    show show_badges show_knowledges show_courses
+  )
+
+  def show; end
 
   def show_courses
     authorize! :edit_profile, @user.object
     @passages = CoursePassageDecorator.decorate_collection(@user.passages.for_courses)
   end
 
-  def show_knowledges
-    gon.statistic = { knowledges_directions: @statistic.knowledges_directions }
-  end
+  def show_knowledges; end
 
   def show_badges; end
 
@@ -50,17 +45,16 @@ class UsersController < ApplicationController
 
   protected
 
-  def set_statistic
-    @statistic = UserStatistic.new(@user)
-  end
-
   def decorate_user
     @user = @user.decorate
   end
 
   def set_user
     @user = User.find(params[:id])
-    gon.profile_user = @user
+  end
+
+  def set_gon_statistic_user
+    gon.statistic_user = @user
   end
 
   def user_params

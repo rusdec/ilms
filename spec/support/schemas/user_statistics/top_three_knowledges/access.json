@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "properties": {
+    "knowledges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "level": {"type": "integer"},
+          "knowledge": {"type": "../../knowledges/knowledge.json"}
+        },
+        "required": ["level", "knowledge"],
+        "maxProperties": 2
+      }
+    },
+    "required": ["knowledges"],
+    "maxProperties": 1
+  }
+}
