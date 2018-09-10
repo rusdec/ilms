@@ -1,0 +1,7 @@
+ru:
+  header:
+    administration: 'Администрирование'
+    manage_courses: 'Управление курсами'
+    courses: 'Курсы'
+    profile: 'Профиль'
+    sign_out: 'Выход'

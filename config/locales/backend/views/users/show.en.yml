@@ -1,0 +1,8 @@
+en:
+  users:
+    show:
+      courses: 'Courses'
+      lessons: 'Lessons'
+      quests: 'Quests'
+      badges: 'Badges'
+      top_three_knowledges: 'Top 3 knowledges'

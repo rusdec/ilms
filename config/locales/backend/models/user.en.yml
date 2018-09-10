@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      user: 'User'
+    attributes:
+      user:
+        name: 'Name'
+        surname: 'Surname'
+        email: 'Email'
+        current_password: 'Current password'
+        password_confirmation: 'Password confirmation'
+        avatar: 'Avatar'
+
+  helpers:
+    submit:
+      user:
+        update: 'Save'

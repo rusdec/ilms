@@ -1,0 +1,8 @@
+ru:
+  users:
+    show:
+      courses: 'Курсы'
+      lessons: 'Уроки'
+      quests: 'Квесты'
+      badges: 'Значки'
+      top_three_knowlegdes: 'Три самых развитых знания'

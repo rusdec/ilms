@@ -1,0 +1,7 @@
+en:
+  header:
+    administration: 'Administration'
+    manage_courses: 'Manage courses'
+    courses: 'Courses'
+    profile: 'Profile'
+    sign_out: 'Sign out'

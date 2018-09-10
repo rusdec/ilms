@@ -1,0 +1,7 @@
+ru:
+  users:
+    show_courses:
+      my_courses: 'Мои Курсы'
+      title: 'Заголовок'
+      progress: 'Прогресс'
+      started_at: 'Дата начала'

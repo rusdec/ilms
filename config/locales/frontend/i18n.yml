@@ -1,0 +1,19 @@
+ru:
+  passed: 'Завершено'
+  in_progress: 'В процессе'
+  unavailable: 'Недоступно'
+  collected: 'Собрано'
+  left: 'Осталось'
+  knowledges_direction: 'Направление знаний'
+  sum_of_knowledges_levels: 'Сумма уровней всех знаний'
+  back: 'Вернуться'
+
+en:
+  passed: 'Passed'
+  in_progress: 'In progress'
+  unavailable: 'Unavailable'
+  collected: 'Collected'
+  left: 'Left'
+  knowledges_direction: "Knowledge's direction"
+  sum_of_knowledges_levels: "Sum of knowledge's levels"
+  back: 'Back'
