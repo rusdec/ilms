@@ -11,9 +11,9 @@ feature 'Author of lesson create material', %q{
   context 'when author of lesson' do
     before do
       sign_in(author)
-      visit edit_course_master_lesson_path(lesson)
+      visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
       click_on 'Materials'
-      click_on 'New Material'
+      click_on 'New material'
     end
 
     context 'with valid data' do
@@ -22,9 +22,9 @@ feature 'Author of lesson create material', %q{
       scenario 'can create material', js: true do
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]
-        click_on 'Create Material'
+        click_on 'Create'
         expect(page).to have_content('Success')
-        expect(page).to have_content('Edit Material')
+        expect(page).to have_content('Edit material')
       end
     end # conetx 'with valid data'
 
@@ -32,15 +32,13 @@ feature 'Author of lesson create material', %q{
       scenario 'can\'t create material', js: true do
         fill_in 'Title', with: nil
         fill_editor 'Body', with: nil
-        fill_in 'Order', with: ' '
-        click_on 'Create Material'
+        click_on 'Create'
 
         Capybara.using_wait_time(5) do
           [ 'Title can\'t be blank',
             'Title is too short',
             'Body can\'t be blank',
-            'Body is too short',
-            'Order is not a number'
+            'Body is too short'
           ].each { |error| expect(page).to have_content(error) }
         end
       end
@@ -50,12 +48,12 @@ feature 'Author of lesson create material', %q{
   context 'when not author of lesson' do
     before do
       sign_in(create(:course_master))
-      visit new_course_master_lesson_material_path(lesson)
+      visit new_course_master_lesson_material_path(lesson, locale: I18n.locale)
     end
 
     scenario 'redirect to root' do
       expect(page).to have_content('Access denied')
-      expect(page).to_not have_content('Create Material')
+      expect(page).to_not have_content('Create')
     end
   end
 end

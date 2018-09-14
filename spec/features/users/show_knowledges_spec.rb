@@ -18,13 +18,12 @@ feature 'Show user knowledges', %q{
   context 'when authenticated user' do
     context 'and authenticated user open own user page' do
       before do
-        sign_in(create(:user))
-        visit user_path(user)
+        sign_in(user)
         click_on 'Knowledges'
       end
 
       scenario 'see directions' do
-        expect(page).to have_content('Knowledge direction')
+        expect(page).to have_content('Knowledges Directions')
         user.knowledge_directions.each do |direction|
           expect(page).to have_content(direction.name.capitalize)
         end

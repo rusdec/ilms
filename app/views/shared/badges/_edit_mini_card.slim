@@ -1,6 +1,6 @@
-. class='col-sm-4 col-lg-3'
-  . class='card p-3' style='min-height: 90px'
-    . class='d-flex align-items-center'
+.col-sm-4.col-lg-3
+  .card.p-3 style='min-height: 90px'
+    .d-flex.align-items-center
       span.mr-3
         = badge.image_preview class: 'img-thumb'
       .
@@ -8,4 +8,4 @@
           small
             = link_to badge.title, edit_course_master_badge_path(badge)
         small.text-muted
-          = "Awarded: #{badge.rewarders.count}"
+          = "#{t('badges.numbers_of_awarded', numbers: badge.rewarders.count)}"

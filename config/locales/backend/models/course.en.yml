@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    models:
+      course: 'Course'
+    attributes:
+      course:
+        published: 'Published'
+        title: 'Title'
+        image: 'Image'
+        short_description: 'Short description'
+        decoration_description: "Decoration's description"
+        difficulty: 'Difficulty'
+        badge: 'Badge'
+        knowledges: 'Knowledges'
+        total_percent: 'Total percent'
+
+  helpers:
+    submit:
+      course:
+        update: 'Save'
+        create: 'Create'

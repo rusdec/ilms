@@ -1,0 +1,7 @@
+en:
+  course_master:
+    courses:
+      form:
+        back_to_courses: 'Back to courses'
+        create_badge: 'Create Badge'
+        remove_image: 'Remove image'

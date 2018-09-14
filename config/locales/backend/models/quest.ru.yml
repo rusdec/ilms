@@ -1,0 +1,11 @@
+ru:
+  activerecord:
+    models:
+      quest: 'Квест'
+    attributes:
+      quest:
+        title: 'Название'
+        description: 'Описание'
+        body: 'Тело'
+        difficulty: 'Сложность'
+        badge: 'Значок'

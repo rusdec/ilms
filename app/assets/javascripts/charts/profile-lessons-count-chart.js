@@ -1,5 +1,6 @@
 document.addEventListener('turbolinks:load', () => {
-  if (!document.querySelector('#profile-lessons-count-chart')) return
+  let lessonsCountChart = document.querySelector('#profile-lessons-count-chart')
+  if (!lessonsCountChart) return
 
   (async() => {
     let response = await fetch(
@@ -7,23 +8,34 @@ document.addEventListener('turbolinks:load', () => {
     )
     response = await response.json()
 
-    new Chart(document.querySelector('#profile-lessons-count-chart'), {
-      type: 'doughnut',
-      data: {
-        datasets: [{
-          data: [
-            response.lessons.passed,
-            response.lessons.unavailable,
-            response.lessons.in_progress
-          ],
-          backgroundColor: ['#679c6d', '#995463']
-        }],
-        labels: ['Passed', 'Unavailable', 'In progress']
-      },
-      options: {
-        legend: { position: 'right' },
-        animation: { animateRotate: true }
-      }
-    })
+    if (response.lessons.in_progress) {
+      new Chart(lessonsCountChart, {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [
+              response.lessons.passed,
+              response.lessons.unavailable,
+              response.lessons.in_progress
+            ],
+            backgroundColor: ['#679c6d', '#995463']
+          }],
+          labels: [
+            translate('passed'),
+            translate('unavailable'),
+            translate('in_progress')
+          ]
+        },
+        options: {
+          legend: { position: 'right' },
+          animation: { animateRotate: true }
+        }
+      })
+    } else {
+      lessonsCountChart.parentNode.insertAdjacentHTML(
+        'afterbegin', Mustache.render(_p_no_data, {body: translate('no_data')})
+      )
+      lessonsCountChart.remove()
+    }
   })()
 })

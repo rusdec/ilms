@@ -19,8 +19,8 @@ class UserDecorator < Draper::Decorator
     total = course.badges.object.hiddens.count
 
     progress_card(
-      title: 'Hidden Badges',
-      body: "#{collected} from #{total}",
+      title: I18n.t('decorators.user.hidden_badges'),
+      body: I18n.t('a_from_b', a: collected, b: total),
       percent: "#{(collected.to_f/total.to_f) * 100}"
     )
   end
@@ -30,8 +30,8 @@ class UserDecorator < Draper::Decorator
     total = course.badges.count
 
     progress_card(
-      title: 'Badges',
-      body: "#{collected} from #{total}",
+      title: I18n.t('decorators.user.badges'),
+      body: I18n.t('a_from_b', a: collected, b: total),
       percent: "#{(collected.to_f/total.to_f) * 100}"
     )
   end

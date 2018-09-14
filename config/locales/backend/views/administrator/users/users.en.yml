@@ -1,0 +1,7 @@
+en:
+  administrator:
+    users:
+      users:
+        fullname: 'Name'
+        email: 'Email'
+        role: 'Role'

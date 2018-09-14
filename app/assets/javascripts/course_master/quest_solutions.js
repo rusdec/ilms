@@ -17,15 +17,15 @@ document.addEventListener('turbolinks:load', () => {
 
 document.addEventListener('turbolinks:load', () => {
   [
-    {selector: '.accept_passage_solution',  verify: 'accepted'},
-    {selector: '.decline_passage_solution', verify: 'declined'}
+    {selector: '.accept_passage_solution',  status: translate('solution_accepted')},
+    {selector: '.decline_passage_solution', status: translate('solution_declined')}
   ].forEach((e) => {
     let form = document.querySelector(e.selector)
     let cardTitle = document.querySelector('#passage_solution h4')
     if (!form || !cardTitle) return
 
     form.addEventListener('ajax:success', () => {
-      cardTitle.textContent = `Solution (${e.verify})`
+      cardTitle.textContent = e.status
     })
   })
 })

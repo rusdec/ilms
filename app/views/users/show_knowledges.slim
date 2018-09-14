@@ -2,18 +2,18 @@
   .col-lg-12
     .card
       .card-header
-        h3.card-title My Knowledge's directions
-      . class='card-body p-2'
+        h3.card-title= t('.knowledges_directions')
+      .card-body.p-2
         #profile-knowledges-directions-chart
   .col-lg-12
-    . class='card-columns card-columns-profile-knowledges'
+    .card-columns.card-columns-profile-knowledges
 
       - @user.user_knowledges.object.by_directions.each do |direction, user_knowledges|
         .card
           .card-header
             h3.card-title= direction.capitalize
-          . class='card-body p-2'
-            table class='table table-hover table-outline table-vcenter text-nowrap card-table table-profile-knowledges'
+          .card-body.p-2
+            table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.table-profile-knowledges
               - user_knowledges.each do |user_knowledge|
                 tr.tr-knoledge
                   td style='width: 15%'= user_knowledge.knowledge.name.capitalize

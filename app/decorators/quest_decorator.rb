@@ -1,5 +1,5 @@
 class QuestDecorator < Draper::Decorator
-  include BadgableDecorator
+  include HasBadge
   include HasDate
   include HasRemoteLinks
   include HasTextPreview

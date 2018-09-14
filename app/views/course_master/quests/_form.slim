@@ -2,13 +2,11 @@
   .form-group
     = f.label :title
     = f.text_field :title, autocomplete: 'title',
-                           placeholder: 'Title',
                            class: 'form-control small'
 
   .form-group
     = f.label :description
     = f.text_area :description, autocomplete: 'description',
-                           placeholder: 'Description',
                            class: 'form-control small'
 
   .form-group
@@ -19,7 +17,7 @@
     = f.object.difficulty_selector(f)
 
   . class='form-group small'
-    = f.label :quest_group_id, 'Alternative quest for'
+    = f.label :quest_group_id, t('.alternative_quest_for')
     .quest-groups
       = alternative_quest_for_selector(quest_groups: @quest_form.quest_groups, form: f)
   
@@ -31,4 +29,4 @@
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to 'Quests', quests_path(@quest_form), class: 'btn btn-secondary'
+    = link_to t('.back_to_quests'), quests_path(@quest_form), class: 'btn btn-secondary'

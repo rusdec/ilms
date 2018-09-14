@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    models:
+      quest: 'Quest'
+    attributes:
+      quest:
+        title: 'Title'
+        description: 'Description'
+        body: 'Body'
+        difficulty: 'Difficulty'
+        badge: 'Badge'

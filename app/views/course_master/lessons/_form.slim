@@ -17,9 +17,9 @@
     = f.object.difficulty_selector(f)
 
   .form-group
-    = f.label 'Will opened after lesson', for: :parent_id
+    = f.label t('.will_opened_after_lesson'), for: :parent_id
     = selector_with_lessons(form: f, lessons: @lessons)
                                             
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to 'Lessons', lessons_path(@lesson), class: 'btn btn-secondary'
+    = link_to t('.back_to_lessons'), lessons_path(@lesson), class: 'btn btn-secondary'

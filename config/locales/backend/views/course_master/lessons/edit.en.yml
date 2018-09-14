@@ -1,0 +1,8 @@
+en:
+  course_master:
+    lessons:
+      edit:
+        edit_lesson: 'Edit lesson'
+        lesson: 'Lesson'
+        materials: 'Materials'
+        quests: 'Quests'

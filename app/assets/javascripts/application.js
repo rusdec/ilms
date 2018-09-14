@@ -14,8 +14,8 @@
 //= require jquery3
 //= require mustache
 //= require popper
-//= require bootstrap
 //= require tabler
+//= require tabler/vendors/bootstrap.bundle.min
 //= require tabler/vendors/selectize.min
 //= require activestorage
 //= require turbolinks

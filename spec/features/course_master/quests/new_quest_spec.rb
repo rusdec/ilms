@@ -12,9 +12,9 @@ feature 'New quest', %q{
   context 'when CourseMaster' do
     before do
       sign_in(user)
-      visit edit_course_master_lesson_path(lesson)
+      visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
       click_on 'Quests'
-      click_on 'New Quest'
+      click_on 'New quest'
     end
 
     context 'with valid data' do
@@ -32,10 +32,10 @@ feature 'New quest', %q{
           expect(page).to have_content('none')
 
           choose id: 'quest_quest_group_id'
-          click_on 'Create Quest'
+          click_on 'Create'
 
           expect(page).to have_content('Success')
-          expect(page).to have_content('Edit Quest')
+          expect(page).to have_content('Edit quest')
         end
       end # context 'when alternative quest changed to none'
       
@@ -44,10 +44,10 @@ feature 'New quest', %q{
           expect(page).to have_content('New quest')
 
           choose option: default_quest.id
-          click_on 'Create Quest'
+          click_on 'Create'
 
           expect(page).to have_content('Success')
-          expect(page).to have_content('Edit Quest')
+          expect(page).to have_content('Edit quest')
         end
       end # context 'when changed alternative quest'
     end # context 'with valid data'
@@ -57,7 +57,7 @@ feature 'New quest', %q{
         fill_in 'Title', with: nil
         fill_in 'Description', with: nil
         fill_editor 'Body', with: nil
-        click_on 'Create Quest'
+        click_on 'Create'
 
         Capybara.using_wait_time(5) do
           expect(page).to_not have_content('Success')
@@ -77,12 +77,12 @@ feature 'New quest', %q{
   context 'when User' do
     before do
       sign_in(create(:user))
-      visit new_course_master_lesson_quest_path(lesson)
+      visit new_course_master_lesson_quest_path(lesson, locale: I18n.locale)
     end
 
     scenario 'can\'t create quest' do
       expect(page).to have_content('Access denied')
-      expect(page).to_not have_content('Create Quest')
+      expect(page).to_not have_content('Create')
     end
   end
 end

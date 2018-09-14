@@ -1,19 +1,19 @@
-= page_title('Edit Lesson')
+= page_title(t('.edit_lesson'))
 
 .row
   .col
     ul#mainPageTab class='nav nav-tabs' role='tablist'
       li.nav-item
         a#lesson-tab class='nav-link active' data-toggle='tab' href='#lesson' role='tab' aria-controls='lesson' aria-selected='true'
-          | Lesson
+          = t('.lesson')
 
       li.nav-item
         a#materials-tab class='nav-link' data-toggle='tab' href='#materials' role='tab' aria-controls='materials' aria-selected='false'
-          | Materials
+          = "#{t('.materials')} (#{@lesson.materials.count})"
 
       li.nav-item
         a#quests-tab class='nav-link' data-toggle='tab' href='#quests' role='tab' aria-controls='quests' aria-selected='false'
-          | Quests
+          = "#{t('.quests')} (#{@lesson.quests.count})"
 
     #mainPageTabContent class='tab-content mt-5'
       #lesson class='tab-pane fade show active' role='tabpanel' aria-labelledby='lesson-tab'

@@ -2,7 +2,6 @@
   .form-group
     = f.label :title
     = f.text_field :title, autocomplete: 'title',
-                           placeholder: 'Title',
                            class: 'form-control small'
 
   .form-group
@@ -17,4 +16,4 @@
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to 'Materials', materials_path(@material), class: 'btn btn-secondary'
+    = link_to t('.back_to_materials'), materials_path(@material), class: 'btn btn-secondary'

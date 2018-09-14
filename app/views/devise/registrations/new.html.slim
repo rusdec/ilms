@@ -1,44 +1,46 @@
+- if devise_error_messages!.present?
+  .row
+    .col
+      .alert.alert-danger.alert-dismissible.fade.show role='alert'
+        = devise_error_messages!
+        button.close type='button' data-dismiss='alert'
+
 . class='row justify-content-center'
   . class='col text-center'
-    h2= 'Sign up'
+    h2= t('.sign_up')
 
 . class='row justify-content-center'
   . class='col col-4'
     = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
-      = devise_error_messages!
 
       .form-group
         = f.text_field :name, autocomplete: 'name',
                               autofocus: true,
-                              placeholder: 'Name',
+                              placeholder: t('.name'),
                               class: 'form-control small'
 
       .form-group
         = f.text_field :surname, autocomplete: 'surname',
-                                 placeholder: 'Surname',
+                                 placeholder: t('.surname'),
                                  class: 'form-control small'
 
       .form-group
         = f.email_field :email, autocomplete: 'email',
-                                placeholder: 'Email',
+                                placeholder: t('.email'),
                                 class: 'form-control small'
 
       .form-group
         - if @minimum_password_length
-          em.small= "(#{@minimum_password_length} characters minimum)"
+          em.small= t('.minimum_characters', count: @minimum_password_length)
 
         = f.password_field :password, autocomplete: 'off',
-                                      placeholder: 'Password',
+                                      placeholder: t('.password'),
                                       class: 'form-control small'
 
       .form-group
         = f.password_field :password_confirmation, autocomplete: 'off',
-                                                   placeholder: 'Confirm password',
+                                                   placeholder: t('.confirm_password'),
                                                    class: 'form-control small'
 
       . class='form-group text-center'
-        = f.submit 'Sign up', class: 'btn btn-primary'
-
-. class='row justify-content-center small'
-  . class='col col-4'
-    = render "devise/shared/links"
+        = f.submit t('.sign_up'), class: 'btn btn-primary'

@@ -1,0 +1,6 @@
+ru:
+  administrator:
+    home:
+      index:
+        administration: 'Администрирование'
+        users: 'Пользователи'

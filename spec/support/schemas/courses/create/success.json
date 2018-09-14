@@ -3,12 +3,11 @@
   "properties": {
     "status": {"type": "boolean"},
     "message": {"type":"string"},
-    "object": {"$ref": "../course.json"},
     "location": {
       "type": "string",
       "format": "uri"
     }
   },
-  "required": ["status", "message", "object", "location"],
-  "maxProperties": 4
+  "required": ["status", "message", "location"],
+  "maxProperties": 3
 }

@@ -15,7 +15,12 @@ module CourseKnowledgable
 
     def validate_percent
       percent = course_knowledges.reject(&:marked_for_destruction?).sum { |ck| ck[:percent] }
-      errors.add(:percent, "of course knowledges must be 100% now #{percent}%") if percent != 100
+      if percent != 100
+        errors.add(
+          :total_percent, I18n.t('concerns.course_knowledgable.must_equal_100_percent',
+                            percent: percent)
+        )
+      end
     end
   end
 end

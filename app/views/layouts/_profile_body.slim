@@ -9,17 +9,18 @@
       .col-lg-9
         ul class='nav nav-tabs' role='tablist'
           li.nav-item
-            a class='nav-link' href=user_path(@user)
-              | Profile
+            a class='nav-link' href=user_path(id: @user)
+              = t('profile.profile')
           li.nav-item
-            a class='nav-link' href=knowledges_user_path(@user)
-              | Knowledges
+            a class='nav-link' href=knowledges_user_path(id: @user)
+              = t('profile.knowledges')
+          - if can? :edit_profile, @user.object
+            li.nav-item
+              a class='nav-link' href=courses_user_path(id: @user)
+                = t('profile.my_courses')
           li.nav-item
-            a class='nav-link' href=courses_user_path(@user)
-              | My Courses
-          li.nav-item
-            a class='nav-link' href=badges_user_path(@user)
-              | Badges
+            a class='nav-link' href=badges_user_path(id: @user)
+              = t('profile.badges')
 
         . class='tab-content mt-5'
           = yield

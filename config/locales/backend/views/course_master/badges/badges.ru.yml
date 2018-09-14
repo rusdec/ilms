@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    badges:
+      badges:
+        image: 'Изобр.'
+        title: 'Название'
+        related: 'Создан для'

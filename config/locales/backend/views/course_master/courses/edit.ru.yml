@@ -1,0 +1,9 @@
+ru:
+  course_master:
+    courses:
+      edit:
+        edit_course: 'Редактировать курс'
+        course: 'Курс'
+        lessons: 'Уроки'
+        badges: 'Значки'
+        statistic: 'Статистика'

@@ -7,6 +7,6 @@ class LessonPassageDecorator < PassageDecorator
 
   def td_required_quests
     required_quests = passable.quest_groups.count
-    required_quests > 0 ? required_quests : 'No. Read only'
+    required_quests > 0 ? required_quests : I18n.t('decorators.lesson_passages.read_only')
   end
 end

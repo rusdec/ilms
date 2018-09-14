@@ -12,9 +12,9 @@ feature 'New lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_course_path(course)
+      visit edit_course_master_course_path(course, locale: I18n.locale)
       click_on 'Lessons'
-      click_on 'New Lesson'
+      click_on 'New lesson'
     end
 
     context 'with valid data' do
@@ -30,11 +30,11 @@ feature 'New lesson', %q{
         fill_editor :check_yourself, with: lesson[:check_yourself]
         select('3', from: 'Difficulty')
         select parent_lesson.title, from: 'lesson[parent_id]'
-        click_on 'Create Lesson'
+        click_on 'Create'
 
         Capybara.using_wait_time(5) do
           expect(page).to have_content('Success')
-          expect(page).to have_content('Lessons')
+          expect(page).to have_content('Back to lessons')
           expect(page).to have_link('Lesson')
           expect(page).to have_link('Materials')
           expect(page).to have_link('Quests')
@@ -47,11 +47,10 @@ feature 'New lesson', %q{
         expect(page).to have_content('New lesson')
 
         fill_in 'Title', with: ''
-        click_on 'Create Lesson'
+        click_on 'Create'
 
-        ['Title can\'t be blank', 'Title is too short'].each do |error|
-          expect(page).to have_content(error)
-        end
+        expect(page).to have_content('Title can\'t be blank')
+        expect(page).to have_content('Title is too short')
       end
     end
   end
@@ -59,7 +58,7 @@ feature 'New lesson', %q{
   context 'when not author' do
     before do
       sign_in(create(:course_master))
-      visit edit_course_master_course_path(course)
+      visit edit_course_master_course_path(course, locale: I18n.locale)
     end
 
     scenario 'redirect to root' do

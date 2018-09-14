@@ -15,7 +15,7 @@ feature 'Show lesson_passage page', %q{
     context 'when owner of course_passage' do
       before do
         sign_in(user)
-        visit passage_path(lesson_passage)
+        visit passage_path(lesson_passage, locale: I18n.locale)
       end
 
       scenario 'see lesson details' do
@@ -28,16 +28,16 @@ feature 'Show lesson_passage page', %q{
         lesson_passage.children.each do |quest_passage|
           expect(page).to have_content(quest_passage.passable.title)
           expect(page).to have_content(quest_passage.passable.description.truncate(150))
-          expect(page).to have_content("Level: #{quest_passage.quest.difficulty}")
+          expect(page).to have_content("Difficulty: #{quest_passage.quest.difficulty}")
         end
       end
 
       context 'see anchor links' do
         scenario 'to lessons details' do
           within '#lesson-content-list' do
-            ['Ideas', 'Lesson summary', 'Check yourself'].each do |link|
-              expect(page).to have_content(link)
-            end
+            expect(page).to have_content('Ideas')
+            expect(page).to have_content('Lesson\'s summary')
+            expect(page).to have_content('Check yourself')
           end
         end
 
@@ -74,7 +74,7 @@ feature 'Show lesson_passage page', %q{
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit passage_path(lesson_passage)
+        visit passage_path(lesson_passage, locale: I18n.locale)
       end
 
       it 'see error' do
@@ -96,7 +96,7 @@ feature 'Show lesson_passage page', %q{
   end
 
   context 'when not authenticated user' do
-    before { visit passage_path(lesson_passage) }
+    before { visit passage_path(lesson_passage, locale: I18n.locale) }
 
     it 'see sign in page' do
       expect(page).to have_button('Log in')

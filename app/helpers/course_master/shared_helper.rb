@@ -4,7 +4,7 @@ module CourseMaster::SharedHelper
       concat(tag.h2 title, class: 'page-title')
     end
 
-    content_tag :div, class: 'row' do
+    content_tag :div, class: 'row mb-3' do
       concat(column_title)
     end
   end
@@ -15,8 +15,8 @@ module CourseMaster::SharedHelper
     model = [:course_master] + model
     yield_if_author(resource) do
       content_tag :span, class: 'remote-links small' do
-        concat(link_to 'Edit', edit_polymorphic_path(model))
-        concat(link_to 'Delete', polymorphic_path(model),
+        concat(link_to t('actions.edit'), edit_polymorphic_path(model))
+        concat(link_to t('actions.delete'), polymorphic_path(model),
                                  class: "destroy_#{underscored_klass(resource)} destroy",
                                  method: :delete,
                                  remote: true)

@@ -1,0 +1,6 @@
+en:
+  course_master:
+    lessons:
+      form:
+        will_opened_after_lesson: 'Will opened after lesson'
+        back_to_lessons: 'Back to lessons'

@@ -1,0 +1,7 @@
+ru:
+  administrator:
+    users:
+      users:
+        fullname: 'Имя'
+        email: 'Эл.почта'
+        role: 'Роль'

@@ -1,0 +1,5 @@
+en:
+  decorators:
+    lesson:
+      new_material: 'New material'
+      new_quest: 'New quest'

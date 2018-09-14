@@ -1,0 +1,6 @@
+en:
+  course_master:
+    quests:
+      quests:
+        title: 'Title'
+        difficulty: 'Difficulty'

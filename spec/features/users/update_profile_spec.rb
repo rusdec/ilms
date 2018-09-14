@@ -12,13 +12,11 @@ feature 'User update profile', %q{
     before { sign_in(user) }
 
     context 'and user visit own profile page' do
-      before { visit user_path(user) }
-
       context 'when data is valid' do
         given!(:attributes) { attributes_for(:user) }
 
         scenario 'can update profile', js: true do
-          expect(page).to have_content('My Profile')
+          expect(page).to have_content('Profile')
 
           fill_in 'Name', with: attributes[:name]
           fill_in 'Surname', with: attributes[:surname]
@@ -72,7 +70,7 @@ feature 'User update profile', %q{
 
     context 'and user visit foreign profile page' do
       given!(:other_user) { create(:user).decorate }
-      before { visit user_path(other_user) }
+      before { visit user_path(other_user, locale: I18n.locale) }
 
       scenario 'see user info' do
         expect(page).to have_content(other_user.initials, count: 1)

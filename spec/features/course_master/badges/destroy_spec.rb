@@ -16,7 +16,7 @@ feature 'Delete badge', %q{
 
     before do
       sign_in(course.author)
-      visit edit_course_master_course_path(course)
+      visit edit_course_master_course_path(course, locale: I18n.locale)
       click_on 'Badges'
     end
 

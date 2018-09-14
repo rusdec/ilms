@@ -7,6 +7,8 @@
     "user_id": {"type": "integer"},
     "published": {"type": "boolean"},
     "decoration_description": {"type": "string"},
+    "short_description": {"type": "string"},
+    "image": {"$ref": "../shared/image.json"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"}
   },
@@ -17,8 +19,10 @@
     "user_id",
     "published",
     "decoration_description",
+    "image",
+    "short_description",
     "created_at",
     "updated_at"
   ],
-  "maxProperties": 8
+  "maxProperties": 10
 }

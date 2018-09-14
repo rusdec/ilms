@@ -1,13 +1,13 @@
-table class='table card-table table-striped table-vcenter course-items'
+table.table.card-table.table-striped.table-vcenter.course-items
   thead
     tr.text-center
-      th Published
-      th.text-left Title
-      th Created at
-      th Actions
+      th= t('.published')
+      th.text-left= t('.title')
+      th= t('created_at')
+      th= t('actions.actions')
   tbody.small
     - courses.each do |course|
-      tr class='text-center course-item' data-id=course.id
+      tr.text-center.course-item data-id=course.id
         td= course.published_status_icon
         td.text-left= link_to course.title, edit_course_master_course_path(course)
         td= course.created_at

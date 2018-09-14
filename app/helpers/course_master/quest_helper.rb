@@ -14,7 +14,7 @@ module CourseMaster::QuestHelper
 
   def group_quests_to_links(group)
     if group.quests.empty?
-      ['none']
+      [t('helpers.quest.none')]
     else
       group.quests.map do |quest|
         link_to quest.title, course_master_quest_path(quest), target: '_blank' 

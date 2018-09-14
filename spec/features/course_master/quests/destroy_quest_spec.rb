@@ -12,7 +12,7 @@ feature 'Destory quest', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_lesson_path(quest.lesson)
+      visit edit_course_master_lesson_path(quest.lesson, locale: I18n.locale)
       click_on 'Quests'
     end
 

@@ -1,0 +1,7 @@
+en:
+  courses:
+    passages:
+      show:
+        lessons: 'Lessons'
+        common_progress: 'Common progress'
+        collected_badges: 'Collected badges'

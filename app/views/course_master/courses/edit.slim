@@ -1,4 +1,4 @@
-= page_title('Edit Course')
+= page_title(t('.edit_course'))
 
 .row
   .col
@@ -6,19 +6,19 @@
     ul#mainPageTab class='nav nav-tabs' role='tablist'
       li.nav-item
         a#course-tab class='nav-link active' data-toggle='tab' href='#course' role='tab' aria-controls='course' aria-selected='true'
-          | Course
+          = t('.course')
 
       li.nav-item
         a#lessons-tab class='nav-link' data-toggle='tab' href='#lessons' role='tab' aria-controls='lessons' aria-selected='false'
-          | Lessons
+          = "#{t('.lessons')} (#{@course.lessons.count})"
 
       li.nav-item
         a#badges-tab class='nav-link' data-toggle='tab' href='#badges' role='tab' aria-controls='badges' aria-selected='false'
-          | Badges
+          = "#{t('.badges')} (#{@course.badges.count})"
 
       li.nav-item
         a#statistics-tab class='nav-link' data-toggle='tab' href='#statistics' role='tab' aria-controls='statistics' aria-selected='false'
-          | Statistics
+          = t('.statistic')
 
 
     #mainPageTabContent class='tab-content mt-5'

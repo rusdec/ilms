@@ -1,0 +1,6 @@
+ru:
+  courses:
+    passages:
+      lesson_passages_list:
+        title: 'Название'
+        required_quests: 'Обяз. тестов'

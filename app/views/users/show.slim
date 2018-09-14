@@ -1,35 +1,20 @@
 .row
-  .col-lg-4
-    .card
-      .card-header
-        h3.card-title Courses
-      . class='card-body p-2'
-        canvas#profile-courses-count-chart
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.courses'), css: 'col-lg-4',
+                     canvas_id: 'profile-courses-count-chart' }
 
-  .col-lg-4
-    .card
-      .card-header
-        h3.card-title Lessons
-      . class='card-body p-2'
-        canvas#profile-lessons-count-chart
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.lessons'), css: 'col-lg-4',
+                     canvas_id: 'profile-lessons-count-chart' }
 
-  .col-lg-4
-    .card
-      .card-header
-        h3.card-title Quests
-      . class='card-body p-2'
-        canvas#profile-quests-count-chart
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.quests'), css: 'col-lg-4',
+                     canvas_id: 'profile-quests-count-chart' }
 
-  .col-lg-8
-    .card
-      .card-header
-        h3.card-title Top 3 knowledges
-      . class='card-body p-2'
-        canvas#profile-top-knowledges-chart
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.top_three_knowlegdes'), css: 'col-lg-8',
+                     canvas_id: 'profile-top-knowledges-chart' }
 
-  .col-lg-4
-    .card
-      .card-header
-        h3.card-title Badges
-      . class='card-body p-2'
-        canvas#profile-badges-count-chart
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.badges'), css: 'col-lg-4',
+                     canvas_id: 'profile-badges-count-chart' }

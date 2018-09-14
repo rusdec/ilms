@@ -24,7 +24,7 @@ RSpec.describe UserKnowledge, type: :model do
   it { should validate_numericality_of(:experience).is_greater_than_or_equal_to(0) }
 
   context '.add_experience!' do
-    let(:user_knowledge) { create(:user_knowledge, experience: 0) }
+    let(:user_knowledge) { create(:user_knowledge, experience: 0, level: 1) }
 
     it 'sums up current experience with given' do
       user_knowledge.update(level: 10)

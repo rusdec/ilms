@@ -14,6 +14,8 @@
       "items": {"$ref":"../knowledges/knowledge.json"}
     },
     "decoration_description": {"type": "string"},
+    "short_description": {"type": "string"},
+    "image": {"$ref": "../shared/image.json"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"}
   },
@@ -25,8 +27,10 @@
     "course_knowledges",
     "free_knowledges",
     "decoration_description",
+    "image",
+    "short_description",
     "created_at",
     "updated_at"
   ],
-  "maxProperties": 9
+  "maxProperties": 11
 }

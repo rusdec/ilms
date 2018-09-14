@@ -8,16 +8,16 @@ class CoursePassageDecorator < PassageDecorator
 
   def lessons_progress_card
     progress_card(
-      title: 'Lessons',
-      body: "#{passed_lesson_passages.count} from #{children.count}",
+      title: I18n.t('decorators.course_passage.lessons'),
+      body: I18n.t('a_from_b', a: passed_lesson_passages.count, b: children.count),
       percent: passed_lesson_passages_percent
     )
   end
 
   def quests_progress_card
     progress_card(
-      title: 'Quests',
-      body: "#{passed_quest_passages.count} from #{quest_passages.count}",
+      title: I18n.t('decorators.course_passage.quests'),
+      body: I18n.t('a_from_b', a: passed_quest_passages.count, b: quest_passages.count),
       percent: passed_quest_passages_percent
     )
   end

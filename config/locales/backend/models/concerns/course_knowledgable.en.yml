@@ -1,0 +1,4 @@
+en:
+  concerns:
+    course_knowledgable:
+      must_equal_100_percent: 'must equal 100% now %{percent}%'

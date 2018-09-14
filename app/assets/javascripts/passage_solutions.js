@@ -4,7 +4,11 @@ document.addEventListener('turbolinks:load', () => {
     if (form && !form.classList.contains('hidden')) {
       form.classList.add('hidden')
     }
-    form.parentNode.innerHTML = form.parentNode.innerHTML + wait_verification_card
+
+    form.parentNode.insertAdjacentHTML('afterbegin', Mustache.render(_wait_verification_card, {
+      title: translate('waiting_for_verification'),
+      body: form.querySelector('.ql-editor').innerHTML
+    }))
   }
 
   ['.new_passage_solution'].forEach((selector) => {

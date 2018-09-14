@@ -1,0 +1,5 @@
+ru:
+  decorators:
+    course_passage:
+      lessons: 'Уроки'
+      quests: 'Квесты'

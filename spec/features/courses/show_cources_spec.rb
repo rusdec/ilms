@@ -15,7 +15,7 @@ feature 'Show course', %q{
   
   before do
     sign_in(user)
-    visit course_path(course)
+    visit course_path(course, locale: I18n.locale)
   end
 
   scenario 'see details of course ' do

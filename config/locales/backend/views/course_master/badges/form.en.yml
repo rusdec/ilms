@@ -1,0 +1,6 @@
+en:
+  course_master:
+    badges:
+      form:
+        back_to_badges: 'Back to badges'
+        is_hidden: 'Hidden?'

@@ -1,7 +1,9 @@
 en:
-  header:
-    administration: 'Administration'
-    manage_courses: 'Manage courses'
-    courses: 'Courses'
-    profile: 'Profile'
-    sign_out: 'Sign out'
+  layouts:
+    header:
+      administration: 'Administration'
+      manage_courses: 'Manage courses'
+      all_courses: "All courses"
+      my_courses: 'Courses'
+      profile: 'Profile'
+      sign_out: 'Sign out'

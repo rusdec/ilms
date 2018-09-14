@@ -1,0 +1,17 @@
+ru:
+  activerecord:
+    models:
+      badge: 'Значок'
+    attributes:
+      badge:
+        title: 'Название'
+        description: 'Описание'
+        image: 'Изображение'
+        course: 'Курс'
+        hidden: 'Скрытый'
+
+  helpers:
+    submit:
+      badge:
+        update: 'Сохранить'
+        create: 'Создать'    

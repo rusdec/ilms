@@ -6,12 +6,12 @@ shared_examples_for 'badgable' do
 
   context 'when edites badgable' do
     before do
-      visit polymorphic_path([:edit, :course_master, badgable])
-      click_on 'Create Badge'
+      visit polymorphic_path([:edit, :course_master, badgable], locale: I18n.locale)
+      click_on 'New badge'
     end
 
     scenario 'see link to related badgable' do
-      expect(page).to have_link("Badges")
+      expect(page).to have_link("Back to badges")
     end
 
     context 'with valid data' do
@@ -21,22 +21,22 @@ shared_examples_for 'badgable' do
           fill_in 'Title', with: badge[:title]
           fill_editor 'Description', with: badge[:description]
           attach_file(badge[:image].path)
-          click_on 'Create Badge'
+          click_on 'Create'
         end
         Capybara.using_wait_time(5) do
           expect(page).to have_content('Success')
           expect(page).to_not have_link('Create Badge')
           expect(page).to have_link(badge[:title])
-          expect(page).to have_content('Awarded: 0')
+          expect(page).to have_content('Number of awarded: 0')
         end
       end
     end # context 'with valid data'
 
     context 'with invalid data' do
-      scenario 'can\'t create course', js: true do
+      scenario 'can\'t create badge', js: true do
         within 'form' do
           fill_in 'Title', with: ''
-          click_on 'Create Badge'
+          click_on 'Create'
         end
 
         Capybara.using_wait_time(5) do
@@ -54,7 +54,7 @@ shared_examples_for 'badgable' do
     end
 
     scenario 'no see Create Badge link' do
-      expect(page).to_not have_link('Create Badge')
+      expect(page).to_not have_link('New badge')
     end
   end # context 'whn creates badgable'
 end 

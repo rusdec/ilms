@@ -10,8 +10,12 @@ en:
         current_password: 'Current password'
         password_confirmation: 'Password confirmation'
         avatar: 'Avatar'
+        password: 'Password'
 
   helpers:
+    label:
+      user:
+        remember_me: 'Remember me'
     submit:
       user:
         update: 'Save'

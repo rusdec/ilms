@@ -23,7 +23,7 @@ feature 'User see courses', %q{
     end
 
     scenario 'see create your course link' do
-      expect(page).to have_link('Create your course')
+      expect(page).to have_link('Create Course')
     end
 
     it_behaves_like 'having_remote_links' do

@@ -1,16 +1,14 @@
 .row
   .col
     .card
-      .card-header
-        h3.card-title My Courses
       .card-body
-        table class='table table-hover table-outline table-vcenter text-nowrap card-table small'
+        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.small
           thead
             tr.text-center
-              th.text-left Status
-              th.text-left Title
-              th Progress
-              th Started at
+              th.text-left= t('statuses.status')
+              th.text-left= t('.title')
+              th= t('.progress')
+              th= t('.started_at')
           tbody
             - @passages.each do |passage|
               tr

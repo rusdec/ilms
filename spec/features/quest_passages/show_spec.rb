@@ -17,7 +17,7 @@ feature 'Show quest_passage page', %q{
     context 'when owner of course_passage' do
       before do
         sign_in(owner)
-        visit passage_path(passage)
+        visit passage_path(passage, locale: I18n.locale)
       end
 
       scenario 'see quest details' do
@@ -55,7 +55,7 @@ feature 'Show quest_passage page', %q{
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit passage_path(passage)
+        visit passage_path(passage, locale: I18n.locale)
       end
 
       scenario 'see error' do
@@ -72,7 +72,7 @@ feature 'Show quest_passage page', %q{
 
   context 'when not authenticated user' do
     before  do
-      visit passage_path(passage)
+      visit passage_path(passage, locale: I18n.locale)
     end
 
     scenario 'see sign in page' do

@@ -1,0 +1,6 @@
+ru:
+  course_master:
+    lessons:
+      form:
+        will_opened_after_lesson: 'Будет открыт после урока'
+        back_to_lessons: 'К списку уроков'

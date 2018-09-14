@@ -1,0 +1,21 @@
+ru:
+  activerecord:
+    models:
+      course: 'Курс'
+    attributes:
+      course:
+        published: 'Опубликовано'
+        title: 'Заголовок'
+        image: 'Изображение'
+        short_description: 'Краткое описание'
+        decoration_description: 'Описание декораций'
+        difficulty: 'Сложность'
+        badge: 'Значок'
+        knowledges: 'Знания'
+        total_percent: 'Общий процент'
+
+  helpers:
+    submit:
+      course:
+        update: 'Сохранить'
+        create: 'Создать'

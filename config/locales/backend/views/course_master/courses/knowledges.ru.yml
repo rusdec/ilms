@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    courses:
+      knowledges:
+        delete: 'Удал.'
+        knowledge: 'Знание'
+        exp: 'Опыт'

@@ -1,3 +1,5 @@
 en:
-  footer:
-    source_code: 'Source code'
+  layouts:
+    footer:
+      source_code: 'Source code'
+      language: 'Язык (language)'

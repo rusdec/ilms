@@ -1,7 +1,11 @@
 ru:
-  header:
-    administration: 'Администрирование'
-    manage_courses: 'Управление курсами'
-    courses: 'Курсы'
-    profile: 'Профиль'
-    sign_out: 'Выход'
+  layouts:
+    header:
+      administration: 'Администрирование'
+      manage_courses: 'Управление курсами'
+      all_courses: 'Все курсы'
+      my_courses: 'Мои курсы'
+      profile: 'Профиль'
+      sign_out: 'Выход'
+      sign_up: 'Регистрация'
+      sign_in: 'Вход'

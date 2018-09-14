@@ -1,9 +1,9 @@
 - @user.collected_course_badges_by_each_course.each do |collection|
   h4
     = collection[:course].title
-    span.small= " (#{collection[:badges].count} from #{collection[:course].badges.count})"
+    span.small= " (#{t('a_from_b', a: collection[:badges].count, b: collection[:course].badges.count)}) "
   - if collection[:badges].present?
     - collection[:badges].each do |badge|
       = badge.decorate.mini_card
   - else
-    h4.small Not badges yet
+    h4.small= t('.no_badges_yet')

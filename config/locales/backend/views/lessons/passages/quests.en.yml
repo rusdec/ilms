@@ -1,0 +1,8 @@
+en:
+  lessons:
+    passages:
+      quests:
+        required: 'Required'
+        required_one: 'Required one'
+        go: 'Go!'
+        quests: 'Quests'

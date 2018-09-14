@@ -18,20 +18,7 @@ feature 'Course passage page', %q{
     context 'when owner of course_passage' do
       before do
         sign_in(user)
-        visit passage_path(course_passage)
-      end
-
-      scenario 'see common progress' do
-        expect(page).to have_content('Common progress')
-        within '.row-common-progress' do
-          expect(page).to have_content('0 from 2')
-          expect(page).to have_content('0 from 6')
-          expect(page).to have_content('0 from 0', count: 2)
-          expect(page).to have_content('Hidden Badges')
-          expect(page).to have_content('Badges')
-          expect(page).to have_content('Lessons')
-          expect(page).to have_content('Quests')
-        end 
+        visit passage_path(course_passage, locale: I18n.locale)
       end
 
       scenario 'see list of lesson passages' do
@@ -39,7 +26,7 @@ feature 'Course passage page', %q{
         within '.row-lessons' do
           passages.each do |passage|
             expect(page).to have_content(passage.passable.title)
-            expect(page).to have_content(passage.status.name)
+            expect(page).to have_content('In progress')
             expect(page).to have_content(passage.td_required_quests)
           end
         end
@@ -56,7 +43,7 @@ feature 'Course passage page', %q{
       end
 
       context 'Tab Statistics' do
-        before { click_on 'Statistics' }
+        before { click_on 'Statistic' }
 
         scenario 'see collected badges' do
           create(:badge, badgable: course, course: course, author: course.author)
@@ -67,17 +54,31 @@ feature 'Course passage page', %q{
           within '.row-collected-badges' do
             course.badges.each do |badge|
               expect(page).to have_content(badge.title)
-              expect(page).to have_content("Awarded: #{badge.rewarders.count}")
+              expect(page).to have_content("Number of awarded: #{badge.rewarders.count}")
             end
           end
         end
+
+        scenario 'see common progress' do
+          expect(page).to have_content('Common progress')
+          within '.row-common-progress' do
+            expect(page).to have_content('0 from 2')
+            expect(page).to have_content('0 from 6')
+            expect(page).to have_content('0 from 0', count: 2)
+            expect(page).to have_content('Hidden badges')
+            expect(page).to have_content('Badges')
+            expect(page).to have_content('Lessons')
+            expect(page).to have_content('Quests')
+          end 
+        end
+
       end # context 'Tab Statistics' do
     end # context 'when owner of course_passage' 
 
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit passage_path(course_passage)
+        visit passage_path(course_passage, locale: I18n.locale)
       end
 
       scenario 'no see lessons and see error' do
@@ -90,7 +91,7 @@ feature 'Course passage page', %q{
   end
 
   context 'when not authenticated user' do
-    before { visit passage_path(course_passage) }
+    before { visit passage_path(course_passage, locale: I18n.locale) }
 
     scenario 'see sign in page' do
       expect(page).to have_content('You need to sign in or sign up before continuing')

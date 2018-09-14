@@ -10,7 +10,7 @@ feature 'Create course', %q{
   before do
     sign_in(create(:course_master))
     visit course_master_courses_path
-    click_on 'Create your course'
+    click_on 'Create Course'
   end
 
   context 'with valid data' do
@@ -18,6 +18,7 @@ feature 'Create course', %q{
       course = attributes_for(:course)
       within 'form' do
         fill_in 'Title', with: course[:title]
+        fill_in 'Short description', with: 'NewValidShortDescription'
         fill_editor 'Decoration description', with: course[:decoration_description]
         select_knowledge(knowledge.name)
         set_percent_for_knowledge(knowledge.name, 100)
@@ -26,13 +27,13 @@ feature 'Create course', %q{
       end
 
       expect(page).to have_content('Success')
-      expect(page).to have_content('Edit Course')
-      expect(page).to have_link('Create Badge')
+      expect(page).to have_content('Edit course')
+      expect(page).to have_link('New badge')
     end
   end
 
   scenario 'see course properties' do
-    ['Title', 'Decoration description',
+    ['Title', 'Decoration description', 'Image',
      'Difficulty', 'Published', 'Knowledges'].each do |property|
       expect(page).to have_content(property)
     end
@@ -40,7 +41,7 @@ feature 'Create course', %q{
 
   scenario 'can\'t create badge' do
     expect(page).to_not have_content('Badge')
-    expect(page).to_not have_link('Create Badge')
+    expect(page).to_not have_link('New Badge')
   end
 
   context 'with invalid data' do

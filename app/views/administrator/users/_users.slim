@@ -1,11 +1,11 @@
 table class='table table-striped user-items table-vcenter small'
   thead
     .tr
-      th Fullname
-      th Email
-      th Role
-      th Created at
-      th Updated at
+      th= t('.fullname')
+      th= t('.email')
+      th= t('.role')
+      th.text-center= t('created_at')
+      th.text-center= t('updated_at')
 
   tbody
     - @users.each do |user|
@@ -13,5 +13,5 @@ table class='table table-striped user-items table-vcenter small'
         td.full_name= link_to user.full_name, administrator_user_path(user)
         td.email= user.email
         td.role= editable_role(user)
-        td class='text-center created_at'= user.created_at
-        td class='text-center updated_at'= user.updated_at
+        td.text-center.created_at= user.created_at
+        td.text-center.updated_at= user.updated_at

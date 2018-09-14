@@ -1,0 +1,17 @@
+en:
+  activerecord:
+    models:
+      badge: 'Badge'
+    attributes:
+      badge:
+        title: 'Title'
+        description: 'Description'
+        image: 'Image'
+        course: 'Course'
+        hidden: 'Hidden'
+
+  helpers:
+    submit:
+      badge:
+        update: 'Save'
+        create: 'Create'

@@ -1,0 +1,9 @@
+en:
+  course_master:
+    courses:
+      edit:
+        edit_course: 'Edit course'
+        course: 'Course'
+        lessons: 'Lessons'
+        badges: 'Badges'
+        statistic: 'Statistic'

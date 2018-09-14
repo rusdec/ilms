@@ -13,7 +13,7 @@ feature 'Select course knowledges', %q{
   before do
     sign_in(create(:course_master))
     visit course_master_courses_path
-    click_on 'Create your course'
+    click_on 'Create Course'
     within 'form' do
       fill_in 'Title', with: course[:title]
       fill_editor 'Decoration description', with: course[:decoration_description]
@@ -194,7 +194,7 @@ feature 'Select course knowledges', %q{
       set_percent_for_knowledge(knowledge_one.name, 50)
       select_knowledge(knowledge_two.name)
       set_percent_for_knowledge(knowledge_two.name, 50, 1)
-      click_on 'Create Course'
+      click_on 'Create'
     end
 
     context 'when total percent is 100' do
@@ -211,7 +211,7 @@ feature 'Select course knowledges', %q{
         
         mark_for_delete(knowledge_one.name, 0)
         set_percent_for_knowledge(knowledge_two.name, 100, 1)
-        click_on 'Update Course'
+        click_on 'Save'
 
         within selected_knowledges do
           expect(page).to_not have_content(knowledge_one.name.capitalize)
@@ -228,7 +228,7 @@ feature 'Select course knowledges', %q{
     context 'when total percent is less than 100' do
       scenario 'can\'t delete knowledge from course', js: true do
         mark_for_delete(knowledge_one.name, 0)
-        click_on 'Update Course'
+        click_on 'Save'
 
         expect(page).to have_content('Percent of course knowledges must be 100% now 50%')
 

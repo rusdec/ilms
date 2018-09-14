@@ -1,0 +1,7 @@
+ru:
+  courses:
+    passages:
+      show:
+        lessons: 'Уроки'
+        common_progress: 'Общий прогресс'
+        collected_badges: 'Собранные значки'

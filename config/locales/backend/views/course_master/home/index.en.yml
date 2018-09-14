@@ -1,0 +1,9 @@
+en:
+  course_master:
+    home:
+      index:
+        manage_courses: 'Manage courses'
+        courses: 'Courses'
+        total_count: 'Total: %{count}'
+        quests_solutions: "Quest's solutions"
+        unverified_count: 'Unverified: %{count}'

@@ -16,7 +16,7 @@ feature 'Edit badge', %q{
   context 'when author' do
     before do
       sign_in(course.author)
-      visit edit_course_master_course_path(course)
+      visit edit_course_master_course_path(course, locale: I18n.locale)
       click_on 'Badges'
       within ".badge-item[data-id='#{badge.id}']" do
         click_on 'Edit'
@@ -24,8 +24,8 @@ feature 'Edit badge', %q{
     end
 
     scenario 'can back to badges' do
-      click_on 'Badges'
-      expect(page).to have_content('Edit Course')
+      click_on 'Back to badges'
+      expect(page).to have_content('Edit course')
       course.badges.each do |badge|
         expect(page).to have_content(badge.title)
       end
@@ -39,7 +39,7 @@ feature 'Edit badge', %q{
           fill_in 'Title', with: attributes[:title]
           fill_editor 'Description', with: attributes[:description]
           attach_file(badge.image.path)
-          click_on 'Update Badge'
+          click_on 'Save'
         end
 
         expect(page).to have_content('Success')
@@ -49,13 +49,11 @@ feature 'Edit badge', %q{
       scenario 'can\'t update badge', js: true do
         within 'form' do
           fill_in 'Title', with: ''
-          click_on 'Update'
+          click_on 'Save'
         end
 
-        [
-          'Title can\'t be blank',
-          'Title is too short',
-        ].each { |error| expect(page).to have_content(error) }
+        expect(page).to have_content('Title can\'t be blank')
+        expect(page).to have_content('Title is too short')
       end
     end
   end # context 'when author'
@@ -63,7 +61,7 @@ feature 'Edit badge', %q{
   context 'when not author' do
     before do
       sign_in(create(:course_master))
-      visit edit_course_master_badge_path(badge)
+      visit edit_course_master_badge_path(badge, locale: I18n.locale)
     end
 
     scenario 'see error' do

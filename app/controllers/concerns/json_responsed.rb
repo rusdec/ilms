@@ -36,7 +36,7 @@ module JsonResponsed
     end
 
     def json_response_you_can_not_do_it
-      json_response_error(['Access denied'])
+      json_response_error([I18n.t('access_denied')])
     end
 
     def with_location(params)
@@ -105,7 +105,7 @@ module JsonResponsed
     end
 
     def success_message
-      'Success'
+      I18n.t('success')
     end
 
     protected

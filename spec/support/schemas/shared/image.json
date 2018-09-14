@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "original": {"type": ["string", "null"]},
+    "preview": {"type": ["string", "null"]}
+  },
+  "required": ["original", "preview"],
+  "maxProperties": 2
+}

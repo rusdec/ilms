@@ -1,11 +1,12 @@
 class CourseDecorator < Draper::Decorator
-  include PassableDecorator
+  include HasPassage
   include HasDate
-  include BadgableDecorator
+  include HasBadge
   include HasHtmlAttributes
   include HasTextPreview
   include HasRemoteLinks
   include HasDifficulty
+  include HasImage
 
   delegate_all
   decorates_association :author
@@ -18,13 +19,13 @@ class CourseDecorator < Draper::Decorator
   text_preview :title
 
   def button_new_lesson
-    h.link_to 'New Lesson',
-              h.new_course_master_course_lesson_path(object),
+    h.link_to I18n.t('decorator.course.new_lesson'),
+      h.new_course_master_course_lesson_path(object, locale: I18n.locale),
               class: 'btn btn-primary'
   end
 
   def button_new_passaged_badge
-    h.link_to 'New Passaged Badge',
+    h.link_to I18n.t('decorator.course.new_badge'),
               h.new_course_master_course_passaged_badge_path(object),
               class: 'btn btn-primary'
   end

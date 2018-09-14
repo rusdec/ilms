@@ -12,7 +12,7 @@ feature 'Author of lesson update material', %q{
   context 'when author of lesson' do
     before do
       sign_in(author)
-      visit edit_course_master_lesson_path(lesson)
+      visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
       click_on 'Materials'
       within ".material-item[data-id='#{material.id}']" do
         click_on 'Edit'
@@ -20,8 +20,8 @@ feature 'Author of lesson update material', %q{
     end
 
     scenario 'can back to materials' do
-      click_on 'Materials'
-      expect(page).to have_content('Edit Lesson')
+      click_on 'Back to materials'
+      expect(page).to have_content('Edit lesson')
       lesson.materials.each do |material|
         expect(page).to have_content(material.title)
       end
@@ -33,7 +33,7 @@ feature 'Author of lesson update material', %q{
       scenario 'can update material', js: true do
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]
-        click_on 'Update Material'
+        click_on 'Save'
 
         expect(page).to have_content('Success')
       end
@@ -44,7 +44,7 @@ feature 'Author of lesson update material', %q{
         fill_in 'Title', with: nil
         fill_editor 'Body', with: nil
         fill_in 'Order', with: nil
-        click_on 'Update Material'
+        click_on 'Save'
 
 
         Capybara.using_wait_time(5) do
@@ -62,12 +62,12 @@ feature 'Author of lesson update material', %q{
   context 'when not author of lesson' do
     before do
       sign_in(create(:course_master))
-      visit edit_course_master_material_path(material)
+      visit edit_course_master_material_path(material, locale: I18n.locale)
     end
 
     scenario 'redirect to root' do
       expect(page).to have_content('Access denied')
-      expect(page).to_not have_content('Update Lesson')
+      expect(page).to_not have_link('Save')
     end
   end
 end

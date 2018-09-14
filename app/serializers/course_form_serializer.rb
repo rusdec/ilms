@@ -1,6 +1,6 @@
 class CourseFormSerializer < ActiveModel::Serializer
   attributes :id, :title, :difficulty, :published,
-             :decoration_description,
+             :decoration_description, :image, :short_description,
              :created_at, :updated_at, :free_knowledges
 
   has_many :course_knowledges do
@@ -13,5 +13,10 @@ class CourseFormSerializer < ActiveModel::Serializer
     object.free_knowledges.map do |free_knowledge|
       KnowledgeSerializer.new(free_knowledge)
     end
+  end
+
+  def image
+    { original: object.image.present? ? object.image.url : nil,
+      preview:  object.image.present? ? object.image.preview.url : nil }
   end
 end

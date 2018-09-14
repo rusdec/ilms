@@ -1,0 +1,4 @@
+en:
+  decorators:
+    has_badge:
+      new_badge: 'New badge'

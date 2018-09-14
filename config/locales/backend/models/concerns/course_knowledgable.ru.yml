@@ -1,0 +1,4 @@
+ru:
+  concerns:
+    course_knowledgable:
+      must_equal_100_percent: 'должен быть ровно 100% сейчас %{percent}%'

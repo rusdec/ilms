@@ -13,6 +13,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   def create
     @course = current_user.courses.create(course_params)
     json_response_by_result(with_location: :edit_course_master_course_url,
+                            without_object: true,
                             with_flash: true)
   end
 
@@ -26,7 +27,7 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def destroy
     @course.destroy
-    json_response_by_result
+    json_response_by_result(with_serializer: CourseSerializer)
   end
 
   def update
@@ -46,8 +47,8 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
 
   def course_params
     params.require(:course).permit(
-      :title, :decoration_description,
-      :difficulty, :published,
+      :title, :decoration_description, :published,
+      :difficulty, :short_description, :image, :remove_image,
       course_knowledges_attributes: [:id, :knowledge_id,
                                      :_destroy, :percent,
                                      knowledge_attributes: [:name,

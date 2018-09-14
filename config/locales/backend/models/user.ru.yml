@@ -10,8 +10,12 @@ ru:
         current_password: 'Текущий пароль'
         password_confirmation: 'Подтверждение пароля'
         avatar: 'Аватарка'
+        password: 'Пароль'
 
   helpers:
+    label:
+      user:
+        remember_me: 'Запомнить меня'
     submit:
       user:
         update: 'Сохранить'

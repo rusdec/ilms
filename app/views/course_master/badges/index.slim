@@ -1,17 +1,15 @@
-.row
-  . class='col text-center mb-2'
-    h2.page-title= 'Badges'
+= page_title(t('.badges'))
 
 .row
   .col
     .card
-      table class="table card-table table-striped table-vcenter"
+      table.table.card-table.table-striped.table-vcenter
         thead
           tr
-            th= 'Image'
-            th= 'Title'
-            th= 'Created at'
-            th= 'Actions'
+            th= t('.image')
+            th= t('.title')
+            th= t('created_at')
+            th= t('actions.actions')
         tbody
           - @badges.each do |badge|
             tr

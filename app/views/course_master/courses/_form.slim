@@ -5,9 +5,27 @@
 
   .form-group
     = f.label :title
-    = f.text_field :title, autocomplete: 'title',
-                           placeholder: 'Title',
+    = f.text_field :title, autocomplete: 'title', class: 'form-control small'
+
+  .form-group
+    = f.label :short_description
+    = f.text_area :short_description, autocomplete: 'short_description',
                            class: 'form-control small'
+
+  .form-group
+    = f.label :image
+    br
+    - if @course.image.present?
+      = @course.image_preview(class: 'img-preview mr-2', name: 'course_image')
+    - else
+      = image_tag '', name: 'course_image', class: 'hidden'
+
+    . class='custom-file col-3'
+      = f.file_field :image, class: 'custom-file-input'
+      = f.label :image, class: 'custom-file-label small'
+    . class="remove-image form-group #{@course.image.present? ? '' : 'hidden'}"
+      = f.check_box :remove_image, class: 'mr-1'
+      span.small= t('.remove_image')
 
   .form-group
     = editor_text_area(form: f, name: :decoration_description)
@@ -16,8 +34,8 @@
     = f.label :difficulty
     = f.object.difficulty_selector(f)
 
-  - if @course.persisted?
-    .form-group
+  .form-group
+    - if @course.persisted?
       = f.label :badge
       br
       = @course.link_to_edit_badge
@@ -35,4 +53,4 @@
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to 'Courses', course_master_courses_path, class: 'btn btn-secondary'
+    = link_to t('.back_to_courses'), course_master_courses_path, class: 'btn btn-secondary'

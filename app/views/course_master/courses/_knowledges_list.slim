@@ -1,7 +1,7 @@
 .input-group
-  = tag.input type: 'text', class: 'form-control', id: 'new-knowledge', placeholder: 'New knowledge', data: { id: nil, name: '' }, style: 'padding: 0.40rem 1.25rem;'
+  input#new-knowledge type='text' class='form-control' placeholder="#{t('.new_knowledge')}" data-id='' data-name='' style='padding: 0.40rem 1.25rem;'
   span.input-group-append
-    button class='btn btn-secondary text-muted bg-white border-left-0' type='button' id='move-to-knowledge-directions' style='padding: 0.40rem 1.25rem;'
+    button.btn.btn-secondary.text-muted.bg-white.border-left-0 type='button' id='move-to-knowledge-directions' style='padding: 0.40rem 1.25rem'
       = icon('fas', 'chevron-circle-right')
 ul.list-group id='knowledge-items' style='max-height: 190px; overflow: scroll;'
   - course.object.free_knowledges.each do |knowledge|

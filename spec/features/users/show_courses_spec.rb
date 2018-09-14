@@ -16,7 +16,6 @@ feature 'Show user knowledges', %q{
     before { sign_in(user) }
     context 'and user visit own profile page' do
       before do
-        visit user_path(user)
         click_on 'My Courses'
       end
       
@@ -24,7 +23,7 @@ feature 'Show user knowledges', %q{
         passage = CoursePassageDecorator.decorate(user.passages.first)
         expect(page).to have_content("#{passage.passed_lesson_passages_percent}%")
         expect(page).to have_content(passage.created_at)
-        expect(page).to have_content(passage.status.name)
+        expect(page).to have_content('In progress')
       end
 
       scenario 'see own course passages' do
@@ -35,8 +34,11 @@ feature 'Show user knowledges', %q{
     end # context 'and user visit own profile page'
 
     context 'and user visit foreign profile page' do
-      before { visit user_path(create(:user)) }
-      expect(page).to_not have_link('My Courses')
+      before { visit user_path(create(:user), locale: I18n.locale) }
+
+      scenario 'user see My Courses link' do
+        expect(page).to_not have_link('My Courses')
+      end
     end # context 'and user visit foreign profile page'
   end
 

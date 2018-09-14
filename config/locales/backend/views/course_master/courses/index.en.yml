@@ -1,0 +1,6 @@
+en:
+  course_master:
+    courses:
+      index:
+        courses: 'Courses'
+        create_course: 'Create Course'

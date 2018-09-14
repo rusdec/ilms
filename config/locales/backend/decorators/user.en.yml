@@ -1,0 +1,5 @@
+en:
+  decorators:
+    user:
+      hidden_badges: 'Hidden badges'
+      badges: 'Badges'

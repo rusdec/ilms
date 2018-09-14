@@ -1,14 +1,14 @@
-table class="table card-table table-striped table-vcenter material-items"
+table.table.card-table.table-striped.table-vcenter.material-items
   thead
     tr
-      th= 'Order'
-      th= 'Title'
-      th= 'Created at'
-      th= 'Actions'
+      th.text-center= t('.order')
+      th= t('.title')
+      th= t('created_at')
+      th.text-center= t('actions.actions')
   tbody.small
     - materials.each do |material|
       tr.material-item data-id=material.id
-        td= material.order
+        td.text-center= material.order
         td= material.title
         td= material.created_at
-        td= material.remote_links
+        td.text-center= material.remote_links

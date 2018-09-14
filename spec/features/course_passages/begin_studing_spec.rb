@@ -14,7 +14,7 @@ feature 'Start learning', %q{
     before { sign_in(user) }
     
     context 'when not in the process of studying the course' do
-      before { visit course_path(course) }
+      before { visit course_path(course, locale: I18n.locale) }
 
       scenario 'see Learn now! link' do
         expect(page).to have_button('Learn now!')
@@ -35,7 +35,7 @@ feature 'Start learning', %q{
     context 'when in the process of studying the course' do
       before do
         create(:passage, user: user, passable: course)
-        visit course_path(course)
+        visit course_path(course, locale: I18n.locale)
       end
 
       scenario 'no see Learn now! button' do
@@ -49,7 +49,7 @@ feature 'Start learning', %q{
   end
 
   context 'when not authenticated user' do
-    before { visit course_path(course) }
+    before { visit course_path(course, locale: I18n.locale) }
 
     scenario 'can\'t see Learn_now! button' do
       expect(page).to_not have_button('Learn now!')

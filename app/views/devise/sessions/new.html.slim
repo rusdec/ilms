@@ -1,6 +1,6 @@
-. class='row justify-content-center'
-  . class='col text-center'
-    h2= 'Sign in'
+.row.justify-content-center
+  .col.text-center
+    h2= t('.sign_in')
 
 . class='row justify-content-center'
   . class='col col-4'
@@ -8,12 +8,12 @@
       .form-group
         = f.email_field :email, autocomplete: 'off',
                                 autofocus: true,
-                                placeholder: 'Email',
+                                placeholder: t('.email'),
                                 class: 'form-control small'
 
       .form-group
         = f.password_field :password, autocomplete: 'off',
-                                      placeholder: 'Password',
+                                      placeholder: t('.password'),
                                       class: 'form-control small'
 
         - if devise_mapping.rememberable?
@@ -22,9 +22,4 @@
             = f.label :remember_me, class: 'ml-2 small'
 
       . class='form-group text-center'
-        = f.submit 'Log in', class: 'btn btn-primary'
-
-
-. class='row justify-content-center small'
-  . class='col col-4'
-    = render "devise/shared/links"
+        = f.submit t('.log_in'), class: 'btn btn-primary'

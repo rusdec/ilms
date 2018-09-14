@@ -1,0 +1,6 @@
+ru:
+  course_master:
+    quests:
+      form:
+        alternative_quest_for: 'Альтернативный квест для квестов'
+        back_to_quests: 'К списку квестов'

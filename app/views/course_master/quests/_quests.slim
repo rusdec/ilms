@@ -1,14 +1,14 @@
 table class="table card-table table-striped table-vcenter quest-items"
   thead
     tr
-      th= 'Title'
-      th= 'Difficulty'
-      th= 'Created at'
-      th= 'Actions'
+      th.text-center= t('.difficulty')
+      th= t('.title')
+      th= t('created_at')
+      th.text-center= t('actions.actions')
   tbody.small
     - quests.each do |quest|
       tr.quest-item data-id=quest.id
+        td.text-center= quest.difficulty
         td= quest.title
-        td= quest.difficulty
         td= quest.created_at
-        td= quest.remote_links
+        td.text-center= quest.remote_links

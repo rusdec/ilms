@@ -7,6 +7,8 @@ feature 'Create badge', %q{
 } do
   it_behaves_like 'badgable' do
     given(:badgable) { create(:quest) }
-    given(:new_badgable_path) { new_course_master_lesson_quest_path(badgable.lesson) }
+    given(:new_badgable_path) do
+      new_course_master_lesson_quest_path(badgable.lesson, locale: I18n.locale)
+    end
   end
 end

@@ -1,0 +1,5 @@
+ru:
+  roles:
+    user: 'Пользователь'
+    course_master: 'Мастер курса'
+    administrator: 'Администратор'

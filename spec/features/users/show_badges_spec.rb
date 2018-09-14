@@ -19,7 +19,6 @@ feature 'Show user', %q{
     context 'and authenticated user open own user page' do
       before do
         sign_in(user)
-        visit user_path(user)
         click_on 'Badges'
       end
 
@@ -34,7 +33,7 @@ feature 'Show user', %q{
       scenario 'see courses badges' do
         user.badges.each do |badge|
           expect(page).to have_content(badge.title)
-          expect(page).to have_content("Awarded: #{badge.rewarders.count}")
+          expect(page).to have_content("Number of awarded: #{badge.rewarders.count}")
         end
       end # scenario 'see courses badges'
     end # scenario 'and authenticated user open own user page'

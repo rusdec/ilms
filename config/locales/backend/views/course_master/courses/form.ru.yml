@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    courses:
+      form:
+        back_to_courses: 'К списку курсов'
+        create_badge: 'Создать Значок'
+        remove_image: 'Удалить изображение'

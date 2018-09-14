@@ -9,7 +9,7 @@ feature 'Show user', %q{
   given(:user) { UserDecorator.decorate(create(:user)) }
   before do
     sign_in(create(:administrator))
-    visit administrator_user_path(user)
+    visit administrator_user_path(user, locale: I18n.locale)
   end
 
   context 'when administrator' do

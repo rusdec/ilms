@@ -12,7 +12,7 @@ feature 'Author destory material', %q{
   context 'when author' do
     before do
       sign_in(author)
-      visit edit_course_master_lesson_path(material.lesson)
+      visit edit_course_master_lesson_path(material.lesson, locale: I18n.locale)
       click_on('Materials')
     end
 

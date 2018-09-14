@@ -1,0 +1,5 @@
+ru:
+  decorators:
+    lesson:
+      new_material: 'Новый материал'
+      new_quest: 'Новый квест'

@@ -1,16 +1,16 @@
-. class='col-lg-3 order-lg-1 mb-4'
+.col-lg-3.order-lg-1.mb-4
   #lesson-content-list class='list-group list-group-transparent mb-0 small'
     - unless lesson.ideas_html_empty?
-      = lesson_sidebar_link(text: 'Ideas', path: '#ideas')
+      = lesson_sidebar_link(text: t('.ideas'), path: '#ideas')
       
     - lesson.materials.each do |material|
       = lesson_sidebar_link(text: material.title, path: "#material-#{material.id}")
 
     - unless lesson.summary_html_empty?
-      = lesson_sidebar_link(text: 'Lesson summary', path: '#summary')
+      = lesson_sidebar_link(text: t('.lessons_summary'), path: '#summary')
     - unless lesson.check_yourself_html_empty?
-      = lesson_sidebar_link(text: 'Check yourself', path: '#check-yourself')
+      = lesson_sidebar_link(text: t('.check_yourself'), path: '#check-yourself')
 
     - if back_path
-      . class='d-none d-lg-block mt-6'
-        = link_to "Back", back_path, class: 'list-group-item list-group-item-action text-muted'
+      .d-none.d-lg-block.mt-6
+        = link_to t('back'), back_path, class: 'list-group-item list-group-item-action text-muted'

@@ -1,0 +1,5 @@
+ru:
+  decorator:
+    course:
+      new_lesson: 'Новый урок'
+      new_badge: 'Новый значок'

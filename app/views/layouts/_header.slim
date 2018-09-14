@@ -1,21 +1,51 @@
-. class='header collapse d-lg-flex p-0' id='headerMenuCollapse'
+.header.py-4.top_header
   .container
-    . class='row align-items-center'
-      . class='col-lg-3 ml-auto'
-        ul class='nav nav-tabs border-0 flex-column flex-lg-row'
-          = authentication_links(current_user)
+    .d-flex
+      = link_to 'ИграйУчи', '/', class: 'header-brand'
+      .d-flex.order-lg-2.ml-auto
+        .dropdown
+          - if current_user
+            a.nav-link.pr-0.leading-none href='#' data-toggle='dropdown'
+              span.avatar style="background-image: url(#{current_user.avatar.preview.url})"
+              span.ml-2.d-none.d-lg-block
+                span.text-default
+                  = current_user.decorate.full_name
+                small.text-muted.d-block.mt-1
+                  = t("roles.#{current_user.type.underscore}")
+
+            .dropdown-menu.dropdown-menu-right.dropdown-menu-arrow.small
+
+              a.dropdown-item href="#{user_path(current_user)}"
+                = icon('fas', 'user-edit', { class: 'dropdown-icon' })
+                = t('.profile')
+
+              a.dropdown-item href="#{courses_user_path(current_user)}"
+                = icon('fas', 'user-graduate', { class: 'dropdown-icon' })
+                = t('.my_courses')
+
+              a.dropdown-item href="#{destroy_user_session_path}" data-method='delete'
+                = icon('fas', 'sign-out-alt', { class: 'dropdown-icon' })
+                = t('.sign_out')
+
+      a.header-toggler.d-lg-none.ml-3.ml-lg-0 href='#' data-toggle='collapse' data-target='#headerMenuCollapse'
+        span.header-toggler-icon
+
+#headerMenuCollapse class='header collapse d-lg-flex p-0'
+  .container
+    .row.align-items-center
+      - if !current_user
+        .col-lg-3.ml-auto
+          ul.nav.nav-tabs.border-0.flex-column.flex-lg-row
+            = navbar_link(title: t('.sign_up'), path: new_user_registration_path)
+            = navbar_link(title: t('.sign_in'), path: new_user_session_path)
+          
         
-      . class='col-lg order-lg-first'
-        ul class='nav nav-tabs border-0 flex-column flex-lg-row'
-          li.nav-item
-            = link_to 'iLMS', '/', class: 'header-brand'
+      .col-lg.order-lg-first
+        ul.nav.nav-tabs.border-0.flex-column.flex-lg-row
           - if can? :admin_panel, current_user
-            = navbar_link(title: 'Administration', path: administrator_path)
+            = navbar_link(title: t('.administration'), path: administrator_path)
           
           - if can? :manage_courses, current_user
-            = navbar_link(title: 'Manage courses', path: course_master_path)
+            = navbar_link(title: t('.manage_courses'), path: course_master_path)
           
-          = navbar_link(title: 'Courses', path: courses_path)
-          
-          - if current_user
-            = navbar_link(title: 'Profile', path: user_path(current_user))
+          = navbar_link(title: t('.all_courses'), path: courses_path)

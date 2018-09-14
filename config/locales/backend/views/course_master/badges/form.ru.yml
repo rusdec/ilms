@@ -1,0 +1,6 @@
+ru:
+  course_master:
+    badges:
+      form:
+        back_to_badges: 'К списку значков'
+        is_hidden: 'Скрытый?'

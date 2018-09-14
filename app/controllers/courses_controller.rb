@@ -2,7 +2,9 @@ class CoursesController < ApplicationController
   include Passaged
 
   def index
-    @courses = CourseDecorator.decorate_collection(Course.all_published)
+    @courses = CourseDecorator.decorate_collection(
+      Course.all_published.order(:title).page params[:page]
+    )
   end
 
   def show

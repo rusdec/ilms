@@ -1,0 +1,6 @@
+en:
+  administrator:
+    home:
+      index:
+        administration: 'Administration'
+        users: 'Users'

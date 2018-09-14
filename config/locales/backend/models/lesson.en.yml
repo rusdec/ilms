@@ -1,0 +1,19 @@
+en:
+  activerecord:
+    model:
+      lesson: 'Lesson'
+    attributes:
+      title: 'Title'
+      ideas: 'Ideas'
+      summary: 'Summary'
+      check_yourself: 'Check yourself'
+      parent: 'Opening lesson'
+      author: 'Author'
+      difficulty: 'Difficulty'
+      course: 'Course'
+
+  helpers:
+    submit:
+      lesson:
+        update: 'Save'
+        create: 'Create'

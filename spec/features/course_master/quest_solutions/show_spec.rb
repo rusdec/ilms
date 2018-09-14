@@ -21,32 +21,32 @@ feature 'Show quest solutions', %q{
       end
 
       context 'when not verified' do
-        before { click_on 'verify' }
+        before { click_on 'Verify' }
 
         scenario 'can accept quest solution', js: true do
-          expect(page).to_not have_content('Solution (accepted)')
-          expect(page).to have_content('Solution (unverified)')
+          expect(page).to_not have_content('Solution (Accepted)')
+          expect(page).to have_content('Solution (Unverified)')
 
           click_on 'Accept'
           page.driver.browser.switch_to.alert.accept
 
           expect(page).to have_content('Success')
-          expect(page).to have_content('Solution (accepted)')
-          expect(page).to_not have_content('Solution (unverified)')
+          expect(page).to have_content('Solution (Accepted)')
+          expect(page).to_not have_content('Solution (Unverified)')
           expect(page).to_not have_button('Accept')
           expect(page).to_not have_button('Decline')
         end
 
         scenario 'can decline quest solution', js: true do
-          expect(page).to_not have_content('Solution (declined)')
-          expect(page).to have_content('Solution (unverified)')
+          expect(page).to_not have_content('Solution (Declined)')
+          expect(page).to have_content('Solution (Unverified)')
 
           click_on 'Decline'
           page.driver.browser.switch_to.alert.accept
 
           expect(page).to have_content('Success')
-          expect(page).to have_content('Solution (declined)')
-          expect(page).to_not have_content('Solution (unverified)')
+          expect(page).to have_content('Solution (Declined)')
+          expect(page).to_not have_content('Solution (Unverified)')
           expect(page).to_not have_button('Accept')
           expect(page).to_not have_button('Decline')
         end
@@ -63,7 +63,7 @@ feature 'Show quest solutions', %q{
       context 'when verified' do
         before do
           quest_solution.accepted!
-          click_on 'verify'
+          click_on 'Verify'
         end
 
         scenario 'no see accept/decline buttons' do

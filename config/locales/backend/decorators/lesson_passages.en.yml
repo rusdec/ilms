@@ -1,0 +1,4 @@
+en:
+  decorators:
+    lesson_passages:
+      read_only: 'No. Read only'

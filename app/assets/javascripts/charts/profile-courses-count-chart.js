@@ -1,5 +1,6 @@
 document.addEventListener('turbolinks:load', () => {
-  if (!document.querySelector('#profile-courses-count-chart')) return
+  let coursesCountChart = document.querySelector('#profile-courses-count-chart')
+  if (!coursesCountChart) return
 
   (async() => {
     let response = await fetch(
@@ -7,23 +8,30 @@ document.addEventListener('turbolinks:load', () => {
     )
     response = await response.json()
 
-    new Chart(document.querySelector('#profile-courses-count-chart'), {
-      type: 'doughnut',
-      data: {
-        datasets: [{
-          data: [response.courses.passed, response.courses.in_progress],
-          backgroundColor: ['#679c6d']
-        }],
-        labels: ['Passed', 'In progress'],
-      },
-      options: {
-        legend: {
-          position: 'right'
+    if (response.courses.in_progress) {
+      new Chart(document.querySelector('#profile-courses-count-chart'), {
+        type: 'doughnut',
+        data: {
+          datasets: [{
+            data: [response.courses.passed, response.courses.in_progress],
+            backgroundColor: ['#679c6d']
+          }],
+          labels: [translate('passed'), translate('in_progress')],
         },
-        animation: {
-          animateRotate: true
+        options: {
+          legend: {
+            position: 'right'
+          },
+          animation: {
+            animateRotate: true
+          }
         }
-      }
-    })
+      })
+    } else {
+      coursesCountChart.parentNode.insertAdjacentHTML(
+        'afterbegin', Mustache.render(_p_no_data, {body: translate('no_data')})
+      )
+      coursesCountChart.remove()
+    }
   })()
 })

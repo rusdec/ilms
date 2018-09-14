@@ -26,16 +26,11 @@ feature 'Course manage home page', %q{
         scenario 'see manage sections' do
           visit course_master_path
 
-          ['Courses', 'Quest solutions'].each do |section|
-            expect(page).to have_content(section)
-          end
-
-          [
-            "total: #{courses.count}",
-            "unverified: 0"
-          ].each do |info|
-            expect(page).to have_content(info)
-          end
+          expect(page).to have_link('Courses')
+          expect(page).to have_link('Quest\'s solutions')
+          
+          expect(page).to have_content("Total: #{courses.count}")
+          expect(page).to have_content("Unverified: 0")
         end
       end
     end

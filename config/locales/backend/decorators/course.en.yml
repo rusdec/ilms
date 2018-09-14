@@ -1,0 +1,5 @@
+en:
+  decorator:
+    course:
+      new_lesson: 'New lesson'
+      new_badge: 'New badge'
