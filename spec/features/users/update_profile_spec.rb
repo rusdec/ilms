@@ -28,18 +28,21 @@ feature 'User update profile', %q{
           Capybara.using_wait_time(7) do
             click_on 'Save'
             expect(page).to have_content('Success')
-            expect(page).to have_content(attributes[:name])
-            expect(page).to have_content(attributes[:surname])
+            expect(page).to have_content("#{attributes[:name]} #{attributes[:surname]}")
             expect(page).to have_content(attributes[:email])
             expect(page).to have_content(
               "#{attributes[:name].first}#{attributes[:surname].first}",
-              count: 2
+              count: 3
             )
+            
+            within '.top_header' do
+              expect(page).to have_content("#{attributes[:name]} #{attributes[:surname]}")
+            end
           end
         end # scenario 'can update profile'
       end # context 'when data is valid' do
 
-      context 'when data is notvalid' do
+      context 'when data is not valid' do
         scenario 'can\'t update profile', js: true do
           fill_in 'Name', with: ''
           fill_in 'New password', with: '123'
@@ -53,7 +56,7 @@ feature 'User update profile', %q{
             expect(page).to have_content(user.name)
             expect(page).to have_content(user.surname)
             expect(page).to have_content(user.email)
-            expect(page).to have_content(user.initials, count: 2)
+            expect(page).to have_content(user.initials, count: 3)
 
             expect(page).to have_content('Email can\'t be blank')
             expect(page).to have_content('Name can\'t be blank')
@@ -73,7 +76,12 @@ feature 'User update profile', %q{
       before { visit user_path(other_user, locale: I18n.locale) }
 
       scenario 'see user info' do
-        expect(page).to have_content(other_user.initials, count: 1)
+        within '.top_header' do
+          expect(page).to have_content(other_user.initials, count: 1)
+        end
+        within '.user-container' do
+          expect(page).to have_content(other_user.initials, count: 1)
+        end
         expect(page).to have_content(other_user.name)
         expect(page).to have_content(other_user.surname)
         expect(page).to have_content(other_user.email)
