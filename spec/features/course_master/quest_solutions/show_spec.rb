@@ -56,7 +56,7 @@ feature 'Show quest solutions', %q{
 
           expect(page).to_not have_content('Accept')
           expect(page).to_not have_content('Decline')
-          expect(page).to have_content('Quest solutions')
+          expect(page).to have_content('Quest\'s solutions')
         end
       end # context 'when not verified'
 

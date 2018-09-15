@@ -2,6 +2,7 @@ ru:
   course_master:
     passage_solutions:
       index:
+        quest_solutions: 'Решения квестов'
         verify: 'Проверить'
         status: 'Статус'
         user: 'Польз.'

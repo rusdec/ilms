@@ -17,8 +17,7 @@ class HtmlValidator < ActiveModel::EachValidator
     return unless options[:length].key?(:minimum) || options[:length][:minimum]
 
     if text_from(value).length < options[:length][:minimum]
-      message = "is too short (minimum is #{options[:length][:minimum]} characters)"
-      record.errors.add(attribute, message)
+      record.errors.add(attribute, :too_short, count: options[:length][:minimum])
     end
   end
 
@@ -26,14 +25,13 @@ class HtmlValidator < ActiveModel::EachValidator
     return unless options[:length].key?(:maximum) || options[:length][:maximum]
 
     if text_from(value).length > options[:length][:maximum]
-      message = "is too long (maximum is #{options[:length][:maximum]} characters)"
-      record.errors.add(attribute, message)
+      record.errors.add(attribute, :too_long, count: options[:length][:maximum])
     end
   end
 
   def validate_presence(record, attribute, value)
     if options.key?(:presence) && blank?(value)
-      record.errors.add(attribute, 'can\'t be blank')
+      record.errors.add(attribute, :blank)
     end
   end
 

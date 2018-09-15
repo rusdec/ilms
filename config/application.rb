@@ -22,6 +22,7 @@ module Ilms
     Dir[Rails.root.join('app/libs/**/*.rb')].each { |f| require f }
 
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'backend', '**', '*.{rb,yml}')]
+    config.i18n.available_locales = [:ru, :en]
     config.i18n.default_locale = :ru
   end
 end

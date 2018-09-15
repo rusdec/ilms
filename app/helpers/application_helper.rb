@@ -28,7 +28,7 @@ module ApplicationHelper
     return if material.body_html_empty?
 
     unless material.summary_html_empty?
-      material.body += "#{tag.h4 'Summary'}#{material.summary}"
+      material.body += "#{tag.h4 I18n.t('helpers.application.summary')}#{material.summary}"
     end
 
     simple_card(title: material.title,

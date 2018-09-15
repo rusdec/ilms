@@ -4,7 +4,9 @@ module CourseMaster::LessonHelper
   end
 
   def selector_with_lessons(params)
-    lessons = params[:lessons].collect do |lesson|
+    lessons = params[:lessons].reject do |lesson|
+      params[:current_lesson].children.include?(lesson) || params[:current_lesson] == lesson
+    end.collect do |lesson|
       [lesson.title, lesson.id]
     end
 

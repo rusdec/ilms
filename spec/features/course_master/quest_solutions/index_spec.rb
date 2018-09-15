@@ -25,6 +25,7 @@ feature 'View quest solutions', %q{
 
       scenario 'see quest solutons list' do
         expect(page).to have_link('Verify', count: passage_solutions.count)
+        expect(page).to have_content('Quest\'s solutions')
 
         passage_solutions.each do |passage_solution|
           passage_solution = PassageSolutionDecorator.decorate(passage_solution)
