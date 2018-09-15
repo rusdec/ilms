@@ -10,7 +10,9 @@ document.addEventListener('turbolinks:load', () => {
 
     updateCardAvatar(response.data.object.avatar.preview, response.data.object.initials)
     updateFormAvatar(response.data.object.avatar.preview, response.data.object.initials)
+    updateHeaderAvatar(response.data.object.avatar.preview, response.data.object.initials)
     updateCardFullName(response.data.object.full_name)
+    updateHeaderFullName(response.data.object.full_name)
     updateCardEmail(response.data.object.email)
     clearPasswordFields()
     unckeckCheckedCkeckboxes()
@@ -33,6 +35,13 @@ function clearPasswordFields() {
   })
 }
 
+function updateHeaderFullName(full_name) {
+  let fullNameHeader = document.querySelector('.fullname-header')
+  if (!fullNameHeader) return
+
+  fullNameHeader.innerText = full_name
+}
+
 function updateCardFullName(full_name) {
   let cardFullName = document.querySelector('.card-profile .card-full-name')
   if (!cardFullName) return
@@ -47,32 +56,42 @@ function updateCardEmail(email) {
 
 function updateFormAvatar(avatarUrl, initials) {
   let formAvatar = document.querySelector('form .avatar')
-  let removeAvatarFormGroup = document.querySelector('form .remove-avatar')
   if (!formAvatar) return 
 
+  let removeAvatarFormGroup = document.querySelector('form .remove-avatar')
+
+  updateAvatar(formAvatar, avatarUrl, initials)
+
   if (avatarUrl) {
-    formAvatar.style.backgroundImage = `url(${avatarUrl})`
-    formAvatar.innerText = ''
     formAvatar.classList.remove('opacity-05')
     removeAvatarFormGroup.classList.remove('hidden')
   } else {
-    formAvatar.style.backgroundImage = ''
-    formAvatar.innerText = initials
     formAvatar.classList.add('opacity-05')
     removeAvatarFormGroup.classList.add('hidden')
   }
+}
+
+function updateHeaderAvatar(avatarUrl, initials) {
+  let headerAvatar = document.querySelector('.avatar-header')
+  if (!headerAvatar) return 
+
+  updateAvatar(headerAvatar, avatarUrl, initials)
 }
 
 function updateCardAvatar(avatarUrl, initials) {
   let cardAvatar = document.querySelector('.card-profile .card-profile-avatar')
   if (!cardAvatar) return
 
+  updateAvatar(cardAvatar, avatarUrl, initials)
+}
+
+function updateAvatar(avatar, avatarUrl, initials) {
   /**
    * Avatar with user initials
    */
   if (!avatarUrl) {
-    cardAvatar.style.backgroundImage = ''
-    cardAvatar.innerText = initials
+    avatar.style.backgroundImage = ''
+    avatar.innerText = initials
     return
   }
 
@@ -80,8 +99,8 @@ function updateCardAvatar(avatarUrl, initials) {
    * Avatar with image
    */
   if (avatarUrl) {
-    cardAvatar.innerText = ''
-    cardAvatar.style.backgroundImage = `url('${avatarUrl}')`
+    avatar.innerText = ''
+    avatar.style.backgroundImage = `url('${avatarUrl}')`
     return
   }
 }
