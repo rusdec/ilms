@@ -1,5 +1,5 @@
-. class='my-3 my-md-5 body'
-  . class='container user-container' data-user-id=@user.id
+.my-3.my-md-5.body
+  .container.user-container data-user-id=@user.id
     = render 'layouts/devise_alerts'
     .row
       .col-lg-3
@@ -7,20 +7,20 @@
         - if can? :edit_profile, @user.object
           = render partial: 'form', locals: { user: @user }
       .col-lg-9
-        ul class='nav nav-tabs' role='tablist'
-          li.nav-item
-            a class='nav-link' href=user_path(id: @user)
+        ul.nav.nav-tabs.nav-action-name role='tablist'
+          li.nav-item data-action-name='users_show'
+            a.nav-link href=user_path(id: @user)
               = t('profile.profile')
-          li.nav-item
-            a class='nav-link' href=knowledges_user_path(id: @user)
+          li.nav-item data-action-name='users_show_knowledges'
+            a.nav-link href=knowledges_user_path(id: @user)
               = t('profile.knowledges')
           - if can? :edit_profile, @user.object
-            li.nav-item
-              a class='nav-link' href=courses_user_path(id: @user)
+            li.nav-item data-action-name='users_show_courses'
+              a.nav-link href=courses_user_path(id: @user)
                 = t('profile.my_courses')
-          li.nav-item
-            a class='nav-link' href=badges_user_path(id: @user)
+          li.nav-item data-action-name='users_show_badges'
+            a.nav-link href=badges_user_path(id: @user)
               = t('profile.badges')
 
-        . class='tab-content mt-5'
+        .tab-content.mt-5
           = yield

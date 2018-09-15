@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_gon_i18n
   before_action :set_gon_locale
+  before_action :set_current_action_name
+  before_action :set_gon_current_action_name
 
   self.responder = ApplicationResponder
   respond_to :html
@@ -17,7 +19,8 @@ class ApplicationController < ActionController::Base
       end
 
       format.html do
-        redirect_to root_path(locale: I18n.locale), { alert: t('access_denied') }
+        redirect_to root_path(locale: I18n.locale),
+                    alert: t('access_denied')
       end
     end
   end
@@ -27,6 +30,14 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def set_current_action_name
+    @action_name = current_action_name
+  end
+
+  def set_gon_current_action_name
+    gon.action_name = current_action_name
+  end
 
   def after_sign_in_path_for(resource)
     user_path(resource)
@@ -56,5 +67,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up,
       keys: [:name, :surname, :email, :password, :password_confirmation]
     )
+  end
+
+  def current_action_name
+    [controller_name, action_name].join('_')
   end
 end

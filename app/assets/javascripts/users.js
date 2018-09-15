@@ -1,5 +1,8 @@
 document.addEventListener('turbolinks:load', () => { formLinksListener('user') })
 
+/**
+ * Update data
+ */
 document.addEventListener('turbolinks:load', () => {
   let userEditForm = document.querySelector('form.edit_user')
   if (!userEditForm) return
