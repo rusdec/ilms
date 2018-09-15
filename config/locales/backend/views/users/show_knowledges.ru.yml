@@ -2,5 +2,4 @@ ru:
   users:
     show_knowledges:
       knowledges_directions: 'Направления знаний'
-      remaining_experience: 'след. уровень: %{experience} exp'
-      current_level: 'тек. уровень: %{level}'
+      remaining_experience: '<i class="fas fa-level-up-alt"></i> %{exp} exp'

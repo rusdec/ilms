@@ -37,11 +37,10 @@ feature 'Show user knowledges', %q{
         end
       end # scenario 'see knowledges'
 
-      scenario 'no see left experience and current level caption' do
-        user.user_knowledges.each do |user_knowledge|
-          expect(page).to_not have_content("level up: #{user_knowledge.remaining_experience} exp")
-          expect(page).to_not have_content("current level: #{user_knowledge.level}")
-        end
+      scenario 'no see left experience', js: true do
+        refresh
+        first(:css, 'td').click
+        expect(page).to_not have_content("#{user.user_knowledges.first.remaining_experience} exp")
       end
     end # context 'and authenticated user open foreign user page'
 
@@ -62,10 +61,14 @@ feature 'Show user knowledges', %q{
         user.user_knowledges.each do |user_knowledge|
           expect(page).to have_content(user_knowledge.knowledge.name.capitalize)
           expect(page).to have_content(user_knowledge.level)
-          expect(page).to have_content("level up: #{user_knowledge.remaining_experience} exp")
-          expect(page).to have_content("current level: #{user_knowledge.level}")
         end
       end # scenario 'see knowledges'
+
+      scenario 'see left experience', js: true do
+        refresh
+        first(:css, 'td').click
+        expect(page).to have_content("#{user.user_knowledges.first.remaining_experience} exp")
+      end
     end # scenario 'and authenticated user open own user page'
   end # scenario 'when authenticated user'
 end

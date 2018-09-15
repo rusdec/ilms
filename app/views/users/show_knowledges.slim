@@ -15,16 +15,17 @@
           .card-body.p-2
             table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.table-profile-knowledges
               - user_knowledges.each do |user_knowledge|
-                tr.tr-knoledge
-                  td style='width: 15%'= user_knowledge.knowledge.name.capitalize
-                  - if can? :edit_profile, @user.object
-                    td.pt-0
-                      .small.text-muted
-                        = t('.remaining_experience', experience: user_knowledge.remaining_experience)
-                      span= user_knowledge.decorate.remaining_experience_bar
-                      .small.text-muted.mt-2= t('.current_level', level: user_knowledge.level)
-                      span= user_knowledge.decorate.progress_bar
-                  - else
-                    td
-                      span= user_knowledge.decorate.progress_bar
-                  td style='width: 10%'= user_knowledge.level
+                - if can? :edit_profile, @user.object
+                  = content_tag(:tr, { class: 'clickable',
+                                       data: { toggle: 'popover',
+                                               placement: 'top',
+                                               content: user_knowledge.decorate.remaining_experience_bar,
+                                               'original-title'=> t('.remaining_experience', exp: user_knowledge.remaining_experience) } }) do
+                    td style='min-width: 15%'= user_knowledge.knowledge.name.capitalize
+                    td= user_knowledge.decorate.progress_bar
+                    td style='width: 10%'= user_knowledge.level 
+                - else
+                  tr
+                    td style='min-width: 15%'= user_knowledge.knowledge.name.capitalize
+                    td= user_knowledge.decorate.progress_bar
+                    td style='width: 10%'= user_knowledge.level 
