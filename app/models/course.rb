@@ -5,7 +5,7 @@ class Course < ApplicationRecord
   include CourseKnowledgable
   include Difficultable
 
-  paginates_per 5
+  paginates_per 10
 
   has_many :lessons, dependent: :destroy
   has_many :badges, dependent: :destroy

@@ -1,4 +1,6 @@
-ru:
+en:
   users:
     show_knowledges:
       knowledges_directions: "Knowledge's directions"
+      remaining_experience: 'level up: %{experience} exp'
+      current_level: 'current level: %{level}'

@@ -1,5 +1,5 @@
 class Lesson < ApplicationRecord
-  has_closure_tree
+  has_closure_tree order: 'sort_order'
 
   include Persistable
   include Passable
@@ -14,9 +14,16 @@ class Lesson < ApplicationRecord
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
-  validates :order, numericality: { only_integer: true,
-                                    greater_than_or_equal_to: 1 }
+  validate :validate_parent_lesson
 
   # Passable Template method
   alias_attribute :passable_children, :quests
+
+  protected
+
+  def validate_parent_lesson
+    return if parent_id.nil?
+    return if course.lessons.include?(Lesson.find_by(id: parent_id))
+    errors.add(:parent, :invalid_id)
+  end
 end

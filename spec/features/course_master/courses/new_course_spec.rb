@@ -33,8 +33,8 @@ feature 'Create course', %q{
   end
 
   scenario 'see course properties' do
-    ['Title', 'Decoration description', 'Image',
-     'Difficulty', 'Published', 'Knowledges'].each do |property|
+    ['Title', 'Decoration\'s description', 'Short description',
+     'Difficulty', 'Published', 'Knowledges', 'Image'].each do |property|
       expect(page).to have_content(property)
     end
   end
@@ -53,7 +53,7 @@ feature 'Create course', %q{
 
       expect(page).to have_content('Title can\'t be blank')
       expect(page).to have_content('Title is too short')
-      expect(page).to have_content('Percent of course knowledges must be 100% now 0%')
+      expect(page).to have_content('Total percent of knowledges must equal 100% now 0%')
     end
   end
 end 

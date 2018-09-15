@@ -16,14 +16,22 @@ class LessonPassage < Passage
     statuses.unavailable
   end
 
+  def open!
+    transaction do
+      in_progress!
+      children.each(&:open!)
+    end
+  end
+
   protected
 
   # Passage Template method
   def after_pass_hook
-    siblings.where(passable_id: passable.children.pluck(:id)).each(&:in_progress!)
+    # open next lessons and their quests
+    siblings.where(passable_id: passable.children.pluck(:id)).each(&:open!)
   end
 
   def after_create_hook_open_passage_if_root
-    in_progress! if passable.root?
+    open! if passable.root?
   end
 end

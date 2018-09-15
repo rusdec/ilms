@@ -1,0 +1,8 @@
+ru:
+  courses:
+    show:
+      author: 'Автор'
+      difficulty: 'Сложность: %{difficulty}'
+      knowledges: 'Знания'
+      description: 'Описание'
+      lessons: 'Занятия'

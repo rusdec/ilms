@@ -1,5 +1,5 @@
 module Features
-  module Signing
+  module SigningMacros
     def sign_in(user)
       visit new_user_session_path
       within 'form' do

@@ -18,6 +18,12 @@ class CourseDecorator < Draper::Decorator
   html_attributes :decoration_description
   text_preview :title
 
+  def lessons
+    LessonDecorator.decorate_collection(
+      object.lessons.roots_and_descendants_preordered
+    )
+  end
+
   def button_new_lesson
     h.link_to I18n.t('decorator.course.new_lesson'),
       h.new_course_master_course_lesson_path(object, locale: I18n.locale),

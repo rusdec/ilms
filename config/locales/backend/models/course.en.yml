@@ -12,7 +12,7 @@ en:
         difficulty: 'Difficulty'
         badge: 'Badge'
         knowledges: 'Knowledges'
-        total_percent: 'Total percent'
+        total_percent_of_knowledges: 'Total percent of knowledges'
 
   helpers:
     submit:

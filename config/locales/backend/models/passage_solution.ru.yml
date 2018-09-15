@@ -1,0 +1,5 @@
+ru:
+  helpers:
+    submit:
+      passage_solution:
+        create: 'Отправить'

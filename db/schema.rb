@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_11_110550) do
+ActiveRecord::Schema.define(version: 2018_09_15_014842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,12 +94,13 @@ ActiveRecord::Schema.define(version: 2018_09_11_110550) do
     t.text "ideas", default: ""
     t.text "summary", default: ""
     t.text "check_yourself", default: ""
-    t.integer "order", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "parent_id"
     t.integer "difficulty", default: 1, null: false
+    t.integer "sort_order"
     t.index ["course_id"], name: "index_lessons_on_course_id"
+    t.index ["sort_order"], name: "index_lessons_on_sort_order"
     t.index ["user_id"], name: "index_lessons_on_user_id"
   end
 

@@ -3,3 +3,9 @@ en:
     passage_solutions:
       index:
         verify: 'Verify'
+        status: 'Status'
+        user: 'User'
+        quest: 'Quest'
+        lesson: 'Lesson'
+        course: 'Course'
+        date: 'Date'

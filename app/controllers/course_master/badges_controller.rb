@@ -10,9 +10,9 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   end
 
   def new
-    @badge = BadgeDecorator.decorate(
-      current_user.created_badges.new(badgable: @badgable, course: @badgable.course)
-    )
+    @badge = current_user.created_badges.new(
+      badgable: @badgable, course: @badgable.course
+    ).decorate
   end
 
   def create
@@ -20,10 +20,10 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
     @badge = current_user.created_badges.create(
       badge_params.merge(badgable: @badgable, course: @badgable.course)
     )
+
     json_response_by_result(
       with_serializer: BadgeSerializer,
-      with_location: :polymorphic_path,
-      location_object: [:edit, :course_master, @badgable],
+      with_location: :edit_course_master_badge_path,
       without_object: true,
       with_flash: true
     )

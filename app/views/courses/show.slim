@@ -1,28 +1,56 @@
-.row
-  . class='col text-center'
-    h2.page-title= @course.title
+= page_title(@course.title)
 
-.row
+.row.mb-5
   . class='col text-center'
     = @course.learn_now(current_user)
  
 .row
-  . class='col text-left'
-    h4= 'Course Info'
-
-.row
-  .col
-    h4= 'Description'
-    p= text_or_none(@course.decoration_description_html)
-
-.row
-  .col
-    h4= 'Lessons'
-    ul
-      - @course.lessons.each do |lesson|
-        li= lesson.title
-
-.row
-  . class='col text-right'
-    = link_to 'All courses', courses_path
+  .col-lg-4
+    - if @course.image.present?
+      .col-lg-12.p-0
+        .card
+          .card-body.p-1
+            = image_tag @course.image.preview_medium.url
     
+    .col-lg-12.p-0
+      .card
+        .card-body.p-1
+          table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+            tbody
+              tr
+                td
+                  .avatar.avatar-lg.d-block style="background-image: url(#{@course.author.avatar.preview.url})"
+                td
+                  .= @course.author.full_name
+                  .small.text-muted= t('.author')
+                  
+    .col-lg-12.p-0
+      .card
+        .card-header
+          h3.card-title= t('.knowledges')
+        .card-body.p-1
+          table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+            - @course.course_knowledges.each do |course_knowledge|
+              tr
+                td= course_knowledge.knowledge.name
+                td.text-center= "#{course_knowledge.percent}%"
+            tr
+              td
+                .= t('.difficulty', difficulty: @course.difficulty)
+
+  .col-lg-8
+    .col-lg-12.p-0
+      .card
+        .card-header
+          h3.card-title= t('.description')
+        .card-body
+         = text_or_none(@course.decoration_description_html)
+
+    .col-lg-12.p-0
+      .card
+        .card-header
+          h3.card-title= t('.lessons')
+        .card-body
+          ul
+            - @course.lessons.each do |lesson|
+              li= lesson.title

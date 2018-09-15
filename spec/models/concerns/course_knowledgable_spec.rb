@@ -20,7 +20,7 @@ RSpec.describe CourseKnowledgable, type: :model do
         it 'ignores it percent when validates' do
           course.valid?
           expect(course.errors.full_messages).to eq([
-            'Percent of course knowledges must be 100% now 0%'
+            'Total percent of knowledges must equal 100% now 0%'
           ])
         end
       end # context 'and one of the attributes marked for destruction'
@@ -35,7 +35,7 @@ RSpec.describe CourseKnowledgable, type: :model do
         it 'adds error' do
           course.valid?
           expect(course.errors.full_messages).to eq([
-            'Percent of course knowledges must be 100% now 90%'
+            'Total percent of knowledges must equal 100% now 90%'
           ])
         end
       end # context 'when percent less than 100'
@@ -50,7 +50,7 @@ RSpec.describe CourseKnowledgable, type: :model do
         it 'adds error' do
           course.valid?
           expect(course.errors.full_messages).to eq([
-            'Percent of course knowledges must be 100% now 110%',
+            'Total percent of knowledges must equal 100% now 110%',
             'Course knowledges percent must be less than or equal to 100'
           ])
         end

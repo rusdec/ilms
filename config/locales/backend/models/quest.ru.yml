@@ -9,3 +9,9 @@ ru:
         body: 'Тело'
         difficulty: 'Сложность'
         badge: 'Значок'
+
+  helpers:
+    submit:
+      quest:
+        update: 'Сохранить'
+        create: 'Создать'

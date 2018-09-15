@@ -12,7 +12,7 @@ ru:
         difficulty: 'Сложность'
         badge: 'Значок'
         knowledges: 'Знания'
-        total_percent: 'Общий процент'
+        total_percent_of_knowledges: 'Общий процент знаний'
 
   helpers:
     submit:

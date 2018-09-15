@@ -7,4 +7,11 @@ class UserKnowledgeDecorator < Draper::Decorator
              locals: { percent: percent,
                        progress_color: h.progress_color(100) }
   end
+
+  def remaining_experience_bar
+    percent = (experience.to_f/next_level_experience.to_f) * 100
+    h.render partial: 'shared/progress_bar',
+      locals: { percent: percent,
+                progress_color: h.progress_color(percent) }
+  end
 end

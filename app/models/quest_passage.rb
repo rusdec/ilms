@@ -18,4 +18,13 @@ class QuestPassage < Passage
     user.reward!(passable.badge) if passable.badge
     destribute_experience_between_knowledges
   end
+
+  # Statusable Template method
+  def default_status
+    statuses.unavailable
+  end
+
+  def open!
+    in_progress!
+  end
 end

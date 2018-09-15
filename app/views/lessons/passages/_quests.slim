@@ -1,26 +1,27 @@
-= page_header(t('.quests'))
+- if lesson_passage.passable.quests.present?
+  = page_header(t('.quests'))
 
-- lesson_passage.quest_passages_by_quest_group.each do |quest_group|
-  = page_header_3(quest_group.length > 1 ? t('.required_one') : t('.required'))
-  .row.row-cards.row-deck
-    - quest_group.each_with_index do |quest_passage, index|
-      .col-md-3
-        .card
-          . class="card-status #{'bg-green' if quest_passage.passed?}"
-          .card-header
-            h3.card-title= quest_passage.passable.title
-          .card-body
-            = quest_passage.passable.description.truncate(150)
-            . class='quest_solution_status text-center'
-          .card-footer.text-muted.small
-            .d-flex.align-items-center.mt-auto
-              ="#{t('difficulty')}: #{quest_passage.quest.difficulty}"
-              .ml-auto
-                - if quest_passage.passed?
-                  = link_to passage_path(quest_passage) do
-                    = quest_passage.status.decorate.badge
-                - else
-                  = link_to t('.go'), passage_path(quest_passage), class: 'm-1 text-purple'
+  - lesson_passage.quest_passages_by_quest_group.each do |quest_group|
+    = page_header_3(quest_group.length > 1 ? t('.required_one') : t('.required'))
+    .row.row-cards.row-deck
+      - quest_group.each_with_index do |quest_passage, index|
+        .col-md-3
+          .card
+            . class="card-status #{'bg-green' if quest_passage.passed?}"
+            .card-header
+              h3.card-title= quest_passage.passable.title
+            .card-body
+              = quest_passage.passable.description.truncate(150)
+              . class='quest_solution_status text-center'
+            .card-footer.text-muted.small
+              .d-flex.align-items-center.mt-auto
+                ="#{t('difficulty')}: #{quest_passage.quest.difficulty}"
+                .ml-auto
+                  - if quest_passage.passed?
+                    = link_to passage_path(quest_passage) do
+                      = quest_passage.status.decorate.badge
+                  - else
+                    = link_to t('.go'), passage_path(quest_passage), class: 'm-1 text-purple'
 
-      - if (index+1)%3 == 0
-        .w-100
+        - if (index+1)%3 == 0
+          .w-100

@@ -5,8 +5,8 @@
     "title": {"type": "string"},
     "description": {"type": "string"},
     "difficulty": {"type": "integer"},
-    "created_at": {"type": "string", "format": "date-time"},
-    "updated_at": {"type": "string", "format": "date-time"},
+    "created_at": {"type": "string"},
+    "updated_at": {"type": "string"},
     "quest_group": {"$ref": "./quest_group.json"},
     "quest_groups": {
       "type":"array",
@@ -24,6 +24,6 @@
       }
     }
   },
-  "required": ["id", "title", "description", "level", "created_at", "updated_at", "quest_group", "quest_groups"],
+  "required": ["id", "title", "description", "difficulty", "created_at", "updated_at", "quest_group", "quest_groups"],
   "maxProperties": 8
 }

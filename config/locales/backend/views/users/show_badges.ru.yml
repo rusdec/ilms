@@ -1,4 +1,4 @@
 ru:
   users:
     show_badges:
-      not_badges_yet: 'Пока нет значков'
+      no_badges_yet: 'Пока нет значков'

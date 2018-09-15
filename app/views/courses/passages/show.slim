@@ -28,9 +28,10 @@
       = @passage.quests_progress_card
       = @passage.user.collected_course_badges_progress_card(@passage.passable)
       = @passage.user.collected_course_hidden_badges_progress_card(@passage.passable)
-    .row
-      .col
-        = page_header(t('.collected_badges'))
-    . class='row row-collected-badges'
-      - @passage.passable.badges.each do |badge|
-        = current_user.badges.include?(badge) ? badge.mini_card : badge.disabled_mini_card
+    - if @passage.passable.badges.present?
+      .row
+        .col
+          = page_header(t('.collected_badges'))
+      . class='row row-collected-badges'
+        - @passage.passable.badges.each do |badge|
+          = current_user.badges.include?(badge) ? badge.mini_card : badge.disabled_mini_card

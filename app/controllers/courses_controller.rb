@@ -9,6 +9,7 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id]).decorate
+    authorize! :publicated, @course.object
     @passage = @course.passages.new
   end
 end

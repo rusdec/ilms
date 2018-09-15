@@ -9,3 +9,9 @@ en:
         body: 'Body'
         difficulty: 'Difficulty'
         badge: 'Badge'
+
+  helpers:
+    submit:
+      quest:
+        update: 'Save'
+        create: 'Create'

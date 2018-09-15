@@ -89,6 +89,7 @@ Rails.application.routes.draw do
           patch :accept
           patch :decline
         end
+        concerns :paginatable
       end
 
       resources :knowledge_directions, only: :create

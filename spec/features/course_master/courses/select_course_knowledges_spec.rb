@@ -230,7 +230,7 @@ feature 'Select course knowledges', %q{
         mark_for_delete(knowledge_one.name, 0)
         click_on 'Save'
 
-        expect(page).to have_content('Percent of course knowledges must be 100% now 50%')
+        expect(page).to have_content('Total percent of knowledges must equal 100% now 50%')
 
         within selected_knowledges do
           expect(page).to have_content(knowledge_one.name.capitalize)

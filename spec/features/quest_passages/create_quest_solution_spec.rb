@@ -24,16 +24,16 @@ feature 'Create passage_solution', %q{
         context 'when valid data' do
           scenario 'can create quest solution', js: true do
             fill_editor 'Body', with: attributes_for(:passage_solution)[:body]
-            click_on 'Create'
+            click_on 'Send'
 
             expect(page).to have_content('Success')
           end
 
           scenario 'can\'t create more then one quest solution', js: true do
             fill_editor 'Body', with: attributes_for(:passage_solution)[:body]
-            click_on 'Create'
+            click_on 'Send'
 
-            expect(page).to_not have_button('Create')
+            expect(page).to_not have_button('Send')
             expect(page).to have_content(
               'Waiting for verification of your solution...'
             )
@@ -43,7 +43,7 @@ feature 'Create passage_solution', %q{
         context 'when invalid data' do
           scenario 'see error', js: true do
             fill_editor 'Body', with: nil
-            click_on 'Create'
+            click_on 'Send'
 
             expect(page).to have_content('Body can\'t be blank')
           end
@@ -57,7 +57,7 @@ feature 'Create passage_solution', %q{
         end
 
         scenario 'can\'t create passage_solution' do
-          expect(page).to_not have_button('Create')
+          expect(page).to_not have_button('Send')
           expect(page).to have_content('Waiting for verification of your solution...')
         end
       end
@@ -74,7 +74,7 @@ feature 'Create passage_solution', %q{
       end
 
       scenario 'no see Create Passage solution link' do
-        expect(page).to_not have_link('Create')
+        expect(page).to_not have_link('Send')
       end
     end
   end

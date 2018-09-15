@@ -24,10 +24,9 @@ shared_examples_for 'badgable' do
           click_on 'Create'
         end
         Capybara.using_wait_time(5) do
+          expect(page).to have_content('Edit badge')
           expect(page).to have_content('Success')
           expect(page).to_not have_link('Create Badge')
-          expect(page).to have_link(badge[:title])
-          expect(page).to have_content('Number of awarded: 0')
         end
       end
     end # context 'with valid data'

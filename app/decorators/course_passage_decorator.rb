@@ -28,7 +28,7 @@ class CoursePassageDecorator < PassageDecorator
   end
 
   def passed_quest_passages_percent
-    return 0 if children.count == 0
+    return 0 if children.empty? || quest_passages.empty?
     ((passed_quest_passages.count.to_f/quest_passages.count.to_f) * 100).to_i
   end
 

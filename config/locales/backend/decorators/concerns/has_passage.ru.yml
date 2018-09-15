@@ -1,0 +1,6 @@
+ru:
+  decorators:
+    concerns:
+      has_passage:
+        you_learning_it: 'Уже изучается'
+        learn_now: 'Начать сейчас!'

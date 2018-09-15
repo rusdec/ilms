@@ -16,6 +16,35 @@ feature 'Show user knowledges', %q{
   end
 
   context 'when authenticated user' do
+    context 'and authenticated user open foreign user page' do
+      before do
+        sign_in(create(:user))
+        visit user_path(user, locale: I18n.locale)
+        click_on 'Knowledges'
+      end
+
+      scenario 'see directions' do
+        expect(page).to have_content('Knowledge\'s directions')
+        user.knowledge_directions.each do |direction|
+          expect(page).to have_content(direction.name.capitalize)
+        end
+      end
+
+      scenario 'see knowledges' do
+        user.user_knowledges.each do |user_knowledge|
+          expect(page).to have_content(user_knowledge.knowledge.name.capitalize)
+          expect(page).to have_content(user_knowledge.level)
+        end
+      end # scenario 'see knowledges'
+
+      scenario 'no see left experience and current level caption' do
+        user.user_knowledges.each do |user_knowledge|
+          expect(page).to_not have_content("level up: #{user_knowledge.remaining_experience} exp")
+          expect(page).to_not have_content("current level: #{user_knowledge.level}")
+        end
+      end
+    end # context 'and authenticated user open foreign user page'
+
     context 'and authenticated user open own user page' do
       before do
         sign_in(user)
@@ -23,7 +52,7 @@ feature 'Show user knowledges', %q{
       end
 
       scenario 'see directions' do
-        expect(page).to have_content('Knowledges Directions')
+        expect(page).to have_content('Knowledge\'s directions')
         user.knowledge_directions.each do |direction|
           expect(page).to have_content(direction.name.capitalize)
         end
@@ -33,6 +62,8 @@ feature 'Show user knowledges', %q{
         user.user_knowledges.each do |user_knowledge|
           expect(page).to have_content(user_knowledge.knowledge.name.capitalize)
           expect(page).to have_content(user_knowledge.level)
+          expect(page).to have_content("level up: #{user_knowledge.remaining_experience} exp")
+          expect(page).to have_content("current level: #{user_knowledge.level}")
         end
       end # scenario 'see knowledges'
     end # scenario 'and authenticated user open own user page'

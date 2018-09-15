@@ -1,4 +1,4 @@
 en:
   users:
     show_badges:
-      not_badges_yet: 'No badges yet'
+      no_badges_yet: 'No badges yet'

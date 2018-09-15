@@ -24,9 +24,16 @@ RSpec.describe QuestPassage, type: :model do
     end
   end
 
+  context '.open' do
+    it 'receives in_progress!' do
+      expect(quest_passage).to receive(:in_progress!)
+      quest_passage.open!
+    end
+  end
+
   context '.default_status' do
-    it 'returns Status in_progress' do
-      expect(quest_passage.status). to eq(Status.in_progress)
+    it 'returns Status unavailable' do
+      expect(quest_passage.status). to eq(Status.unavailable)
     end
   end
 

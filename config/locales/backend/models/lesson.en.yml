@@ -1,19 +1,30 @@
 en:
   activerecord:
-    model:
+    errors:
+      models:
+        lesson:
+          attributes:
+            parent:
+              invalid_id: 'is invalid'
+
+    models:
       lesson: 'Lesson'
     attributes:
-      title: 'Title'
-      ideas: 'Ideas'
-      summary: 'Summary'
-      check_yourself: 'Check yourself'
-      parent: 'Opening lesson'
-      author: 'Author'
-      difficulty: 'Difficulty'
-      course: 'Course'
+      lesson:
+        title: 'Title'
+        ideas: 'Ideas'
+        summary: 'Summary'
+        check_yourself: 'Check yourself'
+        parent: 'Opening lesson'
+        parent_id: 'Opening lesson'
+        author: 'Author'
+        difficulty: 'Difficulty'
+        course: 'Course'
 
   helpers:
     submit:
       lesson:
         update: 'Save'
         create: 'Create'
+
+  can_not_be_opened_after_given_lesson: 'can not be opened after given lesson'

@@ -17,12 +17,12 @@ class ApplicationController < ActionController::Base
       end
 
       format.html do
-        redirect_to root_path, { alert: t('access_denied') }
+        redirect_to root_path(locale: I18n.locale), { alert: t('access_denied') }
       end
     end
   end
 
-  def default_url_options(options = {})
+  def self.default_url_options(options = {})
     options.merge(locale: I18n.locale)
   end
 

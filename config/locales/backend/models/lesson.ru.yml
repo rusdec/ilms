@@ -1,5 +1,12 @@
 ru:
   activerecord:
+    errors:
+      models:
+        lesson:
+          attributes:
+            parent:
+              invalid_id: 'неправильный'
+
     models:
       lesson: 'Урок'
     attributes:
@@ -9,6 +16,7 @@ ru:
         summary: 'Обобщение'
         check_yourself: 'Проверьте себя'
         parent: 'Открывающий урок'
+        parent_id: 'Открывающий урок'
         author: 'Автор'
         difficulty: 'Сложность'
         course: 'Курс'

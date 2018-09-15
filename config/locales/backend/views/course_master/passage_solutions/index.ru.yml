@@ -3,3 +3,9 @@ ru:
     passage_solutions:
       index:
         verify: 'Проверить'
+        status: 'Статус'
+        user: 'Польз.'
+        quest: 'Квест'
+        lesson: 'Урок'
+        course: 'Курс'
+        date: 'Дата'

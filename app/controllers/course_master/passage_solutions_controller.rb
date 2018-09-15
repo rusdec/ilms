@@ -12,7 +12,7 @@ class CourseMaster::PassageSolutionsController < CourseMaster::BaseController
   end
 
   def show
-    @passage_solution = PassageSolutionDecorator.decorate(@passage_solution)
+    @passage_solution = @passage_solution.decorate
   end
 
   def accept
@@ -40,6 +40,8 @@ class CourseMaster::PassageSolutionsController < CourseMaster::BaseController
   end
 
   def set_passage_solutions
-    @passage_solutions = PassageSolution.for_auditor(current_user, :quests).order(created_at: :desc)
+    @passage_solutions = PassageSolution.for_auditor(current_user, :quests)
+      .order(created_at: :desc)
+      .page params[:page]
   end
 end

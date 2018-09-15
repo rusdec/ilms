@@ -25,6 +25,18 @@ RSpec.describe LessonPassage, type: :model do
     end
   end
 
+  context '.open' do
+    it 'receives in_progress!' do
+      expect(lesson_passage).to receive(:in_progress!)
+      lesson_passage.open!
+    end
+
+    it 'children receives open!' do
+      lesson_passage.children.each { |child| expect(child).to receive(:open!) }
+      lesson_passage.open!
+    end
+  end
+
   context '.default_status' do
     it 'should be unavailable' do
       expect(lesson_passage.status).to eq(Status.unavailable)
@@ -38,8 +50,8 @@ RSpec.describe LessonPassage, type: :model do
     end
 
     context 'when lesson (passable) is root lesson' do
-      it 'should receive in_progress!' do
-        expect(lesson_passage).to receive(:in_progress!)
+      it 'should receive open!' do
+        expect(lesson_passage).to receive(:open!)
         lesson_passage.save
       end
     end
@@ -47,8 +59,8 @@ RSpec.describe LessonPassage, type: :model do
     context 'when lesson (passable) is not root lesson' do
       before { lesson.update(parent: course.lessons.last) }
 
-      it 'should not receive in_progress!' do
-        expect(lesson_passage).to_not receive(:in_progress!)
+      it 'should not receive open!' do
+        expect(lesson_passage).to_not receive(:open!)
         lesson_passage.save
       end
     end

@@ -1,0 +1,5 @@
+en:
+  helpers:
+    submit:
+      passage_solution:
+        create: 'Send'

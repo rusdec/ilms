@@ -57,7 +57,7 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
   end
 
   def lesson_params
-    params.require(:lesson).permit(:title, :order, :ideas, :summary,
+    params.require(:lesson).permit(:title, :ideas, :summary, :difficulty,
                                    :check_yourself, :parent_id)
   end
 

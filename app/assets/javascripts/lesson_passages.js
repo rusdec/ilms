@@ -15,13 +15,14 @@ document.addEventListener('turbolinks:load', () => {
     }
   } else {
     isNotRequested = true
-    window.onscroll = () => {
+    window.addEventListener('scroll', () => {
       let currentHeight = (innerHeight + window.scrollY) + 20
+
       if ((currentHeight >= scrollHeight) && isNotRequested && isNotPassed()) {
         tryPass(passage().dataset.id)
         isNotRequested = false
       }
-    }
+    })
   }
 })
 
@@ -42,7 +43,7 @@ document.addEventListener('turbolinks:load', () => {
     })
   })
 
-  window.onscroll = () => {
+  window.addEventListener('scroll', () => {
     /**
      * Fix content menu
      */
@@ -61,7 +62,7 @@ document.addEventListener('turbolinks:load', () => {
       unmarkMarkedListItem()
       markAsCurrentListItem(lessonContentList.querySelector(`.list-group-item[href="#${material.id}"]`))
     })
-  }
+  })
 })
 
 function markAsCurrentListItem(element) {

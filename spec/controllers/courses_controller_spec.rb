@@ -21,17 +21,29 @@ RSpec.describe CoursesController, type: :controller do
 
   describe 'GET #show' do
     let!(:course) { create(:course, author: create(:course_master)) }
-    before do
-      sign_in(create(:user))
-      get :show, params: { id: course }
+    before { sign_in(create(:user)) }
+
+    context 'when course is published' do
+      before { get :show, params: { id: course } }
+
+      it 'assigns Course to @course' do
+        expect(assigns(:course)).to eq(course)
+      end
+
+      it 'decorates @course' do
+        expect(assigns(:course)).to be_decorated_with CourseDecorator
+      end
     end
 
-    it 'assigns Course to @course' do
-      expect(assigns(:course)).to eq(course)
-    end
+    context 'when course is not published' do
+      before do
+        course.update(published: false)
+        get :show, params: { id: course }
+      end
 
-    it 'decorates @course' do
-      expect(assigns(:course)).to be_decorated_with CourseDecorator
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_path)
+      end
     end
   end
 end

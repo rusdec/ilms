@@ -1,6 +1,8 @@
 class PassageSolution < ApplicationRecord
   include Statusable
 
+  paginates_per 10
+
   belongs_to :passage
 
   validates :body, html: { presence: true }
