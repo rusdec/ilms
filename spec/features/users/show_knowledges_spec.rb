@@ -38,8 +38,7 @@ feature 'Show user knowledges', %q{
       end # scenario 'see knowledges'
 
       scenario 'no see left experience', js: true do
-        refresh
-        first(:css, 'td').click
+        first(:css, 'td').hover
         expect(page).to_not have_content("#{user.user_knowledges.first.remaining_experience} exp")
       end
     end # context 'and authenticated user open foreign user page'
@@ -65,8 +64,7 @@ feature 'Show user knowledges', %q{
       end # scenario 'see knowledges'
 
       scenario 'see left experience', js: true do
-        refresh
-        first(:css, 'td').click
+        first(:css, 'td').hover
         expect(page).to have_content("#{user.user_knowledges.first.remaining_experience} exp")
       end
     end # scenario 'and authenticated user open own user page'

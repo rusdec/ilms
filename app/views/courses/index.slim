@@ -3,7 +3,7 @@
 .row
   - @courses.each do |course|
     .col-lg-12
-      .card.card-aside
+      .card.card-aside.card-course
         - if course.image.present?
           a.card-aside-column href="#{course_path(course)}" style="background-image: url(#{course.image.preview_medium})"
         - else
