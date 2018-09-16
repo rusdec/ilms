@@ -29,6 +29,11 @@ feature 'Show lesson_passage page', %q{
           expect(page).to have_content(quest_passage.passable.title)
           expect(page).to have_content(quest_passage.passable.description.truncate(150))
           expect(page).to have_content("Difficulty: #{quest_passage.quest.difficulty}")
+          quest_passage.course_knowledges.each do |course_knowledge|
+            knowledge_name = course_knowledge.knowledge.name.capitalize
+            exp = course_knowledge.experience_rate_from(quest_passage.experience)
+            expect(page).to have_content("#{knowledge_name}: #{exp} exp")
+          end
         end
       end
 

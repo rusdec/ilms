@@ -13,6 +13,11 @@
             .card-body
               = quest_passage.passable.description.truncate(150)
               . class='quest_solution_status text-center'
+            .card-footer.text-muted.small.pt-1.pb-1
+              - quest_passage.course_knowledges.each do |course_knowledge|
+                span= "#{course_knowledge.knowledge.name.capitalize}: \
+                       #{course_knowledge.experience_rate_from(quest_passage.experience)} exp"
+                br
             .card-footer.text-muted.small
               .d-flex.align-items-center.mt-auto
                 ="#{t('difficulty')}: #{quest_passage.quest.difficulty}"
@@ -21,7 +26,7 @@
                     = link_to passage_path(quest_passage) do
                       = quest_passage.status.decorate.badge
                   - else
-                    = link_to t('.go'), passage_path(quest_passage), class: 'm-1 text-purple'
+                    = link_to t('.go'), passage_path(quest_passage), class: 'btn btn-outline-secondary btn-sm m-1'
 
         - if (index+1)%3 == 0
           .w-100
