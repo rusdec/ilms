@@ -10,6 +10,9 @@ class CoursesController < ApplicationController
   def show
     @course = Course.find(params[:id]).decorate
     authorize! :publicated, @course.object
+
+    breadcrumb 'courses', courses_path, match: :exact
+    breadcrumb @course.title, course_path(@course), match: :exact
     @passage = @course.passages.new
   end
 end

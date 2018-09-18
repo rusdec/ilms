@@ -51,6 +51,7 @@ class Ability
 
   def guest_abilities
     can(:read, :all)
+    passing_abilities
   end
 
   def user_abilities

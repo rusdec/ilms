@@ -10,7 +10,3 @@
       = lesson_sidebar_link(text: t('.lessons_summary'), path: '#summary')
     - unless lesson.check_yourself_html_empty?
       = lesson_sidebar_link(text: t('.check_yourself'), path: '#check-yourself')
-
-    - if back_path
-      .d-none.d-lg-block.mt-6
-        = link_to t('back'), back_path, class: 'list-group-item-action text-muted'

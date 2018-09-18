@@ -54,6 +54,10 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
+        it 'decorates assigned @lesson' do
+          expect(assigns(:lesson)).to be_decorated
+        end
+
         it 'relates @lesson with course' do
           expect(assigns(:lesson).course).to eq(course)
         end

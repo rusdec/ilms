@@ -16,6 +16,16 @@ feature 'Author of lesson create material', %q{
       click_on 'New material'
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(lesson.decorate.title_preview)
+        expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_content('New material')
+      end
+    end
+
     context 'with valid data' do
       given(:attributes) { attributes_for(:material) }
 

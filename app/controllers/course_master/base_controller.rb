@@ -7,6 +7,10 @@ class CourseMaster::BaseController < ApplicationController
   respond_to :json, only: %i(destroy create update used unused index)
   before_action :verify_requested_format!
 
+  breadcrumb 'course_master.manage_courses', :course_master_path,
+                                             match: :exact,
+                                             only: %i(index edit new show)
+
   protected
 
   def require_manage_courses_abilities

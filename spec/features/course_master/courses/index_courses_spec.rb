@@ -13,6 +13,13 @@ feature 'User see courses', %q{
       visit course_master_courses_path
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage course')
+        expect(page).to have_content('Courses')
+      end
+    end
+
     scenario 'see all courses' do
       courses = CourseDecorator.decorate_collection(user.courses)
 

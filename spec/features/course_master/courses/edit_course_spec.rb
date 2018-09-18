@@ -16,6 +16,14 @@ feature 'Show course', %q{
       click_on course.title
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_content(course.title)
+      end
+    end
+
     scenario 'see title course properties' do
       ['Title', 'Short description', 'Decoration\'s description',
        'Difficulty', 'Badge', 'Published', 'Image'].each do |property|

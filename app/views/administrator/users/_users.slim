@@ -10,7 +10,7 @@ table class='table table-striped user-items table-vcenter small'
   tbody
     - @users.each do |user|
       tr class='user-item small'
-        td.full_name= link_to user.full_name, administrator_user_path(user)
+        td.full_name= link_to user.full_name, user_path(user)
         td.email= user.email
         td.role= editable_role(user)
         td.text-center.created_at= user.created_at

@@ -54,6 +54,7 @@ gem 'font-awesome-sass', '~> 5.0.13'
 gem 'draper'
 gem 'gon'
 gem 'kaminari'
+gem 'loaf'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

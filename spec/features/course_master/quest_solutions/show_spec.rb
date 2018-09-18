@@ -23,6 +23,14 @@ feature 'Show quest solutions', %q{
       context 'when not verified' do
         before { click_on 'Verify' }
 
+        scenario 'see breadcrumb' do
+          within '.breadcrumb' do
+            expect(page).to have_link('Manage courses')
+            expect(page).to have_link("Quest's solutions")
+            expect(page).to have_content("Solution")
+          end
+        end
+
         scenario 'can accept quest solution', js: true do
           expect(page).to_not have_content('Solution (Accepted)')
           expect(page).to have_content('Solution (Unverified)')

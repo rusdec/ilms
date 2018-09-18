@@ -19,6 +19,16 @@ feature 'Author of lesson update material', %q{
       end
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link(lesson.decorate.title_preview)
+        expect(page).to have_content(material.title)
+      end
+    end
+
     scenario 'can back to materials' do
       click_on 'Back to materials'
       expect(page).to have_content('Edit lesson')

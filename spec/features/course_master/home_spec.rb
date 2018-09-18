@@ -18,6 +18,7 @@ feature 'Course manage home page', %q{
           expect(page).to have_link('Manage courses')
         end
 
+
         scenario 'can open manage course page' do
           click_link('Manage courses')
           expect(page).to have_content('Manage courses')

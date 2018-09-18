@@ -1,21 +1,27 @@
 class CourseMaster::LessonsController < CourseMaster::BaseController
   before_action :set_course, only: %i(new create)
+  before_action :set_new_lesson, only: :new
   before_action :set_lesson, only: %i(show destroy update edit)
+  before_action :set_persisted_lessons, only: %i(new edit)
   before_action :require_author_of_course, only: %i(new create)
   before_action :require_author_of_lesson, only: %i(destroy update edit)
+
+  breadcrumb 'course_master.courses', :course_master_courses_path,
+                                      match: :exact,
+                                      only: %i(index edit new)
+
+  before_action :set_breadcrumb_chain, only: %i(new edit)
 
   include JsonResponsed
 
   def edit
-    @lessons = @lesson.course.lessons.persisted
     @lesson = @lesson.decorate
   end
 
   def show; end
 
   def new
-    @lessons = @course.lessons.persisted
-    @lesson = @course.lessons.new.decorate
+    @lesson = @lesson.decorate
   end
 
   def update
@@ -39,6 +45,18 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
 
   protected
 
+  def set_breadcrumb_chain
+    breadcrumb @lesson.course.decorate.title_preview,
+               edit_course_master_course_path(@lesson.course), match: :exact
+
+    if @lesson.persisted?
+      breadcrumb @lesson.title,
+        edit_course_master_lesson_path(@lesson), match: :exact
+    else
+      breadcrumb 'course_master.new_lesson', ''
+    end
+  end
+
   def require_author_of_course
     authorize! :author, @course
   end
@@ -51,9 +69,16 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
     @course = Course.find(params[:course_id])
   end
 
-
   def set_lesson
     @lesson = Lesson.find(params[:id])
+  end
+
+  def set_new_lesson
+    @lesson = @course.lessons.new
+  end
+
+  def set_persisted_lessons
+    @lessons = @lesson.course.lessons.persisted
   end
 
   def lesson_params

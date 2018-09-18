@@ -17,6 +17,16 @@ feature 'New quest', %q{
       click_on 'New quest'
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(lesson.decorate.title_preview)
+        expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_content('New quest')
+      end
+    end
+
     context 'with valid data' do
       given(:attributes) { attributes_for(:quest) }
       before do

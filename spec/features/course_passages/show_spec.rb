@@ -21,6 +21,13 @@ feature 'Course passage page', %q{
         visit passage_path(course_passage, locale: I18n.locale)
       end
 
+      scenario 'see breadcrubm' do
+        within '.breadcrumb' do
+          expect(page).to have_link('My courses')
+          expect(page).to have_content(course.title)
+        end
+      end
+
       scenario 'see list of lesson passages' do
         passages = LessonPassageDecorator.decorate_collection(course_passage.lesson_passages)
         within '.row-lessons' do

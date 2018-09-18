@@ -8,9 +8,7 @@ feature 'Edit badge', %q{
 
   given!(:course) { create(:course) }
   given!(:badge) do
-    BadgeDecorator.decorate(
-      create(:badge, badgable: course, course: course, author: course.author)
-    )
+    create(:badge, badgable: course, course: course, author: course.author).decorate
   end
   
   context 'when author' do
@@ -20,6 +18,15 @@ feature 'Edit badge', %q{
       click_on 'Badges'
       within ".badge-item[data-id='#{badge.id}']" do
         click_on 'Edit'
+      end
+    end
+
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(course.decorate.title_preview)
+        expect(page).to have_content(badge.title)
       end
     end
 

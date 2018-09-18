@@ -23,6 +23,13 @@ feature 'View quest solutions', %q{
         visit course_master_solutions_path
       end
 
+      scenario 'see breadcrumb' do
+        within '.breadcrumb' do
+          expect(page).to have_link('Manage courses')
+          expect(page).to have_content("Quest's solutions")
+        end
+      end
+
       scenario 'see quest solutons list' do
         expect(page).to have_link('Verify', count: passage_solutions.count)
         expect(page).to have_content('Quest\'s solutions')

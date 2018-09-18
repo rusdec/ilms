@@ -5,6 +5,9 @@ class CourseMaster::PassageSolutionsController < CourseMaster::BaseController
   before_action :set_passage_solution, only: %i(accept decline show)
   before_action :require_author_abilities, only: %i(accept decline show)
 
+  breadcrumb 'course_master.quests_solutions', :course_master_solutions_path,
+                                               only: %i(index show), match: :exact
+
   respond_to :json, only: %i(accept decline)
 
   def index
@@ -12,6 +15,7 @@ class CourseMaster::PassageSolutionsController < CourseMaster::BaseController
   end
 
   def show
+    breadcrumb 'course_master.solution', course_master_solution_path(@passage_solution)
     @passage_solution = @passage_solution.decorate
   end
 

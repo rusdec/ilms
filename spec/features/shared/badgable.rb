@@ -1,5 +1,6 @@
 # Variables
 #   @param Badgable badgable => any with role Badgable
+#   @param Array crumbs => array with object for breadcrumbs between 'Courses' and 'New badge'
 #   @param String new_badgable_path => url to create badgable page
 shared_examples_for 'badgable' do
   before { sign_in(badgable.author) }
@@ -12,6 +13,17 @@ shared_examples_for 'badgable' do
 
     scenario 'see link to related badgable' do
       expect(page).to have_link("Back to badges")
+    end
+
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        crumbs.each do |crumb|
+          expect(page).to have_link(crumb.decorate.title_preview)
+        end
+        expect(page).to have_content('New badge')
+      end
     end
 
     context 'with valid data' do

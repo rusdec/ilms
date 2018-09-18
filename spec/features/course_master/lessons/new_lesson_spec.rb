@@ -17,6 +17,15 @@ feature 'New lesson', %q{
       click_on 'New lesson'
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(course.title)
+        expect(page).to have_content('New lesson')
+      end
+    end
+
     context 'with valid data' do
       let(:parent_lesson) { course.lessons.last }
       let(:lesson) { attributes_for(:lesson) }

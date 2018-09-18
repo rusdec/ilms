@@ -6,6 +6,12 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   before_action :set_quest_form, only: %i(edit update destroy)
   before_action :set_new_quest_form, only: %i(new create)
 
+  breadcrumb 'course_master.courses', :course_master_courses_path,
+                                      match: :exact,
+                                      only: %i(index edit new)
+
+  before_action :set_breadcrumb_chain, only: %i(new edit)
+
   def new; end
 
   def edit; end
@@ -31,6 +37,19 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   end
 
   protected
+
+  def set_breadcrumb_chain
+    [@quest_form.quest.lesson.course, @quest_form.quest.lesson].each do |crumb|
+      breadcrumb crumb.decorate.title_preview,
+                 polymorphic_path([:edit, :course_master, crumb])
+    end
+
+    if @quest_form.persisted?
+      breadcrumb @quest_form.title, edit_course_master_quest_path(@quest_form.quest)
+    else
+      breadcrumb 'course_master.new_quest', ''
+    end
+  end
 
   def require_author_abilities
     authorize! :author, @quest

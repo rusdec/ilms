@@ -2,6 +2,7 @@ ru:
   course_master:
     courses:
       edit:
+        courses: 'Курсы'
         edit_course: 'Редактировать курс'
         course: 'Курс'
         lessons: 'Уроки'

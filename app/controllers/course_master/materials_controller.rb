@@ -8,6 +8,12 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   before_action :set_material, only: %i(edit update destroy)
   before_action :require_material_author_abilities, only: %i(edit update destroy)
 
+  breadcrumb 'course_master.courses', :course_master_courses_path,
+                                      match: :exact,
+                                      only: %i(index edit new)
+
+  before_action :set_breadcrumb_chain, only: %i(new edit)
+
   def new; end
 
   def edit; end
@@ -33,6 +39,19 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   end
 
   private
+
+  def set_breadcrumb_chain
+    [@material.lesson.course, @material.lesson].each do |crumb|
+      breadcrumb crumb.decorate.title_preview,
+                 polymorphic_path([:edit, :course_master, crumb])
+    end
+
+    if @material.persisted?
+      breadcrumb @material.title, edit_course_master_material_path(@material)
+    else
+      breadcrumb 'course_master.new_material', ''
+    end
+  end
 
   def require_material_author_abilities
     authorize! :author, @material

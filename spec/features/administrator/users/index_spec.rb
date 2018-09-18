@@ -14,6 +14,13 @@ feature 'Index user', %q{
   given!(:users) { UserDecorator.decorate_collection(User.all) }
 
   context 'when administrator' do
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Administration')
+        expect(page).to have_content('Users')
+      end
+    end
+
     scenario 'see list of users' do
       expect(page).to have_content('Users')
 

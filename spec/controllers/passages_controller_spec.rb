@@ -12,6 +12,9 @@ RSpec.describe PassagesController, type: :controller do
 
     model do
       include Passable
+      def title
+        'SomeTitle'*5
+      end
     end
   end
 

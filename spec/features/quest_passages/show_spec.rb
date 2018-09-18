@@ -20,6 +20,15 @@ feature 'Show quest_passage page', %q{
         visit passage_path(passage, locale: I18n.locale)
       end
 
+      scenario 'see breadcrumb' do
+        within '.breadcrumb' do
+          expect(page).to have_link('My courses')
+          expect(page).to have_link(course.title)
+          expect(page).to have_link(lesson.title)
+          expect(page).to have_content(passage.passable.title)
+        end
+      end
+
       scenario 'see quest details' do
         %i(title description).each do |field|
           expect(page).to have_content(passage.passable.send field)

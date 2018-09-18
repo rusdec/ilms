@@ -5,7 +5,6 @@
   = render partial: 'lessons/passages/materials', locals: { lesson: @passage.passable }
 
   = render partial: 'lessons/passages/rightside_menu',
-           locals: { lesson: @passage.passable,
-                     back_path: passage_path(@passage.parent) }
+           locals: { lesson: @passage.passable }
 
 = render partial: 'lessons/passages/quests', locals: { lesson_passage: @passage }

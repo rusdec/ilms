@@ -15,7 +15,10 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
     end
   end
 
-  controller do; end
+  controller do
+    def set_breadcrumb_chain_any_badgable(x)
+    end
+  end
 
   before do
     routes.draw do

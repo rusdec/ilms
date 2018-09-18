@@ -16,6 +16,15 @@ feature 'Edit lesson', %q{
       click_on 'Edit'
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_content(lesson.title)
+      end
+    end
+
     scenario 'can back to lessons' do
       click_on 'Back to lessons'
       expect(page).to have_content('Edit course')

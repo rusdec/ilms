@@ -2,6 +2,10 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
   before_action :set_course, only: %i(update edit destroy show)
   before_action :require_author_of_course, only: %i(edit destroy update)
 
+  breadcrumb 'course_master.courses', :course_master_courses_path,
+                                      match: :exact,
+                                      only: %i(index edit new)
+
   before_action :decorate_course, only: %i(edit show)
 
   include JsonResponsed
@@ -17,11 +21,14 @@ class CourseMaster::CoursesController < CourseMaster::BaseController
                             with_flash: true)
   end
 
-  def edit; end
+  def edit
+    breadcrumb @course.title, course_master_course_path(@course)
+  end
 
   def show; end
 
   def new
+    breadcrumb 'course_master.new_course', ''
     @course = current_user.courses.new.decorate
   end
 

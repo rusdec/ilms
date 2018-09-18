@@ -17,6 +17,11 @@ class PassagesController < ApplicationController
   end
 
   def show
+    breadcrumb 'my_courses', courses_user_path(current_user)
+    @passage.self_and_ancestors.each do |passage|
+      breadcrumb passage.passable.title, passage_path(passage)
+    end
+
     @passage = decorator_class.decorate(@passage)
     render "#{@passable_type}/passages/show"
   end

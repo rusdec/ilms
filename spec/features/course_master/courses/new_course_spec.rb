@@ -32,6 +32,14 @@ feature 'Create course', %q{
     end
   end
 
+  scenario 'see breadcrumb' do
+    within '.breadcrumb' do
+      expect(page).to have_link('Manage courses')
+      expect(page).to have_link('Courses')
+      expect(page).to have_content('New course')
+    end
+  end
+
   scenario 'see course properties' do
     ['Title', 'Decoration\'s description', 'Short description',
      'Difficulty', 'Published', 'Knowledges', 'Image'].each do |property|

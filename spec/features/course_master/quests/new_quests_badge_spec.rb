@@ -10,5 +10,6 @@ feature 'Create badge', %q{
     given(:new_badgable_path) do
       new_course_master_lesson_quest_path(badgable.lesson, locale: I18n.locale)
     end
+    given(:crumbs) { [badgable.course, badgable.lesson] }
   end
 end

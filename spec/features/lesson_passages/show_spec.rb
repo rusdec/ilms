@@ -18,6 +18,14 @@ feature 'Show lesson_passage page', %q{
         visit passage_path(lesson_passage, locale: I18n.locale)
       end
 
+      scenario 'see breadcrumb' do
+        within '.breadcrumb' do
+          expect(page).to have_link('My courses')
+          expect(page).to have_link(lesson.course.title)
+          expect(page).to have_content(lesson.title)
+        end
+      end
+
       scenario 'see lesson details' do
         %i(title ideas summary check_yourself).each do |field|
           expect(page).to have_content(lesson.send field)
@@ -59,18 +67,6 @@ feature 'Show lesson_passage page', %q{
         lesson.materials.each do |material|
           %i(title body summary).each do |field|
             expect(page).to have_content(material.send field)
-          end
-        end
-      end
-
-      scenario 'can back to course_passage' do
-        click_on 'Back'
-        user.passages.for_lessons.each do |lesson_passage|
-          expect(page).to have_content(lesson_passage.passable.title)
-        end
-        lesson.materials.each do |material|
-          %i(title body summary).each do |field|
-            expect(page).to_not have_content(material.send field)
           end
         end
       end

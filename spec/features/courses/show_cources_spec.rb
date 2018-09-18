@@ -18,6 +18,8 @@ feature 'Show course', %q{
     end
 
     scenario 'see details of course ' do
+      # count 2: page title, breadcrumb
+      expect(page).to have_content(course.title, count: 2)
       expect(page).to have_content(course.author.full_name)
       expect(page).to have_content('Author')
       expect(page).to have_content("Difficulty: #{course.difficulty}")
@@ -54,5 +56,14 @@ feature 'Show course', %q{
       expect(page).to_not have_content(course.title)
       expect(page).to_not have_button('Learn now!')
     end
-  end
+  end #  context 'when course is not publicated'
+
+  scenario 'user see breadcrumbs' do
+    visit course_path(course, locale: I18n.locale)
+
+    within '.breadcrumb' do
+      expect(page).to have_link('Courses')
+      expect(page).to have_content(course.title)
+    end
+  end # scenario 'user see breadcrumbs'
 end
