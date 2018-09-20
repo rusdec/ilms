@@ -4,13 +4,13 @@ table.table.card-table.table-striped.table-vcenter.lesson-items
       th.text-center= t('.difficulty')
       th= t('.title')
       th= t('.parent')
-      th= t('created_at')
-      th.text-center= t('actions.actions')
+      th.text-right= t('created_at')
+      th.text-right= t('actions.actions')
   tbody.small
     - lessons.each do |lesson|
       tr.lesson-item data-id=lesson.id
         td.difficulty.text-center= lesson.difficulty
-        td.title_preview= lesson.title_preview
-        td.parent_title= lesson.parent&.title
-        td.created_at= lesson.created_at
-        td.text-center= lesson.remote_links
+        td.title_preview= link_to lesson.title_preview, edit_course_master_lesson_path(lesson)
+        td.parent_title= lesson.parent&.decorate&.title_preview
+        td.text-right.created_at= lesson.created_at
+        td.text-right= lesson.remote_links

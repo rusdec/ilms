@@ -12,7 +12,6 @@ feature 'Author of lesson create material', %q{
     before do
       sign_in(author)
       visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
-      click_on 'Materials'
       click_on 'New material'
     end
 
@@ -20,8 +19,9 @@ feature 'Author of lesson create material', %q{
       within '.breadcrumb' do
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
-        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
+        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_content('New material')
       end
     end

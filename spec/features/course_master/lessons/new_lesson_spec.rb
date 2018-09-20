@@ -12,8 +12,7 @@ feature 'New lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_course_path(course, locale: I18n.locale)
-      click_on 'Lessons'
+      visit course_master_course_lessons_path(course, locale: I18n.locale)
       click_on 'New lesson'
     end
 
@@ -22,6 +21,7 @@ feature 'New lesson', %q{
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
         expect(page).to have_link(course.title)
+        expect(page).to have_link('Lessons')
         expect(page).to have_content('New lesson')
       end
     end
@@ -44,9 +44,6 @@ feature 'New lesson', %q{
         Capybara.using_wait_time(5) do
           expect(page).to have_content('Success')
           expect(page).to have_content('Back to lessons')
-          expect(page).to have_link('Lesson')
-          expect(page).to have_link('Materials')
-          expect(page).to have_link('Quests')
         end
       end # scenario 'can create new lesson'
     end # context 'with valid data'

@@ -20,7 +20,7 @@ shared_examples_for 'badgable' do
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
         crumbs.each do |crumb|
-          expect(page).to have_link(crumb.decorate.title_preview)
+          expect(page).to have_link(crumb)
         end
         expect(page).to have_content('New badge')
       end

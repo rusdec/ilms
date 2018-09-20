@@ -11,9 +11,8 @@ feature 'Edit lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_course_path(lesson.course, locale: I18n.locale)
-      click_on 'Lessons'
-      click_on 'Edit'
+      visit course_master_course_lessons_path(lesson.course, locale: I18n.locale)
+      click_edit_remote_link
     end
 
     scenario 'see breadcrumb' do
@@ -21,15 +20,16 @@ feature 'Edit lesson', %q{
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
         expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
         expect(page).to have_content(lesson.title)
       end
     end
 
     scenario 'can back to lessons' do
       click_on 'Back to lessons'
-      expect(page).to have_content('Edit course')
+      expect(page).to have_content('Lessons')
       lesson.course.lessons.each do |lesson|
-        expect(page).to have_content(lesson.title)
+        expect(page).to have_content(lesson.decorate.title_preview)
       end
     end
 

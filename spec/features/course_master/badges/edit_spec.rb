@@ -14,10 +14,9 @@ feature 'Edit badge', %q{
   context 'when author' do
     before do
       sign_in(course.author)
-      visit edit_course_master_course_path(course, locale: I18n.locale)
-      click_on 'Badges'
+      visit course_master_course_badges_path(course, locale: I18n.locale)
       within ".badge-item[data-id='#{badge.id}']" do
-        click_on 'Edit'
+        click_edit_remote_link
       end
     end
 
@@ -26,13 +25,14 @@ feature 'Edit badge', %q{
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
         expect(page).to have_link(course.decorate.title_preview)
+        expect(page).to have_link('Badges')
         expect(page).to have_content(badge.title)
       end
     end
 
     scenario 'can back to badges' do
       click_on 'Back to badges'
-      expect(page).to have_content('Edit course')
+      expect(page).to have_content('Badges')
       course.badges.each do |badge|
         expect(page).to have_content(badge.title)
       end

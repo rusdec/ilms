@@ -1,9 +1,9 @@
 class CourseMaster::LessonsController < CourseMaster::BaseController
-  before_action :set_course, only: %i(new create)
+  before_action :set_course, only: %i(new create index)
   before_action :set_new_lesson, only: :new
   before_action :set_lesson, only: %i(show destroy update edit)
   before_action :set_persisted_lessons, only: %i(new edit)
-  before_action :require_author_of_course, only: %i(new create)
+  before_action :require_author_of_course, only: %i(new create index)
   before_action :require_author_of_lesson, only: %i(destroy update edit)
 
   breadcrumb 'course_master.courses', :course_master_courses_path,
@@ -11,18 +11,21 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
                                       only: %i(index edit new)
 
   before_action :set_breadcrumb_chain, only: %i(new edit)
+  before_action :decorate_lesson, only: %i(edit new)
 
   include JsonResponsed
 
-  def edit
-    @lesson = @lesson.decorate
+  def index
+    breadcrumb @course.decorate.title_preview, edit_course_master_course_path(@course)
+    breadcrumb 'lessons', course_master_course_lessons_path(@course)
+    @lessons = LessonDecorator.decorate_collection(
+      @course.lessons.roots_and_descendants_preordered
+    )
   end
 
-  def show; end
+  def edit; end
 
-  def new
-    @lesson = @lesson.decorate
-  end
+  def new; end
 
   def update
     @lesson.update(lesson_params)
@@ -45,9 +48,16 @@ class CourseMaster::LessonsController < CourseMaster::BaseController
 
   protected
 
+  def decorate_lesson
+    @lesson = @lesson.decorate
+  end
+
+  # For edit, new
   def set_breadcrumb_chain
     breadcrumb @lesson.course.decorate.title_preview,
                edit_course_master_course_path(@lesson.course), match: :exact
+
+    breadcrumb 'lessons', course_master_course_lessons_path(@course || @lesson.course), match: :exact
 
     if @lesson.persisted?
       breadcrumb @lesson.title,

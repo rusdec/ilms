@@ -34,7 +34,8 @@ feature 'User see courses', %q{
     end
 
     it_behaves_like 'having_remote_links' do
-      let(:resources) { user.courses }
+      given(:resources) { user.courses }
+      given(:container) { '.course-items' }
     end
   end # context 'when user with any manage role'
 

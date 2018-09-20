@@ -2,29 +2,20 @@
 
 .row
   .col
-    ul#mainPageTab class='nav nav-tabs' role='tablist'
-      li.nav-item
-        a#lesson-tab class='nav-link active' data-toggle='tab' href='#lesson' role='tab' aria-controls='lesson' aria-selected='true'
-          = t('.lesson')
+    = render partial: 'form', locals: { model: [:course_master, @lesson] }
 
-      li.nav-item
-        a#materials-tab class='nav-link' data-toggle='tab' href='#materials' role='tab' aria-controls='materials' aria-selected='false'
-          = "#{t('.materials')} (#{@lesson.materials.count})"
+.row.mt-5
+  .col
+    = page_title(t('.materials'))
+    .card
+      = render partial: 'course_master/materials/materials', locals: { materials: @lesson.materials }
+    .text-center
+      = @lesson.button_new_material
 
-      li.nav-item
-        a#quests-tab class='nav-link' data-toggle='tab' href='#quests' role='tab' aria-controls='quests' aria-selected='false'
-          = "#{t('.quests')} (#{@lesson.quests.count})"
-
-    #mainPageTabContent class='tab-content mt-5'
-      #lesson class='tab-pane fade show active' role='tabpanel' aria-labelledby='lesson-tab'
-        = render partial: 'form', locals: { model: [:course_master, @lesson] }
-
-      #materials class='tab-pane fade' role='tabpanel' aria-labelledby='materials-tab'
-        .card
-          = render partial: 'course_master/materials/materials', locals: { materials: @lesson.materials }
-        = @lesson.button_new_material
-
-      #quests class='tab-pane fade' role='tabpanel' aria-labelledby='quests-tab'
-        .card
-          = render partial: 'course_master/quests/quests', locals: { quests: @lesson.quests }
-        = @lesson.button_new_quest
+.row.mt-5
+  .col
+    = page_title(t('.quests'))
+    .card
+      = render partial: 'course_master/quests/quests', locals: { quests: @lesson.quests }
+    .text-center
+      = @lesson.button_new_quest

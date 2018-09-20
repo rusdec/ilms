@@ -16,8 +16,8 @@ feature 'Destory lesson', %q{
       click_on 'Lessons'
     end
 
-    scenario 'can delete course', js: true do
-      click_on 'Delete'
+    scenario 'can delete lesson', js: true do
+      click_destory_remote_link
 
       expect(page).to have_content('Success')
       expect(page).to_not have_content(lesson.title)

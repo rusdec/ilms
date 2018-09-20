@@ -13,9 +13,8 @@ feature 'Author of lesson update material', %q{
     before do
       sign_in(author)
       visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
-      click_on 'Materials'
       within ".material-item[data-id='#{material.id}']" do
-        click_on 'Edit'
+        click_edit_remote_link
       end
     end
 
@@ -24,6 +23,7 @@ feature 'Author of lesson update material', %q{
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
         expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
         expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_content(material.title)
       end

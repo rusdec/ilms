@@ -14,7 +14,12 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   before_action :decorate_badge, only: %i(edit new)
 
   def index
-    @badges = BadgeDecorator.decorate_collection(current_user.created_badges)
+    @course = Course.find(params[:course_id])
+    authorize! :author, @course
+    breadcrumb @course.decorate.title_preview,
+               edit_course_master_course_path(@course)
+    breadcrumb 'course_master.badges', course_master_courses_path
+    @badges = BadgeDecorator.decorate_collection(@course.badges)
   end
 
   def new; end
@@ -53,20 +58,22 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   end
 
   def set_breadcrumb_chain_course(course)
-    breadcrumb course.decorate.title_preview,
-               polymorphic_path([:edit, :course_master, course])
+    breadcrumb course.decorate.title_preview, edit_course_master_course_path(course)
     set_breadcrumb_badge
   end
 
   def set_breadcrumb_chain_quest(quest)
-    [quest.course, quest.lesson].each do |crumb|
-      breadcrumb crumb.decorate.title_preview,
-                 polymorphic_path([:edit, :course_master, crumb])
-    end
+    breadcrumb quest.course.decorate.title_preview,
+               edit_course_master_course_path(quest.course)
+    breadcrumb 'course_master.lessons',
+               course_master_course_lessons_path(quest.course)
+    breadcrumb quest.lesson.decorate.title_preview,
+               course_master_lesson_path(quest.lesson)
     set_breadcrumb_badge
   end
 
   def set_breadcrumb_badge
+    breadcrumb 'course_master.badges', course_master_course_badges_path(@badge.course)
     if @badge.persisted?
       breadcrumb @badge.title, edit_course_master_badge_path(@badge)
     else

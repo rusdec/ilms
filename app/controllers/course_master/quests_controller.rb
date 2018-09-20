@@ -39,10 +39,13 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
   protected
 
   def set_breadcrumb_chain
-    [@quest_form.quest.lesson.course, @quest_form.quest.lesson].each do |crumb|
-      breadcrumb crumb.decorate.title_preview,
-                 polymorphic_path([:edit, :course_master, crumb])
-    end
+    quest = @quest_form.quest
+    breadcrumb quest.lesson.course.decorate.title_preview,
+               edit_course_master_course_path(quest.lesson.course)
+    breadcrumb 'course_master.lessons',
+               course_master_course_lessons_path(quest.lesson.course)
+    breadcrumb quest.lesson.decorate.title_preview,
+               edit_course_master_lesson_path(quest.lesson)
 
     if @quest_form.persisted?
       breadcrumb @quest_form.title, edit_course_master_quest_path(@quest_form.quest)

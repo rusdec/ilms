@@ -1,35 +1,14 @@
 = page_title(t('.edit_course'))
+= render partial: 'shared/course_master/manage_courses_tabs',
+         locals: { lessons_count: @course.lessons.count,
+                   badges_count: @course.badges.count,
+                   course: @course }
 
 .row
   .col
-
-    ul#mainPageTab class='nav nav-tabs' role='tablist'
-      li.nav-item
-        a#course-tab class='nav-link active' data-toggle='tab' href='#course' role='tab' aria-controls='course' aria-selected='true'
-          = t('.course')
-
-      li.nav-item
-        a#lessons-tab class='nav-link' data-toggle='tab' href='#lessons' role='tab' aria-controls='lessons' aria-selected='false'
-          = "#{t('.lessons')} (#{@course.lessons.count})"
-
-      li.nav-item
-        a#badges-tab class='nav-link' data-toggle='tab' href='#badges' role='tab' aria-controls='badges' aria-selected='false'
-          = "#{t('.badges')} (#{@course.badges.count})"
-
-      li.nav-item
-        a#statistics-tab class='nav-link' data-toggle='tab' href='#statistics' role='tab' aria-controls='statistics' aria-selected='false'
-          = t('.statistic')
-
-
     #mainPageTabContent class='tab-content mt-5'
       #course class='tab-pane fade show active' role='tabpanel' aria-labelledby='course-tab'
         = render partial: 'form', locals: { model: [:course_master, @course] }
-
-      #lessons class='tab-pane fade' role='tabpanel' aria-labelledby='lessons-tab'
-        .card
-          = render partial: 'course_master/lessons/lessons',
-                   locals: { lessons: @course.lessons }
-        = @course.button_new_lesson
 
       #badges class='tab-pane fade' role='tabpanel' aria-labelledby='badges-tab'
         .card

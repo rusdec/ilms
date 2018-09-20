@@ -13,12 +13,11 @@ feature 'Author destory material', %q{
     before do
       sign_in(author)
       visit edit_course_master_lesson_path(material.lesson, locale: I18n.locale)
-      click_on('Materials')
     end
 
-    scenario 'can delete course', js: true do
+    scenario 'can delete material', js: true do
       within ".material-item[data-id='#{material.id}']" do
-        click_on 'Delete'
+        click_destory_remote_link
       end
 
       expect(page).to have_content('Success')

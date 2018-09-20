@@ -41,10 +41,12 @@ class CourseMaster::MaterialsController < CourseMaster::BaseController
   private
 
   def set_breadcrumb_chain
-    [@material.lesson.course, @material.lesson].each do |crumb|
-      breadcrumb crumb.decorate.title_preview,
-                 polymorphic_path([:edit, :course_master, crumb])
-    end
+    breadcrumb @material.lesson.course.decorate.title_preview,
+               edit_course_master_course_path(@material.lesson.course)
+    breadcrumb 'course_master.lessons',
+               course_master_course_lessons_path(@material.lesson.course)
+    breadcrumb @material.lesson.decorate.title_preview,
+               edit_course_master_lesson_path(@material.lesson)
 
     if @material.persisted?
       breadcrumb @material.title, edit_course_master_material_path(@material)

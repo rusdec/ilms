@@ -5,11 +5,14 @@ en:
     breadcrumbs:
       courses: 'Courses'
       my_courses: 'My courses'
+      lessons: 'Lessons'
       administrator:
         administration: 'Administration'
         users: 'Users'
       course_master:
         courses: 'Courses'
+        lessons: 'Lessons'
+        badges: 'Badges'
         manage_courses: 'Manage courses'
         new_lesson: 'New lesson'
         new_course: 'New course'

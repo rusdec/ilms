@@ -15,11 +15,12 @@ module CourseMaster::SharedHelper
     model = [:course_master] + model
     yield_if_author(resource) do
       content_tag :span, class: 'remote-links small' do
-        concat(link_to t('actions.edit'), edit_polymorphic_path(model))
-        concat(link_to t('actions.delete'), polymorphic_path(model),
-                                 class: "destroy_#{underscored_klass(resource)} destroy",
-                                 method: :delete,
-                                 remote: true)
+        concat(link_to icon(:fas, 'edit'), edit_polymorphic_path(model),
+                       class: 'edit')
+        concat(link_to icon(:fas, 'trash-alt'), polymorphic_path(model),
+                       class: "destroy_#{underscored_klass(resource)} destroy",
+                       method: :delete,
+                       remote: true)
       end
     end
   end

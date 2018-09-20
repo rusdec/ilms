@@ -5,11 +5,14 @@ ru:
     breadcrumbs:
       courses: 'Курсы'
       my_courses: 'Мои курсы'
+      lessons: 'Уроки'
       administrator:
         administration: 'Администрирование'
         users: 'Пользователи'
       course_master:
         courses: 'Курсы'
+        lessons: 'Уроки'
+        badges: 'Значки'
         manage_courses: 'Управление курсами'
         new_lesson: 'Новый урок'
         new_course: 'Новый курс'

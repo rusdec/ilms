@@ -9,27 +9,23 @@ feature 'Delete badge', %q{
   context 'when user with any manage role' do
     given!(:course) { create(:course) }
     given!(:badge) do
-      BadgeDecorator.decorate(
-        create(:badge, badgable: course, course: course, author: course.author)
-      )
+      create(:badge, badgable: course, course: course, author: course.author).decorate
     end
 
     before do
       sign_in(course.author)
-      visit edit_course_master_course_path(course, locale: I18n.locale)
-      click_on 'Badges'
+      visit course_master_course_badges_path(course, locale: I18n.locale)
     end
 
     scenario 'can delete badge', js: true do
       within ".badge-item[data-id='#{badge.id}']" do
-        click_on 'Delete'
+        click_destory_remote_link
       end
 
       Capybara.using_wait_time(5) do
         expect(page).to have_content('Success')
-        expect(page).to_not have_link('Delete')
+        expect(page).to_not have_content(badge.title_preview)
       end
-      expect(page).to_not have_content(badge.title_preview)
     end
   end # context 'when user with any manage role'
 end

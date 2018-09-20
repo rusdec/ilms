@@ -13,7 +13,6 @@ feature 'New quest', %q{
     before do
       sign_in(user)
       visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
-      click_on 'Quests'
       click_on 'New quest'
     end
 
@@ -21,8 +20,9 @@ feature 'New quest', %q{
       within '.breadcrumb' do
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
-        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
+        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_content('New quest')
       end
     end

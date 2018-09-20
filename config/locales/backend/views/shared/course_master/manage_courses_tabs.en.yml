@@ -1,0 +1,8 @@
+en:
+  shared:
+    course_master:
+      manage_courses_tabs:
+        course: 'Course'
+        lessons: 'Lessons'
+        badges: 'Badges'
+        statistic: 'Statistic'

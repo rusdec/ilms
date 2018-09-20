@@ -18,9 +18,8 @@ feature 'Edit quest', %q{
     before do
       sign_in(user)
       visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
-      click_on 'Quests'
       within ".quest-item[data-id='#{quest.id}']" do
-        click_on 'Edit'
+        click_edit_remote_link
       end
     end
 
@@ -28,8 +27,9 @@ feature 'Edit quest', %q{
       within '.breadcrumb' do
         expect(page).to have_link('Manage courses')
         expect(page).to have_link('Courses')
-        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
+        expect(page).to have_link(lesson.decorate.title_preview)
         expect(page).to have_content(quest.title)
       end
     end

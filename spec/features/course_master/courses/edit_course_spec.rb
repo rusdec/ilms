@@ -31,11 +31,7 @@ feature 'Show course', %q{
       end
     end
 
-    scenario 'see tabs' do
-      ['Course', 'Lessons', 'Badges', 'Statistic'].each do |tab|
-        expect(page).to have_content(tab)
-      end
-    end
+    it_behaves_like 'having_course_tabs'
 
     scenario 'see link to courses' do
       expect(page).to have_link('Back to courses')

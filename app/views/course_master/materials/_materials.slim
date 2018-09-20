@@ -3,12 +3,12 @@ table.table.card-table.table-striped.table-vcenter.material-items
     tr
       th.text-center= t('.order')
       th= t('.title')
-      th= t('created_at')
-      th.text-center= t('actions.actions')
+      th.text-right= t('created_at')
+      th.text-right= t('actions.actions')
   tbody.small
     - materials.each do |material|
       tr.material-item data-id=material.id
         td.text-center= material.order
-        td= material.title
-        td= material.created_at
-        td.text-center= material.remote_links
+        td= link_to material.title_preview, edit_course_master_material_path(material)
+        td.text-right= material.created_at
+        td.text-right= material.remote_links

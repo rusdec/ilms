@@ -1,0 +1,22 @@
+.row
+  .col
+    ul#mainPageTab class='nav nav-tabs nav-action-name' role='tablist'
+      li.nav-item data-action-name='courses_edit'
+        a.nav-link href=edit_course_master_course_path(course)
+          = t('.course')
+
+      li.nav-item data-action-name='lessons_index'
+        a.nav-link href=course_master_course_lessons_path(course)
+          = t('.lessons')
+          span.count-lessons
+            = "(#{course.lessons.count})"
+
+      li.nav-item data-action-name='badges_index'
+        a.nav-link href=course_master_course_badges_path(course)
+          = t('.badges')
+          span.count-badges
+            = "(#{course.badges.count})"
+
+      li.nav-item
+        a.nav-link href='javascript:void(0)'
+          = t('.statistic')

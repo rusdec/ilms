@@ -8,6 +8,6 @@ feature 'Create badge', %q{
   it_behaves_like 'badgable' do
     given(:badgable) { create(:course) }
     given(:new_badgable_path) { new_course_master_course_path }
-    given(:crumbs) { [badgable] }
+    given(:crumbs) { [badgable.decorate.title_preview] }
   end
 end

@@ -2,6 +2,48 @@ require_relative '../controller_helper'
 
 RSpec.describe CourseMaster::LessonsController, type: :controller do
 
+  describe 'GET #index' do
+    let(:user) { create(:course_master) }
+    let(:course) { create(:course, author: user) }
+    let(:lessons) { create_list(:lesson, 3, course: course, author: course.author) }
+    let(:params) { { course_id: course } }
+
+    before do
+      lessons[2].parent = lessons[0]
+      lessons[1].parent = lessons[2]
+    end
+
+    context 'when author' do
+      before do
+        sign_in(user)
+        get :index, params: params
+      end
+
+      it 'assigns Course to @course' do
+        expect(assigns(:course)).to eq(course)
+      end
+
+      it 'assigns Lessons of course to @lessons' do
+        expect(assigns(:lessons)).to eq(course.lessons.roots_and_descendants_preordered)
+      end
+
+      it 'decorates assigned @lessons' do
+        expect(assigns(:lessons)).to be_decorated
+      end
+    end # context 'when author'
+
+    context 'when not author' do
+      before do
+        sign_in(create(:course_master))
+        get :index, params: params
+      end
+
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_path)
+      end
+    end # context 'when not author'
+  end
+
   describe 'GET #edit' do
     let(:user) { create(:course_master) }
     let!(:lesson) { create(:course, :with_lesson, author: user).lessons.last }

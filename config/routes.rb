@@ -76,7 +76,9 @@ Rails.application.routes.draw do
 
       resources :courses, except: :show do
         concerns :badgable
-        resources :lessons, except: %i(show index), shallow: true do
+        resources :badges, only: :index
+
+        resources :lessons, except: %i(show), shallow: true do
           resources :quests, except: %i(show index) do
             concerns :badgable
           end

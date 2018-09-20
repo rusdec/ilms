@@ -29,4 +29,4 @@
 
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to t('.back_to_quests'), quests_path(@quest_form), class: 'btn btn-secondary'
+    = link_to t('.back_to_quests'), edit_course_master_lesson_path(@quest_form.lesson), class: 'btn btn-secondary'
