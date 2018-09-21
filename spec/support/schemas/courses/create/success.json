@@ -3,10 +3,7 @@
   "properties": {
     "status": {"type": "boolean"},
     "message": {"type":"string"},
-    "location": {
-      "type": "string",
-      "format": "uri"
-    }
+    "location": {"type": "string", "format": "uri"}
   },
   "required": ["status", "message", "location"],
   "maxProperties": 3

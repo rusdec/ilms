@@ -47,6 +47,8 @@ gem 'jquery-rails'
 gem 'slim-rails'
 gem 'responders'
 gem 'active_model_serializers', '~> 0.10.0'
+# Problem with rails 2.5.x and closure_tree last version when rails db:create
+# Example in PushType: https://github.com/pushtype/push_type/issues/47
 gem 'closure_tree'
 gem 'mustache-js-rails'
 gem 'tabler-rubygem'
@@ -81,7 +83,9 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '~> 3.1'
   gem 'rails-controller-testing'
-  gem 'json_matchers'
+  # Problems with references in json_matchers 0.10.0 version 
+  # https://github.com/thoughtbot/json_matchers/issues/90
+  gem 'json_matchers', '~> 0.9.0'
   gem 'with_model'
   gem 'database_cleaner'
 end

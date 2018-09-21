@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "status": {"type": "boolean"},
-    "message": {"type": "Success"},
+    "message": {"type": "string"},
     "objects": {
       "type": "array",
       "items": {

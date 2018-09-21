@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "id": {"type": "integet"},
+    "id": {"type": "integer"},
     "title": {"type": "string"},
     "description": {"type": "string"},
     "difficulty": {"type": "integer"},
@@ -13,7 +13,7 @@
       "items": {
         "type": "object",
         "properties": {
-          "id": {"type": "integet"},
+          "id": {"type": "integer"},
           "current_quest_group": {"type": "boolean"},
           "quests": {
             "type":"array",

@@ -4,7 +4,7 @@
     "status": {"type": "boolean"},
     "errors": {
       "type": "array",
-       "items": {"type": "string"}
+      "items": {"type": "string"}
     }
   },
   "required": ["status", "errors"],

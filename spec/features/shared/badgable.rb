@@ -35,7 +35,7 @@ shared_examples_for 'badgable' do
           attach_file(badge[:image].path)
           click_on 'Create'
         end
-        Capybara.using_wait_time(5) do
+        Capybara.using_wait_time(7) do
           expect(page).to have_content('Edit badge')
           expect(page).to have_content('Success')
           expect(page).to_not have_link('Create Badge')
