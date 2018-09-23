@@ -14,6 +14,9 @@
 - Повысить мотивацию и интерес к процессу обучения у пользователя системы
 
 ## Текущие возможности
+#### Пользователи
+- роли: Пользователь/Мастер курсов/Администратор
+
 #### Уровень курсов
 - управление курсами/уроками/материалами/квестами(задания)
 - возможность создавать необязательные (дополнительные) уроки/квесты
@@ -88,28 +91,28 @@ rails g ilms:administrator --email <эл.почта> --password <пароль>
 ## Примеры страниц
 
 #### Список курсов
-<img src='http://c93197wz.beget.tech/courses.png'>
+![список курсов](https://image.ibb.co/b0G96p/course.png)
 
 #### Страница курса
-<img src='http://c93197wz.beget.tech/course.png'>
+![страница курса](https://image.ibb.co/b0G96p/course.png)
 
 #### Профиль/Главная
-<img src='http://c93197wz.beget.tech/profile-profile.png'>
+![профиль/главная](https://image.ibb.co/grK7sU/profile_profile.png)
 
 #### Профиль/Знания
-<img src='http://c93197wz.beget.tech/profile-knowledges.png'>
+![профиль/знания](https://image.ibb.co/krDdz9/profile_knowledges.png)
 
 #### Профиль/Мои курсы
-<img src='http://c93197wz.beget.tech/profile-courses.png'>
+![профиль/мои курсы](https://image.ibb.co/kxchRp/profile_courses.png)
 
 #### Материал
-<img src='http://c93197wz.beget.tech/material.png'>
+![материал](https://image.ibb.co/d5MnsU/material.png)
 
 #### Решение квеста
-<img src='http://c93197wz.beget.tech/quest_solution.png'>
+![решение квеста](https://image.ibb.co/m2arK9/quest_solution.png)
 
 #### Управление курсами/Редактирование курса
-<img src='http://c93197wz.beget.tech/course_master-edit_course.png'>
+![управление курсами/редактирование курса](https://image.ibb.co/c2vmmp/course_master_edit_course.png)
 
 #### Управление курсами/Редактирование урока
-<img src='http://c93197wz.beget.tech/course_master-edit_lesson.png'>
+![управление курсами/редактирование урока](https://image.ibb.co/hh0K6p/course_master_edit_lesson.png)
