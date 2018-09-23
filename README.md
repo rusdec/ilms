@@ -95,7 +95,7 @@ rails g ilms:administrator --email <эл.почта> --password <пароль>
 ## Примеры страниц
 
 #### Список курсов
-![список курсов](https://image.ibb.co/b0G96p/course.png)
+![список курсов](https://image.ibb.co/gZb96p/courses.png)
 
 #### Страница курса
 ![страница курса](https://image.ibb.co/b0G96p/course.png)
