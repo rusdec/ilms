@@ -66,3 +66,32 @@ bin/setup
 ```
 rails g ilms:administrator --email <эл.почта> --password <пароль>
 ```
+
+## Примеры страниц
+
+#### Список курсов
+<img src='http://c93197wz.beget.tech/courses.png'>
+
+#### Страница курса
+<img src='http://c93197wz.beget.tech/course.png'>
+
+#### Профиль/Главная
+<img src='http://c93197wz.beget.tech/profile-profile.png'>
+
+#### Профиль/Знания
+<img src='http://c93197wz.beget.tech/profile-knowledges.png'>
+
+#### Профиль/Мои курсы
+<img src='http://c93197wz.beget.tech/profile-courses.png'>
+
+#### Материал
+<img src='http://c93197wz.beget.tech/material.png'>
+
+#### Решение квеста
+<img src='http://c93197wz.beget.tech/quest_solution.png'>
+
+#### Управление курсами/Редактирование курса
+<img src='http://c93197wz.beget.tech/course_master-edit_course.png'>
+
+#### Управление курсами/Редактирование урока
+<img src='http://c93197wz.beget.tech/course_master-edit_lesson.png'>
