@@ -14,6 +14,10 @@
 - Повысить мотивацию и интерес к процессу обучения у пользователя системы
 
 ## Текущие возможности
+#### Языки
+- русский
+- english
+
 #### Пользователи
 - роли: Пользователь/Мастер курсов/Администратор
 
@@ -106,7 +110,7 @@ rails g ilms:administrator --email <эл.почта> --password <пароль>
 ![профиль/мои курсы](https://image.ibb.co/kxchRp/profile_courses.png)
 
 #### Материал
-![материал](https://image.ibb.co/d5MnsU/material.png)
+![материал](https://image.ibb.co/mg1jNU/material.png)
 
 #### Решение квеста
 ![решение квеста](https://image.ibb.co/m2arK9/quest_solution.png)
