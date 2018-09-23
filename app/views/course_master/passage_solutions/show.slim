@@ -3,7 +3,7 @@
   .col
     = simple_card(title: t('quest'),
                   body: @passage_solution.passage.passable.body_html)
-    = simple_card(title: "#{t('.solution')} (#{t('statuses.'+@passage_solution.status.name)})",
+    = simple_card(title: "#{t('.solution')} (#{t('statuses.'+@passage_solution.status)})",
                   body: @passage_solution.body_html,
                   anchor: 'passage_solution')
 .row

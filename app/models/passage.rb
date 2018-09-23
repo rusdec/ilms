@@ -19,7 +19,7 @@ class Passage < ApplicationRecord
   default_scope { order(:created_at) }
 
   def self.in_progress?(passable)
-    where(passable: passable, status: Status.in_progress).any?
+    where(passable: passable, status: :in_progress).any?
   end
 
   def try_chain_pass!
@@ -65,7 +65,7 @@ class Passage < ApplicationRecord
 
   def validate_passage_in_progress
     return if can_be_in_progress?
-    if self.class.find_by(user: user, passable: passable, status: Status.in_progress)
+    if self.class.find_by(user: user, passable: passable, status: :in_progress)
       errors.add(passable.class.to_s.underscore.to_sym, 'in progress')
     end
   end

@@ -13,17 +13,17 @@ shared_examples_for 'educable' do
   it do
     should have_many(:passed_passages)
       .class_name('Passage')
-      .conditions(status: Status.passed)
+      .conditions(status: :passed)
   end
   it do
     should have_many(:in_progress_passages)
       .class_name('Passage')
-      .conditions(status: Status.in_progress)
+      .conditions(status: :in_progress)
   end
   it do
     should have_many(:unavailable_passages)
       .class_name('Passage')
-      .conditions(status: Status.unavailable)
+      .conditions(status: :unavailable)
   end
   it { should have_many(:passed_courses).through(:passed_passages).source(:passable) }
   it { should have_many(:passed_lessons).through(:passed_passages).source(:passable) }

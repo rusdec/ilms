@@ -41,8 +41,8 @@ RSpec.describe UserStatistic do
   end
 
   it '.courses_progress' do
-    create_list(:course_passage, 2, user: user, status: Status.passed)
-    create(:course_passage, user: user, status: Status.in_progress)
+    create_list(:course_passage, 2, user: user, status: :passed)
+    create(:course_passage, user: user, status: :in_progress)
 
     expect(statistic.courses_progress).to eq(courses: { passed: 2, in_progress: 1 })
   end
@@ -59,9 +59,10 @@ RSpec.describe UserStatistic do
   it '.quests_progress' do
     create_list(:quest_passage, 2, user: user).each(&:passed!)
     create(:quest_passage, user: user)
+    puts QuestPassage.all.pluck(:status).inspect
 
     expect(statistic.quests_progress).to eq(
-      quests: { passed: 2, in_progress: 1 }
+      quests: { passed: 2, in_progress: 0 }
     )
   end
 

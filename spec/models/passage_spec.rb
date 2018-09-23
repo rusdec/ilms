@@ -24,7 +24,6 @@ RSpec.describe Passage, type: :model do
   it { should belong_to(:user) }
   it { should belong_to(:passable) }
 
-  it_behaves_like 'statusable'
   it_behaves_like 'solutionable'
 
   context '#by_type' do

@@ -41,7 +41,7 @@ RSpec.describe Course, type: :model do
 
     it '.passable_children' do
       course = create(:course, :with_lessons)
-      expect(course.passable_children).to eq(course.lessons)
+      expect(course.passable_children).to eq(course.lessons.roots_and_descendants_preordered)
     end
   end
 

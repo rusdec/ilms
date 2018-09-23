@@ -54,7 +54,7 @@ RSpec.describe CoursePassage, type: :model do
 
   context '.default_status' do
     it 'should be in_progress' do
-      expect(course_passage.status).to eq(Status.in_progress)
+      expect(course_passage.status).to eq('in_progress')
     end
   end
 

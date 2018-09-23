@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_15_014842) do
+ActiveRecord::Schema.define(version: 2018_09_23_142016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,11 +128,10 @@ ActiveRecord::Schema.define(version: 2018_09_15_014842) do
   create_table "passage_solutions", force: :cascade do |t|
     t.bigint "passage_id"
     t.text "body"
-    t.bigint "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status"
     t.index ["passage_id"], name: "index_passage_solutions_on_passage_id"
-    t.index ["status_id"], name: "index_passage_solutions_on_status_id"
   end
 
   create_table "passages", force: :cascade do |t|
@@ -140,12 +139,11 @@ ActiveRecord::Schema.define(version: 2018_09_15_014842) do
     t.bigint "passable_id"
     t.bigint "user_id"
     t.integer "parent_id"
-    t.bigint "status_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
+    t.integer "status"
     t.index ["passable_type", "passable_id"], name: "index_passages_on_passable_type_and_passable_id"
-    t.index ["status_id"], name: "index_passages_on_status_id"
     t.index ["user_id"], name: "index_passages_on_user_id"
   end
 
@@ -171,13 +169,6 @@ ActiveRecord::Schema.define(version: 2018_09_15_014842) do
     t.index ["old_quest_group_id"], name: "index_quests_on_old_quest_group_id"
     t.index ["quest_group_id"], name: "index_quests_on_quest_group_id"
     t.index ["user_id"], name: "index_quests_on_user_id"
-  end
-
-  create_table "statuses", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_statuses_on_name", unique: true
   end
 
   create_table "user_grantables", force: :cascade do |t|

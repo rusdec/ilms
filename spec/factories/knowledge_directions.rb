@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Direction#{n}" }
 
     trait :invalid do
-      name nil
+      name { nil }
     end
   end
 end

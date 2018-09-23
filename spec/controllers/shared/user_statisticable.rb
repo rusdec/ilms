@@ -6,8 +6,8 @@ shared_examples_for 'user_statisticable' do
     let(:params) { { user_id: statistic_user } }
     let(:action) { get :courses_progress, params: params }
     before do
-      create_list(:course_passage, 2, user: statistic_user, status: Status.passed)
-      create(:course_passage, user: statistic_user, status: Status.in_progress)
+      create_list(:course_passage, 2, user: statistic_user, status: :passed)
+      create(:course_passage, user: statistic_user, status: :in_progress)
     end
 
     context 'when json' do

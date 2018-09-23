@@ -13,7 +13,7 @@ class LessonPassage < Passage
 
   # Statusable Template method
   def default_status
-    statuses.unavailable
+    :unavailable
   end
 
   def open!

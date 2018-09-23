@@ -5,7 +5,7 @@ FactoryBot.define do
   end
 
   factory :invalid_passage_solution, class: PassageSolution do
-    body nil
-    passed false
+    body { nil }
+    passed { false }
   end
 end

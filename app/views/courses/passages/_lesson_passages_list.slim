@@ -9,7 +9,7 @@
       tbody
         - lesson_passages.each do |lesson_passage|
           tr
-            td.text-left= lesson_passage.status.badge
+            td.text-left= lesson_passage.status_badge
             - if lesson_passage.unavailable?
               td class='text-muted text-left'= lesson_passage.passable.title
               td class='text-muted text-center' ?

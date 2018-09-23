@@ -3,8 +3,8 @@ FactoryBot.define do
     association :author, factory: :course_master
     sequence(:title) { |n| "CourseTitle#{n}" }
     sequence(:short_description) { |n| "CourseShortDescription#{n}" }
-    published true
-    difficulty 2
+    published { true }
+    difficulty { 2 }
     course_knowledges_attributes {
       [attributes_for(:course_knowledge, knowledge: create(:knowledge))]
     }
@@ -23,7 +23,7 @@ FactoryBot.define do
     end
 
     trait :unpublished do
-      published false
+      published { false }
     end
 
     trait :with_lesson do
@@ -59,6 +59,6 @@ FactoryBot.define do
   end
 
   factory :invalid_course, class: Course do
-    title nil
+    title { nil }
   end
 end

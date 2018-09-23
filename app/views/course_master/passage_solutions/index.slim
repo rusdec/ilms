@@ -14,7 +14,7 @@
         tbody
           - @passage_solutions.each do |solution|
             tr
-              td= solution.status.badge
+              td= solution.status_badge
               td= solution.passage.user.full_name
               td= solution.passage.passable.title_preview
               td= solution.passage.parent.passable.title_preview

@@ -6,7 +6,7 @@
     "body": {"type":"string"},
     "created_at": {"type":"string", "format":"date-time"},
     "updated_at": {"type":"string", "format":"date-time"},
-    "status": {"$ref":"../statuses/status.json"}
+    "status": {"type":"string"}
   },
   "required": ["id","passage_id","body","status","created_at","updated_at"],
   "maxProperties": 7

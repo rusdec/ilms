@@ -39,7 +39,7 @@ RSpec.describe LessonPassage, type: :model do
 
   context '.default_status' do
     it 'should be unavailable' do
-      expect(lesson_passage.status).to eq(Status.unavailable)
+      expect(lesson_passage.status).to eq('unavailable')
     end
   end
 

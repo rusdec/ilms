@@ -12,7 +12,7 @@
           tbody
             - @passages.each do |passage|
               tr
-                td.text-left= passage.status.badge
+                td.text-left= passage.status_badge
                 td.text-left= link_to passage.passable.title, passage_path(passage)
                 td.text-center
                   .clearfix

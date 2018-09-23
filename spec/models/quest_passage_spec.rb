@@ -33,7 +33,7 @@ RSpec.describe QuestPassage, type: :model do
 
   context '.default_status' do
     it 'returns Status unavailable' do
-      expect(quest_passage.status). to eq(Status.unavailable)
+      expect(quest_passage.status). to eq('unavailable')
     end
   end
 

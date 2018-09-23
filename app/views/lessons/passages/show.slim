@@ -1,5 +1,5 @@
 = page_header(@passage.passable.title)
-#passage data-status="#{@passage.status.name}" data-id="#{@passage.id}"
+#passage data-status="#{@passage.status}" data-id="#{@passage.id}"
 
 .row
   = render partial: 'lessons/passages/materials', locals: { lesson: @passage.passable }

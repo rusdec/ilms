@@ -24,7 +24,7 @@
                 .ml-auto
                   - if quest_passage.passed?
                     = link_to passage_path(quest_passage) do
-                      = quest_passage.status.decorate.badge
+                      = quest_passage.status_badge
                   - else
                     = link_to t('.go'), passage_path(quest_passage), class: 'btn btn-outline-secondary btn-sm m-1'
 

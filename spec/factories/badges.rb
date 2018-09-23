@@ -11,6 +11,6 @@ FactoryBot.define do
   end
 
   factory :invalid_badge, class: Badge do
-    title nil
+    title { nil }
   end
 end

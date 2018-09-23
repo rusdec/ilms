@@ -3,10 +3,10 @@ FactoryBot.define do
     association :author, factory: :course_master
     association :course
     sequence(:title) { |n| "LessonTitleText#{n}" }
-    ideas 'LessonIdeas'
-    summary 'LessonSummary'
-    check_yourself 'LessonCheckQuestions'
-    difficulty 2
+    ideas { 'LessonIdeas' }
+    summary { 'LessonSummary' }
+    check_yourself { 'LessonCheckQuestions' }
+    difficulty { 2 }
 
     trait :full do
       after(:create) do |lesson|
@@ -38,6 +38,6 @@ FactoryBot.define do
   end
 
   factory :invalid_lesson, class: Lesson do
-    title nil
+    title { nil }
   end
 end

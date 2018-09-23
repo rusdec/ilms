@@ -49,9 +49,9 @@ class UserStatistic
 
   def top_three_knowledges
     knowledges = user.user_knowledges.order(level: :desc).limit(3)
-    { knowledges: knowledges.collect do |user_knowledge|
+    { knowledges: knowledges.collect { |user_knowledge|
                     { level: user_knowledge.level,
                       knowledge: user_knowledge.knowledge }
-                  end }
+                  } }
   end
 end

@@ -5,19 +5,3 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
-default_statuses = [
-  { name: 'in_progress' },
-  { name: 'passed' },
-  { name: 'failed' },
-  { name: 'accepted' },
-  { name: 'declined' },
-  { name: 'unverified' },
-  { name: 'unavailable' }
-]
-ActiveRecord::Base.transaction do
-  Status.all.each(&:destroy!)
-  puts "Table 'statuses' cleared"
-  Status.create!(default_statuses)
-  puts "Table 'statuses' seeded"
-end

@@ -20,7 +20,7 @@ class PassageSolution < ApplicationRecord
   end
 
   scope :unverified_for_auditor, ->(user, type) do
-    for_auditor(user, type).where(status: Status.unverified)
+    for_auditor(user, type).where(status: :unverified)
   end
 
   validate :validate_unverification_solutions, on: :create
@@ -34,7 +34,7 @@ class PassageSolution < ApplicationRecord
 
   # Statusable Template method
   def default_status
-    statuses.unverified
+    :unverified
   end
 
   def validate_unverification_solutions

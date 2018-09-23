@@ -3,44 +3,50 @@ module Statusable
 
   included do
     before_create :before_create_set_status
-    belongs_to :status, optional: true
+    before_update :set_change_status, if: :will_save_change_to_status?
+    after_update :after_update_status
 
-    Status.all.each do |s|
-      define_method "#{s.name}?" do
-        return false unless self.status
-        self.status.name == s.name
-      end
-
-      define_method "#{s.name}!" do
-        change_status_to(s.name)
-      end
-
-      scope "all_#{s.name}", -> { where(status: Status.send(s.name)) }
-    end
+    enum status: {
+      in_progress: 0,
+      passed: 1,
+      failed: 2,
+      accepted: 3,
+      declined: 4,
+      unverified: 5,
+      unavailable: 6
+    }
 
     def statuses
-      Status
+      self.class.statuses
     end
 
+    statuses.each do |status, id|
+      scope "all_#{status}", -> { where(status: status) }
+    end
+    
     protected
 
-    def change_status_to(status_name)
-      transaction do
-        before_update_status_hook
-        self.update!(status: Status.send(status_name))
-        after_update_status_hook
-      end
+    def set_change_status
+      @was_saved_change_to_status = true
     end
 
-    # Template method
-    def before_update_status_hook; end
+    def was_saved_change_to_status?
+      @was_saved_change_to_status
+    end
+
+    def after_update_status
+      if @was_saved_change_to_status
+        after_update_status_hook
+        @was_saved_change_to_status = false
+      end
+    end
 
     # Template method
     def after_update_status_hook; end
 
     # Template method
     def default_status
-      Status.in_progress
+      :in_progress
     end
 
     def before_create_set_status

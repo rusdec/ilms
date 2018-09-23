@@ -2,7 +2,7 @@
   "type":"object",
   "properties":{
     "id": {"type":"integer"},
-    "status": {"$ref":"../statuses/status.json"}
+    "status": {"type":"string"}
   },
   "required": ["id", "status"],
   "maxProperties": 2

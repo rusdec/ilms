@@ -2,7 +2,7 @@ require_relative '../models_helper'
 
 RSpec.describe Statusable, type: :model do
   with_model :any_statusable do
-    table { |t| t.integer :status_id }
+    table { |t| t.integer :status }
     model { include Statusable }
   end
 
@@ -10,15 +10,16 @@ RSpec.describe Statusable, type: :model do
 
   context '.statuses' do 
     it 'should return Status' do
-      expect(statusable.statuses).to eq(Status)
+      expect(statusable.statuses).to eq(AnyStatusable.statuses)
     end
   end
 
   context 'define methods for find all row by status' do
-    Status.all.each do |status|
-      context "#all_#{status.name}" do
+    [:in_progress, :passed, :failed, :accepted,
+     :declined, :unverified, :unavailable].each do |status|
+      context "#all_#{status}" do
         before do
-          ['accepted!', "#{status.name}!"].each do |s|
+          ['accepted!', "#{status}!"].each do |s|
             5.times do
               AnyStatusable.create
               AnyStatusable.last.send s
@@ -26,51 +27,19 @@ RSpec.describe Statusable, type: :model do
           end
         end
 
-        it "should return all #{status.name}" do
+        it "should return all #{status}" do
           expect(
-            AnyStatusable.send "all_#{status.name}"
-          ).to eq(AnyStatusable.where(status: Status.send(status.name)))
+            AnyStatusable.send "all_#{status}"
+          ).to eq(AnyStatusable.where(status: status))
         end
       end
     end
   end # context 'define methods for find rows by status'
 
-  context 'define methods for check current status' do
-    Status.where.not(name: 'in_progress').each do |status|
-      context "#{status.name}?" do
-        context "when status is not same" do
-          it "should return false" do
-            expect(statusable.send "#{status.name}?").to_not eq(true)
-          end
-        end
-        
-        context "when status is same" do
-          it "should return true" do
-            statusable.send "#{status.name}!"
-            expect(statusable.send "#{status.name}?").to eq(true)
-          end
-        end
-      end
-    end
-  end
-
-  context 'define methods for update statuse' do
-    Status.all.each do |status|
-      context ".#{status.name}!" do
-        it "update status to #{status.name}" do
-          statusable.send "#{status.name}!"
-          expect(statusable.status).to eq(Status.send status.name)
-        end
-      end
-    end
-  end
-
   context 'when update status' do
-    %i(before_update_status_hook after_update_status_hook).each do |method|
-      it "receive #{method}" do
-        expect(statusable).to receive(method)
-        statusable.declined!
-      end
+    it "receive after_update_status_hook" do
+      expect(statusable).to receive(:after_update_status_hook)
+      statusable.declined!
     end
   end
 
@@ -79,7 +48,7 @@ RSpec.describe Statusable, type: :model do
 
     it 'set status to default_status' do
       statusable.send :before_create_set_status
-      expect(statusable.status).to eq(statusable.send :default_status)
+      expect(statusable.status).to eq((statusable.send(:default_status)).to_s)
     end
 
     it 'receive set_status before create' do

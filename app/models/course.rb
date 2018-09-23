@@ -26,12 +26,14 @@ class Course < ApplicationRecord
 
   validate :validate_author
 
-  # Passable Template method
-  alias_attribute :passable_children, :lessons
-
   alias_attribute :course, :itself
 
   scope :all_published, -> { where(published: true) }
+
+  # Passable Template method
+  def passable_children
+    lessons.roots_and_descendants_preordered
+  end
 
   protected
 
