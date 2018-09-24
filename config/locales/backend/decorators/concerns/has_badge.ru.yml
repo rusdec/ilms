@@ -1,0 +1,4 @@
+ru:
+  decorators:
+    has_badge:
+      new_badge: 'Новый значок'

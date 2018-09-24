@@ -1,0 +1,17 @@
+table class='table table-striped user-items table-vcenter small'
+  thead
+    .tr
+      th= t('.fullname')
+      th= t('.email')
+      th= t('.role')
+      th.text-center= t('created_at')
+      th.text-center= t('updated_at')
+
+  tbody
+    - @users.each do |user|
+      tr class='user-item small'
+        td.full_name= link_to user.full_name, user_path(user)
+        td.email= user.email
+        td.role= editable_role(user)
+        td.text-center.created_at= user.created_at
+        td.text-center.updated_at= user.updated_at

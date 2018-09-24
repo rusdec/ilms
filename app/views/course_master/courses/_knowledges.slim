@@ -1,0 +1,25 @@
+table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table
+
+  thead
+    tr
+      th= t('.delete')
+      th.text-center colspan='2'= t('.knowledge')
+      th.text-right
+        span#totalKnowledgePercent
+        = t('.exp')
+
+  tbody.course-knowledge-items
+    = form.fields_for :course_knowledges do |ck_form|
+      tr.course-knowledge-item data-id=ck_form.object.knowledge_id data-name=ck_form.object.knowledge.name data-checked-for-destruction='false' data-percent=ck_form.object.percent
+
+        td.text-center.td-del
+          = ck_form.check_box :_destroy, class: 'check-for-destruction'
+
+        td.text-right.td-name
+          = ck_form.object.knowledge.name.capitalize
+
+        td.td-progress-bar
+          = ck_form.object.progress_bar
+
+        td.td-percent
+            = ck_form.number_field :percent, min: '1', max: '100', class: 'form-control percent border-0 p-0 text-center'  

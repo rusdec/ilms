@@ -1,28 +1,4 @@
 module CourseMaster::QuestHelper
-  def quest_remote_links(quest)
-    remote_links([quest])
-  end
-
-  def quest_alternatives(current_quest)
-    ul_with_quests(current_quest.alternatives)
-  end
-
-  def ul_with_quests(quests)
-    quests = quests.collect do |quest|
-      content_tag :li do
-        concat(link_to quest.title, course_master_quest_path(quest), target: '_blank')
-      end
-    end
-
-    if quests.empty?
-      tag.span('none')
-    else
-      content_tag :ul do
-        concat(quests.join('').html_safe)
-      end
-    end
-  end
-
   def radio_quest_group(params)
     group = params[:group]
     form = params[:form]
@@ -38,7 +14,7 @@ module CourseMaster::QuestHelper
 
   def group_quests_to_links(group)
     if group.quests.empty?
-      ['none']
+      [t('helpers.quest.none')]
     else
       group.quests.map do |quest|
         link_to quest.title, course_master_quest_path(quest), target: '_blank' 
@@ -50,5 +26,9 @@ module CourseMaster::QuestHelper
     params[:quest_groups].collect do |group|
       radio_quest_group(group: group, form: params[:form])
     end.join('').html_safe
+  end
+
+  def quests_path(quest)
+    "#{edit_course_master_lesson_path(quest.lesson)}#quests"
   end
 end

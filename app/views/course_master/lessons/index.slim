@@ -1,0 +1,10 @@
+= page_title(t('.lessons'))
+= render partial: 'shared/course_master/manage_courses_tabs',
+         locals: { course: @course }
+
+.row
+  .col
+    .card.tab-content.mt-5
+      = render partial: 'lessons', locals: { lessons: @lessons, course: @course }
+    .text-center
+      = @course.decorate.button_new_lesson

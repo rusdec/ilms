@@ -1,0 +1,8 @@
+ru:
+  course_master:
+    lessons:
+      edit:
+        edit_lesson: 'Редактировать урок'
+        lesson: 'Урок'
+        materials: 'Материалы'
+        quests: 'Квесты'

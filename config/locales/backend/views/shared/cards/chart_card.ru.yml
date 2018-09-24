@@ -1,0 +1,5 @@
+ru:
+  shared:
+    cards:
+      chart_card:
+        no_data: 'Нет данных'

@@ -6,19 +6,18 @@ feature 'Show user', %q{
   so that I can view all details info about it user
 } do
 
-  given(:user) { create(:user) }
+  given(:user) { UserDecorator.decorate(create(:user)) }
   before do
     sign_in(create(:administrator))
-    visit administrator_user_path(user)
+    visit administrator_user_path(user, locale: I18n.locale)
   end
 
   context 'when administrator' do
     scenario 'see user info' do
-      [user.email,
-       user.type,
-       user.full_name,
-       format_date(user.created_at)
-      ].each { |text| expect(page).to have_content(text) } 
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(user.type)
+      expect(page).to have_content(user.full_name)
+      expect(page).to have_content(user.created_at)
     end
 
     scenario 'see avatar' do

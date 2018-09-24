@@ -1,0 +1,9 @@
+. class='card card-profile'
+  . class='card-header bg-gray'
+  . class='card-body text-center'
+    - if user.avatar.present?
+      p.card-profile-avatar style="background-image: url('#{user.avatar.preview.url}')"
+    - else
+      p.card-profile-avatar= user.initials
+    h3 class='card-full-name mb-3'= user.full_name
+    p class='card-email mt-4 text-muted'= user.email

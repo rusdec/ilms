@@ -1,0 +1,10 @@
+. class= css
+  .card
+    .card-header
+      h3.card-title= title
+    .card-body.p-2
+      - if @user.passaged_courses.present?
+        canvas id= canvas_id
+      - else
+        div.text-center
+          span.text-muted= t('.no_data')

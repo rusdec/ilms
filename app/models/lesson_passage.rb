@@ -1,23 +1,37 @@
-class LessonPassage < ApplicationRecord
-  belongs_to :lesson
-  belongs_to :educable, polymorphic: true
-  belongs_to :course_passage
-  has_many :quest_passages, dependent: :destroy
+class LessonPassage < Passage
+  after_create :after_create_hook_open_passage_if_root
 
-  after_create :create_quest_passages
+  # Statusable Template method
+  def ready_to_pass?
+    groups = passable.quest_groups.pluck(:id).sort
+    passed_groups = children.all_passed
+                      .joins('JOIN quests ON passages.passable_id = quests.id')
+                      .pluck(:quest_group_id).uniq.sort
 
-  def quest_passages_by_quest_group
-    lesson.quest_groups.collect do |quest_group|
-      quest_passages.where(quest: quest_group.quests)
+    groups == passed_groups
+  end
+
+  # Statusable Template method
+  def default_status
+    :unavailable
+  end
+
+  def open!
+    transaction do
+      in_progress!
+      children.each(&:open!)
     end
   end
 
-  private
+  protected
 
-  def create_quest_passages
-    transaction do
-      quests = Quest.where(quest_group_id: lesson.quest_groups.pluck(:id))
-      quests.each { |quest| quest_passages.create!(quest: quest) }
-    end
+  # Passage Template method
+  def after_pass_hook
+    # open next lessons and their quests
+    siblings.where(passable_id: passable.children.pluck(:id)).each(&:open!)
+  end
+
+  def after_create_hook_open_passage_if_root
+    open! if passable.root?
   end
 end

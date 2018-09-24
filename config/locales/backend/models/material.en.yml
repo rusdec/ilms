@@ -1,0 +1,15 @@
+en:
+  activerecord:
+    models:
+      material: 'Material'
+    attributes:
+      material:
+        title: 'Title'
+        body: 'Body'
+        summary: 'Summary'
+        order: 'Order'
+
+  helpers:
+    submit:
+      update: 'Save'
+      create: 'Create'

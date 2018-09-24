@@ -4,28 +4,6 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
   let!(:author) { create(:course_master, :with_course_and_lesson) }
   let(:lesson) { author.lessons.last }
 
-  describe 'GET #show' do
-    let(:material) { lesson.materials.last }
-
-    context 'when author of lesson' do
-      before { sign_in(author) }
-
-      it 'assign Material to @material' do
-        get :show, params: { id: material }
-        expect(assigns(:material)).to eq(material)
-      end
-    end
-
-    context 'when not author of lesson' do
-      before { sign_in(create(:course_master)) }
-
-      it 'assign Material to @material' do
-        get :show, params: { id: material }
-        expect(assigns(:material)).to eq(material)
-      end
-    end
-  end
-
   describe 'GET #new' do
     context 'when author of lesson' do
       before do
@@ -33,15 +11,15 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
         get :new, params: { lesson_id: lesson }
       end
 
-      it 'assign new Material to @material' do
+      it 'assigns new Material to @material' do
         expect(assigns(:material)).to be_a_new(Material)
       end
 
-      it '@material related with lesson' do
+      it 'relates assigned @material with lesson' do
         expect(assigns(:material).lesson).to eq(lesson)
       end
 
-      it '@material related with author' do
+      it 'relates assigned @material with author' do
         expect(assigns(:material).author).to eq(author)
       end
     end # context 'when author of lesson'
@@ -99,10 +77,10 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
           before do
             params[:material] = attributes
             patch :update, params: params
+            material.reload
           end
 
           it 'can update material' do
-            material.reload
             attributes.each_key do |field|
               expect(material.send field).to eq(attributes[field])
             end
@@ -236,7 +214,7 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
       context 'when json' do
         let(:params) { { id: material, format: :json } }
 
-        it 'can delete lesson' do
+        it 'can delete material' do
           expect{
             delete :destroy, params: params
           }.to change(lesson.materials, :count).by(-1)
@@ -255,7 +233,7 @@ RSpec.describe CourseMaster::MaterialsController, type: :controller do
       context 'when json' do
         let(:params) { { id: material, format: :json } }
 
-        it 'can\'t delete lesson' do
+        it 'can\'t delete material' do
           expect{
             delete :destroy, params: params
           }.to_not change(lesson.materials, :count)

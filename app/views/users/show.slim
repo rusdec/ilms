@@ -1,0 +1,20 @@
+.row
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.courses'), css: 'col-lg-4',
+                     canvas_id: 'profile-courses-count-chart' }
+
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.lessons'), css: 'col-lg-4',
+                     canvas_id: 'profile-lessons-count-chart' }
+
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.quests'), css: 'col-lg-4',
+                     canvas_id: 'profile-quests-count-chart' }
+
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.top_three_knowlegdes'), css: 'col-lg-8',
+                     canvas_id: 'profile-top-knowledges-chart' }
+
+  = render partial: 'shared/cards/chart_card',
+           locals: { title: t('.badges'), css: 'col-lg-4',
+                     canvas_id: 'profile-badges-count-chart' }

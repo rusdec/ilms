@@ -8,6 +8,7 @@ module ApplicationHelper
   end
 
   def yield_if_author(object)
+    object = object.object if object&.decorated?
     if can? :author, object
       yield if block_given?
     end
@@ -27,7 +28,7 @@ module ApplicationHelper
     return if material.body_html_empty?
 
     unless material.summary_html_empty?
-      material.body += "#{tag.h4 'Summary'}#{material.summary}"
+      material.body += "#{tag.h4 I18n.t('helpers.application.summary')}#{material.summary}"
     end
 
     simple_card(title: material.title,
@@ -36,8 +37,8 @@ module ApplicationHelper
   end
 
   def simple_card(params)
-    wraper = content_tag :div, class: 'text-wrap p-lg-6' do
-      concat(params[:title].empty? ? '' : tag.h3(params[:title], class: 'mt-0 mb4'))
+    wraper = content_tag :div, class: 'text-wrap p-lg-3' do
+      concat(params[:title].empty? ? '' : tag.h4(params[:title], class: 'mt-0 mb4'))
       concat(params[:body])
     end
 
@@ -51,6 +52,17 @@ module ApplicationHelper
   end
 
   def lesson_sidebar_link(params)
-    link_to params[:text], params[:path], class: 'list-group-item list-group-item-action'
+    tag.span href: params[:path], class: 'list-group-item list-group-item-action' do
+      params[:text]
+    end
+  end
+
+  def progress_color(value)
+    case value.to_i
+    when 25..49 then 'bg-orange'
+    when 50..74 then 'bg-yellow'
+    when 75..100 then 'bg-green'
+    else 'bg-red'
+    end
   end
 end

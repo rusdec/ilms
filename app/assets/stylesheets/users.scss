@@ -1,0 +1,53 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.card-profile-avatar {
+  width: 6rem;
+  height: 6rem;
+  margin: -5rem auto 1rem auto;
+  border: 3px solid #fff;
+  border-radius: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background-color: #316cbe;
+  padding : 10px;
+  font-size: 2.5rem;
+  color: white;
+  text-align: center;
+
+  background-size: cover;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.opacity-05 { opacity: 0.5 }
+
+.card-form-profile {
+  .col-avatar {
+    top: 1rem;
+  }
+  .col-auto {
+    margin-bottom: 1.3rem;
+  }
+  .remove-avatar {
+    margin-left: -0.7rem;
+    margin-top: -0.7rem;
+  }
+}
+
+.card-columns-profile-knowledges {
+  @include media-breakpoint-only(xs) {
+    column-count: 1;
+  }
+  @include media-breakpoint-only(sm) {
+    column-count: 1;
+  }
+  @include media-breakpoint-only(md) {
+    column-count: 1;
+  }
+  @include media-breakpoint-only(lg) {
+    column-count: 2;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 2;
+  }
+}

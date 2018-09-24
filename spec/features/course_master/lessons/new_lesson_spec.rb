@@ -12,8 +12,18 @@ feature 'New lesson', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit course_master_course_path(course)
-      click_on 'Add lesson'
+      visit course_master_course_lessons_path(course, locale: I18n.locale)
+      click_on 'New lesson'
+    end
+
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(course.title)
+        expect(page).to have_link('Lessons')
+        expect(page).to have_content('New lesson')
+      end
     end
 
     context 'with valid data' do
@@ -27,12 +37,14 @@ feature 'New lesson', %q{
         fill_editor :ideas, with: lesson[:ideas]
         fill_editor :summary, with: lesson[:summary]
         fill_editor :check_yourself, with: lesson[:check_yourself]
+        select('3', from: 'Difficulty')
         select parent_lesson.title, from: 'lesson[parent_id]'
-        click_on 'Create Lesson'
+        click_on 'Create'
 
-        ['Add quest', 'Quests', 'Success', lesson[:title],
-         lesson[:ideas], lesson[:summary]
-        ].each { |text| expect(page).to have_content(text) }
+        Capybara.using_wait_time(5) do
+          expect(page).to have_content('Success')
+          expect(page).to have_content('Back to lessons')
+        end
       end # scenario 'can create new lesson'
     end # context 'with valid data'
 
@@ -41,11 +53,10 @@ feature 'New lesson', %q{
         expect(page).to have_content('New lesson')
 
         fill_in 'Title', with: ''
-        click_on 'Create Lesson'
+        click_on 'Create'
 
-        ['Title can\'t be blank', 'Title is too short'].each do |error|
-          expect(page).to have_content(error)
-        end
+        expect(page).to have_content('Title can\'t be blank')
+        expect(page).to have_content('Title is too short')
       end
     end
   end
@@ -53,11 +64,11 @@ feature 'New lesson', %q{
   context 'when not author' do
     before do
       sign_in(create(:course_master))
-      visit course_master_course_path(course)
+      visit edit_course_master_course_path(course, locale: I18n.locale)
     end
 
     scenario 'redirect to root' do
-      expect(page).to_not have_content('New lesson')
+      expect(page).to_not have_content('New Lesson')
       expect(page).to_not have_content(/^Create$/)
     end
   end

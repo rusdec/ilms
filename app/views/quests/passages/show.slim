@@ -1,0 +1,19 @@
+= page_title(@passage.passable.title)
+.row
+  .col-lg-12
+    = simple_card(title: '', body: @passage.passable.description)
+    = simple_card(title: '', body: @passage.passable.body_html)
+  . class='col-lg-12 text-right'
+    = link_to t('back'), passage_path(@passage.parent), class: 'btn btn-secondary'
+
+  .col-lg-12
+    - if @passage.has_unverified_solutions?
+      = page_header(t('.waiting_for_verification'))
+      = simple_card(title: '', body: @passage.solutions.last.decorate.body_html)
+    - elsif @passage.passed?
+      = page_header(t('.accepted_solution'))
+      = simple_card(title: '', body: @passage.solutions.last.decorate.body_html)
+    - else
+      = render partial: 'passage_solutions/form', locals: { solution: @passage.solutions.new }
+
+    = render partial: 'quests/passages/declined_solutions', locals: { passage: @passage }

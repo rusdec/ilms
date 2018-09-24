@@ -4,31 +4,44 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
 
   describe 'GET #index' do
     let(:user) { create(:course_master) }
-    let(:course) { create(:course, :with_lessons, author: user) }
+    let(:course) { create(:course, author: user) }
+    let(:lessons) { create_list(:lesson, 3, course: course, author: course.author) }
     let(:params) { { course_id: course } }
-    before { create(:course, :with_lessons, author: user) }
 
-    non_manage_roles.each do |role|
-      context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
-
-        it 'Redirect to root' do
-          get :index, params: params
-          expect(response).to redirect_to(root_path)
-        end
-      end
+    before do
+      lessons[2].parent = lessons[0]
+      lessons[1].parent = lessons[2]
     end
 
-    manage_roles.each do |role|
-      context "#{role}" do
-        before { sign_in(create(role.underscore.to_sym)) }
-
-        it 'Lessons of the course assign to @lessons' do
-          get :index, params: params
-          expect(assigns(:lessons)).to eq(course.lessons)
-        end
+    context 'when author' do
+      before do
+        sign_in(user)
+        get :index, params: params
       end
-    end
+
+      it 'assigns Course to @course' do
+        expect(assigns(:course)).to eq(course)
+      end
+
+      it 'assigns Lessons of course to @lessons' do
+        expect(assigns(:lessons)).to eq(course.lessons.roots_and_descendants_preordered)
+      end
+
+      it 'decorates assigned @lessons' do
+        expect(assigns(:lessons)).to be_decorated
+      end
+    end # context 'when author'
+
+    context 'when not author' do
+      before do
+        sign_in(create(:course_master))
+        get :index, params: params
+      end
+
+      it 'redirect to root' do
+        expect(response).to redirect_to(root_path)
+      end
+    end # context 'when not author'
   end
 
   describe 'GET #edit' do
@@ -42,8 +55,16 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
         get :edit, params: params
       end
 
-      it 'Lesson assigns to @lesson' do
+      it 'assigns Lesson to @lesson' do
         expect(assigns(:lesson)).to eq(lesson)
+      end
+
+      it 'decorates assigned @lesson' do
+        expect(assigns(:lesson)).to be_decorated
+      end
+
+      it 'assigns course persisted Lessons to @lessons' do
+        expect(assigns(:lessons)).to eq(lesson.course.lessons.persisted)
       end
     end
 
@@ -59,21 +80,6 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
     end
   end # context 'when author'
 
-  describe 'GET #show' do
-    let(:user) { create(:course_master) }
-    let(:lesson) { create(:course, :with_lesson, author: user).lessons.last }
-    let(:params) { { course: lesson.course, id: lesson } }
-
-    context "Any manage role" do
-      before { sign_in(user) }
-
-      it 'Lesson assigns to @lesson' do
-        get :show, params: params
-        expect(assigns(:lesson)).to eq(lesson)
-      end
-    end
-  end
-
   describe 'GET #new' do
     let(:user) { create(:course_master) }
     let!(:course) { create(:course, author: user) }
@@ -86,21 +92,27 @@ RSpec.describe CourseMaster::LessonsController, type: :controller do
           get :new, params: params
         end
 
-        it 'New Lesson assigns to @lesson' do
+        it 'assigns Lesson to @lesson' do
           expect(assigns(:lesson)).to be_a_new(Lesson)
         end
 
-        it '@lesson related with course' do
+        it 'decorates assigned @lesson' do
+          expect(assigns(:lesson)).to be_decorated
+        end
+
+        it 'relates @lesson with course' do
           expect(assigns(:lesson).course).to eq(course)
         end
 
-        it 'Lesson assigns to @lessons' do
-          expect(assigns(:lessons)).to eq(course.lessons)
+        it 'assigns course Lessons to @lessons' do
+          expect(assigns(:lessons)).to eq(course.lessons.persisted)
         end
 
-        it 'Course assigns to @course' do
+        it 'assigns Course to @course' do
           expect(assigns(:course)).to eq(course)
         end
+
+
       end
 
       context 'Not author of course' do

@@ -7,7 +7,13 @@ module JsonResponsed
     private
 
     def json_response_by_result(params = {}, resource = nil)
-      @json_resource = resource || polymorphic_resource
+      @json_resource = if resource 
+                         resource
+                       elsif polymorphic_resource
+                         polymorphic_resource
+                       else
+                         plural_polymorphic_resource
+                       end
 
       if @json_resource.is_a?(ActiveRecord::Relation)
         params[:objects] = @json_resource
@@ -30,18 +36,28 @@ module JsonResponsed
     end
 
     def json_response_you_can_not_do_it
-      json_response_error(['Access denied'])
+      json_response_error([I18n.t('access_denied')])
     end
 
     def with_location(params)
       return params unless params[:with_location]
 
       resource = @json_resource&.persisted? ? @json_resource : nil
+
       if params[:location_object]
         resource = params[:location_object]
         params.delete(:location_object)
+      elsif(plural_path?(params[:with_location]))
+        resource = nil
       end
+
       params[:location] = send(params[:with_location], resource)
+
+      if params[:with_url_hash]
+        params[:location] += "##{params[:with_url_hash]}"
+        params.delete(:with_url_hash)
+      end
+
       params.delete(:with_location)
       params
     end
@@ -89,7 +105,13 @@ module JsonResponsed
     end
 
     def success_message
-      'Success'
+      I18n.t('success')
+    end
+
+    protected
+
+    def plural_path?(path)
+      path.to_s.match?(/s_path$/)
     end
   end
 end

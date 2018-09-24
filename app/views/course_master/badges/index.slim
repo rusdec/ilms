@@ -1,0 +1,21 @@
+= page_title(t('.badges'))
+= render partial: 'shared/course_master/manage_courses_tabs',
+         locals: { course: @course }
+
+.row
+  .col
+    .card.mt-5
+      table.table.card-table.table-striped.table-vcenter.badge-items
+        thead
+          tr
+            th= t('.image')
+            th= t('.title')
+            th.text-right= t('created_at')
+            th.text-right= t('actions.actions')
+        tbody.small
+          - @badges.each do |badge|
+            tr.badge-item.p-1 data-id=badge.id
+              td= badge.image_preview class: 'img-thumb'
+              td= link_to badge.title_preview, edit_course_master_badge_path(badge)
+              td.text-right= badge.created_at
+              td.text-right= badge.remote_links

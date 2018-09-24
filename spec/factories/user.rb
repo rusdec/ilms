@@ -3,12 +3,19 @@ FactoryBot.define do
     sequence(:name)    { |n| "BotName#{n}" }
     sequence(:surname) { |n| "BotSurname#{n}" }
     sequence(:email)   { |n| "bot#{n}@email.org" }
-    password 'password'
+    password { 'password' }
+
+    trait :invalid do
+      name { nil }
+      surname { nil }
+      email { nil }
+      password { nil }
+    end
 
     trait :with_full_course do
       after(:create) do |user|
         course = create(:course, :full, author: user)
-        create(:course_passage, educable: user, course: course)
+        create(:passage, user: user, passable: course)
       end
     end
 
@@ -33,11 +40,11 @@ FactoryBot.define do
     end
 
     factory :administrator, class: Administrator do
-      type 'Administrator'
+      type { 'Administrator' }
     end
 
     factory :course_master, class: CourseMaster do
-      type 'CourseMaster'
+      type { 'CourseMaster' }
     end
 
     trait :with_quest do

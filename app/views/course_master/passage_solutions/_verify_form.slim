@@ -1,0 +1,7 @@
+= button_to text, path, { action: :patch,
+                          remote: true,
+                          format: :json,
+                          method: :patch,
+                          class: "btn #{btn_class} mr-1",
+                          data: { confirm: "#{text}! #{t('.are_you_sure')}" },
+                          form: { class: "#{type}_passage_solution" } }

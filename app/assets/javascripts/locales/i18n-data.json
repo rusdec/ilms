@@ -1,0 +1,13 @@
+{
+  "ru": {
+    "in_progress": "В процессе",
+    "passed": "Завершено",
+    "unavailable": "Недостпно"
+  },
+
+  "en": {
+    "in_progress": "In progress",
+    "passed": "Passed",
+    "unavailable": "Unavailable"
+  }
+}

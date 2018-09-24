@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "courses": {
+      "type": "object",
+      "properties": {
+        "passed": {"type": "integer"},
+        "in_progress": {"type": "integer"}
+      },
+      "required": ["passed", "in_progress"],
+      "maxProperties": 2
+    },
+    "required": ["courses"],
+    "maxProperties": 1
+  }
+}

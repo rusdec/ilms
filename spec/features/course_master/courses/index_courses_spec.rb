@@ -6,24 +6,37 @@ feature 'User see courses', %q{
   so that I can see all created courses
 } do
   
-  context 'when user with any manage role' do
-    manage_roles.each do |role|
-      context "when #{role}" do
-        given(:user) { create(role.underscore.to_sym, :with_courses) }
-        before do
-          sign_in(user)
-          visit course_master_courses_path
-        end
+  context "when CourseMaster" do
+    given(:user) { create(:course_master, :with_courses) }
+    before do
+      sign_in(user)
+      visit course_master_courses_path
+    end
 
-        scenario 'see all courses' do
-          user.courses.each { |course| expect(page).to have_link(course.title) }
-        end
-
-        scenario 'see create your course link' do
-          expect(page).to have_link('Create your course')
-        end
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage course')
+        expect(page).to have_content('Courses')
       end
-    end # manage_roles.each do |role|
+    end
+
+    scenario 'see all courses' do
+      courses = CourseDecorator.decorate_collection(user.courses)
+
+      courses.each do |course|
+        expect(page).to have_link(course.title)
+        expect(page).to have_content(course.created_at)
+      end
+    end
+
+    scenario 'see create your course link' do
+      expect(page).to have_link('Create Course')
+    end
+
+    it_behaves_like 'having_remote_links' do
+      given(:resources) { user.courses }
+      given(:container) { '.course-items' }
+    end
   end # context 'when user with any manage role'
 
   context 'when user without manage role' do

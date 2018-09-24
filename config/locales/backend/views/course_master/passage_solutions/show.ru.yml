@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    passage_solutions:
+      show:
+        accept: 'Принять'
+        decline: 'Отклонить'
+        solution: 'Решение'

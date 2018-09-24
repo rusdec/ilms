@@ -1,10 +1,19 @@
-.row
-  . class='col text-center'
-    h2.page-title= 'Edit course'
+= page_title(t('.edit_course'))
+= render partial: 'shared/course_master/manage_courses_tabs',
+         locals: { lessons_count: @course.lessons.count,
+                   badges_count: @course.badges.count,
+                   course: @course }
 
 .row
   .col
-    = render partial: 'form',
-             locals: { model: [:course_master, @course],
-                       link_back: secondary_button(text: 'Courses page',
-                                                   path: course_master_course_path(@course)) }
+    #mainPageTabContent class='tab-content mt-5'
+      #course class='tab-pane fade show active' role='tabpanel' aria-labelledby='course-tab'
+        = render partial: 'form', locals: { model: [:course_master, @course] }
+
+      #badges class='tab-pane fade' role='tabpanel' aria-labelledby='badges-tab'
+        .card
+          = render partial: 'course_master/badges/badges',
+                   locals: { badges: @course.badges }
+
+      #statistics class='tab-pane fade' role='tabpanel' aria-labelledby='statistics-tab'
+        .card

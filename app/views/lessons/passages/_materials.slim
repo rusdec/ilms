@@ -1,0 +1,17 @@
+#materials class="col-lg-9"
+
+  - unless lesson.ideas_html_empty?
+    = simple_card(title: t('.ideas'), body: lesson.ideas_html, anchor: 'ideas')
+
+  - lesson.materials.each do |material|
+    = material_card(material)
+
+  - unless lesson.summary_html_empty?
+    = simple_card(title: t('.lessons_summary'),
+                  body: lesson.summary_html,
+                  anchor: 'summary')
+
+  - unless lesson.check_yourself_html_empty?
+    = simple_card(title: t('.check_yourself'),
+                  body: lesson.check_yourself_html,
+                  anchor: 'check-yourself')

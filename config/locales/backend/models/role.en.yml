@@ -1,0 +1,5 @@
+en:
+  roles:
+    user: 'User'
+    course_master: 'Course master'
+    administrator: 'Administrator'

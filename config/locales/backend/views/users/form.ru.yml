@@ -1,0 +1,6 @@
+ru:
+  users:
+    form:
+      edit_profile: 'Редактировать профиль'
+      remove_avatar: 'Удалить аватарку'
+      new_password: 'Новый пароль'

@@ -1,0 +1,7 @@
+en:
+  course_master:
+    passage_solutions:
+      show:
+        accept: 'Accept'
+        decline: 'Decline'
+        solution: 'Solution'

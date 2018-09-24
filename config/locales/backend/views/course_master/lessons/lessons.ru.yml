@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    lessons:
+      lessons:
+        title: 'Название'
+        parent: 'Открывающий урок'
+        difficulty: 'Сложность'

@@ -12,14 +12,18 @@ feature 'Destory quest', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit course_master_quest_path(quest)
+      visit edit_course_master_lesson_path(quest.lesson, locale: I18n.locale)
     end
 
     scenario 'can delete course', js: true do
-      click_on 'Delete'
+      within ".quest-item[data-id='#{quest.id}']" do
+        click_destory_remote_link
+      end
 
-      expect(page).to have_content('Success')
-      expect(page).to_not have_content(quest.title)
+      Capybara.using_wait_time(5) do
+        expect(page).to have_content('Success')
+        expect(page).to_not have_content(quest.title)
+      end
     end
   end
 end 

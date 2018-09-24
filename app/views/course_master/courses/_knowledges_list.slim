@@ -1,0 +1,10 @@
+.input-group
+  input#new-knowledge type='text' class='form-control' placeholder="#{t('.new_knowledge')}" data-id='' data-name='' style='padding: 0.40rem 1.25rem;'
+  span.input-group-append
+    button.btn.btn-secondary.text-muted.bg-white.border-left-0 type='button' id='move-to-knowledge-directions' style='padding: 0.40rem 1.25rem'
+      = icon('fas', 'chevron-circle-right')
+ul.list-group id='knowledge-items' style='max-height: 190px; overflow: scroll;'
+  - course.object.free_knowledges.each do |knowledge|
+    li class='list-group-item knowledge-item list-group-item-action' data-id=knowledge.id data-name=knowledge.name
+      = knowledge.name.capitalize
+      = icon('fas', 'plus-circle', { class: 'float-right text-muted' } )

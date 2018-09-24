@@ -1,0 +1,6 @@
+ru:
+  quests:
+    passages:
+      show:
+        waiting_for_verification: 'Ожидайте проверки вашего решения...'
+        accepted_solution: 'Принятое решение'

@@ -1,0 +1,8 @@
+en:
+  courses:
+    show:
+      author: 'Author'
+      difficulty: 'Difficulty: %{difficulty}'
+      knowledges: 'Knowldedges'
+      description: 'Description'
+      lessons: 'Lessons'

@@ -1,0 +1,7 @@
+ru:
+  users:
+    show_courses:
+      my_courses: 'My courses'
+      title: 'Title'
+      progress: 'Progress'
+      started_at: 'Started at'

@@ -1,0 +1,6 @@
+en:
+  quests:
+    passages:
+      show:
+        waiting_for_verification: 'Waiting for verification of your solution...'
+        accepted_solution: 'Accepted solution'

@@ -29,7 +29,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+#gem 'image_processing', '~> 1.2'
+gem 'mini_magick', '~> 4.8'
+gem 'carrierwave', '~> 1.0'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -45,16 +47,23 @@ gem 'jquery-rails'
 gem 'slim-rails'
 gem 'responders'
 gem 'active_model_serializers', '~> 0.10.0'
+# Problem with rails 2.5.x and closure_tree last version when rails db:create
+# Example in PushType: https://github.com/pushtype/push_type/issues/47
 gem 'closure_tree'
 gem 'mustache-js-rails'
 gem 'tabler-rubygem'
 gem 'font-awesome-sass', '~> 5.0.13'
+gem 'draper'
+gem 'gon'
+gem 'kaminari'
+gem 'loaf'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.7'
   gem 'factory_bot_rails'
+  gem 'pry'
 end
 
 group :development do
@@ -74,7 +83,9 @@ group :test do
   gem 'chromedriver-helper'
   gem 'shoulda-matchers', '~> 3.1'
   gem 'rails-controller-testing'
-  gem 'json_matchers'
+  # Problems with references in json_matchers 0.10.0 version 
+  # https://github.com/thoughtbot/json_matchers/issues/90
+  gem 'json_matchers', '~> 0.9.0'
   gem 'with_model'
   gem 'database_cleaner'
 end

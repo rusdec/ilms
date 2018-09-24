@@ -1,0 +1,18 @@
+.card
+  .card-body
+    table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.small
+      thead
+        tr
+          th.text-left= t('status')
+          th.text-left= t('.title')
+          th.text-center= t('.required_quests')
+      tbody
+        - lesson_passages.each do |lesson_passage|
+          tr
+            td.text-left= lesson_passage.status_badge
+            - if lesson_passage.unavailable?
+              td class='text-muted text-left'= lesson_passage.passable.title
+              td class='text-muted text-center' ?
+            - else
+              td.text-left= link_to lesson_passage.passable.title, passage_path(lesson_passage)
+              td.text-center= lesson_passage.td_required_quests

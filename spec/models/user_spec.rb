@@ -11,8 +11,19 @@ RSpec.describe User, type: :model do
   it { should have_many(:lessons) }
   it { should have_many(:quests) }
   it { should have_many(:materials) }
+  it { should have_many(:created_badges).class_name('Badge') }
+  it { should have_many(:user_knowledges).dependent(:destroy) }
+  it { should have_many(:knowledges).through(:user_knowledges) }
+  it do
+    should have_many(:knowledge_directions)
+      .through(:knowledges)
+      .source(:direction)
+  end
 
-  it_behaves_like 'educable'
+  it_behaves_like 'rewardable'
+  it_behaves_like 'educable' do
+    let(:educable) { create(:user) }
+  end
 
   it { should allow_values('User', 'Administrator', 'CourseMaster').for(:type) }
   it { should_not allow_values('Userr', 'Rdministrator', 'ourseMaster').for(:type) }
@@ -39,19 +50,5 @@ RSpec.describe User, type: :model do
         expect(create(role.underscore.to_sym)).to be_course_master
       end
     end
-  end
-
-  it '.full_name' do
-    user = create(:user)
-    expect(user.full_name).to eq("#{user.name} #{user.surname}")
-  end
-
-  it '.learning?' do
-    user = create(:course_master, :with_courses)
-    course = user.courses.last
-    course_passage = create(:course_passage, educable: user, course: course)
-
-    expect(user.course_passages).to receive(:learning?).with(course)
-    user.learning?(course)
   end
 end

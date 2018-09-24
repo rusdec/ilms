@@ -1,79 +1,78 @@
 require_relative 'models_helper'
 
 RSpec.describe CoursePassage, type: :model do
-  it { should belong_to(:educable) }
-  it { should belong_to(:course) }
-  it { should have_many(:lesson_passages).dependent(:destroy) }
+  let!(:course) { create(:course, :full) }
+  let(:course_passage) { create(:course_passage, passable: course) }
+  let(:user) { course_passage.user }
 
-  context '.after_create_create_root_lesson_passages' do
-    let!(:course) { create(:course_master, :with_course_and_lessons).courses.last }
+  it { should have_many(:quest_passages).through(:children).source(:children) }
+  it_behaves_like 'after_pass_hook_badge_grantable' do
+    let(:passage) { course_passage }
+  end
 
-    it 'create lesson_passages' do
-      expect{
-        create(:course_passage, course: course, educable: course.author)
-      }.to change(LessonPassage, :count).by(course.lessons.roots.count)
+  context 'create_user_knowledges' do
+    it 'relates course knowledges with user' do
+      expect(user.knowledges).to eq(course.knowledges)
+    end
+  end
+
+  context 'alias_attributes' do
+    it '.lesson_passages' do
+      expect(course_passage.lesson_passages).to eq(course_passage.children)
     end
 
-    it 'create lesson_passage for each root lesson of course' do
-      lesson_passage_ids = create(
-        :course_passage,
-        course: course,
-        educable: course.author
-      ).lesson_passages.pluck(:lesson_id)
+    it '.course' do
+      expect(course_passage.course).to eq(course_passage.passable)
+    end
+  end
 
-      course.lessons.roots.each do |lesson|
-        expect(lesson_passage_ids).to be_include(lesson.id)
+  context '.passed_quest_passages' do
+    before do
+      course_passage
+      QuestPassage.first.passed!
+    end
+
+    it 'returns passed quest for course' do
+      expect(
+        course_passage.passed_quest_passages
+      ).to eq(QuestPassage.all_passed)
+    end
+  end
+
+  context '.passed_lesson_passages' do
+    before do
+      course_passage
+      LessonPassage.first.passed!
+    end
+
+    it 'returns passed quest for course' do
+      expect(
+        course_passage.passed_lesson_passages
+      ).to eq(LessonPassage.all_passed)
+    end
+  end
+
+  context '.default_status' do
+    it 'should be in_progress' do
+      expect(course_passage.status).to eq('in_progress')
+    end
+  end
+
+  context '.ready_to_pass?' do
+    before { course_passage }
+
+    context 'when each child (lesson passage) is passed' do
+      before { LessonPassage.all.each(&:passed!) }
+
+      it 'returns true' do
+        expect(course_passage).to be_ready_to_pass
       end
     end
-  end # context '.after_create_create_lesson_passage'
 
-  context '.validate_already_course_passage' do
-    let!(:course) { create(:course_master, :with_course_and_lessons).courses.last }
-    let(:user) { course.author }
-    let(:new_course_passage) do
-      build(:course_passage, course: course, educable: user)
-    end
-
-    context 'when user learning course' do
-      before { create(:course_passage, course: course, educable: user) }
-
-      it 'can\'t start learning it again' do
-        expect(new_course_passage).to_not be_valid
+    context 'when has non-passed child (lesson passage)' do
+      it 'returns false' do
+        expect(course_passage).to_not be_ready_to_pass
       end
     end
-
-    context 'when user passed course' do
-      before do
-        create(:course_passage, course: course, educable: user, passed: true)
-      end
-
-      it 'can start learning it again' do
-        expect(new_course_passage).to be_valid
-      end
-    end
-
-    context 'when user never took a course' do
-      it 'can start learning it again' do
-        expect(new_course_passage).to be_valid
-      end
-    end
-  end # context '.validate_already_course_passage'
-
-  context '#learning?' do
-    let!(:user) { create(:course_master, :with_course_and_lessons) }
-    let(:course) { user.courses.last }
-
-    context 'when course in learning' do
-      it 'should return true' do
-        create(:course_passage, educable: user, course: course)
-        expect(user).to be_learning(course)
-      end
-    end
-
-    context 'when course not in learning' do
-      it 'should return false' do
-        expect(user).to_not be_learning(course)
-      end
-    end
-  end # context '#learning?'
+  end
 end

@@ -1,7 +1,5 @@
-= page_title('New material')
+= page_title(t('.new_material'))
 .row
   .col
     = render partial: 'form',
-             locals: { model: [:course_master, @material.lesson, @material],
-                       link_back: secondary_button(text: 'Cancel',
-                                                   path: course_master_lesson_path(@material.lesson)) }
+             locals: { model: [:course_master, @lesson, @material], lesson: @lesson }

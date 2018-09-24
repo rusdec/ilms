@@ -1,0 +1,5 @@
+ru:
+  decorators:
+    user:
+      hidden_badges: 'Скрытые значки'
+      badges: 'Значки'

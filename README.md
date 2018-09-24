@@ -13,3 +13,110 @@
 - Дать разработчикам курсов инструмент для создания игрофицированного процесса обучения
 - Повысить мотивацию и интерес к процессу обучения у пользователя системы
 
+## Текущие возможности
+#### Языки
+- русский
+- english
+
+#### Пользователи
+- роли: Пользователь/Мастер курсов/Администратор
+
+#### Уровень курсов
+- управление курсами/уроками/материалами/квестами(задания)
+- возможность создавать необязательные (дополнительные) уроки/квесты
+
+#### Уровень игрофикации
+- возможность создавать альтернативные квесты (квест на выбор)
+- добавление сложности к курсам/урокам/материалам/квестам
+- создание значков к курсам и квестам
+- добавление знаний для курса
+- получение опыта за прохождение квестов (кол-во опыта зависит от уровня курса/урока/квеста)
+- прокачка знаний - распределение опыта по знаниям согласно настройкам в курсе
+
+#### Статистика
+- графики по текущим прохождениям
+- график развития знаний
+- статистика по конкретному курсу
+
+## Установка
+
+#### 1. Установить postgresql
+Разработка велась с использованием postgres 10.x
+
+#### 2. Клонировать
+```
+git clone https://github.com/rusdec/ilms
+```
+
+#### 3. Сконфигурировать config/database.yml
+Пример:
+
+```
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: ilms_development
+
+test:
+  <<: *default
+  database: ilms_test
+
+production:
+  <<: *default
+  database: ilms_production
+```
+#### 4. Создать БД вручную
+Из-за [ошибки](https://github.com/pushtype/push_type/issues/47) в работе гема [closure_tree](https://github.com/ClosureTree/closure_tree) с [rails](https://github.com/rails/rails) версии 2.5.x, необходимо вручную создать базы данных, указанные вами в config/database.yml
+
+Пример:
+
+```
+psql --command='create database ilms_development' postgres
+psql --command='create database ilms_test' postgres
+psql --command='create database ilms_production' postgres
+
+```
+
+#### 5. Установить приложение (гемы, миграции)
+```
+bin/setup
+
+```
+
+#### 6. Создать администратора
+```
+rails g ilms:administrator --email <эл.почта> --password <пароль>
+```
+
+## Примеры страниц
+
+#### Список курсов
+![список курсов](https://image.ibb.co/gZb96p/courses.png)
+
+#### Страница курса
+![страница курса](https://image.ibb.co/b0G96p/course.png)
+
+#### Профиль/Главная
+![профиль/главная](https://image.ibb.co/grK7sU/profile_profile.png)
+
+#### Профиль/Знания
+![профиль/знания](https://image.ibb.co/krDdz9/profile_knowledges.png)
+
+#### Профиль/Мои курсы
+![профиль/мои курсы](https://image.ibb.co/kxchRp/profile_courses.png)
+
+#### Материал
+![материал](https://image.ibb.co/mg1jNU/material.png)
+
+#### Решение квеста
+![решение квеста](https://image.ibb.co/m2arK9/quest_solution.png)
+
+#### Управление курсами/Редактирование курса
+![управление курсами/редактирование курса](https://image.ibb.co/c2vmmp/course_master_edit_course.png)
+
+#### Управление курсами/Редактирование урока
+![управление курсами/редактирование урока](https://image.ibb.co/hh0K6p/course_master_edit_lesson.png)

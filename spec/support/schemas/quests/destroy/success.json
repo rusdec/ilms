@@ -3,8 +3,8 @@
   "properties": {
     "status": {"type": "boolean"},
     "message": {"type": "string"},
-    "location": {"type": "string", "format": "url"}
+    "object": {"$ref": "../quest.json"}
   },
-  "required": ["status", "message", "location"],
+  "required": ["status", "message", "object"],
   "maxProperties": 3
 }

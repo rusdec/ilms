@@ -1,16 +1,39 @@
 class Course < ApplicationRecord
-  include HtmlAttributable
+  include Passable
+  include Authorable
+  include Badgable
+  include CourseKnowledgable
+  include Difficultable
 
-  belongs_to :author, foreign_key: 'user_id', class_name: 'User'
+  paginates_per 10
+
   has_many :lessons, dependent: :destroy
-  has_many :course_passages
+  has_many :badges, dependent: :destroy
+  has_many :quests, through: :lessons
+  has_many :course_knowledges, dependent: :destroy, inverse_of: :course
+  has_many :knowledges, through: :course_knowledges
+
+  mount_uploader :image, ImageUploader
+
+  accepts_nested_attributes_for :course_knowledges,
+                                reject_if: proc { |ck| ck[:percent].to_i <= 0 },
+                                allow_destroy: true
+
 
   validates :title, presence: true
   validates :title, length: { minimum: 5, maximum: 50 }
+  validates :short_description, length: { maximum: 350 }
 
   validate :validate_author
 
-  html_attributes :decoration_description
+  alias_attribute :course, :itself
+
+  scope :all_published, -> { where(published: true) }
+
+  # Passable Template method
+  def passable_children
+    lessons.roots_and_descendants_preordered
+  end
 
   protected
 

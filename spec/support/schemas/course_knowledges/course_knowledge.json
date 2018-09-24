@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "course_id": {"type": "integer"},
+    "percent": {"type": "integer"},
+    "knowledge": {"$ref": "../knowledges/knowledge.json"}
+  },
+  "required": ["id", "course_id", "percent", "knowledge"],
+  "maxProperties": 4
+}

@@ -1,19 +1,31 @@
 document.addEventListener('turbolinks:load', () => {
-  ['.accept_quest_solution', '.decline_quest_solution'].forEach((selector) => {
-    addResponseAlertListener({selector: selector})
+  let forms = ['.accept_passage_solution', '.decline_passage_solution']
+
+  let hideForms = () => {
+    forms.forEach((form) => {
+      form = document.querySelector(form)
+      if (form && !form.classList.contains('hidden')) {
+        form.classList.add('hidden')
+      }
+    })
+  }
+
+  forms.forEach((selector) => {
+    addResponseAlertListener({selector: selector, callback: hideForms})
   })
 })
 
 document.addEventListener('turbolinks:load', () => {
   [
-    {selector: '.accept_quest_solution',  verify: 'Accepted'},
-    {selector: '.decline_quest_solution', verify: 'Declined'}
+    {selector: '.accept_passage_solution',  status: translate('solution_accepted')},
+    {selector: '.decline_passage_solution', status: translate('solution_declined')}
   ].forEach((e) => {
-    document.querySelector(e.selector).addEventListener('ajax:success', (ev) => {
-      let cardTitle = document.querySelector('#quest_solution h3')
-      if (cardTitle) {
-        cardTitle.textContent = `Solution (${e.verify})`
-      }
+    let form = document.querySelector(e.selector)
+    let cardTitle = document.querySelector('#passage_solution h4')
+    if (!form || !cardTitle) return
+
+    form.addEventListener('ajax:success', () => {
+      cardTitle.textContent = e.status
     })
   })
 })

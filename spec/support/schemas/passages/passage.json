@@ -1,0 +1,9 @@
+{
+  "type":"object",
+  "properties":{
+    "id": {"type":"integer"},
+    "status": {"type":"string"}
+  },
+  "required": ["id", "status"],
+  "maxProperties": 2
+}

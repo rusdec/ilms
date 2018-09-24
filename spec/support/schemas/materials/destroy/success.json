@@ -3,8 +3,8 @@
   "properties": {
     "status": {"type": "boolean"},
     "message": {"type":"string"},
-    "location": {"type": "string", "format": "uri"}
+    "object": {"$ref":"../material.json"}
   },
-  "required": ["status", "message", "location"],
+  "required": ["status", "message", "object"],
   "maxProperties": 3
 }

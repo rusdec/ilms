@@ -34,6 +34,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.extend GlobalMacros
   config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Generators::CaptureMacros, type: :generator
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -64,6 +65,28 @@ RSpec.configure do |config|
     config.integrate do |with|
       with.test_framework :rspec
       with.library :rails
+    end
+  end
+
+  # Remove files after using CarrierWave
+  config.after(:all) do
+    if Rails.env.test?
+      FileUtils.rm_rf(Dir["#{Rails.root}/public/uploads/rspec_testing/"])
+    end
+  end
+end
+
+if defined?(CarrierWave)
+  CarrierWave::Uploader::Base.descendants.each do |klass|
+    next if klass.anonymous?
+    klass.class_eval do
+      def cache_dir
+        "#{Rails.root}/public/uploads/rspec_testing/tmp"
+      end
+
+      def store_dir
+        "#{Rails.root}/public/uploads/rspec_testing/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+      end
     end
   end
 end

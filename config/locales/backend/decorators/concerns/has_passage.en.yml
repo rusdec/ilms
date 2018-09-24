@@ -1,0 +1,6 @@
+en:
+  decorators:
+    concerns:
+      has_passage:
+        you_learning_it: 'You learning it'
+        learn_now: 'Learn now!'

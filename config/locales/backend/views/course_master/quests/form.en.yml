@@ -1,0 +1,6 @@
+en:
+  course_master:
+    quests:
+      form:
+        alternative_quest_for: 'Alternative quest for'
+        back_to_quests: 'Back to quests'

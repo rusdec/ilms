@@ -1,0 +1,46 @@
+. class='card card-form-profile'
+  .card-header
+    h3.card-title= t('.edit_profile')
+
+  .card-body
+    = form_for user, remote: true, format: :json do |f|
+      . class='row mb-2'
+        .col-auto
+          - if user.avatar.present?
+            span.avatar.avatar-xl style="background-image: url(#{user.avatar.preview.url})"
+          - else
+            span.avatar.avatar-xl.opacity-05= user.initials
+        .col.col-avatar
+          .form-group
+            = f.file_field :avatar, class: 'custom-file-input'
+            = f.label :avatar, class: 'custom-file-label small'
+          . class="remove-avatar form-group #{f.object.avatar.present? ? '' : 'hidden'}"
+            = f.check_box :remove_avatar, class: 'mr-1'
+            span.small= t('.remove_avatar')
+
+      .form-group
+        = f.label :name, class: 'form-label'
+        = f.text_field :name, autocomplete: 'Name', class: 'form-control'
+
+      .form-group
+        = f.label :surname, class: 'form-label'
+        = f.text_field :surname, autocomplete: 'Surname', class: 'form-control'
+
+      .form-group
+        = f.label :email, class: 'form-label'
+        = f.email_field :email, autocomplete: 'Email', class: 'form-control'
+
+      .form-group
+        = f.label :current_password, class: 'form-label'
+        = f.password_field :current_password, autocomplete: 'Password', class: 'form-control'
+
+      .form-group
+        = f.label :password, t('.new_password'), class: 'form-label'
+        = f.password_field :password, autocomplete: 'Password', class: 'form-control'
+
+      .form-group
+        = f.label :password_confirmation, class: 'form-label'
+        = f.password_field :password_confirmation, class: 'form-control'
+
+      .form-footer
+        = f.submit class: 'btn btn-primary btn-block'

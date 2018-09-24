@@ -1,0 +1,15 @@
+table.table.card-table.table-striped.table-vcenter.course-items
+  thead
+    tr.text-center
+      th= t('.published')
+      th.text-left= t('.title')
+      th= t('created_at')
+      th.text-center= t('actions.actions')
+
+  tbody.small
+    - courses.each do |course|
+      tr.text-center.course-item data-id=course.id
+        td= course.published_status_icon
+        td.text-left= link_to course.title, edit_course_master_course_path(course)
+        td= course.created_at
+        td.text-center= course.remote_links

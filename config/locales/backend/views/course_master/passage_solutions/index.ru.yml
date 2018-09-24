@@ -1,0 +1,12 @@
+ru:
+  course_master:
+    passage_solutions:
+      index:
+        quest_solutions: 'Решения квестов'
+        verify: 'Проверить'
+        status: 'Статус'
+        user: 'Польз.'
+        quest: 'Квест'
+        lesson: 'Урок'
+        course: 'Курс'
+        date: 'Дата'

@@ -1,0 +1,33 @@
+ru:
+  passed: 'Завершено'
+  in_progress: 'В процессе'
+  unavailable: 'Недоступно'
+  collected: 'Собрано'
+  left: 'Осталось'
+  knowledges_direction: 'Направление знаний'
+  sum_of_knowledges_levels: 'Сумма уровней всех знаний'
+  back: 'Назад'
+  solution_declined: 'Решение (Отклонено)'
+  solution_accepted: 'Решение (Принято)'
+  waiting_for_verification: 'Ожидайте проверки вашего решения...'
+  no_data: 'Нет данных'
+  user: 'Пользователь'
+  course_master: 'Мастер курса'
+  administrator: 'Администратор'
+
+en:
+  passed: 'Passed'
+  in_progress: 'In progress'
+  unavailable: 'Unavailable'
+  collected: 'Collected'
+  left: 'Left'
+  knowledges_direction: "Knowledge's direction"
+  sum_of_knowledges_levels: "Sum of knowledge's levels"
+  back: 'Back'
+  solution_declined: 'Solution (Declined)'
+  solution_accepted: 'Solution (Accepted)'
+  waiting_for_verification: 'Waiting for verification of your solution...'
+  no_data: 'No data'
+  user: 'User'
+  course_master: 'Course master'
+  administrator: 'Administrator'

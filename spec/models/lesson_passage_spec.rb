@@ -1,46 +1,90 @@
 require_relative 'models_helper'
 
 RSpec.describe LessonPassage, type: :model do
-  it { should belong_to(:lesson) }
-  it { should belong_to(:course_passage) }
-  it { should have_many(:quest_passages).dependent(:destroy) }
-  it { should belong_to(:educable) }
+  let!(:course) { create(:course, :full) }
+  let!(:passage) { create(:passage, passable: course) }
+  let(:lesson_passage) { LessonPassage.last }
 
-  context 'private' do
-    context '.create_quest_passages' do
-      let(:course) { create(:course_master, :with_course_and_lessons).courses.last }
-      let(:lesson) { course.lessons.last }
-      let!(:quests) { create_list(:quest, 3, lesson: lesson, author: lesson.author) }
-      let!(:course_passage) do
-        create(:course_passage, educable: course.author, course: course)
+  context '.after_pass_hook' do
+    let!(:lesson_passage) { LessonPassage.first }
+    before do
+      class << lesson_passage
+        def ready_to_pass?
+          true
+        end
       end
-      let(:params) do
-        { course_passage: course_passage, lesson: lesson, educable: course.author }
-      end
+    end
 
-      it 'create quest_passages' do
-        expect{
-          create(:lesson_passage, params)
-        }.to change(QuestPassage, :count).by(quests.count)
-      end
-
-      it 'create quest_passage for each quest of lesson' do
-        ids = create(:lesson_passage, params).quest_passages.pluck(:quest_id)
-        quests.each { |quest| expect(ids).to be_include(quest.id) }
+    it 'open lesson passages for next lessons' do
+      passable_ids = lesson_passage.passable.children.pluck(:id)
+      siblings = lesson_passage.siblings.where(passable_id: passable_ids)
+      lesson_passage.try_chain_pass!
+      siblings.each do |sibling|
+        expect(sibling).to be_in_progress
       end
     end
   end
 
-  context '.quest_passages_by_quest_group' do
-    let(:course) { create(:course_master, :with_full_course).courses.last }
-    let(:lesson_passage) { course.course_passages.first.lesson_passages.first }
+  context '.open' do
+    it 'receives in_progress!' do
+      expect(lesson_passage).to receive(:in_progress!)
+      lesson_passage.open!
+    end
 
-    it 'return array quest_passages by quest group' do
-      quest_passages = lesson_passage.lesson.quest_groups.collect do |quest_group|
-        lesson_passage.quest_passages.where(quest: quest_group.quests)
+    it 'children receives open!' do
+      lesson_passage.children.each { |child| expect(child).to receive(:open!) }
+      lesson_passage.open!
+    end
+  end
+
+  context '.default_status' do
+    it 'should be unavailable' do
+      expect(lesson_passage.status).to eq('unavailable')
+    end
+  end
+
+  context '.after_create_hook_open_passage_if_root' do
+    let!(:lesson) { create(:lesson, course: course) }
+    let!(:lesson_passage) do
+      build(:lesson_passage, passable: lesson, user: passage.user)
+    end
+
+    context 'when lesson (passable) is root lesson' do
+      it 'should receive open!' do
+        expect(lesson_passage).to receive(:open!)
+        lesson_passage.save
       end
+    end
 
-      expect(lesson_passage.quest_passages_by_quest_group).to eq(quest_passages)
+    context 'when lesson (passable) is not root lesson' do
+      before { lesson.update(parent: course.lessons.last) }
+
+      it 'should not receive open!' do
+        expect(lesson_passage).to_not receive(:open!)
+        lesson_passage.save
+      end
+    end
+  end
+
+  context '.ready_to_pass?' do
+    context 'when each quest group has one passed quest' do
+      it 'should return true' do
+        lesson_passage.passable.quest_groups.each do |quest_group|
+          lesson_passage.children.find_by(passable: quest_group.quests.first).passed!
+        end
+
+        expect(lesson_passage).to be_ready_to_pass
+      end
+    end
+
+    context 'when few quest groups has not passed quest' do
+      it 'should return false' do
+        lesson_passage.passable.quest_groups[0..-2].each do |quest_group|
+          lesson_passage.children.find_by(passable: quest_group.quests.first).passed!
+        end
+
+        expect(lesson_passage).to_not be_ready_to_pass
+      end
     end
   end
 end

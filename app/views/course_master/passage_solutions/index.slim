@@ -1,0 +1,27 @@
+= page_header(t('.quest_solutions'))
+.row
+  .col
+    .card
+      table class='table card-table table-striped table-vcenter small'
+        thead
+          tr
+            th= t('.status')
+            th= t('.user')
+            th= t('.quest')
+            th= t('.lesson')
+            th= t('.course')
+            th= t('.date')
+        tbody
+          - @passage_solutions.each do |solution|
+            tr
+              td= solution.status_badge
+              td= solution.passage.user.full_name
+              td= solution.passage.passable.title_preview
+              td= solution.passage.parent.passable.title_preview
+              td= solution.passage.parent.passable.course.title_preview
+              td= solution.created_at
+              td= link_to t('.verify'), course_master_solution_path(solution)
+
+.row
+  .col-lg-8.text-center
+    = paginate @passage_solutions.object

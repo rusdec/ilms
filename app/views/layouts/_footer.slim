@@ -4,9 +4,20 @@ footer.footer
       . class='col-auto ml-lg-auto'
         . class='row align-items-center'
           .col-auto
-            = link_to 'Source code',
-                      '//github.com/rusdec/ilms',
+            .input-group-append.mr-2 style='display: inline-block'
+              button.btn.btn-primary.btn-sm type="button"
+                = t('.language')
+                button.btn.btn-primary.btn-sm.dropdown-toggle data-toggle="dropdown" type="button" aria-expanded="false"
+                .dropdown-menu.dropdown-menu-right x-placement="bottom-end" style="position: absolute; transform: translate3d(279px, 38px, 0px); top: 0px; left: 0px; will-change: transform;"
+                  = link_to t('languages.russian'), root_path(locale: :ru), class: 'dropdown-item'
+                  = link_to t('languages.english'), root_path(locale: :en), class: 'dropdown-item'
+
+            = link_to t('.source_code'), '//github.com/rusdec/ilms',
                       class: 'btn btn-outline-primary btn-sm',
                       target: '_blank'
+
       . class='col-12 col-lg-auto mt-3 mt-lg-0 text-center'
-        = '2018'
+        - if Date.current.year <= 2018
+          = Date.current.year
+        - else
+          = "#{2018} - #{Date.current.year}"

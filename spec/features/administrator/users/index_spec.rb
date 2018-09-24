@@ -11,9 +11,16 @@ feature 'Index user', %q{
     sign_in(create(:administrator))
     visit administrator_users_path
   end
-  given!(:users) { User.all }
+  given!(:users) { UserDecorator.decorate_collection(User.all) }
 
   context 'when administrator' do
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Administration')
+        expect(page).to have_content('Users')
+      end
+    end
+
     scenario 'see list of users' do
       expect(page).to have_content('Users')
 
@@ -21,7 +28,7 @@ feature 'Index user', %q{
         expect(page).to have_link(user.full_name)
         [user.email, user.type].each { |text| expect(page).to have_content(text) }
         [user.created_at, user.created_at].each do |date|
-          expect(page).to have_content(format_date(date))
+          expect(page).to have_content(date)
         end
       end
     end

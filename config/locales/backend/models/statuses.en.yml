@@ -1,0 +1,9 @@
+en:
+  statuses:
+    status: 'Status'
+    passed: 'Passed'
+    in_progress: 'In progress'
+    unavailable: 'Unavailable'
+    declined: 'Declined'
+    accepted: 'Accepted'
+    unverified: 'Unverified'

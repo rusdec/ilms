@@ -1,0 +1,6 @@
+= page_title(t('.edit_badge'))
+
+.row
+  .col
+    = render partial: 'form',
+             locals: { resource: [:course_master, @badge], badge: @badge }

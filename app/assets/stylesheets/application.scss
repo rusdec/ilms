@@ -20,6 +20,14 @@
 @import "tabler/variables";
 @import 'bootstrap';
 @import "tabler";
+@import "tabler/selectize";
 
-@import 'global';
 @import 'alerts';
+@import 'course_master/knowledges';
+@import 'lesson_passages';
+@import 'users';
+@import 'course';
+@import 'global';
+@import 'editor';
+@import 'profile/*';
+@import 'pagination';

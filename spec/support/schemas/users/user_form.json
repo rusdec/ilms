@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "properties": {
+    "id": "integer",
+    "name": "string",
+    "surname": "string",
+    "email": {"type":"string","format":"email"},
+    "type": {"type":"string"},
+    "created_at": {"type":"string","format":"date-time"},
+    "updated_at": {"type":"string","format":"date-time"},
+    "full_name": {"type":"string"},
+    "initials": {"type":"string", "format":"[A-Z]{1,2}"},
+    "avatar": {
+      "type": "object",
+      "properties": {
+        "original": {"type": "string"},
+        "preview": {"type": "string"}
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "surname",
+    "email",
+    "type",
+    "created_at",
+    "updated_at",
+    "full_name",
+    "initials",
+    "avatar"
+  ],
+  "minProperties": 10,
+  "maxProperties": 10
+}

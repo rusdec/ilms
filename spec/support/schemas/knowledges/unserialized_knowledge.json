@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "name": {"type": "string"},
+    "knowledge_direction_id": {"type": "integer"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  },
+  "required": ["id", "name", "knowledge_direction_id", "created_at", "updated_at"],
+  "maxProperties": 5
+}

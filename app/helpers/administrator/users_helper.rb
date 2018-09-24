@@ -7,8 +7,8 @@ module Administrator::UsersHelper
   end
 
   def non_editing_part(user)
-    type = tag.span user.type
-    link = link_to 'Edit', 'javascript:void(0)'
+    type = tag.span t("roles.#{user.type.underscore}")
+    link = link_to t('actions.edit'), 'javascript:void(0)'
     tag.span "#{type} #{link}".html_safe, class: 'non-editing'
   end
 
@@ -17,9 +17,14 @@ module Administrator::UsersHelper
               method: :patch,
               class: 'inline_edit hidden',
               remote: true, format: :json do |f|
-      concat(f.select 'user[type]', options_for_select(Role.all, selected: user.type))
-      concat(f.submit 'Save')
-      concat(link_to 'Cancel', 'javascript:void(0)')
+      concat(
+        f.select 'user[type]',
+        options_for_select(
+          Role.all.map { |role| [t("roles.#{role.underscore}"), role] }, selected: user.type
+        )
+      )
+      concat(f.submit t('actions.save'))
+      concat(link_to t('actions.cancel'), 'javascript:void(0)')
     end
   end
 end

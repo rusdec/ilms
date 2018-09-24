@@ -1,0 +1,5 @@
+en:
+  users:
+    show_knowledges:
+      knowledges_directions: "Knowledge's directions"
+      remaining_experience: '<i class="fas fa-level-up-alt"></i> %{exp} exp'

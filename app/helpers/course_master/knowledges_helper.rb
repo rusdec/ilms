@@ -1,0 +1,2 @@
+module CourseMaster::KnowledgesHelper
+end

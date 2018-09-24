@@ -1,0 +1,3 @@
+ru:
+  closure_tree:
+    loop_error: 'не может ссылаться сам на себя'

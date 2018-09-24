@@ -1,0 +1,21 @@
+ru:
+  activerecord:
+    models:
+      user: 'Пользователь'
+    attributes:
+      user:
+        name: 'Имя'
+        surname: 'Фамилия'
+        email: 'Эл.почта'
+        current_password: 'Текущий пароль'
+        password_confirmation: 'Подтверждение пароля'
+        avatar: 'Аватарка'
+        password: 'Пароль'
+
+  helpers:
+    label:
+      user:
+        remember_me: 'Запомнить меня'
+    submit:
+      user:
+        update: 'Сохранить'

@@ -1,0 +1,9 @@
+ru:
+  statuses:
+    status: 'Статус'
+    passed: 'Завершено'
+    in_progress: 'В процессе'
+    unavailable: 'Недоступно'
+    declined: 'Отклонено'
+    accepted: 'Принято'
+    unverified: 'Не проверено'

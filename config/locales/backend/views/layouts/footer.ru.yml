@@ -1,0 +1,5 @@
+ru:
+  layouts:
+    footer:
+      source_code: 'Исходный код'
+      language: 'Язык (language)'

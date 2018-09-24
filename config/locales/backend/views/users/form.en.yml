@@ -1,0 +1,6 @@
+en:
+  users:
+    form:
+      edit_profile: 'Edit profile'
+      remove_avatar: 'Remove avatar'
+      new_password: 'New password'

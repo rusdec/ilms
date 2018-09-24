@@ -1,0 +1,23 @@
+ru:
+  loaf:
+    errors:
+      invalid_options: "Неверная опция :%{invalid}. Возможные опции: %{valid}, убедитесь, что вы используете именно их."
+    breadcrumbs:
+      courses: 'Курсы'
+      my_courses: 'Мои курсы'
+      lessons: 'Уроки'
+      administrator:
+        administration: 'Администрирование'
+        users: 'Пользователи'
+      course_master:
+        courses: 'Курсы'
+        lessons: 'Уроки'
+        badges: 'Значки'
+        manage_courses: 'Управление курсами'
+        new_lesson: 'Новый урок'
+        new_course: 'Новый курс'
+        new_quest: 'Новый квест'
+        new_badge: 'Новый значок'
+        new_material: 'Новый материал'
+        quests_solutions: 'Решения квестов'
+        solution: 'Решение'

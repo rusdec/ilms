@@ -30,4 +30,27 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  total_count: 'Total: %{count}'
+  a_from_b: '%{a} from %{b}'
+  badges:
+    numbers_of_awarded: 'Number of awarded: %{numbers}'
+  actions:
+    actions: 'Actions'
+    edit: 'Edit'
+    delete: 'Delete'
+    cancel: 'Cancel'
+    save: 'Save'
+  created_at: 'Created at'
+  updated_at: 'Updated at'
+  course: 'Course'
+  lesson: 'Lesson'
+  quest: 'Quest'
+  badge: 'Badge'
+  statistic: 'Statistic'
+  date: 'Date'
+  user: 'User'
+  status: 'Status'
+  back: 'Back'
+  difficulty: 'Difficulty'
+  access_denied: 'Access denied'
+  success: 'Success'

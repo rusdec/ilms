@@ -3,33 +3,8 @@
   "properties": {
     "status": {"type": "boolean"},
     "message": {"type":"string"},
-    "object": {
-      "type": "object",
-      "properties": {
-        "id": {"type": "integer"},
-        "title": {"type": "string"},
-        "level": {"type": "integer"},
-        "user_id": {"type": "integer"},
-        "decoration_description": {"type": "string"},
-        "created_at": {"type": "string", "format": "date-time"},
-        "updated_at": {"type": "string", "format": "date-time"}
-      },
-      "required": [
-        "id",
-        "title",
-        "level",
-        "user_id",
-        "decoration_description",
-        "created_at",
-        "updated_at"
-      ],
-      "maxProperties": 7
-    },
-    "location": {
-      "type": "string",
-      "format": "uri"
-    }
+    "location": {"type": "string", "format": "uri"}
   },
-  "required": ["status", "message", "object", "location"],
-  "maxProperties": 4
+  "required": ["status", "message", "location"],
+  "maxProperties": 3
 }

@@ -1,0 +1,12 @@
+.input-group
+  input#new-knowledge-direction type='text' class='form-control' placeholder="#{t('.new_knowledge_direction')}" data-id='' data-name='' style='padding: 0.40rem 1.25rem;'
+  span.input-group-append
+    button.btn.btn-secondary.text-muted.bg-white.border-left-0 type='button' id='add-new-knowledge-direction' style='padding: 0.40rem 0rem 0.40rem 0rem'
+      = icon('fas', 'plus-circle')
+    button.btn.btn-secondary.text-muted.bg-white.border-left-0 type='button' id='back-to-new-knowledge' style='padding: 0.40rem 1.25rem;'
+      = icon('fas', 'chevron-circle-left')
+ul.list-group id='knowledge-direction-items' style='max-height: 190px; overflow: scroll;'
+  - KnowledgeDirection.all.each do |knowledge_direction|
+    li.list-group-item.knowledge-direction-item.list-group-item-action data-id=knowledge_direction.id data-name=knowledge_direction.name
+      = knowledge_direction.name.capitalize
+      = icon('fas', 'plus-circle', { class: 'float-right text-muted' } )

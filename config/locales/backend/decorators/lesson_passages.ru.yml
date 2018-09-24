@@ -1,0 +1,4 @@
+ru:
+  decorators:
+    lesson_passages:
+      read_only: 'Только чтение'

@@ -1,0 +1,7 @@
+ru:
+  course_master:
+    badges:
+      index:
+        image: 'Изобр.'
+        title: 'Название'
+        badges: 'Значки'

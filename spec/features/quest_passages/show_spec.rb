@@ -6,42 +6,65 @@ feature 'Show quest_passage page', %q{
   so that I can passage it
 } do
 
-  given(:quest_passage) { create(:quest_passage) }
-  given(:course_passage) { quest_passage.lesson_passage.course_passage }
-  given(:lesson) { quest_passage.lesson_passage.lesson }
-  given(:owner) { course_passage.educable }
-  given(:params) do
-    { course_passage_id: course_passage, id: quest_passage }
-  end
+  given!(:course) { create(:course, :full) }
+  given!(:owner) { create(:user) }
+  before { create(:passage, passable: course, user: owner) }
+  given(:passage) { Passage.for_quests.first.decorate }
+  given(:lesson) { passage.passable.lesson }
+  given(:params) { { id: passage } }
 
   context 'when authenticated user' do
     context 'when owner of course_passage' do
       before do
         sign_in(owner)
-        visit course_passage_quest_passage_path(course_passage, quest_passage)
+        visit passage_path(passage, locale: I18n.locale)
+      end
+
+      scenario 'see breadcrumb' do
+        within '.breadcrumb' do
+          expect(page).to have_link('My courses')
+          expect(page).to have_link(course.title)
+          expect(page).to have_link(lesson.title)
+          expect(page).to have_content(passage.passable.title)
+        end
       end
 
       scenario 'see quest details' do
         %i(title description).each do |field|
-          expect(page).to have_content(quest_passage.quest.send field)
+          expect(page).to have_content(passage.passable.send field)
         end
 
-        quest_passage.quest.body_html_text.each do |text|
-          expect(page).to have_content(text)
-        end
+        expect(page).to have_content(passage.passable.body_text)
       end
 
-      scenario 'can back to lesson_passage page' do
+      scenario 'can back to parent(lesson) passage page' do
         click_on 'Back'
         expect(page).to have_content(lesson.title)
         expect(page).to have_content(lesson.ideas)
       end
-    end
+
+      scenario 'see own declined quest solutions' do
+        solution = create(:passage_solution, passage: passage)
+        solution.declined!
+        refresh
+
+        passage.solutions.all_declined.each do |solution|
+          expect(page).to have_content('Declined solutions')
+          expect(page).to have_content(solution.decorate.body_html)
+        end
+      end
+
+      context 'when have not decline quest solutions' do
+        scenario 'no see title Declined solutions' do
+          expect(page).to_not have_content('Declined solutions')
+        end
+      end
+    end # context 'when owner of course_passage'
 
     context 'when not owner of course_passage' do
       before do
         sign_in(create(:user))
-        visit course_passage_quest_passage_path(course_passage, quest_passage)
+        visit passage_path(passage, locale: I18n.locale)
       end
 
       scenario 'see error' do
@@ -50,15 +73,15 @@ feature 'Show quest_passage page', %q{
 
       scenario 'no see quest details' do
         %i(title description body).each do |field|
-          expect(page).to_not have_content(quest_passage.quest.send field)
+          expect(page).to_not have_content(passage.passable.send field)
         end
       end
-    end
+    end # context 'when not owner of course_passage'
   end
 
   context 'when not authenticated user' do
     before  do
-      visit course_passage_quest_passage_path(course_passage, quest_passage)
+      visit passage_path(passage, locale: I18n.locale)
     end
 
     scenario 'see sign in page' do
@@ -67,8 +90,8 @@ feature 'Show quest_passage page', %q{
 
     scenario 'no see quest details' do
       %i(title description body).each do |field|
-        expect(page).to_not have_content(quest_passage.quest.send field)
+        expect(page).to_not have_content(passage.passable.send field)
       end
     end
-  end
+  end # context 'when authenticated user'
 end

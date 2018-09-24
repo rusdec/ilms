@@ -1,0 +1,8 @@
+.  
+  = form_for solution, url: passage_solutions_path(solution.passage), class: 'new_passage_solution', remote: true, format: :json, html: { form_editor: true } do |f|
+    h3.card-title= t('.your_solution')
+    .form-group
+      = editor_text_area(form: f, name: 'body', without_title: true)
+
+    . class='form-group text-center'
+      = f.submit class: 'btn btn-primary btn-small'

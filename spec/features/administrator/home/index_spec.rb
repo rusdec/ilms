@@ -11,6 +11,12 @@ feature 'Administrator home', %q{
       visit administrator_path
     end
 
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_content('Administration')
+      end
+    end
+
     scenario 'see administrator panel title' do
       expect(page).to have_content('Administration')
     end

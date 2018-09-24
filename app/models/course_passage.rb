@@ -1,34 +1,31 @@
-class CoursePassage < ApplicationRecord
-  belongs_to :educable, polymorphic: true
-  belongs_to :course
+class CoursePassage < Passage
+  has_many :quest_passages, through: :children, source: :children
+  alias_attribute :lesson_passages, :children
+  alias_attribute :course, :passable
 
-  has_many :lesson_passages, dependent: :destroy
+  before_create :create_user_knowledges
 
-  validate :validate_already_course_passage
-
-  after_create :create_root_lesson_passages
-
-  def self.learning?(course)
-    where(course: course, passed: false).any?
+  # Passage Template method
+  def ready_to_pass?
+    children.all_passed.count == children.count
   end
 
-  private
-
-  def validate_already_course_passage
-    if CoursePassage.find_by(educable: educable, course: course, passed: false)
-      errors.add(:course, 'in the process of learning')
-    end
+  # Passage Template method
+  def after_pass_hook
+    user.reward!(passable.badge) if passable.badge
   end
 
-  def create_root_lesson_passages
-    create_lesson_passages(course.lessons.roots)
+  def passed_quest_passages
+    quest_passages.all_passed
   end
 
-  def create_lesson_passages(lessons)
-    transaction do
-      lessons.each do |lesson|
-        lesson_passages.create!(lesson: lesson, educable: educable)
-      end
-    end
+  def passed_lesson_passages
+    children.all_passed
+  end
+
+  protected
+
+  def create_user_knowledges
+    course.knowledges.new_for(user).each { |knowledge| user.knowledges << knowledge }
   end
 end

@@ -1,0 +1,7 @@
+en:
+  course_master:
+    badges:
+      badges:
+        image: 'Image'
+        title: 'Title'
+        related: 'Related'

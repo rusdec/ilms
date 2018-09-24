@@ -17,7 +17,27 @@ feature 'Edit quest', %q{
   context 'when author' do
     before do
       sign_in(user)
-      visit edit_course_master_quest_path(quest)
+      visit edit_course_master_lesson_path(lesson, locale: I18n.locale)
+      within ".quest-item[data-id='#{quest.id}']" do
+        click_edit_remote_link
+      end
+    end
+
+    scenario 'see breadcrumb' do
+      within '.breadcrumb' do
+        expect(page).to have_link('Manage courses')
+        expect(page).to have_link('Courses')
+        expect(page).to have_link(lesson.course.decorate.title_preview)
+        expect(page).to have_link('Lessons')
+        expect(page).to have_link(lesson.decorate.title_preview)
+        expect(page).to have_content(quest.title)
+      end
+    end
+
+    scenario 'can back to quests' do
+      click_on 'Back to quests'
+      expect(page).to have_content('Edit lesson')
+      lesson.quests.each { |quest| expect(page).to have_content(quest.title) }
     end
 
     context 'with valid data' do
@@ -29,7 +49,8 @@ feature 'Edit quest', %q{
         fill_in 'Title', with: attributes[:title]
         fill_editor 'Body', with: attributes[:body]
         fill_in 'Description', with: attributes[:description]
-        click_on 'Update Quest'
+        select('3', from: 'Difficulty')
+        click_on 'Save'
 
         expect(page).to have_content('Success')
       end
@@ -38,7 +59,7 @@ feature 'Edit quest', %q{
         expect(find("#quest_quest_group_id_#{quest.quest_group.id}")).to be_checked
         expect(page).to have_link(other_quest.title)
         choose option: other_quest.id
-        click_on 'Update Quest'
+        click_on 'Save'
         refresh
         expect(find("#quest_quest_group_id_#{other_quest.quest_group.id}")).to be_checked
         expect(page).to have_link(other_quest.title)
@@ -51,7 +72,7 @@ feature 'Edit quest', %q{
         fill_in 'Title', with: nil
         fill_editor 'Body', with: nil
         fill_in 'Description', with: nil
-        click_on 'Update Quest'
+        click_on 'Save'
 
         expect(page).to_not have_content('Success')
         ['Title can\'t be blank',
@@ -70,10 +91,10 @@ feature 'Edit quest', %q{
     scenario 'can\'t create quest' do
       [create(:user), create(:course_master)].each do |user|
         sign_in(user)
-        visit edit_course_master_quest_path(quest)
+        visit edit_course_master_quest_path(quest, locale: I18n.locale)
 
         expect(page).to have_content('Access denied')
-        expect(page).to_not have_content('Update Quest')
+        expect(page).to_not have_content('Save')
         sign_out
       end
     end # scenario 'can\'t create quest'

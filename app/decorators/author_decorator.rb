@@ -1,0 +1,1 @@
+class AuthorDecorator < UserDecorator; end

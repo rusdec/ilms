@@ -1,7 +1,6 @@
 document.addEventListener('turbolinks:load', () => {
-  ['.edit_quest', '.new_quest', '.destroy_quest'].forEach((selector) => {
-    addResponseAlertListener({selector: selector})
-  })
+  remoteLinksListener('quest')
+  formLinksListener('quest')
 })
 
 document.addEventListener('turbolinks:load', () => {

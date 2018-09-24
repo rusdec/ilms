@@ -1,0 +1,7 @@
+en:
+  course_master:
+    courses:
+      knowledges:
+        delete: 'Del'
+        knowledge: 'Knowledge'
+        exp: 'Exp'

@@ -1,0 +1,5 @@
+en:
+  shared:
+    cards:
+      chart_card:
+        no_data: 'No data'

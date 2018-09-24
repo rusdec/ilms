@@ -1,0 +1,9 @@
+ru:
+  course_master:
+    home:
+      index:
+        manage_courses: 'Управление курсами'
+        courses: 'Курсы'
+        total_count: 'Всего: %{count}'
+        quests_solutions: 'Решения квестов'
+        unverified_count: 'Непроверено: %{count}'

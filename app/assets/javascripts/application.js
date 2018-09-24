@@ -14,8 +14,12 @@
 //= require jquery3
 //= require mustache
 //= require popper
-//= require bootstrap
 //= require tabler
+//= require tabler/vendors/bootstrap.bundle.min
+//= require tabler/vendors/selectize.min
 //= require activestorage
 //= require turbolinks
+//= require chartjs/chartjs.v072.min
+//= require highcharts/highcharts.js
+//= require highcharts/modules/drilldown.js
 //= require_tree .

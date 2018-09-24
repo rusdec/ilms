@@ -1,0 +1,5 @@
+ru:
+  users:
+    show_knowledges:
+      knowledges_directions: 'Направления знаний'
+      remaining_experience: '<i class="fas fa-level-up-alt"></i> %{exp} exp'

@@ -1,7 +1,6 @@
 require_relative 'models_helper'
 
 RSpec.describe Material, type: :model do
-  it { should belong_to(:author).with_foreign_key(:user_id).class_name('User') }
   it { should belong_to(:lesson) }
 
   it { should validate_presence_of(:title) }
@@ -11,7 +10,7 @@ RSpec.describe Material, type: :model do
       .is_at_most(150)
   end
 
-  it_behaves_like 'html_attributable', %w(body summary)
+  it_behaves_like 'authorable'
 
   context 'html validations' do
     let(:lesson) { create(:course_master, :with_course_and_lesson).lessons.last }

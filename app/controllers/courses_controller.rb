@@ -1,20 +1,18 @@
 class CoursesController < ApplicationController
-  before_action :set_courses, only: :index
-  before_action :set_course, only: :show
+  include Passaged
 
-  def index; end
+  def index
+    @courses = CourseDecorator.decorate_collection(
+      Course.all_published.order(:title).page params[:page]
+    )
+  end
 
   def show
-    @course_passage = @course.course_passages.new
-  end
+    @course = Course.find(params[:id]).decorate
+    authorize! :publicated, @course.object
 
-  protected
-
-  def set_courses
-    @courses = Course.all
-  end
-
-  def set_course
-    @course = Course.find(params[:id])
+    breadcrumb 'courses', courses_path, match: :exact
+    breadcrumb @course.title, course_path(@course), match: :exact
+    @passage = @course.passages.new
   end
 end

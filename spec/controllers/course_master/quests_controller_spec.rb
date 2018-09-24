@@ -22,6 +22,10 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
     it 'New Quest related with lesson' do
       expect(assigns(:quest_form).quest.lesson).to eq(author.lessons.last)
     end
+
+    it 'decorates assigned quest' do
+      expect(assigns(:quest_form).quest).to be_decorated
+    end
   end
 
   describe 'GET #edit' do
@@ -44,30 +48,6 @@ RSpec.describe CourseMaster::QuestsController, type: :controller do
 
       it 'redirect to root' do
         expect(response).to redirect_to(root_path)
-      end
-    end
-  end
-
-  describe 'GET #show' do
-    context 'when author' do
-      before do
-        sign_in(author)
-        get :show, params: { id: quest }
-      end
-
-      it 'Quest assign to @quest' do
-        expect(assigns(:quest)).to eq(quest)
-      end
-    end
-
-    context 'when not author' do
-      before do
-        sign_in(author)
-        get :show, params: { id: quest }
-      end
-
-      it 'Quest assign to @quest' do
-        expect(assigns(:quest)).to eq(quest)
       end
     end
   end

@@ -1,10 +1,5 @@
-.row
-  . class='col text-center'
-    h2.page-title= 'New course'
+= page_title(t('.new_course'))
 
 .row
   .col
-    = render partial: 'form',
-             locals: { model: [:course_master, @course],
-                       link_back: secondary_button(text: 'Courses page',
-                                                   path: course_master_courses_path) }
+    = render partial: 'form', locals: { model: [:course_master, @course] }

@@ -1,14 +1,16 @@
 class CourseMaster::QuestsController < CourseMaster::BaseController
   include JsonResponsed
 
-  before_action :set_quest, only: %i(edit show update destroy)
-  before_action :set_quest_form, only: %i(edit show update destroy)
-  before_action :set_new_quest_form, only: %i(new create)
+  before_action :set_quest, only: %i(edit update destroy)
   before_action :require_author_abilities, only: %i(edit update destroy)
+  before_action :set_quest_form, only: %i(edit update destroy)
+  before_action :set_new_quest_form, only: %i(new create)
 
-  def index
-    @quests = current_user.quests
-  end
+  breadcrumb 'course_master.courses', :course_master_courses_path,
+                                      match: :exact,
+                                      only: %i(index edit new)
+
+  before_action :set_breadcrumb_chain, only: %i(new edit)
 
   def new; end
 
@@ -16,13 +18,13 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def create
     @quest_form.create(params)
-    json_response_by_result({ with_location: :course_master_quest_url,
-                            with_flash: true,
-                            without_object: true },
-                            @quest_form.quest)
+    json_response_by_result(
+      { with_location: :edit_course_master_quest_url,
+        without_object: true,
+        with_flash: true },
+      @quest_form.quest
+    )
   end
-
-  def show; end
 
   def update
     @quest_form.update(params)
@@ -31,26 +33,39 @@ class CourseMaster::QuestsController < CourseMaster::BaseController
 
   def destroy
     @quest_form.destroy
-    json_response_by_result({ with_location: :course_master_lesson_url,
-                              location_object: @quest_form.lesson,
-                              with_flash: true,
-                              without_object: true },
-                              @quest_form.quest)
+    json_response_by_result(with_serializer: QuestSerializer)
   end
 
   protected
 
+  def set_breadcrumb_chain
+    quest = @quest_form.quest
+    breadcrumb quest.lesson.course.decorate.title_preview,
+               edit_course_master_course_path(quest.lesson.course)
+    breadcrumb 'course_master.lessons',
+               course_master_course_lessons_path(quest.lesson.course)
+    breadcrumb quest.lesson.decorate.title_preview,
+               edit_course_master_lesson_path(quest.lesson)
+
+    if @quest_form.persisted?
+      breadcrumb @quest_form.title, edit_course_master_quest_path(@quest_form.quest)
+    else
+      breadcrumb 'course_master.new_quest', ''
+    end
+  end
+
   def require_author_abilities
-    authorize! :author, @quest_form.quest
+    authorize! :author, @quest
   end
 
   def set_new_quest_form
     lesson = Lesson.find(params[:lesson_id])
-    @quest_form = QuestForm.new(current_user.quests.new(lesson: lesson))
+    @quest_form =
+      QuestForm.new(current_user.quests.new(lesson: lesson).decorate)
   end
 
   def set_quest_form
-    @quest_form = QuestForm.new(@quest)
+    @quest_form = QuestForm.new(@quest.decorate)
   end
 
   def set_quest

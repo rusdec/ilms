@@ -1,10 +1,21 @@
-.row
-  . class='col text-center'
-    h2.page-title= 'Edit lesson'
+= page_title(t('.edit_lesson'))
 
 .row
   .col
-    = render partial: 'form',
-             locals: { model: [:course_master, @lesson],
-                       link_back: secondary_button(text: 'Lesson page',
-                                                   path: course_master_lesson_path(@lesson)) }
+    = render partial: 'form', locals: { model: [:course_master, @lesson] }
+
+.row.mt-5
+  .col
+    = page_title(t('.materials'))
+    .card
+      = render partial: 'course_master/materials/materials', locals: { materials: @lesson.materials }
+    .text-center
+      = @lesson.button_new_material
+
+.row.mt-5
+  .col
+    = page_title(t('.quests'))
+    .card
+      = render partial: 'course_master/quests/quests', locals: { quests: @lesson.quests }
+    .text-center
+      = @lesson.button_new_quest

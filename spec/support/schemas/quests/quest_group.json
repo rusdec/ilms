@@ -1,8 +1,8 @@
 {
   "type": "object",
   "properties": {
-    "id": {"type": "integet"},
-    "lesson_id": {"type": "integet"},
+    "id": {"type": "integer"},
+    "lesson_id": {"type": "integer"},
     "created_at": {"type": "string", "format": "date-time"},
     "updated_at": {"type": "string", "format": "date-time"}
   },

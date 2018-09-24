@@ -12,11 +12,13 @@ feature 'Author destory material', %q{
   context 'when author' do
     before do
       sign_in(author)
-      visit course_master_material_path(material)
+      visit edit_course_master_lesson_path(material.lesson, locale: I18n.locale)
     end
 
-    scenario 'can delete course', js: true do
-      click_on 'Delete'
+    scenario 'can delete material', js: true do
+      within ".material-item[data-id='#{material.id}']" do
+        click_destory_remote_link
+      end
 
       expect(page).to have_content('Success')
       expect(page).to_not have_content(material.title)

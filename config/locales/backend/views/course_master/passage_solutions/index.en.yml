@@ -1,0 +1,12 @@
+en:
+  course_master:
+    passage_solutions:
+      index:
+        quest_solutions: "Quest's solutions"
+        verify: 'Verify'
+        status: 'Status'
+        user: 'User'
+        quest: 'Quest'
+        lesson: 'Lesson'
+        course: 'Course'
+        date: 'Date'

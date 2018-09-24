@@ -4,3 +4,17 @@
     margin-right: 1em;
   }
 }
+.img-thumb { width: 50px; min-width: 50px; }
+.img-preview { width: 150px; min-width: 50px; }
+
+.disabled-element {
+  &:hover { background-color: none; }
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+.clickable {
+  cursor: pointer;
+  opacity: 0.9;
+  &:hover { opacity: 1 }
+}

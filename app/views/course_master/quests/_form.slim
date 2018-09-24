@@ -2,28 +2,31 @@
   .form-group
     = f.label :title
     = f.text_field :title, autocomplete: 'title',
-                           placeholder: 'Title',
                            class: 'form-control small'
 
   .form-group
     = f.label :description
     = f.text_area :description, autocomplete: 'description',
-                           placeholder: 'Description',
                            class: 'form-control small'
 
   .form-group
     = editor_text_area(form: f, name: :body)
 
   .form-group
-    = f.text_field :level, autocomplete: 'level',
-                           placeholder: 'Level',
-                           class: 'form-control small'
+    = f.label :difficulty
+    = f.object.difficulty_selector(f)
 
   . class='form-group small'
-    = f.label :quest_group_id, 'Alternative quest for'
+    = f.label :quest_group_id, t('.alternative_quest_for')
     .quest-groups
       = alternative_quest_for_selector(quest_groups: @quest_form.quest_groups, form: f)
   
+  - if @quest_form.quest.persisted?
+    .form-group
+      = f.label :badge
+      br
+      = quest.link_to_edit_badge
+
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_back if link_back
+    = link_to t('.back_to_quests'), edit_course_master_lesson_path(@quest_form.lesson), class: 'btn btn-secondary'

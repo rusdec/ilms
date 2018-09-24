@@ -1,17 +1,56 @@
 = form_for model, remote: true, format: :json, html: { form_editor: true } do |f|
   .form-group
-    = f.text_field :title, autocomplete: 'title',
-                           placeholder: 'Title',
+    = f.check_box :published, class: 'mr-2'
+    = f.label :published
+
+  .form-group
+    = f.label :title
+    = f.text_field :title, autocomplete: 'title', class: 'form-control small'
+
+  .form-group
+    = f.label :short_description
+    = f.text_area :short_description, autocomplete: 'short_description',
                            class: 'form-control small'
+
+  .form-group
+    = f.label :image
+    br
+    - if @course.image.present?
+      = @course.image_preview(class: 'img-preview mr-2', name: 'course_image')
+    - else
+      = image_tag '', name: 'course_image', class: 'hidden'
+
+    . class='custom-file col-3'
+      = f.file_field :image, class: 'custom-file-input'
+      = f.label :image, class: 'custom-file-label small'
+    . class="remove-image form-group #{@course.image.present? ? '' : 'hidden'}"
+      = f.check_box :remove_image, class: 'mr-1'
+      span.small= t('.remove_image')
 
   .form-group
     = editor_text_area(form: f, name: :decoration_description)
 
   .form-group
-    = f.text_field :level, autocomplete: 'level',
-                           placeholder: 'Level',
-                           class: 'form-control small'
-                                            
+    = f.label :difficulty
+    = f.object.difficulty_selector(f)
+
+  .form-group
+    - if @course.persisted?
+      = f.label :badge
+      br
+      = @course.link_to_edit_badge
+
+  .form-group
+    = f.label :knowledges
+    .row
+      .col
+        .card
+          = render partial: 'knowledges', locals: { form: f }
+      #new-knowledge-input-group class='col-md-4'
+        = render partial: 'knowledges_list', locals: { course: @course }
+      #new-knowledge-direction-input-group class='col-md-4 hidden'
+        = render partial: 'knowledge_directions_list'
+
   .form-group
     = f.submit class: 'btn btn-primary mr-2'
-    = link_to link_back if link_back
+    = link_to t('.back_to_courses'), course_master_courses_path, class: 'btn btn-secondary'

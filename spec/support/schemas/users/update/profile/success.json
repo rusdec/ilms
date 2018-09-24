@@ -1,0 +1,7 @@
+{
+  "status": {"type":"boolean"},
+  "message": {"type":"string"},
+  "object": {"$ref":"../../user_form.json"},
+  "required": ["status","message","object"],
+  "maxProperties": 3
+}

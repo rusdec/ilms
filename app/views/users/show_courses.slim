@@ -1,0 +1,22 @@
+.row
+  .col
+    .card
+      .card-body
+        table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.small
+          thead
+            tr.text-center
+              th.text-left= t('statuses.status')
+              th.text-left= t('.title')
+              th= t('.progress')
+              th= t('.started_at')
+          tbody
+            - @passages.each do |passage|
+              tr
+                td.text-left= passage.status_badge
+                td.text-left= link_to passage.passable.title, passage_path(passage)
+                td.text-center
+                  .clearfix
+                    .float-right
+                      strong= "#{passage.passed_lesson_passages_percent.to_i}%"
+                  = passage.lessons_progress_bar 
+                td.text-center = passage.created_at

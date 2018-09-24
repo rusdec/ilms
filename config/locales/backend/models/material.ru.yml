@@ -1,0 +1,15 @@
+ru:
+  activerecord:
+    models:
+      material: 'Материал'
+    attributes:
+      material:
+        title: 'Название'
+        body: 'Тело'
+        summary: 'Обобщение'
+        order: 'Порядок'
+
+  helpers:
+    submit:
+      update: 'Сохранить'
+      create: 'Создать'

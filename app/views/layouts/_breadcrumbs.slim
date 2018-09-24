@@ -1,0 +1,5 @@
+- if breadcrumb_trail.any?
+  ol.breadcrumb.small
+    - breadcrumb_trail do |crumb|
+      li class="breadcrumb-item #{crumb.current? ? 'active' : '' }"
+        = link_to_unless crumb.current?, crumb.name, crumb.url, (crumb.current? ? {'aria-current' => 'page'} : {})

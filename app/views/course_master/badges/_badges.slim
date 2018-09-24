@@ -1,0 +1,16 @@
+table.table.card-table.table-striped.table-vcenter.badge-items
+  thead
+    tr
+      th= t('.image')
+      th= t('.title')
+      th= t('.related')
+      th.text-center= t('created_at')
+      th.text-center= t('actions.actions')
+  tbody.small
+    - badges.each do |badge|
+      tr.badge-item data-id=badge.id
+        td= badge.image_preview class: 'img-thumb'
+        td= badge.title_preview
+        td= badge.link_to_related_badgable
+        td.text-center= badge.created_at
+        td.text-center= badge.remote_links

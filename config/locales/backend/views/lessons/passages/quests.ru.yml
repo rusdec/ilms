@@ -1,0 +1,8 @@
+ru:
+  lessons:
+    passages:
+      quests:
+        required: 'Обязательно'
+        required_one: 'Обязательно один'
+        go: 'Вперёд!'
+        quests: 'Квесты'

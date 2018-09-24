@@ -1,0 +1,31 @@
+.row
+  .col-lg-12
+    .card
+      .card-header
+        h3.card-title= t('.knowledges_directions')
+      .card-body.p-2
+        #profile-knowledges-directions-chart
+  .col-lg-12
+    .card-columns.card-columns-profile-knowledges
+
+      - @user.user_knowledges.object.by_directions.each do |direction, user_knowledges|
+        .card
+          .card-header
+            h3.card-title= direction.capitalize
+          .card-body.p-2
+            table.table.table-hover.table-outline.table-vcenter.text-nowrap.card-table.table-profile-knowledges
+              - user_knowledges.each do |user_knowledge|
+                - if can? :edit_profile, @user.object
+                  = content_tag(:tr, { class: 'clickable',
+                                       data: { toggle: 'popover',
+                                               placement: 'top',
+                                               content: user_knowledge.decorate.remaining_experience_bar,
+                                               'original-title'=> t('.remaining_experience', exp: user_knowledge.remaining_experience) } }) do
+                    td style='min-width: 15%'= user_knowledge.knowledge.name.capitalize
+                    td= user_knowledge.decorate.progress_bar
+                    td style='width: 10%'= user_knowledge.level 
+                - else
+                  tr
+                    td style='min-width: 15%'= user_knowledge.knowledge.name.capitalize
+                    td= user_knowledge.decorate.progress_bar
+                    td style='width: 10%'= user_knowledge.level 

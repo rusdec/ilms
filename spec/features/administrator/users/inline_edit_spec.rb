@@ -16,11 +16,17 @@ feature 'Inline edit user', %q{
     context 'when update role' do
       scenario 'can update user role', js: true do
         within first('td.role') do
+          expect(page).to have_content('User')
           click_on 'Edit'
-          select 'CourseMaster', from: 'user[type]'
+          select 'Course master', from: 'user[type]'
           click_on 'Save'
+
+          expect(page).to have_content('Course master')
         end
-        %w(Success CourseMaster).each { |text| expect(page).to have_content(text) }
+
+        expect(page).to have_content('Success')
+        expect(page).to_not have_link('Cancel')
+        expect(page).to_not have_link('Save')
       end
     end
   end

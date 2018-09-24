@@ -6,6 +6,10 @@ module Polymorphed
       instance_variable_get("@#{polymorphic_resource_name}")
     end
 
+    def plural_polymorphic_resource
+      instance_variable_get("@#{polymorphic_resource_name.pluralize}")
+    end
+
     def polymorphic_resource_name
       controller_name.underscore.singularize
     end

@@ -1,0 +1,6 @@
+ru:
+  course_master:
+    courses:
+      index:
+        courses: 'Курсы'
+        create_course: 'Создать Курс'

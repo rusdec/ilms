@@ -1,6 +1,7 @@
 require_relative 'models_helper'
 
 RSpec.describe Quest, type: :model do
+  it { should have_one(:course).through(:lesson) }
   it { should validate_presence_of(:title) }
   it do
     should validate_length_of(:title)
@@ -19,16 +20,11 @@ RSpec.describe Quest, type: :model do
   it_behaves_like 'html_length_minimum_validable'
   it_behaves_like 'html_presence_validable'
 
-  it_behaves_like 'html_attributable', %w(body)
+  it_behaves_like 'passable'
+  it_behaves_like 'authorable'
+  it_behaves_like 'badgable'
+  it_behaves_like 'difficultable'
 
-  it do
-    should validate_numericality_of(:level)
-      .only_integer
-      .is_greater_than_or_equal_to(1)
-      .is_less_than_or_equal_to(5)
-  end
-
-  it { should belong_to(:author).with_foreign_key('user_id').class_name('User') }
   it { should belong_to(:lesson) }
   it { should belong_to(:quest_group) }
   it do
@@ -36,7 +32,6 @@ RSpec.describe Quest, type: :model do
       .with_foreign_key('old_quest_group_id')
       .class_name('QuestGroup')
   end
-  it { should have_many(:quest_passages) }
 
   context 'Using quest_group parameter' do
     let!(:quest) { create(:quest) }
