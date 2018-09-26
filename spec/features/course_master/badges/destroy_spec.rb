@@ -18,12 +18,17 @@ feature 'Delete badge', %q{
     end
 
     scenario 'can delete badge', js: true do
+      count = course.badges.count
+
+      expect(page).to have_content("Badges\n(#{count})")
+
       within ".badge-item[data-id='#{badge.id}']" do
         click_destory_remote_link
       end
 
       Capybara.using_wait_time(5) do
         expect(page).to have_content('Success')
+        expect(page).to have_content("Badges\n(#{count - 1})")
         expect(page).to_not have_content(badge.title_preview)
       end
     end

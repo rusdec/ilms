@@ -17,9 +17,12 @@ feature 'Destory lesson', %q{
     end
 
     scenario 'can delete lesson', js: true do
+      count = course.lessons.count
+      expect(page).to have_content("Lessons\n(#{count})")
       click_destory_remote_link
 
       expect(page).to have_content('Success')
+      expect(page).to have_content("Lessons\n(#{count - 1})")
       expect(page).to_not have_content(lesson.title)
     end
   end

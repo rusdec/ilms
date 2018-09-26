@@ -8,13 +8,13 @@
       li.nav-item data-action-name='lessons_index'
         a.nav-link href=course_master_course_lessons_path(course)
           = t('.lessons')
-          span.count-lessons
+          span.count-lesson
             = "(#{course.lessons.count})"
 
       li.nav-item data-action-name='badges_index'
         a.nav-link href=course_master_course_badges_path(course)
           = t('.badges')
-          span.count-badges
+          span.count-badge
             = "(#{course.badges.count})"
 
       li.nav-item
