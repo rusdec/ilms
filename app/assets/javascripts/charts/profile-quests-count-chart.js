@@ -7,13 +7,14 @@ document.addEventListener('turbolinks:load', () => {
       `/statistics/users/${gon.statistic_user.id}/quests_progress.json`
     )
     response = await response.json()
+    let quests = response.quests
 
-    if (response.quests.in_progress) {
+    if (quests.in_progress || quests.passed) {
       new Chart(document.querySelector('#profile-quests-count-chart'), {
         type: 'doughnut',
         data: {
           datasets: [{
-            data: [response.quests.passed, response.quests.in_progress],
+            data: [quests.passed, quests.in_progress],
             backgroundColor: ['#679c6d']
           }],
           labels: [translate('passed'), translate('in_progress')]

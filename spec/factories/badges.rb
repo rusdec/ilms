@@ -8,6 +8,10 @@ FactoryBot.define do
     image do
       Rack::Test::UploadedFile.new("#{Rails.root.join('spec/fixtures/image.png')}")
     end
+
+    trait :hidden do
+      hidden { :true }
+    end
   end
 
   factory :invalid_badge, class: Badge do

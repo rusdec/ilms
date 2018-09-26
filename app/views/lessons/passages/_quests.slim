@@ -10,6 +10,8 @@
             . class="card-status #{'bg-green' if quest_passage.passed?}"
             .card-header
               h3.card-title= quest_passage.passable.title
+              - if quest_passage.passable.badge && !quest_passage.passable.badge.hidden?
+                = icon(:fas, :certificate, class: 'badge-marker') 
             .card-body
               = quest_passage.passable.description.truncate(150)
               . class='quest_solution_status text-center'
@@ -22,9 +24,9 @@
               .d-flex.align-items-center.mt-auto
                 ="#{t('difficulty')}: #{quest_passage.quest.difficulty}"
                 .ml-auto
-                  - if quest_passage.passed?
-                    = link_to passage_path(quest_passage) do
-                      = quest_passage.status_badge
+                  - if quest_passage.solutions.any?
+                    a href=passage_path(quest_passage)
+                      = quest_passage.solutions.last.decorate.status_badge
                   - else
                     = link_to t('.go'), passage_path(quest_passage), class: 'btn btn-outline-secondary btn-sm m-1'
 

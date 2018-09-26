@@ -1,4 +1,10 @@
 ru:
+  activerecord:
+    models:
+      passage_solution: 'Решение'
+    attributes:
+      passage_solution:
+        body: 'Тело'
   helpers:
     submit:
       passage_solution:
