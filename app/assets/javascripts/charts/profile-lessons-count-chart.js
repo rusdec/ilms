@@ -7,17 +7,14 @@ document.addEventListener('turbolinks:load', () => {
       `/statistics/users/${gon.statistic_user.id}/lessons_progress.json`
     )
     response = await response.json()
+    let lessons = response.lessons
 
-    if (response.lessons.in_progress) {
+    if (lessons.in_progress || lessons.unavailable || lessons.passed) {
       new Chart(lessonsCountChart, {
         type: 'doughnut',
         data: {
           datasets: [{
-            data: [
-              response.lessons.passed,
-              response.lessons.unavailable,
-              response.lessons.in_progress
-            ],
+            data: [lessons.passed, lessons.unavailable, lessons.in_progress],
             backgroundColor: ['#679c6d', '#995463']
           }],
           labels: [

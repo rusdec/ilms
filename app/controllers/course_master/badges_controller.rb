@@ -96,7 +96,7 @@ class CourseMaster::BadgesController < CourseMaster::BaseController
   end
 
   def badge_params
-    params.require(:badge).permit(:title, :description, :image)
+    params.require(:badge).permit(:title, :description, :image, :hidden)
   end
 
   def set_badgable

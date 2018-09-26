@@ -43,7 +43,23 @@ feature 'Show quest_passage page', %q{
         expect(page).to have_content(lesson.ideas)
       end
 
-      scenario 'see own declined quest solutions' do
+      scenario 'see own acceped quest solutions' do
+        expect(page).to have_content('Your solution')
+        solution = create(:passage_solution, passage: passage)
+        solution.accepted!
+        refresh
+
+        solution = passage.solutions.all_accepted.last
+        expect(page).to have_content('Accepted solution')
+        expect(page).to have_content(solution.decorate.body_html)
+        expect(page).to_not have_link('Answer')
+        expect(page).to_not have_content('Your solution')
+
+        click_on 'Back'
+        expect(page).to have_link('Accepted')
+      end
+
+      scenario 'see own declined quest solution' do
         solution = create(:passage_solution, passage: passage)
         solution.declined!
         refresh
@@ -52,6 +68,9 @@ feature 'Show quest_passage page', %q{
           expect(page).to have_content('Declined solutions')
           expect(page).to have_content(solution.decorate.body_html)
         end
+
+        click_on 'Back'
+        expect(page).to have_link('Declined')
       end
 
       context 'when have not decline quest solutions' do

@@ -135,7 +135,7 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
   describe 'POST #create' do
     let(:user) { create(:course_master) }
     let!(:badgable) { AnyBadgable.create(author: user, course: create(:course, author: user)) }
-    let(:params) { { any_badgable_id: badgable, badge: attributes_for(:badge) } }
+    let(:params) { { any_badgable_id: badgable, badge: attributes_for(:badge, :hidden) } }
     let(:action) { post :create, params: params }
 
     context 'when authenticated user' do
@@ -158,6 +158,11 @@ RSpec.describe CourseMaster::BadgesController, type: :controller do
               it 'return success' do
                 action
                 expect(response).to match_json_schema('badges/create/success')
+              end
+
+              it 'creates hidden badge' do
+                action
+                expect(assigns(:badge)).to be_hidden
               end
             end # context 'when data is valid'
 

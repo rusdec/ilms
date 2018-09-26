@@ -1,4 +1,10 @@
 en:
+  activerecord:
+    models:
+      passage_solution: 'Passage solution'
+    attributes:
+      passage_solution:
+        body: 'Body'
   helpers:
     submit:
       passage_solution:
