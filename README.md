@@ -70,7 +70,7 @@ production:
   database: ilms_production
 ```
 #### 4. Создать БД вручную
-Из-за [ошибки](https://github.com/pushtype/push_type/issues/47) в работе гема [closure_tree](https://github.com/ClosureTree/closure_tree) с [rails](https://github.com/rails/rails) версии 2.5.x, необходимо вручную создать базы данных, указанные вами в config/database.yml
+Из-за [ошибки](https://github.com/pushtype/push_type/issues/47) в работе гема [closure_tree](https://github.com/ClosureTree/closure_tree) с [rails](https://github.com/rails/rails) версии 5.2.x, необходимо вручную создать базы данных, указанные вами в config/database.yml
 
 Пример:
 
